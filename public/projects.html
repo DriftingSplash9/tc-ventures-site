@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects - Thomas Cheesman</title>
+<meta name="description" content="The Economic Report Influence Graph, Rocket Lander, and three live WordPress sites - what they are, what was hard, and what I got wrong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <a class="wordmark" href="/">Thomas Cheesman</a>
+    <nav aria-label="Primary">
+      <a href="/projects.html" aria-current="page">Projects</a>
+      <a href="/background.html">Background</a>
+      <a href="mailto:thomasmcheesman@gmail.com">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="pagehead">
+    <div class="wrap">
+      <p class="label">Work</p>
+      <h1>Projects</h1>
+      <p class="hero__lede">
+        Two built in the open, in detail &mdash; what they are, what was hard, and what I got wrong.
+      </p>
+    </div>
+  </section>
+
+  <article class="band project" id="graph">
+    <div class="wrap">
+      <p class="label label--accent">In active development &middot; TypeScript, React, Three.js</p>
+      <h2>The Economic Report Influence Graph</h2>
+
+      <div class="prose">
+        <p>
+          Every important number in public life &mdash; inflation, a disability payment, how much your
+          city gets for road repair &mdash; is calculated from some other number, which was calculated
+          from another, back to a handful of foundational statistical releases. Almost nobody can see
+          that structure, including the people who depend on it.
+        </p>
+        <p>
+          This draws it. Each sphere is a real published report, each line a documented dependency
+          between two of them, and a report&rsquo;s size is how much everything else rests on it. It
+          runs in a browser, in 3D, with no backend.
+        </p>
+      </div>
+
+      <figure class="shot">
+        <img src="/assets/img/graph-everything.webp" width="1280" height="800" loading="lazy" decoding="async"
+             alt="A dense three-dimensional cloud of thousands of coloured spheres joined by fine lines.">
+        <figcaption>
+          Everything at once. Colour is which system publishes &mdash; reds Canada, blues the United
+          States, greens the European Union, violets Africa and the international bodies.
+        </figcaption>
+      </figure>
+
+      <div class="prose">
+        <h3>The rule the whole project runs on</h3>
+        <p>
+          <em>No document, no edge.</em> A line is drawn only if a published document says, in words I
+          can quote, that one report uses the other as an input. Leads I cannot source go to a dropped
+          list with a reason attached. Every existing line has since been graded on how well its cited
+          document actually supports it &mdash; 1,256 A, 1,404 B, 612 C &mdash; and the grade is visible
+          in the app, because a map that hides its own weak spots is worse than no map.
+        </p>
+        <h3>What is actually hard about it</h3>
+        <p>
+          Not the 3D. The hard part is holding one standard across eighty-odd research sessions without
+          drift, which is why the repository carries a fixed extraction protocol, two lane playbooks and
+          exactly one handoff file rather than a pile of notes &mdash; and why a validator runs on every
+          data change and refuses to pass on a dangling reference.
+        </p>
+        <p>
+          The other hard part is drawing 3,600 nodes without lying. Cluster spacing, node size scaling
+          and camera framing all change what a viewer believes about the data, so each is measured
+          rather than eyeballed.
+        </p>
+      </div>
+
+      <figure class="shot shot--half">
+        <img src="/assets/img/graph-nations.webp" width="1280" height="800" loading="lazy" decoding="async"
+             alt="A sparser view of the same graph showing spheres of widely varying size joined by long lines.">
+        <figcaption>
+          Filtered to national-tier reports. Sphere size is weighted authority &mdash; how much of
+          everything else traces back through that one release.
+        </figcaption>
+      </figure>
+
+      <dl class="spec">
+        <div><dt>Corpus</dt><dd>3,632 reports &middot; 3,272 documented dependencies</dd></div>
+        <div><dt>Evidence grades</dt><dd>1,256 A &middot; 1,404 B &middot; 612 C &mdash; 38.4% A-share</dd></div>
+        <div><dt>Coverage</dt><dd>130+ countries; national, state, municipal and institutional tiers</dd></div>
+        <div><dt>Code</dt><dd>~24,700 lines of TypeScript across 50 source files</dd></div>
+        <div><dt>Stack</dt><dd>Vite &middot; React &middot; three-forcegraph &middot; d3-force-3d &middot; no backend</dd></div>
+      </dl>
+
+      <p class="repo">Source: <a href="https://github.com/DriftingSplash9/Reports-Clustering">github.com/DriftingSplash9/Reports-Clustering</a></p>
+    </div>
+  </article>
+
+  <article class="band band--tint project" id="rocket">
+    <div class="wrap">
+      <p class="label label--accent">Flying, not yet landable &middot; Godot 4.7, GDScript</p>
+      <h2>Rocket Lander</h2>
+
+      <div class="prose">
+        <p>
+          Land a rocket, gently, with the fuel you were given. It falls belly-down through layered,
+          gusting wind, flips, burns, and has to sit down on a droneship that is bobbing on swell and
+          drifting away from you. A run lasts twenty to sixty seconds. Failure is instant and obviously
+          your own fault.
+        </p>
+        <p>
+          The teaching idea came first: the tuning knobs <em>are</em> the interface, so a
+          nine-to-twelve-year-old learns the physics by flying against it rather than reading about it.
+          There are 38 of them behind one key &mdash; gravity, thrust, gimbal authority, drag, wind,
+          fuel, pad tolerances &mdash; and the panel builds itself from a spec table, so adding a knob
+          is one variable and one row.
+        </p>
+
+        <h3>Three things the build taught me</h3>
+        <p>
+          <strong>Thrust from the tail does nothing on its own.</strong> A nozzle pointing down the body
+          axis pushes straight through the centre of mass and produces no torque &mdash; which is exactly
+          why a real rocket&rsquo;s engine being at the bottom does not tip it over. Gimballing the nozzle
+          is what makes it steer.
+        </p>
+        <p>
+          <strong>Drag had to be split in two.</strong> Along-hull and across-hull flow are dragged
+          separately, and across is about twelve times along. That split is the entire reason the
+          belly-flop is worth doing: tilting off broadside produces lift, and that glide is the only way
+          to reach a barge that is not directly beneath you.
+        </p>
+        <p>
+          <strong>A restoring force without a damper is a pendulum.</strong> The weathervane moment that
+          settles the ship belly-down is a spring; with no aerodynamic damper against it, the ship swings
+          forever. Easy to forget, extremely obvious the moment it is missing.
+        </p>
+
+        <h3>Where it is</h3>
+        <p>
+          It flies. Landing it is brutally hard &mdash; which is the direction, not the bug: real physics
+          and real logic, difficult but winnable, the way the actual thing is difficult but winnable.
+          What is left is tuning and time.
+        </p>
+      </div>
+
+      <dl class="spec">
+        <div><dt>Engine</dt><dd>Godot 4.7.1 &middot; GDScript &middot; Jolt physics</dd></div>
+        <div><dt>Flight model</dt><dd>Gimballed thrust, weak RCS, four hinged flaps, finite fuel</dd></div>
+        <div><dt>Weather</dt><dd>Density falling with altitude; wandering wind layers, out-of-phase gusts</dd></div>
+        <div><dt>Tuning</dt><dd>38 live knobs, spec-driven panel, presets saved to disk</dd></div>
+        <div><dt>Numbers</dt><dd>Terminal 61 m/s flat &middot; flip committed by 300 m &middot; landing costs half the tank</dd></div>
+      </dl>
+    </div>
+  </article>
+
+  <section class="band">
+    <div class="wrap narrow">
+      <h2 class="section-head">And three live sites</h2>
+      <p>
+        Custom WordPress child themes on the Astra parent, written and maintained solo.
+        <a href="https://bareyourrare.org">Bare Your Rare</a> is a patient-led site for ultra-rare
+        conditions, built because most people searching for one of them find almost nothing.
+        <a href="https://gpresidentialsociety.com">The Grande Prairie Residential Society</a> site serves
+        a volunteer-run nonprofit providing 87 units of barrier-free housing &mdash; accessibility and
+        plain language are first-order requirements there, not decoration.
+        <a href="https://thomascheesman.ca">thomascheesman.ca</a> is the personal one, and the place I
+        try things that are too strange for a client site.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div>
+      <p class="label">Get in touch</p>
+      <p class="footer__email"><a href="mailto:thomasmcheesman@gmail.com">thomasmcheesman@gmail.com</a></p>
+      <p class="footer__note">Grande Prairie, Alberta &middot; remote-capable &middot; available now</p>
+    </div>
+    <div>
+      <p class="label">Elsewhere</p>
+      <ul class="footer__list">
+        <li><a href="https://github.com/DriftingSplash9">github.com/DriftingSplash9</a></li>
+        <li><a href="https://thomascheesman.ca">thomascheesman.ca</a> &mdash; personal</li>
+        <li><a href="https://bareyourrare.org">bareyourrare.org</a></li>
+        <li><a href="https://gpresidentialsociety.com">gpresidentialsociety.com</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
