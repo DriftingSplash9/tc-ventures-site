@@ -4,10 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects - Thomas Cheesman</title>
-<meta name="description" content="The Economic Report Influence Graph, Rocket Lander, and three live WordPress sites - what they are, what was hard, and what I got wrong.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<meta name="description" content="The Economic Report Influence Graph, Rocket Lander, and three live sites - what they are, what was hard, and what I got wrong.">
+<link rel="canonical" href="https://tc-ventures.ca/projects.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TC &rsquo;Ventures">
+<meta property="og:url" content="https://tc-ventures.ca/projects.html">
+<meta property="og:title" content="Projects - Thomas Cheesman">
+<meta property="og:description" content="A 3D map of where official numbers come from, a rocket with real aerodynamics, and three live sites - what was hard, and what I got wrong.">
+<meta property="og:image" content="https://tc-ventures.ca/assets/img/graph-everything.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@TCheesy_">
+<meta name="twitter:creator" content="@TCheesy_">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
@@ -19,7 +31,7 @@
     <nav aria-label="Primary">
       <a href="/projects.html" aria-current="page">Projects</a>
       <a href="/background.html">Background</a>
-      <a href="mailto:thomasmcheesman@gmail.com">Contact</a>
+      <a href="mailto:thomas@tc-ventures.ca">Contact</a>
     </nav>
   </div>
 </header>
@@ -32,6 +44,7 @@
       <h1>Projects</h1>
       <p class="hero__lede">
         Two built in the open, in detail &mdash; what they are, what was hard, and what I got wrong.
+        Then the three live sites.
       </p>
     </div>
   </section>
@@ -69,9 +82,9 @@
         <p>
           <em>No document, no edge.</em> A line is drawn only if a published document says, in words I
           can quote, that one report uses the other as an input. Leads I cannot source go to a dropped
-          list with a reason attached. Every existing line has since been graded on how well its cited
-          document actually supports it &mdash; 1,256 A, 1,404 B, 612 C &mdash; and the grade is visible
-          in the app, because a map that hides its own weak spots is worse than no map.
+          list with a reason attached. Every existing line is graded A, B or C on how well its cited
+          document actually supports it, and the grade is visible in the app, because a map that hides
+          its own weak spots is worse than no map.
         </p>
         <h3>What is actually hard about it</h3>
         <p>
@@ -81,9 +94,16 @@
           data change and refuses to pass on a dangling reference.
         </p>
         <p>
-          The other hard part is drawing 3,600 nodes without lying. Cluster spacing, node size scaling
-          and camera framing all change what a viewer believes about the data, so each is measured
-          rather than eyeballed.
+          The other hard part is drawing a corpus this size without lying. Cluster spacing, node size
+          scaling and camera framing all change what a viewer believes about the data, so each is
+          measured rather than eyeballed.
+        </p>
+        <h3>It is not finished, by design</h3>
+        <p>
+          The corpus grows. Statistical agencies publish on their own schedules, so the graph is built
+          to keep looking &mdash; new releases get pulled in, new dependencies get sourced and graded,
+          and the counts move every week. Any exact figure quoted here would be wrong by the time you
+          read it, which is why you will not find one.
         </p>
       </div>
 
@@ -97,11 +117,10 @@
       </figure>
 
       <dl class="spec">
-        <div><dt>Corpus</dt><dd>3,632 reports &middot; 3,272 documented dependencies</dd></div>
-        <div><dt>Evidence grades</dt><dd>1,256 A &middot; 1,404 B &middot; 612 C &mdash; 38.4% A-share</dd></div>
+        <div><dt>Corpus</dt><dd>Nearly 4,000 reports and the documented dependencies between them, growing weekly</dd></div>
+        <div><dt>Evidence</dt><dd>Every edge graded A, B or C on citation strength; the distribution is published in the app</dd></div>
         <div><dt>Coverage</dt><dd>130+ countries; national, state, municipal and institutional tiers</dd></div>
-        <div><dt>Code</dt><dd>~24,700 lines of TypeScript across 50 source files</dd></div>
-        <div><dt>Stack</dt><dd>Vite &middot; React &middot; three-forcegraph &middot; d3-force-3d &middot; no backend</dd></div>
+        <div><dt>Stack</dt><dd>TypeScript &middot; Vite &middot; React &middot; three-forcegraph &middot; d3-force-3d &middot; no backend</dd></div>
       </dl>
 
       <p class="repo">Source: <a href="https://github.com/DriftingSplash9/Reports-Clustering">github.com/DriftingSplash9/Reports-Clustering</a></p>
@@ -110,7 +129,7 @@
 
   <article class="band band--tint project" id="rocket">
     <div class="wrap">
-      <p class="label label--accent">Flying, not yet landable &middot; Godot 4.7, GDScript</p>
+      <p class="label label--accent">Flies; landing it is the hard part &middot; Godot 4.7, GDScript</p>
       <h2>Rocket Lander</h2>
 
       <div class="prose">
@@ -169,14 +188,15 @@
     <div class="wrap narrow">
       <h2 class="section-head">And three live sites</h2>
       <p>
-        Custom WordPress child themes on the Astra parent, written and maintained solo.
-        <a href="https://bareyourrare.org">Bare Your Rare</a> is a patient-led site for ultra-rare
-        conditions, built because most people searching for one of them find almost nothing.
+        Written and maintained solo, and deliberately three different designs rather than one template
+        reused. <a href="https://bareyourrare.org">Bare Your Rare</a> is a patient-led site for
+        ultra-rare conditions, built because most people searching for one of them find almost nothing.
         <a href="https://gpresidentialsociety.com">The Grande Prairie Residential Society</a> site serves
-        a volunteer-run nonprofit providing 87 units of barrier-free housing &mdash; accessibility and
-        plain language are first-order requirements there, not decoration.
-        <a href="https://thomascheesman.ca">thomascheesman.ca</a> is the personal one, and the place I
-        try things that are too strange for a client site.
+        a volunteer-run nonprofit providing barrier-free housing &mdash; 87 units before the Margaret
+        Edgson Manor fire, with the rebuild under way and the final count not yet settled. Accessibility
+        and plain language are first-order requirements there, not decoration.
+        <a href="https://thomascheesman.ca">thomascheesman.ca</a> is the personal one, where the
+        experiments and the things I build for my kids live.
       </p>
     </div>
   </section>
@@ -186,8 +206,8 @@
   <div class="wrap footer__inner">
     <div>
       <p class="label">Get in touch</p>
-      <p class="footer__email"><a href="mailto:thomasmcheesman@gmail.com">thomasmcheesman@gmail.com</a></p>
-      <p class="footer__note">Grande Prairie, Alberta &middot; remote-capable &middot; available now</p>
+      <p class="footer__email"><a href="mailto:thomas@tc-ventures.ca">thomas@tc-ventures.ca</a></p>
+      <p class="footer__note">Grande Prairie, Alberta &middot; Mountain Time &middot; remote &middot; open to work</p>
     </div>
     <div>
       <p class="label">Elsewhere</p>

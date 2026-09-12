@@ -3,12 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Not found - Thomas Cheesman</title>
+<title>No document, no edge - Thomas Cheesman</title>
 <meta name="description" content="Page not found.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<meta name="robots" content="noindex">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
+<style>
+  /* 404 only: a dependency that could not be sourced. */
+  .lost { display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 800px) { .lost { grid-template-columns: 1fr 340px; gap: 48px; } }
+
+  .lost__fig { margin: 0; max-width: 100%; }
+  .lost__fig svg { width: 100%; height: auto; display: block; }
+
+  .n-solid { fill: var(--accent); }
+  .n-ghost { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 3 4; }
+  .edge-ok { stroke: var(--accent); stroke-width: 2; }
+  .edge-bad { stroke: var(--muted); stroke-width: 2; stroke-dasharray: 5 6; }
+  .n-label { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+
+  .drift { animation: drift 6s ease-in-out infinite alternate; transform-origin: center; }
+  @keyframes drift { from { transform: translateY(-4px); } to { transform: translateY(4px); } }
+  @media (prefers-reduced-motion: reduce) { .drift { animation: none; } }
+
+  .lost__code { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -19,7 +41,7 @@
     <nav aria-label="Primary">
       <a href="/projects.html">Projects</a>
       <a href="/background.html">Background</a>
-      <a href="mailto:thomasmcheesman@gmail.com">Contact</a>
+      <a href="mailto:thomas@tc-ventures.ca">Contact</a>
     </nav>
   </div>
 </header>
@@ -27,14 +49,41 @@
 <main id="main">
 
   <section class="hero">
-    <div class="wrap narrow">
-      <p class="label">404</p>
-      <h1>That page is not here</h1>
-      <p class="hero__lede">The link is wrong, or the page has moved.</p>
-      <p class="actions">
-        <a class="btn btn--solid" href="/">Back to the start</a>
-        <a class="btn" href="/projects.html">See the projects</a>
-      </p>
+    <div class="wrap">
+      <div class="lost">
+        <div>
+          <p class="label">404 &middot; no document, no edge</p>
+          <h1>This one could not be sourced</h1>
+          <p class="hero__lede">
+            The influence graph only draws a line when a real document backs it. The same rule,
+            applied here, says this page does not exist: the link points somewhere, nothing
+            supports it, so it goes on the dropped list with a reason attached.
+          </p>
+          <p class="lost__code">dropped &middot; reason: target not found &middot; grade: &mdash;</p>
+          <p class="actions">
+            <a class="btn btn--solid" href="/">Back to the start</a>
+            <a class="btn" href="/projects.html">See the projects</a>
+          </p>
+        </div>
+
+        <figure class="lost__fig">
+          <svg viewBox="0 0 340 220" role="img"
+               aria-label="Two connected nodes on the left, and a third node drawn as a dashed outline on the right with a broken line leading to it.">
+            <line class="edge-ok" x1="70" y1="60" x2="70" y2="150"></line>
+            <line class="edge-ok" x1="70" y1="60" x2="150" y2="105"></line>
+            <line class="edge-bad" x1="150" y1="105" x2="215" y2="105"></line>
+
+            <circle class="n-solid" cx="70" cy="60" r="14"></circle>
+            <circle class="n-solid" cx="70" cy="150" r="9"></circle>
+            <circle class="n-solid" cx="150" cy="105" r="11"></circle>
+
+            <g class="drift">
+              <circle class="n-ghost" cx="262" cy="105" r="16"></circle>
+              <text class="n-label" x="262" y="140" text-anchor="middle">unsourced</text>
+            </g>
+          </svg>
+        </figure>
+      </div>
     </div>
   </section>
 </main>
@@ -43,8 +92,8 @@
   <div class="wrap footer__inner">
     <div>
       <p class="label">Get in touch</p>
-      <p class="footer__email"><a href="mailto:thomasmcheesman@gmail.com">thomasmcheesman@gmail.com</a></p>
-      <p class="footer__note">Grande Prairie, Alberta &middot; remote-capable &middot; available now</p>
+      <p class="footer__email"><a href="mailto:thomas@tc-ventures.ca">thomas@tc-ventures.ca</a></p>
+      <p class="footer__note">Grande Prairie, Alberta &middot; Mountain Time &middot; remote &middot; open to work</p>
     </div>
     <div>
       <p class="label">Elsewhere</p>
