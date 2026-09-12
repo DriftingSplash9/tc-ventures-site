@@ -17,15 +17,15 @@
     --rule:     #D9DEE4;
   }
 
-  @page { size: letter; margin: 0.8in 0.9in 0.65in 0.9in; }
+  @page { size: letter; margin: 0.7in 0.9in 0.55in 0.9in; }
 
   * { box-sizing: border-box; }
   html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   body {
     margin: 0;
     font-family: 'Source Serif 4', Georgia, serif;
-    font-size: 9.6pt;
-    line-height: 1.44;
+    font-size: 9.4pt;
+    line-height: 1.38;
     color: var(--ink);
     background: #fff;
   }
@@ -62,14 +62,15 @@
     margin: 0 0 10px;
     padding-bottom: 5px;
     border-bottom: 1px solid var(--rule);
+    break-after: avoid;
   }
-  section { margin-bottom: 10px; }
-  section:last-child { margin-bottom: 0; }
+  section { margin-bottom: 8px; }
+  section:last-child { margin-bottom: 0; break-inside: avoid; }
 
   .summary { margin: 0; color: var(--ink-soft); }
 
   /* ---------- entries ---------- */
-  .entry { margin-bottom: 9px; break-inside: avoid; }
+  .entry { margin-bottom: 7px; break-inside: avoid; }
   .entry:last-child { margin-bottom: 0; }
 
   .entry__head {
@@ -100,7 +101,7 @@
   }
 
   ul { margin: 0; padding-left: 15px; }
-  li { margin-bottom: 3px; padding-left: 3px; color: var(--ink-soft); }
+  li { margin-bottom: 2px; padding-left: 3px; color: var(--ink-soft); }
   li:last-child { margin-bottom: 0; }
   li::marker { color: var(--rule); }
 
@@ -149,12 +150,13 @@
 <section>
   <h2>Professional summary</h2>
   <p class="summary">
-    AI-assisted web builder and operations lead, looking for remote work in web development,
-    digital operations, accessibility, or nonprofit technology. After seventeen years running
-    kitchens I now specify software &mdash; product, voice, accessibility, acceptance criteria
-    &mdash; direct AI to build it, and own the result. Three live sites in three deliberately
-    different designs, plus a research application mapping nearly four thousand official statistical
-    reports and the dependencies between them.
+    I specify software precisely, direct AI to build it, and own everything that comes out the
+    other end &mdash; the design calls, the evidence rules, and the mistakes. Seventeen years running
+    kitchens taught the half that transfers: decide what good means, write the standard down, and hold
+    every plate to it. Since 2023: three live sites in three deliberately different designs, and a
+    research application mapping nearly four thousand official statistical reports and the documented
+    dependencies between them. Looking for remote work in web development, digital operations,
+    accessibility, or nonprofit technology.
   </p>
 </section>
 
@@ -181,29 +183,15 @@
 
   <div class="entry">
     <div class="entry__head">
-      <h3 class="entry__title">Personal platform &mdash; family history, tools, and writing</h3>
-      <span class="entry__date">2024 &ndash; present</span>
-    </div>
-    <p class="entry__meta">thomascheesman.ca</p>
-    <ul>
-      <li>Multi-section public site: an eight-line family heritage archive, long-reads, privacy-first
-          galleries, a timed game with a server leaderboard, and an interactive map plotting four
-          centuries of documented events as certainty-weighted markers. Product owner throughout &mdash;
-          design, voice, architecture and acceptance criteria.</li>
-    </ul>
-  </div>
-
-  <div class="entry">
-    <div class="entry__head">
       <h3 class="entry__title">Bare Your Rare &mdash; rare-disease stories and resources</h3>
       <span class="entry__date">2024 &ndash; present</span>
     </div>
-    <p class="entry__meta">bareyourrare.org</p>
+    <p class="entry__meta">bareyourrare.org · founder, designer, writer</p>
     <ul>
-      <li>Founded a patient-led site for ultra-rare conditions &mdash; first-person stories,
-          registries, research organisations and support &mdash; built because most Hajdu-Cheney
-          patients searching for information still find almost nothing. Framed around
-          patient-generated data and AI-assisted pattern-finding in very small cohorts.</li>
+      <li>A patient-led site for ultra-rare conditions &mdash; first-person stories, condition guides,
+          registries and support &mdash; built because most people searching for one of these conditions
+          find almost nothing. Written in plain language, structured to be legible to the AI tools
+          newly diagnosed patients now reach for first.</li>
     </ul>
   </div>
 
@@ -212,12 +200,25 @@
       <h3 class="entry__title">Grande Prairie Residential Society website</h3>
       <span class="entry__date">2023 &ndash; present</span>
     </div>
-    <p class="entry__meta">gpresidentialsociety.com</p>
+    <p class="entry__meta">gpresidentialsociety.com · designed, built and maintained solo</p>
     <ul>
-      <li>Designed, built and maintain the site for a volunteer-run nonprofit providing barrier-free
-          housing &mdash; 87 units before the Margaret Edgson Manor fire, with the rebuild under way
-          and the final count not yet settled. Accessibility and plain language are first-order
-          requirements here, not decoration applied at the end.</li>
+      <li>Public site for a volunteer-run nonprofit providing barrier-free housing &mdash; 87 units
+          before the Margaret Edgson Manor fire, with the rebuild under way. Housing applications,
+          donations, fire and rebuild updates, and a newsletter. Accessibility and plain language are
+          first-order requirements here, not decoration applied at the end.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry__head">
+      <h3 class="entry__title">Personal platform &mdash; family history, tools, and writing</h3>
+      <span class="entry__date">2024 &ndash; present</span>
+    </div>
+    <p class="entry__meta">thomascheesman.ca</p>
+    <ul>
+      <li>An eight-line family heritage archive with long-reads, privacy-first galleries, a timed game
+          with a server leaderboard, and an interactive map plotting four centuries of documented
+          events as certainty-weighted markers.</li>
     </ul>
   </div>
 
@@ -228,9 +229,9 @@
     </div>
     <p class="entry__meta">Godot 4.7 · GDScript · Jolt physics</p>
     <ul>
-      <li>A teaching game on a real aerodynamic flight model, built over a few days &mdash; gimballed
-          thrust, split along-hull and across-hull drag, layered gusting wind, finite fuel. The 38
-          tuning knobs are the interface, so a child learns the forces by flying against them.</li>
+      <li>A teaching game on a real aerodynamic flight model &mdash; gimballed thrust, split along-hull
+          and across-hull drag, layered gusting wind, finite fuel. The 38 tuning knobs are the
+          interface, so a child learns the forces by flying against them.</li>
     </ul>
   </div>
 </section>
@@ -253,26 +254,56 @@
 
   <div class="entry">
     <div class="entry__head">
-      <h3 class="entry__title">Caregiver &mdash; private client</h3>
+      <h3 class="entry__title">Caregiver &mdash; private client, Grande Prairie</h3>
       <span class="entry__date">March &ndash; December 2023</span>
     </div>
     <ul>
-      <li>Managed daily schedules, dietary routines, and medication timing.</li>
+      <li>Round-the-clock care team for a palliative teenage client: schedules, diet, appointments, medications.</li>
     </ul>
   </div>
 
   <div class="entry">
     <div class="entry__head">
-      <h3 class="entry__title">Kitchen Manager / Executive Chef</h3>
-      <span class="entry__date">February 2002 &ndash; March 2019</span>
+      <h3 class="entry__title">Executive Chef / Kitchen Manager &mdash; Majors Homestyle &amp; Tractor Jack’s</h3>
+      <span class="entry__date">2015 &ndash; March 2019</span>
     </div>
-    <p class="entry__meta">Hospitality operations, Alberta — including Ric’s Grill; instruction at GPRC, now Northwestern Polytechnic</p>
+    <p class="entry__meta">Grande Prairie · private ownership</p>
     <ul>
-      <li>Led kitchen teams; owned budgets, purchasing, scheduling, human resources and remote
-          supplier coordination.</li>
-      <li>Built the custom Excel systems the operation ran on &mdash; inventory, sales, staffing and
-          waste. Taught one semester of culinary arts in the Hospitality and Tourism diploma, and
-          continued consulting for a restaurant owner for about a year after leaving the line.</li>
+      <li>Ran daily operations, budgets, purchasing, staffing and human resources for two rooms under one
+          roof, plus banquets and catering &mdash; including a standing contract feeding the crews building
+          the region’s new hospital. Consulted for the owner for about a year after leaving the line.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry__head">
+      <h3 class="entry__title">Head Chef &mdash; Ric’s Grill, then Township 71</h3>
+      <span class="entry__date">2013 &ndash; 2015</span>
+    </div>
+    <p class="entry__meta">Grande Prairie · franchise, then independent fine dining</p>
+    <ul>
+      <li>Head Chef at Ric’s Grill; wound it down to renovate and open Township 71, an independent
+          fine-dining room, in November 2014 &mdash; straight into the oil-price crash. Closed it in
+          May 2015. Across the career: opened one restaurant, closed two, in corporate, franchise and
+          private settings.</li>
+      <li>While running Ric’s, taught one semester of the culinary side of the Hospitality and Tourism
+          diploma at GPRC (now Northwestern Polytechnic) &mdash; wrote the curriculum, lesson plans and
+          practical assessments.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry__head">
+      <h3 class="entry__title">Kitchen Manager &mdash; The Keg Steakhouse &amp; Bar</h3>
+      <span class="entry__date">2002 &ndash; 2013</span>
+    </div>
+    <p class="entry__meta">Grande Prairie · corporate</p>
+    <ul>
+      <li>Hired as a salad tender; worked up the line to assistant kitchen manager, then kitchen manager
+          for roughly ten years through the oil boom, in the toughest labour market in the country. Met or
+          beat budget, and ran the kitchen ranked best in the corporation for Alberta.</li>
+      <li>Built the custom Excel systems the operation ran on &mdash; inventory, costing, sales,
+          staffing and waste. Apprenticed cooks; set up the health and safety committee.</li>
     </ul>
   </div>
 </section>
@@ -288,12 +319,8 @@
     <div class="row__val">Specify, review, debug and ship; prompt and protocol design; editorial control over generated code; holding one standard across long multi-session work</div>
   </div>
   <div class="row">
-    <div class="row__key">Data &amp; ops</div>
-    <div class="row__val">Custom Excel systems for inventory, sales, scheduling and budgets; research extraction under strict sourcing rules</div>
-  </div>
-  <div class="row">
     <div class="row__key">Leadership</div>
-    <div class="row__val">Kitchen management, remote supplier coordination, nonprofit board work, disability advocacy</div>
+    <div class="row__val">Kitchen management, apprenticing and teaching, nonprofit board work, disability advocacy</div>
   </div>
   <div class="row">
     <div class="row__key">Writing</div>
@@ -303,7 +330,7 @@
   <div class="edu">
   <div class="row">
     <div class="row__key">Journeyman Chef</div>
-    <div class="row__val">SAIT, 2012</div>
+    <div class="row__val">Red Seal · SAIT, 2012</div>
   </div>
   <div class="row">
     <div class="row__key">B.Sc.</div>
@@ -324,9 +351,8 @@
   <h2>Career note</h2>
   <p class="note">
     I left the line in 2019 because I have Hajdu-Cheney syndrome, a rare connective-tissue disorder,
-    and kitchen work stopped being sustainable. I spent the years that followed on family care and
-    self-directed study, then started shipping public sites. The work is remote, and that is the only
-    thing I need it to be.
+    and kitchen work stopped being sustainable. Years of family care and self-directed study followed,
+    then shipping public sites. The work is remote, and that is the only thing I need it to be.
   </p>
 </section>
 
