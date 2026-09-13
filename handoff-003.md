@@ -148,7 +148,7 @@ by Thomas; stop re-litigating it.
 ### CONTACT
 | # | Item | Notes |
 |---|---|---|
-| CT-4 | Contact copy unread by Thomas | Built in his voice from the study; he has seen a screenshot, not ruled on sentences. The reply-time sentence ("within a working day") is a commitment only he can make. |
+| CT-4 | Contact copy unread by Thomas | Built in his voice from the study; he has seen a screenshot, not ruled on sentences. Reply-time line set by Thomas: "within a day or two". Call row: video/Zoom fine, speech-clarity line is his. |
 
 ### GRAPH
 | # | Item | Notes |
@@ -237,7 +237,7 @@ In order:
 
 1. **See it serve:** contact page, the nav change, the résumé PDF, and Background
    after the CSS fix.
-2. **Thomas rules on the contact sentences** (CT-4), especially the reply-time line.
+2. **Thomas reads the contact sentences** (CT-4) — reply time and the call row are already his rulings.
 3. **Then the graph demo.** G-1, G-2. Small, deliberate, does not auto-load. Tag: `GRAPH`.
 4. **Close INFRA-1** once settled.
 5. **Later:** the Godot rocket lander web build. Tag: `LANDER`.
