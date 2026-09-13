@@ -1,12 +1,13 @@
 # handoff-003 — tc-ventures.ca
 
 **Written:** 2026-09-12 (evening)
-**Covers:** the voice session (item 2 of handoff-002 §6) and a second rebuild of the
-résumé. No site pages changed.
+**Covers:** the voice session (item 2 of handoff-002 §6), a second rebuild of the
+résumé, and the contact page.
 **Status at wrap:** handoff-002's rewrite **verified serving** — every page and the
 stylesheet on the live domain matched the repo byte-for-byte before this session's
-résumé change. New résumé PDF and source are on disk; the PDF has not been seen
-serving.
+résumé change. New résumé PDF and source, `contact.html`, the nav change on all
+four other pages, the sitemap entry and a one-line CSS fix are on disk. **None of
+that has been seen serving.**
 
 ---
 
@@ -81,6 +82,23 @@ kitchen career as one anonymous block ("hospitality operations, Alberta"). Now:
 résumé and the site say 2002); GPRC semester 2014 (he was teaching the week Township
 71 opened, Nov 2014); Majors 2015 start (about seven weeks after Daniel was born).
 
+**Contact page built** — `public/contact.html`. No form, no phone. Structure: the
+address (with a copy button that only appears when the clipboard API exists), one
+sentence on what happens after you write, five "different first moves" rows (role /
+code first / talk / résumé for a system / the gap), and a Time band with the current
+Grande Prairie time (inline JS, `Intl` with `America/Edmonton`; reads "Mountain Time"
+without JS) beside a static offset table. Nav on `index`, `projects`, `background`
+and `404` now points at `/contact.html` instead of `mailto:`. Added to `sitemap.xml`.
+Verified in headless Chromium: no console errors, no failed requests, no horizontal
+scroll at 1280 or 390, light and dark.
+
+**CSS fix, site-wide:** `.wrap.narrow.prose` sections (Background intro,
+Practicalities, the contact page's "what happens" band) were rendering centred
+instead of left-aligned, because `.prose { max-width }` capped the wrapper itself
+— the exact thing the comment above `.wrap.narrow` says must not happen. One added
+rule: `.wrap.narrow.prose { max-width: 1040px; }`. Background will shift left when
+this ships; that is the fix, not a regression.
+
 ### Traps worth knowing
 
 - Cowork's default connected folder `Desktop\My Files\TC Ventures` is **empty and not
@@ -130,9 +148,7 @@ by Thomas; stop re-litigating it.
 ### CONTACT
 | # | Item | Notes |
 |---|---|---|
-| CT-1 | Contact page not built | **No form** — decided. Do not reopen. |
-| CT-2 | ~~Blocked on the voice session~~ | **Unblocked.** Study is in the Claude project. |
-| CT-3 | Nav "Contact" is still `mailto:` | Fixed when the page exists; add page to `sitemap.xml` then. |
+| CT-4 | Contact copy unread by Thomas | Built in his voice from the study; he has seen a screenshot, not ruled on sentences. The reply-time sentence ("within a working day") is a commitment only he can make. |
 
 ### GRAPH
 | # | Item | Notes |
@@ -162,7 +178,7 @@ by Thomas; stop re-litigating it.
 | O-1 | Deployed graph bundle on thomascheesman.ca is stale (~302 reports) | Rebuild command in that repo's `functions.php` comment. |
 | O-2 | `/projects` on thomascheesman.ca has third-person leakage | "The author is not a trained programmer…" — reads as an unedited draft. Not this repo. |
 
-**Closed this session:** CT-2 (voice session done); C-4 (résumé dates — Thomas confirmed Keg 2002, GPRC fall 2014, Majors 2015). Nothing was killed.
+**Closed this session:** CT-1, CT-3 (contact page built, nav fixed, sitemap updated); CT-2 (voice session done); C-4 (résumé dates — Thomas confirmed Keg 2002, GPRC fall 2014, Majors 2015). Nothing was killed.
 
 ## 5. HOW TO WRITE THE NEXT HANDOFF
 
@@ -219,10 +235,9 @@ Every handoff has these, in this order, with these numbers:
 
 In order:
 
-1. **See the new résumé PDF serve.**
-2. **Build the contact page.** No form. Answer the hesitation in one sentence each:
-   is he available, will he reply, time zone, what to send. Voice: the study doc.
-   Tags: `CONTACT`, `COPY`.
+1. **See it serve:** contact page, the nav change, the résumé PDF, and Background
+   after the CSS fix.
+2. **Thomas rules on the contact sentences** (CT-4), especially the reply-time line.
 3. **Then the graph demo.** G-1, G-2. Small, deliberate, does not auto-load. Tag: `GRAPH`.
 4. **Close INFRA-1** once settled.
 5. **Later:** the Godot rocket lander web build. Tag: `LANDER`.

@@ -148,6 +148,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 /* .narrow limits the reading measure WITHOUT re-centring the box — otherwise
    those sections sit indented against every other section's left edge. */
 .wrap.narrow > * { max-width: 760px; }
+.wrap.narrow.prose { max-width: 1040px; } /* .prose must cap the children, not the wrap */
 
 /* ---- labels ---- */
 
@@ -442,6 +443,51 @@ h1 {
 .footer__list { list-style: none; margin: 0.9em 0 0; padding: 0; font-family: var(--mono); font-size: 13px; line-height: 2; color: var(--muted); }
 .footer__list a { color: var(--ink); text-decoration-color: var(--rule); }
 .footer__list a:hover { text-decoration-color: var(--accent); }
+
+/* ---- contact ---- */
+
+.contact__email {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 5vw, 3rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0.35em 0 0;
+  word-break: break-word;
+}
+.contact__email a { color: var(--ink); text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
+.contact__email a:hover { color: var(--accent); }
+
+.actions--tight { margin-top: 1.4em; }
+
+.contact__note {
+  max-width: var(--measure);
+  color: var(--muted);
+  margin: 1.6em 0 0;
+  font-size: 0.97rem;
+}
+
+.moves dt { padding-top: 0.5em; }
+.moves dd { color: var(--ink-soft); }
+
+.tz { display: grid; grid-template-columns: 1fr; gap: 28px 56px; align-items: start; }
+@media (min-width: 760px) { .tz { grid-template-columns: minmax(220px, 1fr) 2fr; } }
+
+.tz__now { margin: 0; }
+.tz__clock {
+  display: block;
+  font-family: var(--mono);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  margin-top: 0.35em;
+  line-height: 1.2;
+}
+.tz__table { margin-top: 0; }
+.tz__table dd { font-family: var(--body); font-size: 1rem; }
+
+button.btn { background: transparent; cursor: pointer; font: inherit; font-family: var(--mono); font-size: 13px; }
+button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
