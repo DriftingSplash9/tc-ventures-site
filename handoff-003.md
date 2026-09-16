@@ -99,6 +99,14 @@ instead of left-aligned, because `.prose { max-width }` capped the wrapper itsel
 rule: `.wrap.narrow.prose { max-width: 1040px; }`. Background will shift left when
 this ships; that is the fix, not a regression.
 
+**Home lede replaced** (Thomas called the old one cheesy): "I run the website for a
+nonprofit and three more for practice and, eventually, work. I set the objectives, design
+the thing, and then build it with AI. After seventeen years managing cooks, a team of AI
+is the easy part; knowing what to tell it is not." His words, lightly tightened. Meta
+descriptions updated to match. The "Email me" buttons on home and Background now go to
+`/contact.html` as "Get in touch". Résumé opening replaced with a plain one, dates
+corrected (BYR 2025, personal platform 2026, GPRS 2023), Keg marked franchise.
+
 ### Traps worth knowing
 
 - Cowork's default connected folder `Desktop\My Files\TC Ventures` is **empty and not
