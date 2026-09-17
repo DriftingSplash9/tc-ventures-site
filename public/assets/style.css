@@ -666,3 +666,44 @@ button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px
   margin-bottom: 3px;
 }
 .gd__chain .gd__step em { font-style: normal; color: var(--accent); }
+
+/* ---- the lander embed (lander.html) -------------------------------------
+   Reuses the graph demo's frame, button and panel wholesale — same contract,
+   same look, one stylesheet. Only the sizing differs: a game wants a 16:9
+   box that is present before anything loads, where the graph was free to
+   take its height from a still.
+   -------------------------------------------------------------------------- */
+
+.gd__frame--tall { min-height: 320px; }
+.gd__frame--tall .gd__stage,
+.gd__frame--tall .gd__stage iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+.gd__frame--tall .gd__stage iframe {
+  aspect-ratio: 16 / 9;
+  min-height: 320px;
+  max-height: 78vh;
+}
+/* The button sits over dark ground rather than over a still, so centre it in
+   the empty frame instead of resting it on the bottom edge. */
+.gd__frame--tall .gd__loadwrap {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  padding: 16px;
+}
+
+kbd {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  line-height: 1;
+  padding: 3px 6px;
+  border: 1px solid var(--rule);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  white-space: nowrap;
+}

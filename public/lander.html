@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rocket Lander - Thomas Cheesman</title>
+<meta name="description" content="A rocket with a real aerodynamic flight model, running in your browser. Unfinished on purpose - the physics is the point and the landing is not solved.">
+<link rel="canonical" href="https://tc-ventures.ca/lander.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TC &rsquo;Ventures">
+<meta property="og:url" content="https://tc-ventures.ca/lander.html">
+<meta property="og:title" content="Rocket Lander - Thomas Cheesman">
+<meta property="og:description" content="Real aerodynamics in a browser: split drag, gimballed thrust, gusting wind, a drifting barge. Work in progress - I cannot land it either.">
+<meta property="og:image" content="https://tc-ventures.ca/assets/img/graph-app-ui.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@TCheesy_">
+<meta name="twitter:creator" content="@TCheesy_">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <a class="wordmark" href="/">Thomas Cheesman</a>
+    <nav aria-label="Primary">
+      <a href="/projects.html" aria-current="page">Projects</a>
+      <a href="/background.html">Background</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="pagehead">
+    <div class="wrap">
+      <p class="label label--accent">Work in progress &middot; Godot 4.7, GDScript, Jolt</p>
+      <h1>Rocket Lander</h1>
+      <p class="hero__lede">
+        A rocket with a real aerodynamic flight model, running in your browser.
+        It flies. I cannot land it yet, and neither will you.
+      </p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+
+      <div class="prose">
+        <p>
+          Land a rocket, gently, with the fuel you were given. It falls belly-down through
+          layered, gusting wind, flips, burns, and has to sit down on a droneship that is
+          bobbing on swell and drifting away from you. A run lasts twenty to sixty seconds.
+          Failure is instant and obviously your own fault.
+        </p>
+        <p>
+          This is on the site unfinished on purpose. The flight model is the work; the game
+          around it is not built yet, and the landing is the part I have not solved. What is
+          worth looking at is what the rocket does in the air, and the panel you can open to
+          argue with it.
+        </p>
+      </div>
+
+      <section class="gd" id="lander-demo" aria-labelledby="ld-head">
+        <h2 class="section-head" id="ld-head">Fly it</h2>
+        <div class="gd__frame gd__frame--tall">
+          <div class="gd__stage" hidden></div>
+          <div class="gd__loadwrap">
+            <button type="button" class="btn gd__load" hidden>Load the game</button>
+          </div>
+        </div>
+        <div class="gd__panel">
+          <p class="gd__hint">
+            The build is about thirty megabytes, so it downloads only when you ask for it.
+            Click the canvas once after it loads &mdash; the keys do not reach the game until
+            it has focus.
+          </p>
+        </div>
+
+        <dl class="spec spec--wide">
+          <div><dt>Throttle</dt><dd><kbd>W</kbd> up, <kbd>S</kbd> down</dd></div>
+          <div><dt>Gimbal</dt><dd><kbd>A</kbd> and <kbd>D</kbd> &mdash; steering the nozzle, not the ship</dd></div>
+          <div><dt>Flaps</dt><dd><kbd>Space</kbd></dd></div>
+          <div><dt>Camera</dt><dd><kbd>C</kbd></dd></div>
+          <div><dt>Restart</dt><dd><kbd>R</kbd>, which you will use a great deal</dd></div>
+          <div><dt>Tuning panel</dt><dd><kbd>&#96;</kbd> &mdash; 38 live knobs</dd></div>
+        </dl>
+      </section>
+
+      <div class="prose">
+        <h3>The panel is the point</h3>
+        <p>
+          The teaching idea came first: the tuning knobs <em>are</em> the interface, so a
+          nine-to-twelve-year-old learns the physics by flying against it rather than reading
+          about it. There are 38 of them behind one key &mdash; gravity, thrust, gimbal
+          authority, drag, wind, fuel, pad tolerances &mdash; and the panel builds itself from
+          a spec table, so adding a knob is one variable and one row.
+        </p>
+        <p>
+          Turn the gravity down and you will land it on your first go. That is allowed. The
+          knobs are there so you can find out which one was making it hard, which is the
+          whole lesson.
+        </p>
+
+        <h3>Three things the build taught me</h3>
+        <p>
+          <strong>Thrust from the tail does nothing on its own.</strong> A nozzle pointing down
+          the body axis pushes straight through the centre of mass and produces no torque
+          &mdash; which is exactly why a real rocket&rsquo;s engine being at the bottom does not
+          tip it over. Gimballing the nozzle is what makes it steer.
+        </p>
+        <p>
+          <strong>Drag had to be split in two.</strong> Along-hull and across-hull flow are
+          dragged separately, and across is about twelve times along. That split is the entire
+          reason the belly-flop is worth doing: tilting off broadside produces lift, and that
+          glide is the only way to reach a barge that is not directly beneath you.
+        </p>
+        <p>
+          <strong>A restoring force without a damper is a pendulum.</strong> The weathervane
+          moment that settles the ship belly-down is a spring; with no aerodynamic damper
+          against it, the ship swings forever. Easy to forget, extremely obvious the moment it
+          is missing.
+        </p>
+
+        <h3>Where it actually is</h3>
+        <p>
+          It flies, and it flies the way the maths said it would. Landing it is brutally hard
+          &mdash; which is the direction, not the bug: real physics and real logic, difficult
+          but winnable, the way the actual thing is difficult but winnable. Whether it is
+          winnable <em>by me</em>, on these numbers, is still open. That is what the tuning is
+          for, and tuning is what is left.
+        </p>
+        <p>
+          The scoring, the levels and the menu are not built. I would rather put the honest
+          middle of a project on a website than wait until there is nothing left to show.
+        </p>
+      </div>
+
+      <dl class="spec">
+        <div><dt>Engine</dt><dd>Godot 4.7.1 &middot; GDScript &middot; Jolt physics</dd></div>
+        <div><dt>Flight model</dt><dd>Gimballed thrust, weak RCS, four hinged flaps, finite fuel</dd></div>
+        <div><dt>Weather</dt><dd>Density falling with altitude; wandering wind layers, out-of-phase gusts</dd></div>
+        <div><dt>Tuning</dt><dd>38 live knobs, spec-driven panel, presets saved to disk</dd></div>
+        <div><dt>Numbers</dt><dd>Terminal 61 m/s flat &middot; flip committed by 300 m &middot; landing costs half the tank</dd></div>
+        <div><dt>Renderer</dt><dd>OpenGL Compatibility &mdash; the desk it was built on cannot run Vulkan</dd></div>
+      </dl>
+
+      <p class="repo"><a href="/projects.html#rocket">Back to Projects</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div>
+      <p class="label">Get in touch</p>
+      <p class="footer__email"><a href="mailto:thomas@tc-ventures.ca">thomas@tc-ventures.ca</a></p>
+      <p class="footer__note">Grande Prairie, Alberta &middot; Mountain Time &middot; remote &middot; open to work</p>
+    </div>
+    <div>
+      <p class="label">Elsewhere</p>
+      <ul class="footer__list">
+        <li><a href="https://github.com/DriftingSplash9">github.com/DriftingSplash9</a></li>
+        <li><a href="https://thomascheesman.ca">thomascheesman.ca</a> &mdash; personal</li>
+        <li><a href="https://bareyourrare.org">bareyourrare.org</a></li>
+        <li><a href="https://gpresidentialsociety.com">gpresidentialsociety.com</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+<script src="/assets/lander.js" defer></script>
+</body>
+</html>

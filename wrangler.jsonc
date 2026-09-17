@@ -3,6 +3,13 @@
   // Deploy command in the dashboard stays the default `npx wrangler deploy`.
   "name": "tc-ventures-site",
   "compatibility_date": "2026-09-11",
+
+  // INFRA-1: the site is served ONLY from tc-ventures.ca. Without these two,
+  // Cloudflare also publishes it at tc-ventures-site.thomasmcheesman.workers.dev
+  // and at a preview URL per deploy — the same pages on URLs nobody should link
+  // or index.
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "./public",
     "not_found_handling": "404-page"
