@@ -80,13 +80,25 @@ table below.
 
 ### Not deployed — on disk only
 
-| File | What changed | Why it matters |
-|---|---|---|
-| `public/lander.html` | Controls table corrected; two explanatory paragraphs added | **The live page currently tells readers the wrong controls.** Confirmed by fetching the live page. |
-| `public/assets/lander.js` | `HEAD` build-presence check | Without it the button would appear and 404 |
-| `public/assets/style.css` | `.gd__frame--tall`, iframe sizing, `kbd` styling | The lander page is unstyled in places without it |
+> **CORRECTED 2026-09-17 (later session), after checking the repo and the live
+> page.** All three rows below were wrong. `lander.js` and `style.css` were
+> already in commit `cd8379d` and deployed. The controls correction was **never
+> on this disk** — the working tree was clean and byte-identical to the live
+> page, which was still serving the wrong table. It has now genuinely been
+> written. Original rows kept below, struck, so the mistake is legible.
 
-One push fixes all three.
+| File | Claimed | Actually |
+|---|---|---|
+| `public/lander.html` | ~~Controls table corrected~~ | **Was not corrected.** Now is — rewritten from `main.gd`, plus the two-control-systems paragraph and Esc. **On disk, not pushed.** |
+| `public/assets/lander.js` | ~~`HEAD` check not deployed~~ | **Deployed** in `cd8379d` |
+| `public/assets/style.css` | ~~additions not deployed~~ | **Deployed** in `cd8379d` |
+
+One push deploys the controls fix. The other two are already live.
+
+**The lesson, since it is the second time on this page:** the controls were
+first written from prose instead of the input code, and then recorded as fixed
+without the fix landing. Read `main.gd`, and verify a claim of "done" against
+the file or the live URL before writing it down.
 
 ### Traps worth knowing
 
@@ -163,10 +175,10 @@ Confirmed; stop re-litigating it.
 ### LANDER
 | # | Item | Notes |
 |---|---|---|
-| L-1 | **Three files written, not deployed** | See the table in §2. The live page has the wrong controls until this pushes. Highest priority on this list. |
-| L-2 | **The build has nowhere to live** | 36.1 MiB `.wasm` vs a 25 MiB Cloudflare cap. Agreed direction: a Cloudflare R2 bucket with a custom domain, iframe pointed there instead of `/lander/`. One string in `lander.js` (`var BUILD`). Not built; Thomas has not yet been walked through creating the bucket. |
+| L-1 | **One file written, not deployed** | `public/lander.html` only — the other two were already live. Corrected controls table verified against `main.gd`: Space = engines, W/S = pitch, A/D = bank on flaps and yaw on gimbal, R or Esc = restart, backtick = tuning. The live page has the wrong controls until this pushes. Highest priority on this list. |
+| L-2 | **KILLED by Thomas, 2026-09-17** | "don't bother with r2." Do not restart this without him asking. The 36.1 MiB `.wasm` against the 25 MiB Cloudflare cap is still true, so the build has nowhere to live — but `lander.js` gates the button on a `HEAD` check, so the page degrades honestly with no build present. Nothing is broken by leaving it. |
 | L-3 | No still for the lander frame | The frame is bare dark ground with the button centred. A screenshot of the build mid-flight would fill it. |
-| L-4 | Escape not in the controls table | It restarts now, same as R. One line, next time the page is touched. |
+| L-4 | Escape not in the controls table | **Closed 2026-09-17.** Now reads "R or Esc" in the corrected table. Ships with L-1. |
 | L-5 | Game-side work | Tracked in the lander repo's `V0.3.md`, not here: the empty tuning panel, the `_dbg` block to remove, and the barge-vs-tower-catch design question. |
 
 ### A11Y
@@ -256,12 +268,17 @@ Every handoff has these, in this order, with these numbers:
 
 In order:
 
-1. **Push the three undeployed files** (L-1). The live page is currently wrong
-   about the game's controls, which is the one thing on this site that is
-   straightforwardly inaccurate.
-2. **Cloudflare R2 for the build** (L-2). Create the bucket, attach a custom
-   domain, upload `web-build/`, change `var BUILD` in `lander.js`. Thomas has
-   not done this before — walk it, don't hand him a checklist.
+1. **Push `public/lander.html`** (L-1). The live page is currently wrong about
+   the game's controls, which is the one thing on this site that is
+   straightforwardly inaccurate. The fix is written and waiting.
+2. ~~Cloudflare R2 for the build~~ — **killed by Thomas, do not restart** (L-2).
+   **Read this before planning site work:** Thomas is job hunting and has said
+   the site needs to showcase *completed* projects rather than a
+   work-in-progress he is still grinding on. The lander's own repo now carries a
+   five-item definition of finished (`V0.4.md` §2 in the rocket-lander repo). If
+   weeks pass with the game unfinished, the live option to weigh is pulling the
+   lander link from `projects.html` until it is done — his call, not an
+   agent's.
 3. **Upload the rebuilt graph** to thomascheesman.ca (O-1) and check
    `corpus-data.json` resolves under the theme path.
 4. **C-5**, the "10 years" line. One question to Thomas.
