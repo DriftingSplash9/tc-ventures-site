@@ -4,20 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects - Thomas Cheesman</title>
-<meta name="description" content="The Economic Report Influence Graph, Rocket Lander, and four live sites - what they are, what was hard, and what I got wrong.">
+<meta name="description" content="The Economic Report Influence Graph and four live sites - what they are, what was hard, and what I got wrong.">
 <link rel="canonical" href="https://tc-ventures.ca/projects.html">
 
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="TC &rsquo;Ventures">
 <meta property="og:url" content="https://tc-ventures.ca/projects.html">
 <meta property="og:title" content="Projects - Thomas Cheesman">
-<meta property="og:description" content="A 3D map of where official numbers come from, a rocket with real aerodynamics, and four live sites - what was hard, and what I got wrong.">
+<meta property="og:description" content="A 3D map of where official numbers come from, and four live sites - what was hard, and what I got wrong.">
 <meta property="og:image" content="https://tc-ventures.ca/assets/img/graph-app-ui.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@TCheesy_">
 <meta name="twitter:creator" content="@TCheesy_">
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
@@ -43,7 +44,7 @@
       <p class="label">Work</p>
       <h1>Projects</h1>
       <p class="hero__lede">
-        Two built in the open, in detail &mdash; what they are, what was hard, and what I got wrong.
+        One built in the open, in detail &mdash; what it is, what was hard, and what I got wrong.
         Then the four live sites.
       </p>
     </div>
@@ -212,69 +213,7 @@
     </div>
   </article>
 
-  <article class="band band--tint project" id="rocket">
-    <div class="wrap">
-      <p class="label label--accent">Flies; landing it is the hard part &middot; Godot 4.7, GDScript</p>
-      <h2>Rocket Lander</h2>
-
-      <div class="prose">
-        <p>
-          Land a rocket, gently, with the fuel you were given. It falls belly-down through layered,
-          gusting wind, flips, burns, and has to sit down on a droneship that is bobbing on swell and
-          drifting away from you. A run lasts twenty to sixty seconds. Failure is instant and obviously
-          your own fault.
-        </p>
-        <p>
-          The teaching idea came first: the tuning knobs <em>are</em> the interface, so a
-          nine-to-twelve-year-old learns the physics by flying against it rather than reading about it.
-          There are 38 of them behind one key &mdash; gravity, thrust, gimbal authority, drag, wind,
-          fuel, pad tolerances &mdash; and the panel builds itself from a spec table, so adding a knob
-          is one variable and one row.
-        </p>
-
-        <h3>Three things the build taught me</h3>
-        <p>
-          <strong>Thrust from the tail does nothing on its own.</strong> A nozzle pointing down the body
-          axis pushes straight through the centre of mass and produces no torque &mdash; which is exactly
-          why a real rocket&rsquo;s engine being at the bottom does not tip it over. Gimballing the nozzle
-          is what makes it steer.
-        </p>
-        <p>
-          <strong>Drag had to be split in two.</strong> Along-hull and across-hull flow are dragged
-          separately, and across is about twelve times along. That split is the entire reason the
-          belly-flop is worth doing: tilting off broadside produces lift, and that glide is the only way
-          to reach a barge that is not directly beneath you.
-        </p>
-        <p>
-          <strong>A restoring force without a damper is a pendulum.</strong> The weathervane moment that
-          settles the ship belly-down is a spring; with no aerodynamic damper against it, the ship swings
-          forever. Easy to forget, extremely obvious the moment it is missing.
-        </p>
-
-        <h3>Where it is</h3>
-        <p>
-          It flies. Landing it is brutally hard &mdash; which is the direction, not the bug: real physics
-          and real logic, difficult but winnable, the way the actual thing is difficult but winnable.
-          What is left is tuning and time.
-        </p>
-      </div>
-
-      <dl class="spec">
-        <div><dt>Engine</dt><dd>Godot 4.7.1 &middot; GDScript &middot; Jolt physics</dd></div>
-        <div><dt>Flight model</dt><dd>Gimballed thrust, weak RCS, four hinged flaps, finite fuel</dd></div>
-        <div><dt>Weather</dt><dd>Density falling with altitude; wandering wind layers, out-of-phase gusts</dd></div>
-        <div><dt>Tuning</dt><dd>38 live knobs, spec-driven panel, presets saved to disk</dd></div>
-        <div><dt>Numbers</dt><dd>Terminal 61 m/s flat &middot; flip committed by 300 m &middot; landing costs half the tank</dd></div>
-      </dl>
-
-      <p class="repo">
-        <a href="/lander.html">Fly it in your browser &mdash;</a> unfinished, and I cannot land
-        it either.
-      </p>
-    </div>
-  </article>
-
-  <section class="band">
+  <section class="band band--tint">
     <div class="wrap narrow">
       <h2 class="section-head">And four live sites</h2>
       <p>

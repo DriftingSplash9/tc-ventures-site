@@ -1,7 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="TC Ventures">
+  <!-- TC monogram, drawn as paths rather than a text element, so it does not
+       depend on a font being installed anywhere. Colours are the site's accent
+       (#0F5F6B) and paper (#FCFCFD). Tuned to stay legible at 16px: the T has no
+       foot serif (a foot makes it read as an I); the crossbar carries the weight. -->
   <rect width="64" height="64" rx="12" fill="#0F5F6B"/>
-  <text x="32" y="42" text-anchor="middle"
-        font-family="Familjen Grotesk, Segoe UI, system-ui, sans-serif"
-        font-size="30" font-weight="700" letter-spacing="-1" fill="#FCFCFD">TC</text>
-  <circle cx="49" cy="20" r="3.2" fill="#FCFCFD"/>
+  <path d="M 7.5 17 L 33.5 17 L 33.5 24.5 L 24 24.5 L 24 47 L 17 47 L 17 24.5 L 7.5 24.5 Z"
+        fill="#FCFCFD"/>
+  <path d="M 53.36 22.04 A 13 13 0 1 0 53.36 41.96"
+        fill="none" stroke="#FCFCFD" stroke-width="7.5"/>
 </svg>
