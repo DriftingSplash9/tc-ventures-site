@@ -2,7 +2,8 @@
 
 **Written:** 2026-09-19
 **Covers:** pulling the Rocket Lander off the public site, closing O-1, the real
-favicon, and The Back Quarter written up as the second project.
+favicon, and two new project write-ups — The Back Quarter and The Desk and the
+Drawer.
 **Status at wrap:** the lander is gone from `index.html` and `projects.html` and
 its two files are parked in `_to_delete/` — **on disk, not live yet**. O-1 is
 **closed, verified in a real browser**.
@@ -118,6 +119,23 @@ Fechtner, POEMS, stiff person — counted off the live site's own navigation. GP
 now says plainly that the site is his donation to the society he sits on the board
 of. thomascheesman.ca points up at The Back Quarter instead of describing it twice.
 
+**The Desk and the Drawer is project #3** (`#desk` on `projects.html`, fourth proof
+card on `index.html` — the heading is now "Four things I have built"). Thomas's
+call, same session: it is project-worthy and should be tied to the site it lives
+on, so both it and The Back Quarter name thomascheesman.ca and the four-site brief
+points up at both. Copy leans on what an employer cares about: the plain-list
+toggle, the separate phone nav, the full keyboard path and layered Escape; the
+load-on-click policy; and the pinball's non-fatal renderer fallback. All of it is
+from `assets/js/desk-menu.js`, `assets/js/desk-drawer.js` and `inc/desk-menu.php`.
+
+**The desk stills had to be cropped, and here is why.** The desk overlay's monitor
+shows the site's table of contents, and two of its rows carry the children's
+names. Nothing familial goes on the hiring site, so the figure is the lower band
+of the desk — keyboard, mug, ducks, the plain-list pill — with the monitor out of
+frame, plus the arcade panel, which carries no names. Both were captured headless
+at 1600 wide against the live site. **A name-free frame of the monitor would be a
+better first figure**; see P-4.
+
 ### Traps worth knowing
 
 - **Do not run git inside a Cowork mount.** It cannot unlink, so `index.lock`
@@ -201,7 +219,9 @@ Confirmed; stop re-litigating it.
 |---|---|---|
 | P-1 | The Back Quarter as project #2 | **Done on disk 2026-09-19.** Thomas corrected the scope himself: not the desk menu, the drivable farm. |
 | P-2 | More stills for The Back Quarter | One daytime shot is in. His night screenshots are better-looking but show the treehouse name signs, which cannot go on the hiring site (nothing familial). A night shot framed away from the treehouses would earn its place. |
-| P-3 | The desk menu and drawer are still unwritten-about | Separate from the Back Quarter: the desk-metaphor nav, the drawer footer, the pinball and arcade games, the leaderboard REST route. Could be a third project later, or a paragraph inside the thomascheesman.ca brief. Not started, no decision asked for yet. |
+| P-3 | The desk menu and drawer | **Done on disk 2026-09-19** as project #3. |
+| P-4 | Better first figure for The Desk | The monitor is the most legible proof that the desk *is* the menu, and the current crop leaves it out because its contents rows name the children. A frame with the monitor in a name-free state — the arcade, the cursor-trail drawer, the screensaver — would be worth swapping in. |
+| P-5 | The Back Quarter may become the hero | Thomas is moving it to the top of the homepage. If he does, the tc-ventures copy still reads true, but the still may want reshooting and the line "out past the yard light" may change. Re-check both after he ships it. |
 
 ### GRAPH
 | # | Item | Notes |

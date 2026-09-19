@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects - Thomas Cheesman</title>
-<meta name="description" content="The Economic Report Influence Graph, The Back Quarter, and four live sites - what they are, what was hard, and what I got wrong.">
+<meta name="description" content="The Economic Report Influence Graph, The Back Quarter, The Desk and the Drawer, and four live sites - what they are, what was hard, and what I got wrong.">
 <link rel="canonical" href="https://tc-ventures.ca/projects.html">
 
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="TC &rsquo;Ventures">
 <meta property="og:url" content="https://tc-ventures.ca/projects.html">
 <meta property="og:title" content="Projects - Thomas Cheesman">
-<meta property="og:description" content="A 3D map of where official numbers come from, a drivable farm that is a homepage, and four live sites - what was hard, and what I got wrong.">
+<meta property="og:description" content="A 3D map of where official numbers come from, a drivable farm that is a homepage, a desk that is a menu, and four live sites - what was hard, and what I got wrong.">
 <meta property="og:image" content="https://tc-ventures.ca/assets/img/graph-app-ui.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@TCheesy_">
@@ -44,8 +44,8 @@
       <p class="label">Work</p>
       <h1>Projects</h1>
       <p class="hero__lede">
-        Two built in the open, in detail &mdash; what they are, what was hard, and what I got wrong.
-        Then the four live sites.
+        Three built in the open, in detail &mdash; what they are, what was hard, and what I got
+        wrong. Then the four live sites.
       </p>
     </div>
   </section>
@@ -291,7 +291,85 @@
     </div>
   </article>
 
-  <section class="band">
+  <article class="band project" id="desk">
+    <div class="wrap">
+      <p class="label label--accent">Live on thomascheesman.ca &middot; Plain JavaScript, no framework</p>
+      <h2>The Desk and the Drawer</h2>
+
+      <div class="prose">
+        <p>
+          The same site's navigation is a photograph of the desk I work at. The objects on it are the
+          menu: the monitor holds the table of contents, the keyboard opens site search, a toad on the
+          desk opens an arcade, a bin of memory cards opens a slideshow, the mouse changes the cursor
+          trail. Hover anything and it tells you what it is. The footer is the other half &mdash; a
+          drawer that slides open as you reach the bottom, with the sitemap in it, a clock running on
+          my time, my email stored rot13 so scrapers get nonsense, and a marble that starts a pinball
+          table.
+        </p>
+        <p>
+          None of that is the interesting part. The interesting part is that it costs a visitor
+          nothing to ignore.
+        </p>
+
+        <h3>Three things the build taught me</h3>
+        <p>
+          <strong>An interface that is a picture still has to be a menu.</strong> There is a plain-list
+          toggle on the desk, a separate ordinary navigation for phones, a full keyboard path through
+          every hotspot, and an Escape key that closes exactly one layer at a time &mdash; drawer,
+          then search, then the overlay itself. A visitor who wants a list of links gets a list of
+          links, one click in. The picture is the reward, never the toll.
+        </p>
+        <p>
+          <strong>Nothing loads until someone asks for it.</strong> The physics engine and the
+          renderer behind the pinball table are most of a megabyte between them, and neither one
+          touches the network until a visitor clicks the marble. Same for the arcade, the slideshow
+          and the desk art itself. A visitor who never clicks pays nothing for any of it, which is the
+          only honest way to put a game in a footer.
+        </p>
+        <p>
+          <strong>Plan for the dependency that does not arrive.</strong> The pinball table wants a
+          WebGL renderer, but if that script fails to load it does not fail with it: it notices the
+          missing library and boots its plain-canvas renderer instead. The game always starts. That
+          habit came out of kitchens, where the delivery not showing up is not an excuse, it is
+          Tuesday.
+        </p>
+      </div>
+
+      <figure class="shot">
+        <img src="/assets/img/desk-hotspots.webp" width="1600" height="470" loading="lazy" decoding="async"
+             alt="A photograph of a home-office desk used as a website menu: a lit mechanical keyboard, a mug, a small stuffed toy, a rubber duck, notebooks and a mouse mat, with a small on-screen pill reading View as a plain list.">
+        <figcaption>
+          The desk itself, which is the menu. Each object is a hotspot with its own card; the pill in
+          the middle is the way out to an ordinary list of links.
+        </figcaption>
+      </figure>
+
+      <figure class="shot">
+        <img src="/assets/img/desk-arcade.webp" width="1600" height="1000" loading="lazy" decoding="async"
+             alt="A panel headed Arcade, reading Hidden inside the toad, pick a game, listing Snake, Pong, Pac-Man, Asteroids, Brickles, Solitaire and Pinball, each with a high score under it.">
+        <figcaption>
+          The arcade, which opens from a toad on the desk. Seven games, each keeping its own high
+          score through a small endpoint I added to the site's API.
+        </figcaption>
+      </figure>
+
+      <dl class="spec">
+        <div><dt>Built with</dt><dd>Plain JavaScript and CSS &mdash; no framework, no build step</dd></div>
+        <div><dt>Loaded on demand</dt><dd>Physics and renderer injected on click, cached after, non-fatal if either fails</dd></div>
+        <div><dt>Accessibility</dt><dd>Plain-list mode, separate phone navigation, full keyboard path, layered Escape</dd></div>
+        <div><dt>Scores</dt><dd>A custom endpoint on the site's own API keeps the arcade and pinball high scores</dd></div>
+        <div><dt>Nice touches</dt><dd>Rot13 email with copy-on-click, a clock on Mountain Time, a cursor-trail picker</dd></div>
+      </dl>
+
+      <p class="repo">
+        <a href="https://thomascheesman.ca/about/">Open the menu on thomascheesman.ca</a> &mdash; the
+        button marked MENU in the bar at the top. The Back Quarter above is the front door of the
+        same site.
+      </p>
+    </div>
+  </article>
+
+  <section class="band band--tint">
     <div class="wrap narrow">
       <h2 class="section-head">And four live sites</h2>
       <p>
@@ -314,8 +392,8 @@
       </p>
       <p>
         <a href="https://thomascheesman.ca">thomascheesman.ca</a> is the personal one, and the place I
-        try things that have no business on a client site &mdash; The Back Quarter above is its front
-        door. The fourth is this one, the only one of the four with no WordPress under it:
+        try things that have no business on a client site &mdash; The Back Quarter is its front door
+        and The Desk is its menu, both written up above. The fourth is this one, the only one of the four with no WordPress under it:
         hand-written, no framework, no build step.
       </p>
     </div>
