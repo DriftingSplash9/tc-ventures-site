@@ -1,8 +1,8 @@
 # handoff-008 — tc-ventures.ca
 
 **Written:** 2026-09-19
-**Covers:** pulling the Rocket Lander off the public site, closing O-1, and the
-real favicon.
+**Covers:** pulling the Rocket Lander off the public site, closing O-1, the real
+favicon, and The Back Quarter written up as the second project.
 **Status at wrap:** the lander is gone from `index.html` and `projects.html` and
 its two files are parked in `_to_delete/` — **on disk, not live yet**. O-1 is
 **closed, verified in a real browser**.
@@ -95,6 +95,29 @@ strips, and Thomas picked **T and C side by side, no outer ring**.
   from all five pages. Verified on disk as a valid 180x180 PNG after the commit
   re-encoded it.
 
+**The Back Quarter is project #2.** Thomas's call, and he corrected the framing:
+it is not "the 3D menu" — it is a game, and it is the country he grew up in. Added
+as `#quarter` on `projects.html`, plus a third proof card on `index.html`
+("Three things I have built" again). Lead is the 3D build, labelled beta, per his
+ruling. `public/assets/img/back-quarter-3d.webp` is his own daytime screenshot,
+1600x900.
+
+Facts in that copy came from the theme repo, not invention: the vehicle-handling
+notes and the bloom/day-factor regression from `assets/js/back-quarter-3d.js` and
+`V0.40.md`, the fire-synthesis rewrite from the same header, the Pixi/Matter
+load-on-engage contract from `assets/js/back-quarter.js`, and the landmark list
+from `docs/QUARTER-SECTION-SPEC.md`. **The biography in paragraph two is from his
+own published prose** (Peace Country at ten; Teepee Creek bird farm, LaGlace, the
+pig farm, Little Smokey with no gas, a wood furnace, a rabbit trapline). If any
+of that is wrong it is a factual error on a hiring page — ask him, do not patch
+it from memory.
+
+**The four-site section is now four briefs, not one paragraph.** BYR carries
+**five** condition guides, not "three or four" — Hajdu-Cheney, Erdheim-Chester,
+Fechtner, POEMS, stiff person — counted off the live site's own navigation. GPRS
+now says plainly that the site is his donation to the society he sits on the board
+of. thomascheesman.ca points up at The Back Quarter instead of describing it twice.
+
 ### Traps worth knowing
 
 - **Do not run git inside a Cowork mount.** It cannot unlink, so `index.lock`
@@ -139,7 +162,12 @@ Confirmed; stop re-litigating it.
 - **Do not invent dates or figures.** Unknown → ask Thomas.
 - Hajdu-Cheney syndrome is named on purpose. Symptom detail is not.
 - WordPress stays once per spec table as a hiring keyword; out of headline prose.
-- Nothing familial, nothing from Facebook.
+- **Nothing familial, nothing from Facebook — with one ruled exception.** Thomas
+  decided 2026-09-19 that The Back Quarter's write-up carries a short paragraph of
+  his own childhood (the move north, the farms), because the world is that country
+  and the project makes no sense without it. It names no family member and no
+  child. That is the exception, not the new rule; everything else familial stays
+  on thomascheesman.ca.
 - Edit `resume/resume-source.html` and re-render. Never edit the PDF. Exactly two
   pages.
 - Melanie and Thomas are "the parents" of the three children, never "co-parents".
@@ -165,12 +193,15 @@ Confirmed; stop re-litigating it.
 |---|---|---|
 | C-2 | Demo copy unread by Thomas | The graph demo block, the figure caption and the four-sites sentences are mine. 404 copy he has ruled acceptable for now. The lander copy this covered is gone. |
 | C-5 | **`page-hcs.php` arithmetic** (thomascheesman.ca) | Two years up the line then "kitchen manager for 10 years" lands in 2014, not 2013, now the Keg start is 2002. His own voice, his number to rule on. Ask, do not guess. |
-| C-6 | **The projects page is down to one project** | With the lander gone, `projects.html` carries the graph and the four sites. See P-1 — the obvious replacement is already his idea. |
+| C-6 | Projects page down to one project | **Closed 2026-09-19** — The Back Quarter fills the slot. |
+| C-7 | Back Quarter and four-site copy unread by Thomas | All of it is mine except the facts. The childhood paragraph especially — it is his life on a hiring page. |
 
 ### PROJECTS
 | # | Item | Notes |
 |---|---|---|
-| P-1 | **The 3D desk menu on thomascheesman.ca is a project in its own right** — Thomas, 2026-09-19 | His call, and he is right: the desk-metaphor nav overlay (plus the drawer footer, the pinball and arcade games, the leaderboard REST route) is a browser-graphics build, not a site feature. It would be the second detailed project on this page and it is *finished and live*, which is what the lander was not. Not started — needs his go-ahead on scope, a still or two, and copy in his voice. Source lives in `tc-ventures-child-theme`: `inc/desk-menu.php`, `assets/js/desk-menu.js`, `assets/css/desk-menu.css`. **That theme's CLAUDE.md marks the desk menu BHAG-tier: plan and propose before touching the code.** Writing *about* it touches nothing. |
+| P-1 | The Back Quarter as project #2 | **Done on disk 2026-09-19.** Thomas corrected the scope himself: not the desk menu, the drivable farm. |
+| P-2 | More stills for The Back Quarter | One daytime shot is in. His night screenshots are better-looking but show the treehouse name signs, which cannot go on the hiring site (nothing familial). A night shot framed away from the treehouses would earn its place. |
+| P-3 | The desk menu and drawer are still unwritten-about | Separate from the Back Quarter: the desk-metaphor nav, the drawer footer, the pinball and arcade games, the leaderboard REST route. Could be a third project later, or a paragraph inside the thomascheesman.ca brief. Not started, no decision asked for yet. |
 
 ### GRAPH
 | # | Item | Notes |
@@ -212,6 +243,7 @@ Confirmed; stop re-litigating it.
 | O-2 | `/projects` on thomascheesman.ca third-person leakage | **Thomas is writing this himself.** |
 | O-4 | bareyourrare history contains `permits/` and `3.jpg` | Instructions in `_Quarantine\bareyourrare-history-purge.md`. Thomas runs it. Until then, treat the address as disclosed. |
 | O-5 | `bareyr\.git` lock-file junk | Cosmetic; Thomas deletes. |
+| O-7 | Children's names in the Back Quarter world | The live 3D build signs the three treehouses with the kids' first names, which contradicts OD-1 in `docs/QUARTER-SECTION-SPEC.md` ("no children's names, faces, or photos anywhere in the map art or labels") on a public, indexed homepage. **Raised 2026-09-19; Thomas ruled: leave the names.** Recorded so no future agent "fixes" it. They stay off tc-ventures.ca regardless. |
 | O-6 | **Rocket Lander repo not public** | **Re-open with care.** He asked for this before; this session he ruled the lander private for now. Assume publishing the repo is also on hold until he says otherwise. |
 
 **Closed this session:** O-1 (verified live); L-1 (verified live); L-6 (on disk).
@@ -272,11 +304,11 @@ Every handoff has these, in this order, with these numbers:
 
 In order:
 
-1. **The lander removal is on disk, not live.** Until it ships, `projects.html`
-   on the live site still carries the whole Rocket Lander article and a link to
-   `/lander.html`. Nothing else in this list matters more.
-2. **P-1 — the 3D desk menu as the second project.** His idea, and it fills the
-   hole the lander left with something finished. Needs his go-ahead on scope
-   first, then stills, then copy.
+1. **Everything from this session is on disk and not live**: the lander removal,
+   the favicon, The Back Quarter, the four-site briefs. Until it ships, the live
+   projects page still carries the Rocket Lander and a link to `/lander.html`.
+   Nothing else in this list matters more.
+2. **Thomas reads the new copy** (C-7) — particularly the childhood paragraph.
 3. **C-5**, the "10 years" line. One question to Thomas.
-4. **The accessibility pass** (A-1), as its own session — smaller now.
+4. **The accessibility pass** (A-1), as its own session — smaller now. The new
+   figure needs its alt text checked in that pass like everything else.

@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects - Thomas Cheesman</title>
-<meta name="description" content="The Economic Report Influence Graph and four live sites - what they are, what was hard, and what I got wrong.">
+<meta name="description" content="The Economic Report Influence Graph, The Back Quarter, and four live sites - what they are, what was hard, and what I got wrong.">
 <link rel="canonical" href="https://tc-ventures.ca/projects.html">
 
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="TC &rsquo;Ventures">
 <meta property="og:url" content="https://tc-ventures.ca/projects.html">
 <meta property="og:title" content="Projects - Thomas Cheesman">
-<meta property="og:description" content="A 3D map of where official numbers come from, and four live sites - what was hard, and what I got wrong.">
+<meta property="og:description" content="A 3D map of where official numbers come from, a drivable farm that is a homepage, and four live sites - what was hard, and what I got wrong.">
 <meta property="og:image" content="https://tc-ventures.ca/assets/img/graph-app-ui.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@TCheesy_">
@@ -44,7 +44,7 @@
       <p class="label">Work</p>
       <h1>Projects</h1>
       <p class="hero__lede">
-        One built in the open, in detail &mdash; what it is, what was hard, and what I got wrong.
+        Two built in the open, in detail &mdash; what they are, what was hard, and what I got wrong.
         Then the four live sites.
       </p>
     </div>
@@ -213,20 +213,110 @@
     </div>
   </article>
 
-  <section class="band band--tint">
+  <article class="band band--tint project" id="quarter">
+    <div class="wrap">
+      <p class="label label--accent">Live on the front page &middot; Three.js, Pixi, Matter</p>
+      <h2>The Back Quarter</h2>
+
+      <div class="prose">
+        <p>
+          The homepage of my personal site is not a page. It is a quarter section of farmland you
+          drive around in a buggy, and every building on it is a part of the site: the farmhouse is
+          the about page, the grain elevator is the page about my diagnosis, the arcade barn boots
+          the games, the church on the hill holds the family histories. Drive up to one and it opens.
+        </p>
+        <p>
+          I grew up on that land. We moved north to the Peace Country when I was ten, and the farms
+          came one after another &mdash; a bird farm at Teepee Creek, LaGlace, a pig farm, then Little
+          Smokey with no gas, a wood furnace and a rabbit trapline. The Back Quarter is that country
+          rebuilt from memory and handed to a visitor as the way in. A menu would have done the job.
+          This does the job and says something while it does it.
+        </p>
+
+        <h3>Three things the build taught me</h3>
+        <p>
+          <strong>A vehicle that can turn on the spot does not feel like a vehicle.</strong> Early on
+          the buggy pivoted like a tank and nothing about it read as driving. The fix was not more
+          physics, it was less permission: yaw rate now follows forward speed, so she has to be rolling
+          before she will turn, and she eases into it. Grip drops in the wet. Reversing flips the
+          steering sense, the way it does in a real yard.
+        </p>
+        <p>
+          <strong>Bloom is a night instrument.</strong> Glow is driven by the same day factor that runs
+          the sky, so it climbs after sunset and falls away at dawn. I learned that the hard way: for
+          one version the daylight walls glowed too, and the whole farm looked like moulded plastic.
+          Light has to behave like light, or the painting stops being a place.
+        </p>
+        <p>
+          <strong>The fire sounded like someone bashing a tin can.</strong> Every pop was the same
+          noise through the same filter, so every pop rang the same note, and an ear catches that
+          instantly. It is now a low ember roar with discrete pops a few hundredths of a second long,
+          each one through its own randomly tuned filter. Nothing rings. Same amount of code,
+          completely different room.
+        </p>
+
+        <h3>The rule underneath it</h3>
+        <p>
+          A homepage has to stay a homepage. Nothing heavy loads until the visitor asks for it &mdash;
+          the engines sit behind a click &mdash; the painted farm is a real image before any of it
+          boots, and every destination in the world is also an ordinary link in the ordinary menu.
+          If the graphics fail, or a visitor never touches them, the site still works exactly as a site
+          should. A world you can drive around should be the reward for wanting one, never the toll
+          gate on the way in.
+        </p>
+      </div>
+
+      <figure class="shot">
+        <img src="/assets/img/back-quarter-3d.webp" width="1600" height="900" loading="lazy" decoding="async"
+             alt="A low-polygon farmyard in daylight: a red gambrel barn, a brick windmill and grain bin, a pond with ducks, round hay bales, and an orange roll-caged buggy parked on the grass in the foreground.">
+        <figcaption>
+          The 3D build, mid-afternoon. The same quarter section as the painted map, modelled and lit,
+          with a day and night cycle running over it.
+        </figcaption>
+      </figure>
+
+      <dl class="spec">
+        <div><dt>3D world</dt><dd>Three.js &middot; custom vehicle handling &middot; bloom and colour grade on WebGL2, plain render on WebGL1</dd></div>
+        <div><dt>2D map</dt><dd>Pixi and Matter over a painted board &mdash; the version that ships first and never fails</dd></div>
+        <div><dt>Surfaces</dt><dd>Procedural textures, prairie dust and distance haze, instanced planting</dd></div>
+        <div><dt>Sound</dt><dd>Synthesised in the browser &mdash; engine, fire, machinery. No sample library</dd></div>
+        <div><dt>Input</dt><dd>Keyboard, and a touch build with a reduced tier for small screens</dd></div>
+        <div><dt>Dependencies</dt><dd>Self-hosted, loaded on demand. No build step, no CDN</dd></div>
+      </dl>
+
+      <p class="repo">
+        <a href="https://thomascheesman.ca/">Drive it on thomascheesman.ca</a> &mdash; the 3D build is
+        marked beta, and it is: the painted map is the one I would put weight on.
+      </p>
+    </div>
+  </article>
+
+  <section class="band">
     <div class="wrap narrow">
       <h2 class="section-head">And four live sites</h2>
       <p>
         Written and maintained solo, and deliberately four different designs rather than one template
-        reused. <a href="https://bareyourrare.org">Bare Your Rare</a> is a patient-led site for
-        ultra-rare conditions, built because most people searching for one of them find almost nothing.
-        <a href="https://gpresidentialsociety.com">The Grande Prairie Residential Society</a> site serves
-        a volunteer-run nonprofit providing barrier-free housing &mdash; 87 units before the Margaret
-        Edgson Manor fire, with the rebuild under way and the final count not yet settled. Accessibility
-        and plain language are first-order requirements there, not decoration.
-        <a href="https://thomascheesman.ca">thomascheesman.ca</a> is the personal one, where the
-        experiments and the things I build for my kids live. The fourth is this one, which is the only
-        one of the four with no WordPress under it &mdash; hand-written, no framework, no build step.
+        reused.
+      </p>
+      <p>
+        <a href="https://bareyourrare.org">Bare Your Rare</a> is a patient-led site for ultra-rare
+        conditions, built because most people searching for one of them find almost nothing. It now
+        carries five guides written for patients rather than clinicians &mdash; Hajdu-Cheney syndrome,
+        Erdheim-Chester disease, Fechtner syndrome, POEMS syndrome and stiff person syndrome &mdash;
+        each one a long read assembled from the literature and put into plain language.
+      </p>
+      <p>
+        <a href="https://gpresidentialsociety.com">The Grande Prairie Residential Society</a> is a
+        volunteer-run nonprofit providing barrier-free housing &mdash; 87 units before the Margaret
+        Edgson Manor fire, with the rebuild under way and the final count not yet settled. I sit on
+        the board, and the site is my donation to it: built, hosted and maintained at no cost to the
+        society. Accessibility and plain language are first-order requirements there, not decoration.
+      </p>
+      <p>
+        <a href="https://thomascheesman.ca">thomascheesman.ca</a> is the personal one, and the place I
+        try things that have no business on a client site &mdash; The Back Quarter above is its front
+        door. The fourth is this one, the only one of the four with no WordPress under it:
+        hand-written, no framework, no build step.
       </p>
     </div>
   </section>
