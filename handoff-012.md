@@ -138,7 +138,6 @@ Confirmed; stop re-litigating it.
 ### PROJECTS
 | # | Item | Notes |
 |---|---|---|
-| P-4 | Better first figure for The Desk | The monitor is the proof that the desk *is* the menu. **A 2026-09-21 screenshot was not usable:** the contents list on the monitor names the children ("Patience, Daniel, and Faith", "Faith's Capybara Clicker"). Needs a frame with the monitor showing the arcade, the cursor-trail drawer or the screensaver — anything but the contents. |
 | P-6 | A fourth project? | Nothing is queued — and per the "show finished work" rule, nothing goes up until it is done. |
 
 ### GRAPH
@@ -178,7 +177,7 @@ Confirmed; stop re-litigating it.
 | O-12 | **GPRS work has its own handoff** | Board reports, the fundraising drafts, the Cloudflare zone for gpresidentialsociety.com, SPF and Trevor: `GPRS Organization/00 Working Notes/gprs-handoff-001.md`. Not tracked here. |
 | O-9 | **`page-hcs.php` edit is undeployed** | The C-5 rewrite is on disk in the theme repo only. It also has not been read back by Thomas. |
 
-**Closed this session:** C-2 (graph demo copy — Thomas: "ok"), A-2 (Thomas ruled: keep his own Print-to-PDF export; the résumé's home is `My Files\Family & Personal\resume\`, and the served PDF is byte-identical to `Thomas Cheesman Resume Sept 2026.pdf` there), INFRA-5 (`Reports Clustering\dist-wp\` and the theme's `index-ev_2RCV6.js` deleted with his OK; `dist-wp-2\` left alone), P-5 (new Back Quarter figure: his screenshot, cropped clear of the HUD's "3D beta" line and the toast, alt text rewritten), C-8 (`resume-source.html` now mirrors the Word file; renders to two letter pages, no lander), G-8 (keyboard path into the 3D scene).
+**Closed this session:** C-2 (graph demo copy — Thomas: "ok"), A-2 (Thomas ruled: keep his own Print-to-PDF export; the résumé's home is `My Files\Family & Personal\resume\`, and the served PDF is byte-identical to `Thomas Cheesman Resume Sept 2026.pdf` there), INFRA-5 (`Reports Clustering\dist-wp\` and the theme's `index-ev_2RCV6.js` deleted with his OK; `dist-wp-2\` left alone), P-4 (new Desk figure: his screenshot with the monitor on the falling-character screensaver; the contents list showed faintly through it, so near-black ghost pixels inside the monitor were flattened to the screen's black until no name survives a 12× contrast stretch, and the frame is cropped clear of the browser, the nav pill and a card by the printer; 1600×745), P-5 (new Back Quarter figure: his screenshot, cropped clear of the HUD's "3D beta" line and the toast, alt text rewritten), C-8 (`resume-source.html` now mirrors the Word file; renders to two letter pages, no lander), G-8 (keyboard path into the 3D scene).
 
 ## 5. HOW TO WRITE THE NEXT HANDOFF
 
@@ -241,4 +240,3 @@ In order:
 2. **Thomas reads the rewritten `page-hcs.php` paragraph**, then deploys it (O-9), and reads C-7.
 3. **Thomas reads C-7** (live on Projects).
 4. **D-3:** confirm the renewal went through before 8 October.
-5. **P-4:** a desk screenshot with the monitor off the contents page.
