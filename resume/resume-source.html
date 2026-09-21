@@ -112,7 +112,7 @@
     font-family: 'IBM Plex Mono', monospace;
     font-size: 8.2pt;
     color: var(--muted);
-    flex: 0 0 108px;
+    flex: 0 0 150px;
     line-height: 1.75;
   }
   .row__val { flex: 1; color: var(--ink-soft); }
@@ -136,6 +136,8 @@
 </style>
 </head>
 <body>
+<!-- Content mirrors Thomas-Cheesman-Resume-source.docx (the source of the served PDF since 2026-09-20).
+     If the .docx changes, change this to match. -->
 
 <header>
   <h1 class="name">Thomas Cheesman</h1>
@@ -152,11 +154,29 @@
   <p class="summary">
     I run the website for a nonprofit and three more for practice and, eventually, work. I set the
     objectives, design the thing, and then build it with AI. After seventeen years managing cooks, a
-    team of AI is the easy part; knowing what to tell it is not. Alongside the sites: a research
-    application that maps nearly four thousand official statistical reports and the documented
-    dependencies between them. Looking for remote work in web development, digital operations,
-    accessibility, or nonprofit technology.
+    team of AI is the easy part; knowing what to tell it is not. Looking for remote work in web
+    development, digital operations, accessibility, or nonprofit technology.
   </p>
+</section>
+
+<section>
+  <h2>Skills</h2>
+  <div class="row">
+    <div class="row__key">Web</div>
+    <div class="row__val">HTML, CSS, JavaScript, TypeScript, PHP, custom WordPress themes, accessible UI, Git and GitHub</div>
+  </div>
+  <div class="row">
+    <div class="row__key">AI-assisted building</div>
+    <div class="row__val">Specify, review, debug and ship; prompt and protocol design; editorial control over generated code; one standard held across long multi-session work</div>
+  </div>
+  <div class="row">
+    <div class="row__key">Data and operations</div>
+    <div class="row__val">Custom Excel systems for inventory, costing, sales, scheduling and waste; budget ownership; supplier coordination</div>
+  </div>
+  <div class="row">
+    <div class="row__key">Leadership and writing</div>
+    <div class="row__val">Kitchen management, apprenticing and teaching, nonprofit board work, disability advocacy; plain-language patient-facing, nonprofit and technical documentation</div>
+  </div>
 </section>
 
 <section>
@@ -172,11 +192,9 @@
       <li>A browser-based 3D map of where official numbers come from: which published statistical
           report is calculated from which other, across 130+ countries and every tier from national
           to municipal.</li>
-      <li>Built on one rule &mdash; <em>no document, no edge</em>. A dependency is drawn only where
-          a published source says so in quotable words, and every edge carries an A/B/C grade for how
-          well its citation supports it. Holding that standard across eighty-plus research sessions is
-          the hard part, so the repository carries a fixed extraction protocol and a validator that
-          refuses to pass on a dangling reference.</li>
+      <li>Built on one rule &mdash; <em>no document, no edge</em>. A dependency is drawn only where a
+          published source says so in quotable words, every edge carries an A/B/C grade for how well
+          its citation supports it, and a validator fails the build on a dangling reference.</li>
     </ul>
   </div>
 
@@ -189,8 +207,8 @@
     <ul>
       <li>A patient-led site for ultra-rare conditions &mdash; first-person stories, condition guides,
           registries and support &mdash; built because most people searching for one of these conditions
-          find almost nothing. Written in plain language, structured to be legible to the AI tools
-          newly diagnosed patients now reach for first.</li>
+          find almost nothing. Written in plain language and structured to be legible to the AI tools
+          newly diagnosed patients reach for first.</li>
     </ul>
   </div>
 
@@ -203,8 +221,8 @@
     <ul>
       <li>Public site for a volunteer-run nonprofit providing barrier-free housing &mdash; 87 units
           before the Margaret Edgson Manor fire, with the rebuild under way. Housing applications,
-          donations, fire and rebuild updates, and a newsletter. Accessibility and plain language are
-          first-order requirements here, not decoration applied at the end.</li>
+          donations, rebuild updates and a newsletter, with accessibility and plain language as
+          first-order requirements.</li>
     </ul>
   </div>
 
@@ -220,19 +238,6 @@
           events as certainty-weighted markers.</li>
     </ul>
   </div>
-
-  <div class="entry">
-    <div class="entry__head">
-      <h3 class="entry__title">Rocket Lander</h3>
-      <span class="entry__date">2026</span>
-    </div>
-    <p class="entry__meta">Godot 4.7 · GDScript · Jolt physics</p>
-    <ul>
-      <li>A teaching game on a real aerodynamic flight model &mdash; gimballed thrust, split along-hull
-          and across-hull drag, layered gusting wind, finite fuel. The 38 tuning knobs are the
-          interface, so a child learns the forces by flying against them.</li>
-    </ul>
-  </div>
 </section>
 
 <section>
@@ -243,19 +248,20 @@
       <h3 class="entry__title">Board Member &mdash; Grande Prairie Residential Society</h3>
       <span class="entry__date">June 2023 &ndash; present</span>
     </div>
+    <p class="entry__meta">Grande Prairie, Alberta</p>
     <ul>
       <li>Created and publish the public website. Volunteer on the maintenance, marketing and
           special projects committees, starting a fundraising committee, and contribute to outreach,
-          planning and governance &mdash; including through the post-fire rebuild of Margaret
-          Edgson Manor.</li>
+          planning and governance through the post-fire rebuild of Margaret Edgson Manor.</li>
     </ul>
   </div>
 
   <div class="entry">
     <div class="entry__head">
-      <h3 class="entry__title">Caregiver &mdash; private client, Grande Prairie</h3>
-      <span class="entry__date">March &ndash; December 2023</span>
+      <h3 class="entry__title">Caregiver &mdash; private client</h3>
+      <span class="entry__date">March 2023 &ndash; December 2023</span>
     </div>
+    <p class="entry__meta">Grande Prairie, Alberta</p>
     <ul>
       <li>Round-the-clock care team for a palliative teenage client: schedules, diet, appointments, medications.</li>
     </ul>
@@ -266,7 +272,7 @@
       <h3 class="entry__title">Executive Chef / Kitchen Manager &mdash; Majors Homestyle &amp; Tractor Jack’s</h3>
       <span class="entry__date">2015 &ndash; March 2019</span>
     </div>
-    <p class="entry__meta">Grande Prairie · private ownership</p>
+    <p class="entry__meta">Grande Prairie, Alberta · private ownership</p>
     <ul>
       <li>Ran daily operations, budgets, purchasing, staffing and HR for two rooms under one roof, plus
           banquets and catering &mdash; including a standing contract feeding the crews building the
@@ -279,12 +285,11 @@
       <h3 class="entry__title">Head Chef &mdash; Ric’s Grill, then Township 71</h3>
       <span class="entry__date">2013 &ndash; 2015</span>
     </div>
-    <p class="entry__meta">Grande Prairie · franchise, then independent fine dining</p>
+    <p class="entry__meta">Grande Prairie, Alberta · franchise, then independent fine dining</p>
     <ul>
-      <li>Head Chef at Ric’s Grill; wound it down to renovate and open Township 71, an independent
-          fine-dining room, in November 2014 &mdash; straight into the oil-price crash. Closed it in
-          May 2015. Across the career: opened one restaurant, closed two, in franchise and independent
-          settings.</li>
+      <li>Wound Ric’s down to renovate and open Township 71, an independent fine-dining room, in
+          November 2014 &mdash; straight into the oil-price crash; closed it in May 2015. Across the
+          career: opened one restaurant, closed two, in franchise and independent settings.</li>
       <li>While running Ric’s, taught one semester of the culinary side of the Hospitality and Tourism
           diploma at GPRC (now Northwestern Polytechnic) &mdash; wrote the curriculum, lesson plans and
           practical assessments.</li>
@@ -296,64 +301,41 @@
       <h3 class="entry__title">Kitchen Manager &mdash; The Keg Steakhouse &amp; Bar</h3>
       <span class="entry__date">2002 &ndash; 2013</span>
     </div>
-    <p class="entry__meta">Grande Prairie · franchise</p>
+    <p class="entry__meta">Grande Prairie, Alberta · franchise</p>
     <ul>
-      <li>Hired as a salad tender; worked up the line to assistant kitchen manager, then kitchen manager
-          for roughly ten years through the oil boom, in the toughest labour market in the country. Met or
-          beat budget, and ran the kitchen ranked best in the corporation for Alberta.</li>
-      <li>Built the custom Excel systems the operation ran on &mdash; inventory, costing, sales,
-          staffing and waste. Apprenticed cooks; set up the health and safety committee.</li>
+      <li>Hired as a salad tender, worked up the line to assistant kitchen manager, then ran the kitchen
+          for the last seven years. Met or beat budget, and ran the kitchen ranked best in the
+          corporation for Alberta.</li>
+      <li>Built the custom Excel systems the operation ran on: inventory, costing, sales, staffing and
+          waste. Apprenticed cooks and set up the health and safety committee.</li>
     </ul>
   </div>
+
+  <p class="note">
+    <strong>Career note, 2019 &ndash; 2023:</strong> I left kitchen work when it stopped being physically
+    sustainable. Those years went to family care and self-directed study &mdash; first programming, then
+    how to direct AI &mdash; before I started shipping public sites.
+  </p>
 </section>
 
 <section>
-  <h2>Skills, education &amp; tickets</h2>
-  <div class="row">
-    <div class="row__key">Web</div>
-    <div class="row__val">HTML, CSS, JavaScript, TypeScript, PHP, custom WordPress themes, accessible UI, Git and GitHub</div>
-  </div>
-  <div class="row">
-    <div class="row__key">AI-assisted</div>
-    <div class="row__val">Specify, review, debug and ship; prompt and protocol design; editorial control over generated code; holding one standard across long multi-session work</div>
-  </div>
-  <div class="row">
-    <div class="row__key">Leadership</div>
-    <div class="row__val">Kitchen management, apprenticing and teaching, nonprofit board work, disability advocacy</div>
-  </div>
-  <div class="row">
-    <div class="row__key">Writing</div>
-    <div class="row__val">Plain language for people who did not come for the jargon; patient-facing, nonprofit and technical docs</div>
-  </div>
-
-  <div class="edu">
-  <div class="row">
-    <div class="row__key">Journeyman Chef</div>
-    <div class="row__val">Red Seal · SAIT, 2012</div>
-  </div>
-  <div class="row">
-    <div class="row__key">B.Sc.</div>
-    <div class="row__val">Credits earned, 1999–2002</div>
-  </div>
+  <h2>Education and certifications</h2>
   <div class="row">
     <div class="row__key">Self-directed</div>
     <div class="row__val">freeCodeCamp and related; daily build practice on live sites</div>
   </div>
   <div class="row">
-    <div class="row__key">Also held</div>
-    <div class="row__val">Power Engineering 4th Class · Gas Plant Operator Levels 1 and 2</div>
+    <div class="row__key">Journeyman Chef</div>
+    <div class="row__val">Red Seal, SAIT, 2012</div>
   </div>
+  <div class="row">
+    <div class="row__key">Power Engineering</div>
+    <div class="row__val">4th Class and Class 3B; Gas Plant Operations Levels I and II &mdash; GPRC, now Northwestern Polytechnic, 2002&ndash;2003</div>
   </div>
-</section>
-
-<section>
-  <h2>Career note</h2>
-  <p class="note">
-    I left the line in 2019 because I have Hajdu-Cheney syndrome, a rare connective-tissue disorder,
-    and kitchen work stopped being sustainable. A couple of surgeries and stay-at-home parenting
-    followed. I started learning to program; when AI crashed that party I switched to understanding AI
-    itself, then to shipping public sites. The work is remote, and that is the only thing I need it to be.
-  </p>
+  <div class="row">
+    <div class="row__key">B.Sc. Pre-Pharmacy</div>
+    <div class="row__val">Credits earned, GPRC, 1999&ndash;2002</div>
+  </div>
 </section>
 
 </body>

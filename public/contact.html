@@ -56,6 +56,7 @@
       <p class="contact__email"><a href="mailto:thomas@tc-ventures.ca">thomas@tc-ventures.ca</a></p>
       <p class="actions actions--tight">
         <button class="btn" type="button" id="copy-email" hidden>Copy the address</button>
+        <span class="sr-only" role="status" id="copy-status"></span>
         <a class="btn" href="/assets/Thomas-Cheesman-Resume.pdf" download>R&eacute;sum&eacute; (PDF)</a>
       </p>
       <p class="contact__note">
@@ -178,10 +179,12 @@
   if (btn && navigator.clipboard && navigator.clipboard.writeText) {
     btn.hidden = false;
     var label = btn.textContent;
+    var status = document.getElementById('copy-status');
     btn.addEventListener('click', function () {
       navigator.clipboard.writeText('thomas@tc-ventures.ca').then(function () {
         btn.textContent = 'Copied';
-        setTimeout(function () { btn.textContent = label; }, 1800);
+        if (status) status.textContent = 'Address copied to the clipboard.';
+        setTimeout(function () { btn.textContent = label; if (status) status.textContent = ''; }, 1800);
       });
     });
   }

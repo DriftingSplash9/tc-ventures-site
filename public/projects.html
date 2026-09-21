@@ -109,12 +109,13 @@
                  loading="lazy" decoding="async"
                  alt="A three-dimensional web of about fifty coloured spheres joined by fine lines, one white sphere near the centre and several larger spheres at the far end.">
           </figure>
-          <div class="gd__stage" hidden></div>
+          <div class="gd__stage" hidden tabindex="0" role="application" aria-roledescription="3D graph"
+               aria-label="Live 3D graph of the same slice. Left and right arrow keys step through its dependencies one at a time; each is read out below the graph."></div>
           <div class="gd__loadwrap">
             <button type="button" class="btn gd__load" hidden>Load the live graph</button>
           </div>
         </div>
-        <div class="gd__panel">
+        <div class="gd__panel" aria-live="polite" tabindex="-1">
           <p class="gd__hint">
             The still is a render of the same data. Nothing three-dimensional is
             downloaded until you ask for it.

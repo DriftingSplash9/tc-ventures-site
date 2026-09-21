@@ -66,8 +66,9 @@
   function say(html) { panel.innerHTML = html; }
 
   function sayIdle() {
-    say('<p class="gd__hint">Drag to turn it. Click a line to read the document ' +
-        'the dependency was drawn from, and the grade it earned.</p>');
+    say('<p class="gd__hint">Drag to turn it. Click a line, or use the arrow ' +
+        'keys, to read the document the dependency was drawn from and the ' +
+        'grade it earned.</p>');
   }
 
   function sayNode(n) {
@@ -110,6 +111,7 @@
 
   function fail() {
     btn.hidden = true;
+    panel.focus({ preventScroll: true });
     say('<p class="gd__hint">The live graph did not load. The still above and ' +
         'the chain below are the same data; the ' +
         '<a href="https://github.com/DriftingSplash9/Reports-Clustering">' +
@@ -135,11 +137,33 @@
       stage.hidden = false;
       sayIdle();
 
+      /* Keyboard path: the stage takes focus, and the arrow keys walk the
+         dependencies in the order the data lists them. Each one is read into
+         the panel (a live region) and drawn thicker in the scene. The camera
+         never moves for it. */
+      var current = null, idx = -1, g;
+      function mark(l) {
+        current = l;
+        idx = l ? data.links.indexOf(l) : -1;
+        if (g) g.linkColor(g.linkColor()).linkWidth(g.linkWidth());
+      }
+      stage.addEventListener('keydown', function (e) {
+        var n = data.links.length;
+        if (!n) return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') idx = (idx + 1) % n;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') idx = (idx - 1 + n) % n;
+        else if (e.key === 'Escape') { mark(null); sayIdle(); return; }
+        else return;
+        e.preventDefault();
+        mark(data.links[idx]);
+        sayLink(data.links[idx]);
+      });
+
       var maxRests = data.nodes.reduce(function (m, n) {
         return Math.max(m, n.rests || 0);
       }, 1);
 
-      var g = window.ForceGraph3D({ controlType: 'orbit' })(stage)
+      g = window.ForceGraph3D({ controlType: 'orbit' })(stage)
         .backgroundColor('#060913')
         .showNavInfo(false)
         .graphData(data)
@@ -159,9 +183,14 @@
           return '<div class="gd__tip"><strong>' + esc(n.title) +
             '</strong><br>' + esc(n.publisher) + '</div>';
         })
-        .linkColor(function (l) { return GRADE[l.grade] || '#7E8C9C'; })
+        .linkColor(function (l) {
+          return l === current ? '#FFFFFF' : (GRADE[l.grade] || '#7E8C9C');
+        })
         .linkOpacity(0.55)
-        .linkWidth(function (l) { return l.grade === 'A' ? 0.9 : 0.5; })
+        .linkWidth(function (l) {
+          if (l === current) return 2.4;
+          return l.grade === 'A' ? 0.9 : 0.5;
+        })
         .linkHoverPrecision(5)
         .linkDirectionalArrowLength(3.2)
         .linkDirectionalArrowRelPos(1)
@@ -171,8 +200,8 @@
             esc(REL[l.rel] || l.rel) + '</div>';
         })
         .onNodeClick(sayNode)
-        .onLinkClick(sayLink)
-        .onBackgroundClick(sayIdle)
+        .onLinkClick(function (l) { mark(l); sayLink(l); })
+        .onBackgroundClick(function () { mark(null); sayIdle(); })
         .enableNodeDrag(false);
 
       g.d3Force('charge').strength(-170);
@@ -220,6 +249,9 @@
 
       /* One framing move, then the camera is the reader's. */
       setTimeout(frame, reduce ? 0 : 1400);
+
+      /* The button that had focus is gone; hand focus to what replaced it. */
+      stage.focus({ preventScroll: true });
     }).catch(fail);
   });
 })();
