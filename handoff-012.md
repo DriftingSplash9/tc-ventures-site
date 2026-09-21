@@ -131,16 +131,14 @@ Confirmed; stop re-litigating it.
 ### COPY
 | # | Item | Notes |
 |---|---|---|
-| C-2 | Graph demo copy unread by Thomas | The demo block, the figure caption and the four-sites briefs are mine. |
-| C-7 | **The Back Quarter and Desk copy unread by Thomas** | Especially the childhood paragraph — it is his life on a hiring page, and the facts came from his own published prose, not from him directly. |
+| C-7 | **The Back Quarter and Desk copy — live, unread by Thomas** | Both blocks are serving on tc-ventures.ca/projects (checked 2026-09-21). Put in front of him 2026-09-21; waiting on his read. |
 | C-9 | **`page-thomas.php` ~2010: "I couldn't get past my kitchen manager"** | Reads oddly now that he was the kitchen manager from ~2006. It may mean the senior manager above him. His prose and his call — flag it, do not rewrite it. |
 | C-11 | **Education, settled by Thomas 2026-09-20** | Four academic years at GPRC (now Northwestern Polytechnic), fall 1999 to spring 2003: **B.Sc. Pre-Pharmacy credits, 1999–2002** (three academic years), then **Power Engineering 4th Class and Class 3B plus Gas Plant Operations Levels I and II, 2002–2003**. Journeyman Chef, Red Seal, SAIT, 2012. The rebuilt .docx carries exactly this. `resume/resume-source.html` already has the B.Sc. span right; what it lacks is the Power Engineering dates, Class 3B and the college's name (see C-8 on the render path). |
 
 ### PROJECTS
 | # | Item | Notes |
 |---|---|---|
-| P-4 | Better first figure for The Desk | The monitor is the proof that the desk *is* the menu, and the current crop leaves it out because its contents rows name the children. A frame with the monitor showing the arcade, the cursor-trail drawer or the screensaver would swap straight in. |
-| P-5 | The Back Quarter still may want reshooting | The project figure is a daytime frame and still reads true, but a fresh one framed away from the treehouses is worth taking. |
+| P-4 | Better first figure for The Desk | The monitor is the proof that the desk *is* the menu. **A 2026-09-21 screenshot was not usable:** the contents list on the monitor names the children ("Patience, Daniel, and Faith", "Faith's Capybara Clicker"). Needs a frame with the monitor showing the arcade, the cursor-trail drawer or the screensaver — anything but the contents. |
 | P-6 | A fourth project? | Nothing is queued — and per the "show finished work" rule, nothing goes up until it is done. |
 
 ### GRAPH
@@ -152,13 +150,11 @@ Confirmed; stop re-litigating it.
 | # | Item | Notes |
 |---|---|---|
 | A-1 | **Code pass done 2026-09-21; human checks left** | axe-core (WCAG 2.2 AA + best practice) on all five pages in light and dark: **0 violations**. Tab order, skip link, landmarks, `aria-current`, focus rings and reduced motion all checked and fine. What is left needs a person: one real screen-reader run (NVDA + Firefox or Chrome) through Projects and the live graph, and A-2. |
-| A-2 | **The served résumé PDF is untagged** | No structure tree, no document language, and its title is `Microsoft Word - Thomas_Cheesman_Resume_1`, so a screen reader reads it as an unstructured print. Thomas re-exports from Word: File → Info → set Title to `Thomas Cheesman — Résumé`; then File → Save As → PDF → Options → tick **Document structure tags for accessibility** (not Print to PDF). Replace `public/assets/Thomas-Cheesman-Resume.pdf`. |
 
 ### INFRA
 | # | Item | Notes |
 |---|---|---|
 | INFRA-4 | Permanent email undecided | `thomas@tc-ventures.ca` works; he wants a non-general address within weeks. |
-| INFRA-5 | Leftovers in the **other** repos | This repo is clean. Still open: Reports Clustering `dist-wp/`, and the orphaned `index-ev_2RCV6.js` under the theme's `assets/report-graph/assets/` (2.4 MB, tracked, never fetched). Both can now be deleted with permission rather than quarantined. |
 | INFRA-6 | Dead lander CSS | The lander block in `public/assets/style.css` (from line 670) is unused and harmless; kept so restoring the page would be a file move. Delete it if still unused by mid-October 2026. |
 
 ### DOMAIN
@@ -166,7 +162,7 @@ Confirmed; stop re-litigating it.
 |---|---|---|
 | D-1 | WordPress.com still claims the domain | Harmless; detach when convenient. |
 | D-2 | WP.com plan auto-renew | Do not cancel without confirming DNS for the live sites is unaffected. |
-| D-3 | **Professional Email expiry ~2026-10-08** | Put to Thomas 2026-09-19; **he deferred the decision.** Raised again 2026-09-21. Decide before 8 October. |
+| D-3 | **Professional Email renewal — Thomas said renew (2026-09-21)** | It is subscription 27350377, CA$48/yr, **on the gpresidentialsociety.wordpress.com site**, auto-renew off, expires 2026-10-08. Renewal checkout link given to him: `https://wordpress.com/checkout/renew/27350377`. Not paid until he completes it — confirm before 8 October. |
 
 ### OTHER REPOS
 | # | Item | Notes |
@@ -178,11 +174,11 @@ Confirmed; stop re-litigating it.
 | O-7 | Children's names in the Back Quarter world | The 3D build signs the three treehouses with the kids' first names, against OD-1 in that theme's own spec, on a public indexed homepage. **Raised 2026-09-19; Thomas ruled: leave them.** Recorded so nobody "fixes" it. They stay off this site regardless. |
 | O-8 | **thomascheesman.ca's own open items live in `V0.42.md`** in `tc-ventures-child-theme` | Two worth knowing here: `three-r128.min.js` is idle-loaded for every visitor including phones that now get the Painted Map, and the mouse wheel over a live stage does not scroll the page. |
 | O-10 | **bareyourrare.org and thomascheesman.ca were moved behind Cloudflare on 2026-09-20** | Both were dropping connections from non-browser clients before HTTP — every Hostinger-hosted site on the account did, while Cloudflare-hosted tc-ventures.ca answered fine. Hostinger's own CDN is *inactive* on bareyourrare.org and gpresidentialsociety.com, so that was not the cause; the filtering is upstream, at the shared-hosting network layer, and nothing in hPanel touches it. Both zones now sit on `eoin`/`hazel.ns.cloudflare.com`, SSL **Full (strict)**, with Search/Agent/Training bot policies set to Allow. Mail records (MX, SPF, DMARC, DKIM) are DNS-only on both; bareyourrare.org's DKIM TXT had to be rebuilt by hand because Cloudflare's scanner skipped it. thomascheesman.ca's apex is a flattened CNAME to `thomascheesman.ca.cdn.hstgr.net` — Hostinger's CDN *is* active on that one, so it now has **three cache layers** (Cloudflare, Hostinger CDN, LiteSpeed). When markup there looks stale, purge all three. **gpresidentialsociety.com was not moved**: its domain is external, on `ns1/ns2.infotechdomains.com`, and Thomas does not control that account. |
-| O-11 | **bareyourrare.org crawl audit — mostly written, not deployed** | Full audit: `Claude outputs/byr-crawl-audit.md`. **Written to disk 2026-09-21, in `bareyr/`, not deployed:** (a) new `inc/guide-schema.php` emits a `MedicalWebPage` on each of the five guides with `author` (Thomas, as on the visible bylines), `lastReviewed`, `about`, publisher, dates; review dates now come from one function, `byr_guide_review_date()` in `inc/review-date.php`, which the visible "Last reviewed" line also reads; (b) the theme's own `BreadcrumbList` hooks (B11) removed from `functions.php` — Rank Math's, which has an `@id`, stays; (d) meta-description fallbacks for `/privacy/` and `/terms/` in new `inc/head-extras.php`, only used while the Rank Math field is empty or under 90 characters; (f) `llms.txt` linked from the head and named in the generated `robots.txt` (same file). All PHP lints clean. (e) needed nothing: the hero image already serves `alt=""`. **Still open:** (c) the `/poems/` vs `/category/poems/` collision — needs Thomas's call (rename the category slug to `poetry`, or noindex it); (g) page weight. After deploy: purge caches, then check one guide's source for the `MedicalWebPage` block and a single `BreadcrumbList`, and fetch `/robots.txt`. |
+| O-11 | **bareyourrare.org crawl audit — mostly written, not deployed** | Full audit: `Claude outputs/byr-crawl-audit.md`. **Written to disk 2026-09-21, in `bareyr/`, not deployed:** (a) new `inc/guide-schema.php` emits a `MedicalWebPage` on each of the five guides with `author` (Thomas, as on the visible bylines), `lastReviewed`, `about`, publisher, dates; review dates now come from one function, `byr_guide_review_date()` in `inc/review-date.php`, which the visible "Last reviewed" line also reads; (b) the theme's own `BreadcrumbList` hooks (B11) removed from `functions.php` — Rank Math's, which has an `@id`, stays; (d) meta-description fallbacks for `/privacy/` and `/terms/` in new `inc/head-extras.php`, only used while the Rank Math field is empty or under 90 characters; (f) `llms.txt` linked from the head and named in the generated `robots.txt` (same file). All PHP lints clean. (e) needed nothing: the hero image already serves `alt=""`. (c) resolved without a decision: the audit was wrong to call `/category/poems/` poetry — it is an empty category (one unpublished post) serving a "can't find" page; `inc/head-extras.php` now noindexes any category archive with nothing published. **Still open:** (g) page weight. After deploy: purge caches, then check one guide's source for the `MedicalWebPage` block and a single `BreadcrumbList`, and fetch `/robots.txt`. |
 | O-12 | **GPRS work has its own handoff** | Board reports, the fundraising drafts, the Cloudflare zone for gpresidentialsociety.com, SPF and Trevor: `GPRS Organization/00 Working Notes/gprs-handoff-001.md`. Not tracked here. |
 | O-9 | **`page-hcs.php` edit is undeployed** | The C-5 rewrite is on disk in the theme repo only. It also has not been read back by Thomas. |
 
-**Closed this session:** C-8 (`resume-source.html` now mirrors the Word file; renders to two letter pages, no lander), G-8 (keyboard path into the 3D scene).
+**Closed this session:** C-2 (graph demo copy — Thomas: "ok"), A-2 (Thomas ruled: keep his own Print-to-PDF export; the résumé's home is `My Files\Family & Personal\resume\`, and the served PDF is byte-identical to `Thomas Cheesman Resume Sept 2026.pdf` there), INFRA-5 (`Reports Clustering\dist-wp\` and the theme's `index-ev_2RCV6.js` deleted with his OK; `dist-wp-2\` left alone), P-5 (new Back Quarter figure: his screenshot, cropped clear of the HUD's "3D beta" line and the toast, alt text rewritten), C-8 (`resume-source.html` now mirrors the Word file; renders to two letter pages, no lander), G-8 (keyboard path into the 3D scene).
 
 ## 5. HOW TO WRITE THE NEXT HANDOFF
 
@@ -243,6 +239,6 @@ In order:
    and bareyourrare.org (O-11), purges BYR's caches, and the next agent verifies
    both live.
 2. **Thomas reads the rewritten `page-hcs.php` paragraph**, then deploys it (O-9), and reads C-7.
-3. **O-11c:** his call on the POEMS collision.
-4. **A-2:** re-export the résumé PDF tagged, with a title.
-5. **D-3 before 8 October.**
+3. **Thomas reads C-7** (live on Projects).
+4. **D-3:** confirm the renewal went through before 8 October.
+5. **P-4:** a desk screenshot with the monitor off the contents page.
