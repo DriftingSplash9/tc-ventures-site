@@ -5,8 +5,9 @@ Hand-written static site. No framework, no build step, no CMS.
 ```
 public/            what gets served
   index.html       home
-  projects.html    the graph + rocket lander + the three sites
+  projects.html    the graph, the Back Quarter, the Desk, the four sites
   background.html  experience, skills, resume
+  contact.html     one address, no form
   404.html         "no document, no edge" - inline SVG, CSS only
   favicon.svg
   robots.txt
@@ -16,6 +17,7 @@ public/            what gets served
   assets/Thomas-Cheesman-Resume.pdf
 briefs/            work briefs from Thomas
 reviews/           copy reviews, marked up
+plans/             multi-session plans (plan-001: skeleton to showcase)
 handoff-NNN.md     session state - highest number is current
 wrangler.jsonc     Cloudflare static-assets config
 ```
