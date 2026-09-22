@@ -5,14 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact - Thomas Cheesman</title>
 <meta name="description" content="One address, read and answered by me. What to send, what happens next, and what time it is in Grande Prairie.">
-<link rel="canonical" href="https://tc-ventures.ca/contact.html">
+<link rel="canonical" href="https://tc-ventures.ca/contact">
 
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="TC &rsquo;Ventures">
-<meta property="og:url" content="https://tc-ventures.ca/contact.html">
+<meta property="og:url" content="https://tc-ventures.ca/contact">
 <meta property="og:title" content="Contact - Thomas Cheesman">
 <meta property="og:description" content="One address, read and answered by me. What to send, what happens next, and what time it is in Grande Prairie.">
-<meta property="og:image" content="https://tc-ventures.ca/assets/img/graph-app-ui.webp">
+<meta property="og:image" content="https://tc-ventures.ca/assets/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Thomas Cheesman, Grande Prairie, Alberta, remote. Beside the name, a slice of the Economic Report Influence Graph.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@TCheesy_">
 <meta name="twitter:creator" content="@TCheesy_">
@@ -30,9 +33,9 @@
   <div class="wrap topbar__inner">
     <a class="wordmark" href="/">Thomas Cheesman</a>
     <nav aria-label="Primary">
-      <a href="/projects.html">Projects</a>
-      <a href="/background.html">Background</a>
-      <a href="/contact.html" aria-current="page">Contact</a>
+      <a href="/projects">Projects</a>
+      <a href="/background">Background</a>
+      <a href="/contact" aria-current="page">Contact</a>
     </nav>
   </div>
 </header>
@@ -91,7 +94,7 @@
           <dd>The influence graph is public at
               <a href="https://github.com/DriftingSplash9/Reports-Clustering">github.com/DriftingSplash9/Reports-Clustering</a>
               &mdash; read the protocol files before the source; they are the part that matters. The
-              four sites are live and linked from <a href="/projects.html">Projects</a> &mdash; including this one.</dd>
+              four sites are live and linked from <a href="/projects">Projects</a> &mdash; including this one.</dd>
         </div>
         <div>
           <dt>You want to talk</dt>
@@ -106,7 +109,7 @@
         </div>
         <div>
           <dt>You are wondering about the gap</dt>
-          <dd><a href="/background.html">Background</a> covers it &mdash; seventeen years in kitchens,
+          <dd><a href="/background">Background</a> covers it &mdash; seventeen years in kitchens,
               a rare connective-tissue disorder, and what I built after. Ask anything it does not answer.</dd>
         </div>
       </dl>
@@ -154,41 +157,6 @@
   </div>
 </footer>
 
-<script>
-(function () {
-  /* Local time in Grande Prairie. Without JS the span reads "Mountain Time",
-     which is still true. */
-  var el = document.getElementById('local-time');
-  if (el && window.Intl && Intl.DateTimeFormat) {
-    var fmt = new Intl.DateTimeFormat('en-CA', {
-      timeZone: 'America/Edmonton', hour: 'numeric', minute: '2-digit', hour12: false,
-      weekday: 'long', timeZoneName: 'short'
-    });
-    var tick = function () {
-      var parts = {};
-      fmt.formatToParts(new Date()).forEach(function (p) { parts[p.type] = p.value; });
-      el.textContent = parts.hour + ':' + parts.minute + ' ' + parts.timeZoneName + ', ' + parts.weekday;
-      el.setAttribute('datetime', new Date().toISOString());
-    };
-    tick();
-    setInterval(tick, 30000);
-  }
-
-  /* Copy the address. The button only appears if the clipboard API exists. */
-  var btn = document.getElementById('copy-email');
-  if (btn && navigator.clipboard && navigator.clipboard.writeText) {
-    btn.hidden = false;
-    var label = btn.textContent;
-    var status = document.getElementById('copy-status');
-    btn.addEventListener('click', function () {
-      navigator.clipboard.writeText('thomas@tc-ventures.ca').then(function () {
-        btn.textContent = 'Copied';
-        if (status) status.textContent = 'Address copied to the clipboard.';
-        setTimeout(function () { btn.textContent = label; if (status) status.textContent = ''; }, 1800);
-      });
-    });
-  }
-})();
-</script>
+<script src="/assets/contact.js" defer></script>
 </body>
 </html>

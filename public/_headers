@@ -1,0 +1,23 @@
+# Response headers for every asset (Cloudflare Workers static assets).
+# Parsed by Cloudflare, never served. Plan-001 §4e.
+#
+# CSP notes:
+# - script-src 'self' only: no inline <script> anywhere. Page JS lives in /assets/*.js.
+# - style-src allows 'unsafe-inline' for the legend swatches on /projects (style="")
+#   and the inline <style> in 404.html. Styles cannot run code, so the cost is low.
+# - The 3D graph bundle contains `new Function` (ngraph layout engine) but the
+#   default d3 engine never calls it - verified in-browser 2026-09-22 with this CSP.
+#   If the graph ever breaks with an EvalError, that is why.
+# - HSTS without includeSubDomains or preload: both are hard to undo.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), clipboard-write=(self)
+  Cross-Origin-Opener-Policy: same-origin
+
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

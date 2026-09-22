@@ -1,0 +1,6 @@
+# Files in public/ that Wrangler must never upload (gitignore syntax).
+# The case-study template stays here so it can be previewed locally against
+# /assets/, but it is not served on tc-ventures.ca. INFRA-7.
+work/_template.html
+.assetsignore
+og-src/

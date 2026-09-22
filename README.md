@@ -9,7 +9,10 @@ public/            what gets served
   background.html  experience, skills, resume
   contact.html     one address, no form
   404.html         "no document, no edge" - inline SVG, CSS only
-  work/_template.html  case-study template (plan-001 session 2) - unlinked, noindex, placeholder copy
+  work/_template.html  case-study template (plan-001 session 2) - local preview only, not deployed
+  _headers         security headers (CSP, HSTS...) - parsed by Cloudflare, not served
+  .assetsignore    files in public/ that are never uploaded (the template, og-src/)
+  og-src/og.html   source for assets/img/og-card.png, the 1200x630 link preview
   favicon.svg
   robots.txt
   sitemap.xml
