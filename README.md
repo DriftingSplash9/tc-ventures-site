@@ -9,10 +9,11 @@ public/            what gets served
   background.html  experience, skills, resume
   contact.html     one address, no form
   404.html         "no document, no edge" - inline SVG, CSS only
+  work/_template.html  case-study template (plan-001 session 2) - unlinked, noindex, placeholder copy
   favicon.svg
   robots.txt
   sitemap.xml
-  assets/style.css one stylesheet
+  assets/style.css one stylesheet - design tokens in :root, case-study components at the end
   assets/img/      screenshots
   assets/Thomas-Cheesman-Resume.pdf
 briefs/            work briefs from Thomas

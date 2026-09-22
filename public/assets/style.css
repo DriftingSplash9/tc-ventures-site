@@ -99,6 +99,46 @@
   --mono:    "IBM Plex Mono", ui-monospace, Consolas, monospace;
 
   --measure: 66ch;
+
+  /* ---- scales (plan-001 §4d) ------------------------------------------
+     Written down once so every new component uses the same steps. The
+     values match what the existing pages already use, so nothing shifts;
+     new work picks from these instead of typing pixels.
+     --------------------------------------------------------------------- */
+
+  /* space: a 4px base, roughly ×1.5 per step */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+
+  /* type: fixed steps for labels and data, fluid steps for headings */
+  --t-label: 11px;                              /* mono eyebrows in tables and meta */
+  --t-tag:   12px;                              /* mono labels, captions */
+  --t-mono:  13px;                              /* mono body: nav, buttons, receipts */
+  --t-small: 0.97rem;                           /* serif, secondary prose */
+  --t-body:  18px;                              /* serif reading size */
+  --t-lede:  clamp(1.1rem, 2vw, 1.25rem);       /* page-head lede */
+  --t-h3:    1.2rem;                            /* display, component titles */
+  --t-h2:    clamp(1.3rem, 2.6vw, 1.75rem);     /* display, section heads */
+  --t-title: clamp(1.9rem, 4.4vw, 2.7rem);      /* display, article titles */
+  --t-h1:    clamp(2.4rem, 6.5vw, 4.1rem);      /* display, page h1 */
+
+  /* lanes */
+  --lane-read: var(--measure);                  /* prose */
+  --lane-wide: 1040px;                          /* figures, tables, headers */
+  --lane-page: 1280px;                          /* wide lane + the side rail */
+  --rail:      200px;
+  --gutter:    clamp(20px, 5vw, 48px);
+
+  /* rhythm inside a case study */
+  --block: clamp(30px, 4vw, 44px);              /* figure / table / aside gap */
+  --section: clamp(56px, 8vw, 96px);            /* between numbered sections */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -716,3 +756,483 @@ kbd {
   color: var(--ink);
   white-space: nowrap;
 }
+
+
+/* ==========================================================================
+   CASE STUDIES  (plan-001 §4a, §4d)  —  added 2026-09-21, session 2
+   One template, used seven times. Everything below is additive: nothing
+   above this line changed. Palette, fonts and dark mode are the ones
+   already declared; these are layout and components only.
+   ========================================================================== */
+
+/* ---- page grid: wide lane + a side rail on big screens -----------------
+   Below 1180px the rail folds into a horizontal index under the header,
+   and the page is the same single column every other page uses.
+   -------------------------------------------------------------------------- */
+
+.wrap--page { max-width: var(--lane-page); }
+
+.cs-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 var(--s-8); }
+.cs-layout__main { min-width: 0; max-width: var(--lane-wide); }
+
+/* Two copies of the index are in the HTML: one inline under the header, one
+   in the rail. Exactly one is displayed at any width, so assistive tech and
+   keyboards see one list, never two. */
+.cs-layout__rail { display: none; }
+@media (min-width: 1180px) {
+  .cs-layout { grid-template-columns: minmax(0, var(--lane-wide)) var(--rail); }
+  .cs-layout__rail { display: block; position: sticky; top: var(--s-6); align-self: start; padding-top: clamp(48px, 8vw, 88px); }
+  .cs-index--inline { display: none; }
+}
+
+/* ---- case-study header ---------------------------------------------------
+   Eyebrow, title, one-line claim, then a meta strip: stack · status · live ·
+   repo. The strip is a <dl>, so it reads as pairs with CSS off.
+   -------------------------------------------------------------------------- */
+
+.cs-head { padding-block: clamp(48px, 8vw, 88px) 0; }
+.cs-head h1 { font-size: var(--t-h1); }
+
+.cs-head__claim {
+  font-size: clamp(1.2rem, 2.4vw, 1.45rem);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 40ch;
+  margin: 0.8em 0 0;
+  text-wrap: pretty;
+}
+
+.cs-head__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--s-4) var(--s-6);
+  margin: clamp(28px, 4vw, 40px) 0 0;
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.cs-head__meta > div { min-width: 0; }
+.cs-head__meta dt {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cs-head__meta dd {
+  margin: 3px 0 0;
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  line-height: 1.55;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.cs-head__meta dd a { color: var(--ink); text-decoration-color: var(--rule); }
+.cs-head__meta dd a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+/* status tag — a word, not a colour. */
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 5px 7px 4px;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  color: var(--ink);
+  vertical-align: 1px;
+}
+.tag--live { border-color: var(--accent); color: var(--accent); }
+
+/* ---- on-this-page index --------------------------------------------------
+   The six fixed sections, numbered. Same list on every case study, so the
+   method is visible by repetition before a word is read.
+   -------------------------------------------------------------------------- */
+
+.cs-index { margin: var(--s-6) 0 0; }
+.cs-index .label { margin-bottom: var(--s-2); }
+.cs-index ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-5);
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  line-height: 1.5;
+  counter-reset: cs;
+}
+.cs-index li { counter-increment: cs; }
+.cs-index a { color: var(--muted); text-decoration: none; }
+.cs-index ol a::before {
+  content: counter(cs, decimal-leading-zero) " ";
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.cs-index a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); }
+
+@media (min-width: 1180px) {
+  .cs-index { margin-top: 0; padding-top: var(--s-2); }
+  .cs-index ol { flex-direction: column; gap: var(--s-2); }
+  .cs-index li { padding-left: var(--s-3); border-left: 1px solid var(--rule); }
+  .cs-index li:hover { border-left-color: var(--accent); }
+  .cs-layout__rail .cs-index__back { margin-top: var(--s-6); }
+}
+.cs-index__back {
+  display: block;
+  margin: var(--s-4) 0 0;
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  color: var(--muted);
+  text-decoration: none;
+}
+.cs-index__back:hover { color: var(--accent); }
+
+/* ---- numbered sections ---------------------------------------------------
+   Each section opens with its number and a fixed name. Prose sits in the
+   reading lane; anything with the .wide class takes the whole main column.
+   -------------------------------------------------------------------------- */
+
+.cs-body { counter-reset: cs-sec fig; padding-bottom: var(--section); }
+
+.cs-section { padding-top: var(--section); }
+.cs-section:first-of-type { padding-top: clamp(40px, 6vw, 64px); }
+
+.cs-section__num {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 var(--s-3);
+  font-variant-numeric: tabular-nums;
+}
+.cs-section__num::before {
+  counter-increment: cs-sec;
+  content: counter(cs-sec, decimal-leading-zero) "\2002\2014\2002";
+  color: var(--muted);
+}
+
+.cs-section h2 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--t-title);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  margin: 0 0 0.7em;
+  max-width: 24ch;
+}
+
+/* the reading lane is the default; .wide opts out. Kept at one class of
+   specificity so the h2 rule above (24ch) still wins for headings. */
+.cs-section > * { max-width: var(--lane-read); }
+.cs-section > .wide { max-width: none; }
+
+.cs-section h3 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-h3);
+  letter-spacing: -0.01em;
+  margin: 1.8em 0 0.5em;
+}
+.cs-section p { margin: 0 0 1.15em; }
+.cs-section p:last-child { margin-bottom: 0; }
+/* a paragraph that follows a block (quote, excerpt, figure, list, table)
+   needs its own top gap; one that follows a heading or paragraph does not */
+.cs-section > :not(p):not(h2):not(h3) + p { margin-top: var(--block); }
+.cs-section .prose h3 { margin-top: 2.2em; } /* .prose h3 keeps its mono eyebrow style from above */
+
+/* ---- receipts ------------------------------------------------------------
+   The inline mark: small, mono, the same everywhere. It links to the actual
+   file — a handoff section, a commit, a validator, a review block.
+   -------------------------------------------------------------------------- */
+
+.receipt {
+  font-family: var(--mono);
+  font-size: max(12px, 0.72em);
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--muted);
+  padding-bottom: 1px;
+  white-space: nowrap;
+  vertical-align: 0.08em;
+  margin-left: 0.35em;
+}
+.receipt::before { content: "\2192\2009"; color: var(--accent); } /* → */
+.receipt:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* the closing list: one row per receipt — what it proves, then the file. */
+.receipts { list-style: none; margin: var(--block) 0 0; padding: 0; border-top: 1px solid var(--rule); }
+.receipts li {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px var(--s-6);
+  padding-block: var(--s-4);
+  border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 720px) { .receipts li { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: baseline; } }
+.receipts__what { margin: 0; color: var(--ink-soft); font-size: var(--t-small); }
+.receipts__file { margin: 0; font-family: var(--mono); font-size: var(--t-mono); line-height: 1.55; overflow-wrap: anywhere; }
+.receipts__file a { color: var(--ink); text-decoration-color: var(--rule); }
+.receipts__file a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.receipts__file time { color: var(--muted); white-space: nowrap; }
+
+/* ---- figures -------------------------------------------------------------
+   .shot already exists above. These add a numbered caption, a paper-ground
+   variant for screenshots that are not dark, and a two-up. Still `contain`.
+   -------------------------------------------------------------------------- */
+
+.shot--paper img { background: var(--paper-tint); }
+.shot--fixed img { aspect-ratio: 16 / 9; }          /* same slot, same shape, per plan §4d */
+.shot--fixed.shot--tall img { aspect-ratio: 4 / 3; }
+
+/* numbered captions — inside a case study only, so projects.html is untouched */
+.cs-body .shot figcaption { counter-increment: fig; }
+.cs-body .shot figcaption::before {
+  content: "Fig. " counter(fig) "\2002";
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.shot--pair { display: grid; grid-template-columns: 1fr; gap: var(--s-5) var(--s-5); margin: var(--block) 0 0; }
+@media (min-width: 760px) { .shot--pair { grid-template-columns: 1fr 1fr; } }
+.shot--pair .shot { margin: 0; }
+
+/* ---- rule table ----------------------------------------------------------
+   the correction → the standing rule → where it is enforced. A real <table>;
+   under 640px each row stacks and the header text comes from data-th.
+   -------------------------------------------------------------------------- */
+
+.rules {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--block) 0 0;
+  font-size: var(--t-small);
+  line-height: 1.55;
+}
+.rules caption {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  color: var(--muted);
+  padding-bottom: var(--s-3);
+}
+.rules th, .rules td {
+  text-align: left;
+  vertical-align: top;
+  padding: var(--s-3) var(--s-5) var(--s-3) 0;
+  border-top: 1px solid var(--rule);
+}
+.rules th:last-child, .rules td:last-child { padding-right: 0; }
+.rules thead th {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-top: 0;
+  padding-top: 0;
+}
+.rules tbody th { font-weight: 400; color: var(--ink-soft); font-style: italic; }
+.rules td { color: var(--ink); }
+.rules td:last-child { font-family: var(--mono); font-size: var(--t-mono); color: var(--muted); }
+.rules tbody tr:last-child th, .rules tbody tr:last-child td { border-bottom: 1px solid var(--rule); }
+
+@media (max-width: 640px) {
+  .rules thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rules tr { display: block; padding-block: var(--s-4); border-top: 1px solid var(--rule); }
+  .rules tbody tr:last-child { border-bottom: 1px solid var(--rule); }
+  .rules th, .rules td { display: block; border: 0; padding: 2px 0; }
+  .rules tbody th, .rules td { padding-left: 0; }
+  .rules tbody th::before, .rules td::before {
+    content: attr(data-th);
+    display: block;
+    font-family: var(--mono);
+    font-size: var(--t-label);
+    font-style: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: var(--s-2) 0 1px;
+  }
+  .rules tbody th::before { margin-top: 0; }
+}
+
+/* ---- pull quote: his own words -----------------------------------------
+   Serif, larger, a teal rule. The cite says where it was said.
+   -------------------------------------------------------------------------- */
+
+.pull {
+  margin: var(--block) 0 0;
+  padding: var(--s-2) 0 var(--s-2) var(--s-5);
+  border-left: 3px solid var(--accent);
+  max-width: var(--lane-read);
+}
+.pull p {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.2vw, 1.4rem);
+  line-height: 1.45;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.pull footer {
+  margin-top: var(--s-3);
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  color: var(--muted);
+}
+.pull cite { font-style: normal; }
+
+/* ---- excerpt: a curated slice of a working file --------------------------
+   Handoff traps, review rulings, a validator's failure line. Mono, tinted,
+   with the file it came from underneath. Curated, never raw (plan §6 Q3).
+   -------------------------------------------------------------------------- */
+
+.excerpt {
+  margin: var(--block) 0 0;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--paper-tint);
+  max-width: var(--lane-read);
+}
+.excerpt pre {
+  margin: 0;
+  padding: var(--s-4) var(--s-5);
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  line-height: 1.65;
+  color: var(--ink);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.excerpt pre mark { background: transparent; color: var(--accent); font-weight: 500; }
+.excerpt figcaption {
+  padding: var(--s-2) var(--s-5) var(--s-3);
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  color: var(--muted);
+}
+
+/* ---- miss / catch --------------------------------------------------------
+   Section 3 lists the misses, M1 M2 M3; section 4 lists the catches with the
+   same numbers, so the reader can pair them. One component, two flavours.
+   -------------------------------------------------------------------------- */
+
+.mc { list-style: none; margin: var(--s-5) 0 0; padding: 0; border-top: 1px solid var(--rule); counter-reset: mc; }
+.mc li {
+  position: relative;
+  padding: var(--s-5) 0 var(--s-5) 52px;
+  border-bottom: 1px solid var(--rule);
+}
+.mc li::before {
+  counter-increment: mc;
+  content: "M" counter(mc);
+  position: absolute;
+  left: 0;
+  top: calc(var(--s-5) + 0.2em);
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.mc--catch li::before { content: "C" counter(mc); }
+.mc h3 { margin: 0 0 0.4em; font-size: 1.1rem; }
+.mc p { margin: 0; color: var(--ink-soft); }
+.mc p + p { margin-top: 0.6em; }
+.mc__how {
+  display: block;
+  margin-top: var(--s-2);
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  color: var(--muted);
+}
+.mc__how b { font-weight: 500; color: var(--ink); }
+
+/* ---- the loop diagram ----------------------------------------------------
+   brief → spec → build → review → rule → next session. Inline SVG, currentColor
+   and the palette variables, so it follows the theme. Each node is a link.
+   -------------------------------------------------------------------------- */
+
+.loop { margin: var(--block) 0 0; }
+/* On a phone the six nodes cannot shrink to 390px and stay readable, so the
+   drawing keeps a minimum width and the box scrolls sideways instead. */
+.loop__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.loop__scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.loop svg { display: block; width: 100%; min-width: 640px; height: auto; max-width: 880px; }
+.loop .loop__edge { fill: none; stroke: var(--rule); stroke-width: 1.5; }
+.loop .loop__edge--back { stroke: var(--accent); stroke-dasharray: 4 5; }
+.loop .loop__node { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.loop .loop__node--accent { fill: var(--accent); stroke: var(--accent); }
+.loop .loop__label { font-family: var(--display); font-weight: 600; font-size: 15px; fill: var(--ink); }
+.loop .loop__label--on { fill: var(--paper); }
+.loop .loop__sub { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+.loop .loop__arrow { fill: var(--rule); }
+.loop .loop__arrow--back { fill: var(--accent); }
+.loop a:hover .loop__node { stroke: var(--accent); }
+.loop a:hover .loop__label { fill: var(--accent); }
+.loop a:hover .loop__node--accent { fill: var(--accent-ink); }
+.loop a:focus-visible { outline: none; }
+.loop a:focus-visible .loop__node { stroke: var(--accent); stroke-width: 3; }
+.loop figcaption {
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 70ch;
+  margin-top: var(--s-3);
+}
+
+/* ---- draft banner (template only) --------------------------------------
+   Shown on the template page and on any case study still under review.
+   Delete the element when the copy is ruled on; nothing else depends on it.
+   -------------------------------------------------------------------------- */
+
+.draft {
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  letter-spacing: 0.04em;
+  color: var(--paper);
+  background: var(--ink);
+  padding: var(--s-2) 0;
+}
+.draft p { margin: 0; }
+.draft b { font-weight: 500; color: var(--accent); }
+@media (prefers-color-scheme: dark) { .draft { background: var(--paper-tint); color: var(--ink); border-bottom: 1px solid var(--rule); } }
+
+/* ---- work index (/work/) — the seven case studies as rows -------------- */
+
+.work { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); counter-reset: work; }
+.work li {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: var(--s-2) var(--s-4);
+  padding-block: clamp(22px, 3vw, 30px);
+  border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 860px) { .work li { grid-template-columns: 44px minmax(0, 1.65fr) minmax(0, 1fr); } }
+.work li::before {
+  counter-increment: work;
+  content: counter(work, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  color: var(--muted);
+  padding-top: 0.45em;
+  font-variant-numeric: tabular-nums;
+}
+.work h3 { font-family: var(--display); font-weight: 600; font-size: 1.35rem; letter-spacing: -0.015em; margin: 0 0 0.4em; }
+.work h3 a { color: var(--ink); text-decoration-color: var(--accent); }
+.work h3 a:hover { color: var(--accent); }
+.work p { margin: 0; color: var(--ink-soft); }
+.work__meta { margin: 0; font-family: var(--mono); font-size: var(--t-mono); line-height: 1.7; color: var(--muted); grid-column: 2; }
+@media (min-width: 860px) { .work__meta { grid-column: 3; padding-top: 0.3em; } }
