@@ -2,16 +2,19 @@
 # Parsed by Cloudflare, never served. Plan-001 §4e.
 #
 # CSP notes:
-# - script-src 'self' only: no inline <script> anywhere. Page JS lives in /assets/*.js.
+# - script-src 'self' plus the analytics beacon: no inline <script> anywhere. Page JS lives in /assets/*.js.
 # - style-src allows 'unsafe-inline' for the legend swatches on /projects (style="")
 #   and the inline <style> in 404.html. Styles cannot run code, so the cost is low.
 # - The 3D graph bundle contains `new Function` (ngraph layout engine) but the
 #   default d3 engine never calls it - verified in-browser 2026-09-22 with this CSP.
 #   If the graph ever breaks with an EvalError, that is why.
 # - HSTS without includeSubDomains or preload: both are hard to undo.
+# - cloudflareinsights.com: Cloudflare Web Analytics injects its beacon at the edge.
+#   Without these two entries the CSP blocks it and analytics silently stop.
+#   Found live 2026-09-22; a local test server cannot see it.
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=31536000
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY

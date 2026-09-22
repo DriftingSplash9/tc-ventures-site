@@ -3,7 +3,11 @@
 **Written:** 2026-09-22
 **Why:** Phase 0 of the 2026-09-22 site audit. The home page's first screen
 undersells the work and still points at four roles when plan-001 §6 Q1 chose one.
-**Status:** Q1 and Q2 answered 2026-09-22. **R1–R6 not yet ruled.**
+**Status:** all ruled 2026-09-22 and applied to `index.html`: **R1 A · R2 A · R3 OK ·
+R4 his own wording (below) · R5 OK · R6 OK** · Q1 yes · Q2 URL given.
+R4 as ruled: "I set the objectives, design the thing, and then build it with help
+writing by AI. After seventeen years managing cooks, a team of AI is the straight
+forward part; knowing how to tell it is not." Shipped with "straightforward" as one word.
 **Scope:** `public/index.html` only — title, meta, hero, and the "What I am looking
 for" band. Nothing here is live; the current wording stays until you rule.
 Facts used below all come from the live site, plan-001 or copy-review-001. Nothing new

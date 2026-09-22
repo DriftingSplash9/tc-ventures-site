@@ -3,6 +3,9 @@
 **For:** a fresh agent picking up tc-ventures.ca
 **From:** Thomas Cheesman (owner, and the person whose judgement decides what ships)
 **Repo:** `C:\Users\thoma\Desktop\My Files\Website Projects\tc-ventures site`
+**Redacted 2026-09-22** for use as a public receipt: one private project, exact counts
+and one personal note removed, each marked `[redacted]` where it was. Nothing else
+changed. Thomas's own words, in the quote below, are untouched.
 **Read first:** `handoff-001.md` at repo root. It carries current state, what is
 already built, what is live, and the open decisions. Do not start from this brief
 alone.
@@ -37,16 +40,14 @@ free, everyone has them, and they signal the opposite of craft.
 
 The wow should come from **Thomas's own material**, which is unusually good:
 
-- **The Economic Report Influence Graph** — 3,632 real published reports, 3,272
-  documented dependencies, drawn in 3D in a browser. A built copy of it already
+- **The Economic Report Influence Graph** — [redacted: exact counts] real published
+  reports and their documented dependencies, drawn in 3D in a browser. A built copy of it already
   exists at `assets/report-graph/` in the *other* repo (the thomascheesman.ca
   theme) and is served there at `/reports-graph`. Getting a version of that graph
   onto this site — live, interactive, not a screenshot — is the single strongest
   available move. Consider a reduced, fast-loading "hero" subgraph rather than the
-  full 3,600-node corpus.
-- **Rocket Lander** — a real aerodynamic flight model. Terminal 61 m/s belly-down,
-  190+ nose-first, glide ratio 0.26 at 25° off broadside, flip committed by 300 m.
-  Those numbers can drive something on the page rather than being listed as text.
+  full corpus.
+- [redacted: a second project, since made private]
 - **The evidence discipline** — every edge in the graph carries an A/B/C grade for
   how well its citation supports it. A portfolio that visibly grades its own claims
   is a genuinely unusual idea and is true to how he works.
@@ -119,7 +120,7 @@ The bar: someone should read this page and feel *more* likely to write, not mere
 - He is not a trained programmer. He spent 17 years running kitchens. Explain the
   *why* behind architectural decisions at a medium register — don't over-explain
   git or CLI basics, don't assume framework vocabulary.
-- He has hand and arm pain. Give complete, uncut code and complete file contents.
+- [redacted: personal note]. Give complete, uncut code and complete file contents.
   Never "…rest unchanged". Never make him retype things.
 - He wants honest assessment and will correct you firmly if you are wrong. When he
   does, acknowledge it and move on — no defensiveness, no grovelling.

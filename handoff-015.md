@@ -4,8 +4,10 @@
 **Covers:** a baseline site audit (given in chat), then **Phase 0** of the action plan
 from it: clean URLs, security headers, a real link-preview image, the template taken
 off the live site, and a copy review of the home page's first screen.
-**Status at wrap:** written to disk, verified on a local server that applies the new
-`_headers`. **Not deployed.** Copy-review-002 is **not ruled on**.
+**Status at wrap:** Phase 0 **deployed and verified live** (Thomas pushed mid-session).
+Later in the session, and **on disk, not yet deployed**: copy-review-002 rulings applied
+to the home page, the CSP fix for Cloudflare's analytics beacon, the re-rendered card,
+the template brackets resolved, and brief-001 redacted.
 
 ---
 
@@ -89,6 +91,34 @@ home hero), not a WebGL agency showreel. He then said "start with phase 0".
   **Not verified:** the headers on live Cloudflare (needs a push), or the LinkedIn
   and Facebook preview debuggers.
 
+**Second half of the session (after Thomas's rulings):**
+
+- **Phase 0 verified live:** all seven headers served, `/projects` 200 with no
+  redirect, `/work/_template` + `/og-src/` + `/_headers` + `/.assetsignore` all 404,
+  fonts `immutable`, and the live graph renders under the CSP.
+- **Found live: the CSP was blocking Cloudflare Web Analytics.** Cloudflare injects
+  `static.cloudflareinsights.com/beacon.min.js` at the edge, so a local server never
+  sees it. Analytics were silently off from the Phase 0 push. `_headers` now allows
+  `https://static.cloudflareinsights.com` (script) and `https://cloudflareinsights.com`
+  (connect). **On disk, needs a push.**
+- **copy-review-002 applied** to `index.html`: R1 A (title + og:title), R2 A (name
+  moved to the label; H1 is the sentence; `.hero h1 { max-width: 20ch; }` added to
+  `style.css`), R3 OK, **R4 in Thomas's own words**, R5 OK, R6 OK (both sentences).
+  Meta and og descriptions rebuilt from the ruled sentences only. The one edit to his
+  R4 text: "straight forward" to "straightforward". The card (`og-card.png`) was
+  re-rendered with the R2 sentence, because its old line was the pre-R4 wording.
+- **Template approved** (PL-3: "yes"). The four `[Confirm...]` brackets are resolved:
+  "the ask" rewritten as a suggestion (he said FIX, asked for one); both halves of
+  the "available now" miss/catch pair state the fact once (handoff-002 records the
+  change to "open to work"); "honest limits" OK as written.
+- **brief-001 redacted** for use as a receipt: the lander bullet, the exact counts, and
+  "hand and arm pain" (symptom detail, against the Hajdu-Cheney rule) replaced with
+  `[redacted: ...]` markers, with a dated note at the top. **Git history still has the
+  original**; the redaction is presentation, not secrecy.
+- **Resume:** Thomas attached `Family & Personal\resume\Thomas Cheesma1.docx`. It is
+  dated **April 2025**, an old version (lists "basic Java", no tc-ventures.ca,
+  and it names his former caregiving client). Neither file was touched. See C-15.
+
 ### Traps worth knowing
 
 - **`.cs-section > *` is deliberately one class of specificity.** It sets the reading
@@ -112,6 +142,11 @@ home hero), not a WebGL agency showreel. He then said "start with phase 0".
 - **An HTML comment inside `<style>` silently kills the next CSS rule.** Cost one
   re-render.
 - **Any new inline `<script>` will be blocked by the CSP.** Put it in `/assets/*.js`.
+- **Cloudflare injects scripts at the edge** (Web Analytics beacon), so a CSP that passes
+  on a local server can still break things live. After any CSP change, load the live
+  site and read the console.
+- **`_template.html` had four `[Confirm...]` brackets, not three.** The miss/catch pair
+  on "available now" carried one each. Grep, don't count from memory.
 - Every trap in handoff-011, -012 and -013 §2 still stands.
 
 ## 3. Current design
@@ -177,18 +212,19 @@ small mono links with a leading `→`, the same everywhere.
 ### PLAN
 | # | Item | Notes |
 |---|---|---|
-| PL-6 | **Audit action plan, 2026-09-22** | Phase 0 done (bar C-12). Phase 1: receipts inventory (PL-2), then **two** case studies first, `/work/gprs` and `/work/this-site`, then `/method`. Phase 2: the build ledger as the home hero (static SVG, works without JS). Phase 3: CSS View Transitions, scroll-driven CSS with reduced-motion fallback, a bolder type scale, receipt previews via the HTML `popover` attribute, per-page OG cards. Phase 4: engineering pass, then CSSDA/Godly, then Awwwards. **Thomas has not ruled** on "craft within the rules" versus a showreel aimed at creative/agency roles. |
+| PL-6 | **Audit action plan, 2026-09-22; direction RULED** | Thomas: **"Awwwards - novel designs and motions, it needs all the accessibility toggles, I don't want a generic app like A11y taking over the features."** So: novel design and motion are in scope (Phase 3 grows). Accessibility controls are **built into the site**, never a third-party overlay widget. OS preferences (reduced motion, colour scheme, contrast) are the defaults; on-page toggles override them and persist. Standing rules still hold: the words render without JS, heavy things load on demand. Phase 1 (receipts, two case studies, `/method`) still comes before Phase 3. |
 | PL-1 | **plan-001 approved 2026-09-21** | `plans/plan-001-showcase.md` §6 holds his answers: lead role **nonprofit technology** (he can overrule); home wow **A, the build ledger**; curated process excerpts **allowed**; **GPRS gets its own case study**; page-weight and accessibility results shown once inside `/work/this-site` by default, pending his word. |
 | PL-2 | Session 1: receipts inventory — **still open, skipped in favour of session 2** | List every real "AI got it wrong / how caught" story with its file and date, from handoffs 001–014, `reviews/copy-review-001.md`, the Reports Clustering playbooks and validator, and the BYR audit. **Never invent one.** |
-| PL-3 | **Session 2 built, awaiting Thomas's yes/no** | `public/work/_template.html` + the CSS block. He needs to look at it (locally or after a push — it is unlinked and noindexed) and rule on layout, rail, numbering, receipts style, loop diagram. Then session 3 (Method page) or session 1. |
-| PL-4 | Sample copy in the template carries `[Confirm …]` brackets | Three rulings to confirm before any of it is reused: how he'd phrase "the ask" for this site; that "Available now" was softened to "open to work" on his ruling (Q1 in copy-review-001); the "honest limits" wording. |
-| PL-5 | `brief-001` as a public receipt | See §2 traps. Decide before the this-site case study ships. |
+| PL-3 | **Template approved by Thomas 2026-09-22** | Layout, rail, numbering, receipts, loop diagram, miss/catch: yes. Copy in it still ships only through a copy review. |
+| PL-4 | Template brackets resolved; **"the ask" paragraph is Claude's suggestion** | Thomas said FIX and asked for a suggestion. The new wording is in `_template.html` section 01. Confirm it in the `/work/this-site` copy review. |
+| PL-5 | brief-001 **redacted 2026-09-22** (Thomas: "redact") | The current file is clean; the git history is not. Only a history rewrite would change that, and nobody has asked for one. |
 
 ### COPY
 | # | Item | Notes |
 |---|---|---|
-| C-12 | **`reviews/copy-review-002.md`: R1–R6 awaiting Thomas** | Home page only. Q1 answered (GPRS site since 2023, yes) and Q2 answered (LinkedIn, now in every footer). Apply his R rulings to `index.html` only. If R1 changes, update `og:title` and `<title>` to match. |
+| C-12 | **copy-review-002 ruled and applied 2026-09-22** | Closes on push. Flagged to Thomas: R4 now reads "build it with help writing by AI" (his words). Offer, don't impose: "...with AI writing the code". |
 | C-13 | **GPRS site history, from Thomas 2026-09-22** | First version on WordPress.com in 2023; rebuilt in 2025 as self-hosted WordPress.org on Hostinger, for more freedom to experiment with the code. For `/work/gprs`. Do not add month-level dates without asking. |
+| C-15 | **Which resume file?** | The attached `Thomas Cheesma1.docx` (April 2025) is older than the repo source (`resume/Thomas-Cheesman-Resume-source.docx`, 2026-09-20). Ask which is current. **Also:** the current resume's summary is the *old* home lede ("...three more for practice..."). It should follow the R3/R4/R5 rulings. Two-page rule; Thomas exports the PDF. |
 | C-14 | LinkedIn on the résumé? | Not on it now. The Word file is his; suggest, do not edit. When structured data lands (Phase 4), the URL goes in `Person.sameAs`. |
 | C-9 | **`page-thomas.php` ~2010: "I couldn't get past my kitchen manager"** | Reads oddly now that he was the kitchen manager from ~2006. It may mean the senior manager above him. His prose and his call — flag it, do not rewrite it. |
 | C-11 | **Education, settled by Thomas 2026-09-20** | Four academic years at GPRC (now Northwestern Polytechnic), fall 1999 to spring 2003: **B.Sc. Pre-Pharmacy credits, 1999–2002** (three academic years), then **Power Engineering 4th Class and Class 3B plus Gas Plant Operations Levels I and II, 2002–2003**. Journeyman Chef, Red Seal, SAIT, 2012. The rebuilt .docx carries exactly this. `resume/resume-source.html` already has the B.Sc. span right; what it lacks is the Power Engineering dates, Class 3B and the college's name (see C-8 on the render path). |
@@ -213,7 +249,7 @@ small mono links with a leading `→`, the same everywhere.
 |---|---|---|
 | INFRA-4 | Permanent email undecided | `thomas@tc-ventures.ca` works; he wants a non-general address within weeks. |
 | INFRA-6 | Dead lander CSS | The lander block in `public/assets/style.css` (search `lander embed`) is unused and harmless; kept so restoring the page would be a file move. Delete it if still unused by mid-October 2026. |
-| INFRA-8 | **Verify headers live after push** | `curl -sI https://tc-ventures.ca/` should show the CSP and HSTS headers. `/projects` should be 200 with no redirect, and `/work/_template` should be 404. Load the graph on live /projects and check the console. Then paste the URL into LinkedIn's Post Inspector to refresh the preview cache. |
+| INFRA-8 | **Phase 0 verified live 2026-09-22** | Remaining after the next push: the console on live `/` shows no CSP error for `cloudflareinsights`, and Web Analytics shows visits again. Paste the URL into LinkedIn's Post Inspector to refresh the preview. |
 | INFRA-9 | HSTS is 1 year, no `includeSubDomains`, no `preload` | Deliberate: both are hard to undo. Revisit only if every subdomain is HTTPS-only. |
 
 ### DOMAIN
@@ -292,12 +328,13 @@ Every handoff has these, in this order, with these numbers:
 
 In order:
 
-1. **Thomas pushes**; the next agent does **INFRA-8** (verify headers, clean URLs,
-   template 404, graph under CSP, LinkedIn preview) before anything else.
-2. **C-12:** Thomas rules on copy-review-002; apply it to `index.html`.
-3. **PL-3 / PL-4 / PL-5** from handoff-014: his yes/no on the template (preview it
-   locally now; it no longer deploys), the bracketed confirmations, brief-001.
-4. **Plan session 1** (PL-2, the receipts inventory), then the two case studies (PL-6).
-5. **Thomas pushes the theme** for the O-9 paragraph and purges all three
-   thomascheesman.ca caches; verify /hcs serves it.
-6. **D-3:** confirm the Professional Email renewal is paid before 8 October.
+1. **Thomas pushes** (home copy, analytics CSP fix, card, template, brief). Then check
+   the live console for CSP errors (INFRA-8) and run LinkedIn's Post Inspector.
+2. **C-15:** which resume file is current; bring its summary in line with R3 to R5 and
+   add LinkedIn (C-14). Thomas exports the PDF, two pages.
+3. **Plan session 1** (PL-2, the receipts inventory).
+4. The two case studies (`/work/gprs` with C-13, `/work/this-site`), then `/method`.
+5. **Phase 3 design** per the PL-6 ruling: a proposal first (motion concept +
+   accessibility-controls panel), built only after he says yes.
+6. **Thomas pushes the theme** for O-9 and purges all three thomascheesman.ca caches.
+7. **D-3:** Professional Email renewal paid before 8 October.
