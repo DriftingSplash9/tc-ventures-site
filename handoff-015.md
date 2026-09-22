@@ -78,7 +78,9 @@ home hero), not a WebGL agency showreel. He then said "start with phase 0".
   UI screenshot on all four pages. Card copy is existing ruled copy only.
 - **`reviews/copy-review-002.md`** (new): home title, H1, lede, body, "looking for"
   band, as blocks R1–R6 with A/B options, plus Q1 (GPRS site "since 2023"?) and Q2
-  (LinkedIn URL?). **No site copy was changed.**
+  (LinkedIn URL?). **No site copy was changed.** Later the same session Thomas
+  answered both: Q1 yes (see C-13), and Q2 gave the URL. **LinkedIn is now in the
+  footer's Elsewhere list on all six pages**, which is the only copy change.
 - `README.md` tree updated.
 - **Verified locally** (Node server in scratchpad applying `_headers` minus HSTS and
   upgrade-insecure-requests): the live 3D graph loads and renders under the CSP with
@@ -185,7 +187,9 @@ small mono links with a leading `→`, the same everywhere.
 ### COPY
 | # | Item | Notes |
 |---|---|---|
-| C-12 | **`reviews/copy-review-002.md` awaiting Thomas** | Home page R1–R6, Q1 (GPRS site since 2023?), Q2 (LinkedIn URL?). Apply his rulings to `index.html` only. If R1 changes, update `og:title` and `<title>` to match. |
+| C-12 | **`reviews/copy-review-002.md`: R1–R6 awaiting Thomas** | Home page only. Q1 answered (GPRS site since 2023, yes) and Q2 answered (LinkedIn, now in every footer). Apply his R rulings to `index.html` only. If R1 changes, update `og:title` and `<title>` to match. |
+| C-13 | **GPRS site history, from Thomas 2026-09-22** | First version on WordPress.com in 2023; rebuilt in 2025 as self-hosted WordPress.org on Hostinger, for more freedom to experiment with the code. For `/work/gprs`. Do not add month-level dates without asking. |
+| C-14 | LinkedIn on the résumé? | Not on it now. The Word file is his; suggest, do not edit. When structured data lands (Phase 4), the URL goes in `Person.sameAs`. |
 | C-9 | **`page-thomas.php` ~2010: "I couldn't get past my kitchen manager"** | Reads oddly now that he was the kitchen manager from ~2006. It may mean the senior manager above him. His prose and his call — flag it, do not rewrite it. |
 | C-11 | **Education, settled by Thomas 2026-09-20** | Four academic years at GPRC (now Northwestern Polytechnic), fall 1999 to spring 2003: **B.Sc. Pre-Pharmacy credits, 1999–2002** (three academic years), then **Power Engineering 4th Class and Class 3B plus Gas Plant Operations Levels I and II, 2002–2003**. Journeyman Chef, Red Seal, SAIT, 2012. The rebuilt .docx carries exactly this. `resume/resume-source.html` already has the B.Sc. span right; what it lacks is the Power Engineering dates, Class 3B and the college's name (see C-8 on the render path). |
 

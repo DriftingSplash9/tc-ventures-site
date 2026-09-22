@@ -3,6 +3,7 @@
 **Written:** 2026-09-22
 **Why:** Phase 0 of the 2026-09-22 site audit. The home page's first screen
 undersells the work and still points at four roles when plan-001 §6 Q1 chose one.
+**Status:** Q1 and Q2 answered 2026-09-22. **R1–R6 not yet ruled.**
 **Scope:** `public/index.html` only — title, meta, hero, and the "What I am looking
 for" band. Nothing here is live; the current wording stays until you rule.
 Facts used below all come from the live site, plan-001 or copy-review-001. Nothing new
@@ -64,6 +65,11 @@ don't count. They are live, public and maintained.
 **Question Q1:** is "since 2023" right for the GPRS *site* itself (copy-review-001
 dates the board seat to June 2023, and the home page says "Live since 2023")?
 
+> **Q1 ANSWERED 2026-09-22: yes.** First version built on WordPress.com in 2023; rebuilt
+> in 2025 as a self-hosted WordPress.org site on Hostinger "because I wanted more
+> freedom to experiment with the code." "Since 2023" stands. The 2025 move is
+> case-study material for `/work/gprs`, not home-page copy.
+
 ### R4 — the lede, the rest
 
 > **Now:** I set the objectives, design the thing, and then build it with AI. After
@@ -115,3 +121,8 @@ second sentence if you want them on Background and Contact only.
 The footer has GitHub but no LinkedIn, and LinkedIn is usually a recruiter's first
 click. If you have a profile you want public, paste the URL and it goes in the
 footer's "Elsewhere" list on every page. If you don't, say so and it stays off.
+
+> **Q2 ANSWERED 2026-09-22:** `https://www.linkedin.com/in/thomas-cheesman-20234285/`.
+> **Done:** added as "LinkedIn", first in the footer's Elsewhere list on all six pages
+> (index, projects, background, contact, 404, template). Not yet on the résumé; that
+> is his Word file.
