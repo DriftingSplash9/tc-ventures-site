@@ -222,10 +222,10 @@ small mono links with a leading `→`, the same everywhere.
 ### COPY
 | # | Item | Notes |
 |---|---|---|
-| C-12 | **copy-review-002 ruled and applied 2026-09-22** | Closes on push. Flagged to Thomas: R4 now reads "build it with help writing by AI" (his words). Offer, don't impose: "...with AI writing the code". |
+| C-12 | **Closed: copy-review-002 live 2026-09-22** | Flagged to Thomas, his call: R4 "build it with help writing by AI" could read as AI writing the words rather than the code. Offer "...with AI writing the code"; do not change it unasked. |
 | C-13 | **GPRS site history, from Thomas 2026-09-22** | First version on WordPress.com in 2023; rebuilt in 2025 as self-hosted WordPress.org on Hostinger, for more freedom to experiment with the code. For `/work/gprs`. Do not add month-level dates without asking. |
-| C-15 | **Which resume file?** | The attached `Thomas Cheesma1.docx` (April 2025) is older than the repo source (`resume/Thomas-Cheesman-Resume-source.docx`, 2026-09-20). Ask which is current. **Also:** the current resume's summary is the *old* home lede ("...three more for practice..."). It should follow the R3/R4/R5 rulings. Two-page rule; Thomas exports the PDF. |
-| C-14 | LinkedIn on the résumé? | Not on it now. The Word file is his; suggest, do not edit. When structured data lands (Phase 4), the URL goes in `Person.sameAs`. |
+| C-15 | **Resume updated 2026-09-22** | Thomas confirmed the live PDF is the one to use (identical to `public/assets/Thomas-Cheesman-Resume.pdf`, exported from the repo docx). The docx summary now follows R3 to R6; LinkedIn added to the contact line. Word test export: **2 pages**, contact line fits on one line; the summary ends on a one-word line ("roles."). `resume-source.html` mirrored. **Thomas exports the PDF** and replaces `public/assets/Thomas-Cheesman-Resume.pdf` and his `Family & Personal\resume\Thomas_Cheesman_Resume.pdf`. |
+| C-14 | LinkedIn on the resume: **done** (see C-15) | When structured data lands (Phase 4), the URL also goes in `Person.sameAs`. |
 | C-9 | **`page-thomas.php` ~2010: "I couldn't get past my kitchen manager"** | Reads oddly now that he was the kitchen manager from ~2006. It may mean the senior manager above him. His prose and his call — flag it, do not rewrite it. |
 | C-11 | **Education, settled by Thomas 2026-09-20** | Four academic years at GPRC (now Northwestern Polytechnic), fall 1999 to spring 2003: **B.Sc. Pre-Pharmacy credits, 1999–2002** (three academic years), then **Power Engineering 4th Class and Class 3B plus Gas Plant Operations Levels I and II, 2002–2003**. Journeyman Chef, Red Seal, SAIT, 2012. The rebuilt .docx carries exactly this. `resume/resume-source.html` already has the B.Sc. span right; what it lacks is the Power Engineering dates, Class 3B and the college's name (see C-8 on the render path). |
 
@@ -249,7 +249,7 @@ small mono links with a leading `→`, the same everywhere.
 |---|---|---|
 | INFRA-4 | Permanent email undecided | `thomas@tc-ventures.ca` works; he wants a non-general address within weeks. |
 | INFRA-6 | Dead lander CSS | The lander block in `public/assets/style.css` (search `lander embed`) is unused and harmless; kept so restoring the page would be a file move. Delete it if still unused by mid-October 2026. |
-| INFRA-8 | **Phase 0 verified live 2026-09-22** | Remaining after the next push: the console on live `/` shows no CSP error for `cloudflareinsights`, and Web Analytics shows visits again. Paste the URL into LinkedIn's Post Inspector to refresh the preview. |
+| INFRA-8 | **Closed 2026-09-22: verified live** | Headers, clean URLs, 404s, graph under CSP, and the analytics beacon now loads (200) under the updated CSP. Left for Thomas: paste the URL into LinkedIn's Post Inspector to refresh the cached preview. |
 | INFRA-9 | HSTS is 1 year, no `includeSubDomains`, no `preload` | Deliberate: both are hard to undo. Revisit only if every subdomain is HTTPS-only. |
 
 ### DOMAIN
@@ -328,10 +328,9 @@ Every handoff has these, in this order, with these numbers:
 
 In order:
 
-1. **Thomas pushes** (home copy, analytics CSP fix, card, template, brief). Then check
-   the live console for CSP errors (INFRA-8) and run LinkedIn's Post Inspector.
-2. **C-15:** which resume file is current; bring its summary in line with R3 to R5 and
-   add LinkedIn (C-14). Thomas exports the PDF, two pages.
+1. **Thomas exports the resume PDF** from the updated docx (C-15), replaces the copy in
+   `public/assets/`, and pushes. Then he runs LinkedIn's Post Inspector.
+2. (Done this session: INFRA-8, C-12, C-14.)
 3. **Plan session 1** (PL-2, the receipts inventory).
 4. The two case studies (`/work/gprs` with C-13, `/work/this-site`), then `/method`.
 5. **Phase 3 design** per the PL-6 ruling: a proposal first (motion concept +
