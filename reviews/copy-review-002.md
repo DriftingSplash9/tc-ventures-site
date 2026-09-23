@@ -9,7 +9,8 @@ R4 as ruled: "I set the objectives, design the thing, and then build it with hel
 writing by AI. After seventeen years managing cooks, a team of AI is the straight
 forward part; knowing how to tell it is not." Shipped with "straightforward" as one word.
 **Scope:** `public/index.html` only — title, meta, hero, and the "What I am looking
-for" band. Nothing here is live; the current wording stays until you rule.
+for" band. The "Now" quotes below are the pre-review wording; the rulings are live
+since 2026-09-22.
 Facts used below all come from the live site, plan-001 or copy-review-001. Nothing new
 is asserted — where a proposal would need a new fact, it is a question instead.
 
