@@ -46,7 +46,7 @@ git history; Reports Clustering's current docs, 150+ archived handoffs, five reg
 branches (EU, AF, AU, CA, NZ), notes, planning, playbooks and research briefs; the earlier
 research bundles; BareYourRare's audits, handoff and git history; GPRS's handoff, repo,
 March audits; the cross-site diary. **About 700 raw misses** came back. This file keeps the
-**~110 that are distinct, receipted and useful**, and merges repeats into one row with the
+**112 that are distinct, receipted and useful**, and merges repeats into one row with the
 earliest receipt.
 
 **What the pile says, in one paragraph.** The single biggest class is `unmeasured`: work
@@ -65,10 +65,10 @@ a proxy for it; say what you read, not what exists; a quote is verbatim or it is
 
 | # | Finding | Why it matters | Recommendation |
 |---|---|---|---|
-| F-1 | **The live home page overstates its own receipt.** `public/index.html:167-169` says a layout force "I had already shipped turned out to have been calibrated against a measurement script with a bug in it." The receipt (`Reports Clustering/archive/Previous Handoffs/HANDOFF-2026-08-28-pre-trim-032.md` L256–263) says that 1/d² calibration was **"a real false start, caught before shipping."** What *did* ship was a different miss: a sweep baseline that never reproduced, used to raise the slider ceiling 3→10→15 (`scripts/measure-forces.ts` header L7–11; `archive/audits/audit-2026-08-31-second-independent.md` F-10). No code bug is recorded for that one. | The page making the "I measure, I don't trust" claim is itself un-measured on this point. A reader who asks for the receipt gets a mismatch. | Rewrite in copy-review-003 to match one receipt exactly (R-061 or R-062 below). Not changed yet. |
-| F-2 | Rows involving the outside research model name it in the receipts. On 2026-09-07 Thomas ruled that Reports Clustering docs drop its name "as if it never existed." | Public case studies would contradict that ruling if they name it. | This file says "outside research model". Rule whether the case studies may name it. |
+| F-1 | **The live home page overstates its own receipt.** `public/index.html:167-169` says a layout force "I had already shipped turned out to have been calibrated against a measurement script with a bug in it." The receipt (`Reports Clustering/archive/Previous Handoffs/HANDOFF-2026-08-28-pre-trim-032.md` L256–263) says that 1/d² calibration was **"a real false start, caught before shipping."** What *did* ship was a different miss: a sweep baseline that never reproduced, used to raise the slider ceiling 3→10→15 (`scripts/measure-forces.ts` header L7–11; `archive/audits/audit-2026-08-31-second-independent.md` F-10). No code bug is recorded for that one. | The page making the "I measure, I don't trust" claim is itself un-measured on this point. A reader who asks for the receipt gets a mismatch. | **RULED 2026-09-23: match R-061.** The sentence is rewritten to the R-061 story (caught before shipping) in copy-review-003. Live copy not changed yet. |
+| F-2 | Rows involving the outside research model name it in the receipts. On 2026-09-07 Thomas ruled that Reports Clustering docs drop its name "as if it never existed." | Public case studies would contradict that ruling if they name it. | **RULED 2026-09-23: don't name it.** Case studies, `/method` and all site copy say "an outside research model" or similar. (File names in the receipt paths still contain the name; they are paths into a private repo and are never published.) |
 | F-3 | Several of the strongest Reports Clustering stories rest on exact counts (edges refused, share graded A). | Standing rule: no exact counts in copy. | Rows marked **[count]** can be used only in rounded or descriptive form ("about half", "most"). |
-| F-4 | GPRS has thin coverage: the GPRS repo and handoff record few AI misses that are both public-safe and not about the Margaret Edgson Manor rebuild. | `/work/gprs` needs 2–3 real misses. | R-001–R-008 are the candidates. If too few survive, `/work/gprs` leans on the standard and the rebuild-period work, not on misses. |
+| F-4 | GPRS has thin coverage: the GPRS repo and handoff record few AI misses that are both public-safe and not about the Margaret Edgson Manor rebuild. | `/work/gprs` needs 2–3 real misses. | **Thomas, 2026-09-23:** GPRS was built before he used Claude Code or Cowork; there were no handoffs, so there is no session record to mine. R-001–R-003 (the March 2026 audits) are the pre-method record; R-006–R-008 are from after. |
 
 ---
 
