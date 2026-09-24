@@ -3,6 +3,9 @@
 Start with the highest-numbered `handoff-NNN.md` at repo root, §0 "Read this first". It is the
 only current state and the read order. This repo is **public**.
 
+How Thomas and the AI divide the work, and the checking routine for each kind of change:
+`plans/operating-guide.md`.
+
 ## Truth rules — read before you claim anything
 
 Twenty rules distilled from ~700 documented AI misses across Thomas's projects (the
