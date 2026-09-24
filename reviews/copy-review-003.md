@@ -207,3 +207,13 @@ and Q-G5. Then G1–G7 as a whole: OK to ship?
 **G1–G7 OK to ship.** Shipped 2026-09-24: draft banner, `noindex` and the `.assetsignore`
 lines removed; title, description and link-preview tags taken from G1; `/work/gprs` added
 to the sitemap; Projects' GPRS paragraph links to it (Q-G4).
+
+### G9 — home page, "Four live sites" card: a way in to `/work/gprs`
+
+> **Proposed:** …gpresidentialsociety.com for a volunteer-run nonprofit providing
+> barrier-free housing (read the case study), thomascheesman.ca, and this one…
+
+The case study had no link from the home page or the menu. "Work" goes in the menu once
+`/work/` exists (after `/work/this-site`).
+
+**Ruling (2026-09-24): A.** Applied to `public/index.html`.
