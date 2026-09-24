@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A housing society's website - Thomas Cheesman</title>
+<meta name="description" content="The public site of a volunteer-run housing nonprofit, which I have built and run on my own since 2023, at no cost to the society.">
+<link rel="canonical" href="https://tc-ventures.ca/work/gprs">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TC &rsquo;Ventures">
+<meta property="og:url" content="https://tc-ventures.ca/work/gprs">
+<meta property="og:title" content="A housing society's website - Thomas Cheesman">
+<meta property="og:description" content="The public site of a volunteer-run housing nonprofit, which I have built and run on my own since 2023, at no cost to the society.">
+<meta property="og:image" content="https://tc-ventures.ca/assets/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Thomas Cheesman, Grande Prairie, Alberta, remote. Beside the name, a slice of the Economic Report Influence Graph.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@TCheesy_">
+<meta name="twitter:creator" content="@TCheesy_">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap wrap--page topbar__inner">
+    <a class="wordmark" href="/">Thomas Cheesman</a>
+    <nav aria-label="Primary">
+      <a href="/projects" aria-current="page">Projects</a>
+      <a href="/background">Background</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap wrap--page">
+    <div class="cs-layout">
+
+      <div class="cs-layout__main">
+        <header class="cs-head">
+          <p class="label">Case study &middot; gpresidentialsociety.com</p>
+          <h1>A housing society&rsquo;s website</h1>
+          <p class="cs-head__claim">
+            The public site of a volunteer-run housing nonprofit, which I have built and run
+            on my own since 2023, at no cost to the society.
+          </p>
+          <dl class="cs-head__meta">
+            <div><dt>Stack</dt><dd>WordPress with a hand-coded Astra child theme &middot; page content lives in the theme, not the editor</dd></div>
+            <div><dt>Status</dt><dd><span class="tag tag--live">Live</span></dd></div>
+            <div><dt>Hosted</dt><dd>Self-hosted on Hostinger &middot; a push to <code>main</code> deploys</dd></div>
+            <div><dt>Repo</dt><dd><a href="https://github.com/DriftingSplash9/gprs-site">DriftingSplash9/gprs-site</a></dd></div>
+            <div><dt>Since</dt><dd>2023 &middot; rebuilt 2025</dd></div>
+          </dl>
+        </header>
+
+        <nav class="cs-index cs-index--inline" aria-label="On this page">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+        </nav>
+
+        <div class="cs-body">
+          <section class="cs-section" id="ask" aria-labelledby="h-ask">
+            <span class="cs-section__num">The ask</span>
+            <h2 id="h-ask">A board seat, and a site nobody was paid to run</h2>
+
+            <p>
+              The Grande Prairie Residential Society is a volunteer-run nonprofit providing
+              barrier-free housing: 87 units before the Margaret Edgson Manor fire, with the rebuild
+              under way and the final count not yet settled. I joined the board in June 2023, and the
+              website is my donation to it.
+            </p>
+
+            <blockquote class="pull">
+              <p>
+                &ldquo;What we need the site to do: inform potential tenants how to apply, how to
+                determine if they qualify, and if we are the right fit for them. We don&rsquo;t have a
+                physical office so this is our main interface with the community.&rdquo;
+              </p>
+              <footer><cite>Thomas</cite> &middot; 2026-09-24 &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-003.md">copy-review-003, Q-G1</a></footer>
+            </blockquote>
+
+            <p>
+              The first version went up on WordPress.com in 2023. In 2025 I rebuilt it as a
+              self-hosted site, because I wanted more freedom to experiment with the code.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-015.md">handoff-015, C-13</a>
+            </p>
+          </section>
+          <section class="cs-section" id="standard" aria-labelledby="h-standard">
+            <span class="cs-section__num">The standard</span>
+            <h2 id="h-standard">Written into the repo, for every agent that opens it</h2>
+
+            <p>
+              Accessibility and plain language are first-order requirements on this site, not
+              decoration. The working rules live in one file at the top of the repo, and every AI
+              agent reads it before it changes anything.<a class="receipt" href="https://github.com/DriftingSplash9/gprs-site/blob/main/AGENTS.md">AGENTS.md</a>
+            </p>
+
+            <figure class="excerpt">
+              <pre>Because content is in theme PHP, searching the WP page editor for on-page text finds nothing — look in `inc/*.php` here instead.
+
+- <mark>**Treat every push as publishing.**</mark> Copy that is awaiting board or marketing approval, or that depends on a motion not yet declared carried, must NOT be pushed to `main`.
+
+- Run `php -l` on every changed file first. A syntax error in `functions.php` white-screens the live site the moment it lands — there is no staging copy to catch it.</pre>
+              <figcaption>Three rules from <code>AGENTS.md</code> in the site&rsquo;s repo, verbatim. Curated: the file has more.</figcaption>
+            </figure>
+          </section>
+          <section class="cs-section" id="wrong" aria-labelledby="h-wrong">
+            <span class="cs-section__num">What the AI got wrong</span>
+            <h2 id="h-wrong">Two misses, both confident</h2>
+
+            <ol class="mc">
+              <li>
+                <h3>An audit of a site that no longer existed</h3>
+                <p>
+                  In March 2026 I had more than one AI tool audit the site. One gave it a failing
+                  score and listed what it lacked: a hero section, calls to action, a donate
+                  button. The live site had all three. The tool had reviewed an old copy of the
+                  site, or invented one.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> plausible but invented &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3a-gprs--gpresidentialsocietycom-workgprs">receipts-001, R-001</a></span>
+              </li>
+              <li>
+                <h3>&ldquo;Safe to push,&rdquo; three times</h3>
+                <p>
+                  In September 2026 the agent working on the site told me three times that pushing
+                  changes was safe, because the site had no automatic deployment and needed a
+                  manual step to go live. It wrote that manual step into the repo. There was no
+                  manual step: the host picks up every push within a minute or two.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> drift across sessions &middot; <a class="receipt" href="https://github.com/DriftingSplash9/gprs-site/commit/953907a">commit 953907a</a></span>
+              </li>
+            </ol>
+          </section>
+          <section class="cs-section" id="caught" aria-labelledby="h-caught">
+            <span class="cs-section__num">How I caught it</span>
+            <h2 id="h-caught">By checking against the real thing</h2>
+
+            <ol class="mc mc--catch">
+              <li>
+                <h3>Read it against the code</h3>
+                <p>
+                  Another audit had been given the theme&rsquo;s code and told to reference it.
+                  Side by side, the first audit&rsquo;s findings matched nothing on the live site,
+                  and I discarded it.
+                </p>
+                <span class="mc__how"><b>Became the rule:</b> an audit that does not cite the code does not count &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3a-gprs--gpresidentialsocietycom-workgprs">receipts-001, R-001</a></span>
+              </li>
+              <li>
+                <h3>Asked why the site already looked updated</h3>
+                <p>
+                  The live pages already carried the change. The agent fetched them to confirm it,
+                  and the deploy notes were rewritten the same day to say a push is a publish.
+                  The wrong belief had been written into three separate notes, which is why it
+                  looked settled.
+                </p>
+                <span class="mc__how"><b>Became the rule:</b> a push is a publish; a claim repeated in three notes is still one claim &middot; <a class="receipt" href="https://github.com/DriftingSplash9/gprs-site/blob/main/AGENTS.md">AGENTS.md, &ldquo;Deploying&rdquo;</a></span>
+              </li>
+            </ol>
+
+            <table class="rules wide">
+              <caption>The correction, the rule it became, and where the rule now lives.</caption>
+              <thead>
+                <tr><th scope="col">The correction</th><th scope="col">The standing rule</th><th scope="col">Enforced in</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" data-th="The correction">An audit described a site that no longer existed</th>
+                  <td data-th="The standing rule">An audit that does not cite the code does not count</td>
+                  <td data-th="Enforced in">The standard audit prompt</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">&ldquo;No automatic deploy,&rdquo; said three times</th>
+                  <td data-th="The standing rule">Treat every push as publishing. Check deploy claims against the live site</td>
+                  <td data-th="Enforced in"><code>AGENTS.md</code> &middot; &ldquo;Deploying&rdquo;</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="cs-section" id="shipped" aria-labelledby="h-shipped">
+            <span class="cs-section__num">What shipped</span>
+            <h2 id="h-shipped">A live site the society does not pay for</h2>
+
+            <p>
+              The site is live at <a href="https://gpresidentialsociety.com">gpresidentialsociety.com</a>,
+              including the society&rsquo;s
+              <a href="https://gpresidentialsociety.com/margaret-edgson-manor-rebuild-efforts/">Margaret Edgson Manor rebuild page</a>.
+            </p>
+
+            <div class="shot--pair wide">
+              <figure class="shot shot--fixed">
+                <img src="/assets/img/gprs-home.webp" width="1280" height="720" loading="lazy" decoding="async"
+                     alt="The society's home page: a row of single-storey houses along a street, under the heading Accessible and Affordable Housing in Grande Prairie, with Apply Now and Volunteer buttons.">
+                <figcaption>The home page. Applying is the first button.</figcaption>
+              </figure>
+              <figure class="shot shot--fixed">
+                <img src="/assets/img/gprs-rebuild.webp" width="1280" height="720" loading="lazy" decoding="async"
+                     alt="The rebuild page: a four-storey apartment building under repair with a boom lift in front, under the heading Rebuilding Margaret Edgson Manor.">
+                <figcaption>The Margaret Edgson Manor rebuild page.</figcaption>
+              </figure>
+            </div>
+
+            <h3>The honest limits</h3>
+            <p>
+              Most of this site was built before I kept session records, so there are no handoffs
+              from 2023 to 2025 and this page has two receipts, not more. The repo starts in April
+              2026, as a copy of the theme already running live.
+            </p>
+          </section>
+          <section class="cs-section" id="receipts" aria-labelledby="h-receipts">
+            <span class="cs-section__num">Receipts</span>
+            <h2 id="h-receipts">The files behind every claim above</h2>
+
+            <ul class="receipts wide">
+              <li>
+                <p class="receipts__what">The rules every agent reads before touching the site</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/gprs-site/blob/main/AGENTS.md">gprs-site/AGENTS.md</a></p>
+              </li>
+              <li>
+                <p class="receipts__what">The manual deploy procedure that did not exist</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/gprs-site/commit/953907a">commit 953907a</a> &middot; <time datetime="2026-09-18">2026-09-18</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">Both misses in the receipts inventory, with their sources</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3a-gprs--gpresidentialsocietycom-workgprs">plans/receipts-001.md &sect;3A</a> &middot; <time datetime="2026-09-23">2026-09-23</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The site&rsquo;s history, in my words</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-015.md">handoff-015.md</a>, C-13</p>
+              </li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+
+      <aside class="cs-layout__rail">
+        <nav class="cs-index cs-index--rail" aria-label="Sections">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+          <a class="cs-index__back" href="/projects">&larr; All work</a>
+        </nav>
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap wrap--page footer__inner">
+    <div>
+      <p class="label">Get in touch</p>
+      <p class="footer__email"><a href="mailto:thomas@tc-ventures.ca">thomas@tc-ventures.ca</a></p>
+      <p class="footer__note">Grande Prairie, Alberta &middot; Mountain Time &middot; remote &middot; open to work</p>
+    </div>
+    <div>
+      <p class="label">Elsewhere</p>
+      <ul class="footer__list">
+        <li><a href="https://www.linkedin.com/in/thomas-cheesman-20234285/">LinkedIn</a></li>
+        <li><a href="https://github.com/DriftingSplash9">github.com/DriftingSplash9</a></li>
+        <li><a href="https://thomascheesman.ca">thomascheesman.ca</a> &mdash; personal</li>
+        <li><a href="https://bareyourrare.org">bareyourrare.org</a></li>
+        <li><a href="https://gpresidentialsociety.com">gpresidentialsociety.com</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
