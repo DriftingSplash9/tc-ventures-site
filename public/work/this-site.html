@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How this site was built - Thomas Cheesman</title>
+<meta name="description" content="The site you are reading, built with AI agents one numbered session at a time. The handoffs, the rules and my rulings on its copy are public in the repo.">
+<link rel="canonical" href="https://tc-ventures.ca/work/this-site">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TC &rsquo;Ventures">
+<meta property="og:url" content="https://tc-ventures.ca/work/this-site">
+<meta property="og:title" content="How this site was built - Thomas Cheesman">
+<meta property="og:description" content="The site you are reading, built with AI agents one numbered session at a time. The handoffs, the rules and my rulings on its copy are public in the repo.">
+<meta property="og:image" content="https://tc-ventures.ca/assets/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Thomas Cheesman, Grande Prairie, Alberta, remote. Beside the name, a slice of the Economic Report Influence Graph.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@TCheesy_">
+<meta name="twitter:creator" content="@TCheesy_">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/nav.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap wrap--page topbar__inner">
+    <a class="wordmark" href="/">Thomas Cheesman</a>
+    <nav aria-label="Primary">
+      <div class="navsub">
+        <a href="/projects" aria-current="true">Projects</a>
+        <button class="navsub__toggle" type="button" aria-expanded="false" aria-controls="navsub-work">
+          <span class="sr-only">Case studies</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <ul class="navsub__list" id="navsub-work" aria-label="Case studies">
+          <li><a href="/work/gprs">A housing society&rsquo;s website</a></li>
+          <li><a href="/work/this-site" aria-current="page">This site</a></li>
+        </ul>
+      </div>
+      <a href="/background">Background</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap wrap--page">
+    <div class="cs-layout">
+
+      <div class="cs-layout__main">
+        <!-- T1 -->
+        <header class="cs-head">
+          <p class="label">Case study &middot; tc-ventures.ca</p>
+          <h1>This site</h1>
+          <p class="cs-head__claim">
+            The site you are reading, built with AI agents one numbered session at a time. The
+            handoffs, the rules and my rulings on its copy are public in the repo.
+          </p>
+          <dl class="cs-head__meta">
+            <div><dt>Stack</dt><dd>Hand-written HTML and CSS, with a little JavaScript on top &middot; one stylesheet &middot; no framework, no build step</dd></div>
+            <div><dt>Status</dt><dd><span class="tag tag--live">Live</span> &nbsp;rebuild in progress</dd></div>
+            <div><dt>Hosted</dt><dd>Cloudflare, static files &middot; a push to <code>main</code> deploys</dd></div>
+            <div><dt>Repo</dt><dd><a href="https://github.com/DriftingSplash9/tc-ventures-site">DriftingSplash9/tc-ventures-site</a></dd></div>
+            <div><dt>Since</dt><dd>September 2026 &middot; one numbered handoff per session</dd></div>
+          </dl>
+        </header>
+
+        <nav class="cs-index cs-index--inline" aria-label="On this page">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+        </nav>
+
+        <div class="cs-body">
+          <!-- T2, T3 -->
+          <section class="cs-section" id="ask" aria-labelledby="h-ask">
+            <span class="cs-section__num">The ask</span>
+            <h2 id="h-ask">What I asked for, in my own words</h2>
+
+            <blockquote class="pull">
+              <p>
+                &ldquo;Being a bit of a portfolio it should be unique, detailed, complex, and push
+                the limits of what is modern with AI-assisted web design. It needs a
+                &lsquo;wow&rsquo; factor. Also, the contact page is not done and will get some
+                special attention because contact pages always seem like a lame afterthought
+                and they are generic.&rdquo;
+              </p>
+              <footer><cite>Thomas</cite> &middot; 2026-09-11 &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/briefs/brief-001-wow-and-contact.md">brief-001</a></footer>
+            </blockquote>
+
+            <p>
+              &ldquo;I build with AI&rdquo; proves nothing on its own. So this site had to show it:
+              built to the rules it describes, with its handoffs, reviews and plans public for
+              anyone to check.
+            </p>
+          </section>
+
+          <!-- T4, T5 -->
+          <section class="cs-section" id="standard" aria-labelledby="h-standard">
+            <span class="cs-section__num">The standard</span>
+            <h2 id="h-standard">What &ldquo;good&rdquo; meant, written down first</h2>
+
+            <p>
+              Each session starts by reading the newest handoff: a numbered file that says where
+              things stand and which rules hold. A session that changes anything ends by writing
+              the next one. The rules carry forward; the story of each session does not.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-016.md#5-how-to-write-the-next-handoff">handoff-016 &sect;5</a>
+            </p>
+
+            <figure class="excerpt">
+              <pre>- **Content renders without JavaScript.** JS is allowed on top (motion, 3D, controls); the words and links must not depend on it. No dependencies or build step — prebuilt bundles copied into `assets/` only.
+
+- <mark>**Never publish an exact node, edge, report or grade count**</mark> *in copy*. Round or describe. The application screenshot on Projects is the one ruled exception.
+
+- **Do not invent dates or figures.** Unknown → ask Thomas.
+
+- <mark>**Copy ships only through a copy review**</mark> in the copy-review-001/002 format (numbered blocks; OK / KEEP / A / B / FIX / CUT). Template copy is not site copy.</pre>
+              <figcaption>Four of the standing rules, verbatim from <code>handoff-016.md</code> &sect;3. Curated: the file has more.</figcaption>
+            </figure>
+
+            <h3>The loop each session runs through</h3>
+            <p>
+              The brief is mine. The spec says what good means before anything is built. The
+              agent builds. I review the copy block by block and rule on each one. A correction
+              worth keeping becomes a rule, the rule goes into the next handoff, and the next
+              session starts from there.
+            </p>
+
+            <figure class="loop wide">
+              <div class="loop__scroll" tabindex="0" role="group" aria-label="The working loop diagram; scrolls sideways on small screens">
+              <svg viewBox="0 0 880 160" role="img" aria-labelledby="loop-title loop-desc">
+                <title id="loop-title">The working loop</title>
+                <desc id="loop-desc">Six steps in a row - brief, spec, build, review, rule, next session - joined left to right by arrows, with a dashed arrow returning from the last step to the first.</desc>
+                <defs>
+                  <marker id="loop-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                    <path class="loop__arrow" d="M0,0 L10,5 L0,10 z"></path>
+                  </marker>
+                  <marker id="loop-arr-back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                    <path class="loop__arrow loop__arrow--back" d="M0,0 L10,5 L0,10 z"></path>
+                  </marker>
+                </defs>
+
+                <line class="loop__edge" x1="128" y1="60" x2="160" y2="60" marker-end="url(#loop-arr)"></line>
+                <line class="loop__edge" x1="276" y1="60" x2="308" y2="60" marker-end="url(#loop-arr)"></line>
+                <line class="loop__edge" x1="424" y1="60" x2="456" y2="60" marker-end="url(#loop-arr)"></line>
+                <line class="loop__edge" x1="572" y1="60" x2="604" y2="60" marker-end="url(#loop-arr)"></line>
+                <line class="loop__edge" x1="720" y1="60" x2="752" y2="60" marker-end="url(#loop-arr)"></line>
+                <path class="loop__edge loop__edge--back" d="M810,82 L810,118 L70,118 L70,84" marker-end="url(#loop-arr-back)"></path>
+
+                <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/briefs/brief-001-wow-and-contact.md">
+                  <rect class="loop__node loop__node--accent" x="12" y="40" width="116" height="40" rx="20"></rect>
+                  <text class="loop__label loop__label--on" x="70" y="65" text-anchor="middle">Brief</text>
+                  <text class="loop__sub" x="70" y="30" text-anchor="middle">my words</text>
+                </a>
+                <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/plan-001-showcase.md">
+                  <rect class="loop__node" x="160" y="40" width="116" height="40" rx="20"></rect>
+                  <text class="loop__label" x="218" y="65" text-anchor="middle">Spec</text>
+                  <text class="loop__sub" x="218" y="30" text-anchor="middle">what good means</text>
+                </a>
+                <a href="https://github.com/DriftingSplash9/tc-ventures-site/commits/main">
+                  <rect class="loop__node" x="308" y="40" width="116" height="40" rx="20"></rect>
+                  <text class="loop__label" x="366" y="65" text-anchor="middle">Build</text>
+                  <text class="loop__sub" x="366" y="30" text-anchor="middle">the agent</text>
+                </a>
+                <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-003.md">
+                  <rect class="loop__node" x="456" y="40" width="116" height="40" rx="20"></rect>
+                  <text class="loop__label" x="514" y="65" text-anchor="middle">Review</text>
+                  <text class="loop__sub" x="514" y="30" text-anchor="middle">OK &middot; CUT &middot; FIX</text>
+                </a>
+                <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-016.md#3-current-design">
+                  <rect class="loop__node" x="604" y="40" width="116" height="40" rx="20"></rect>
+                  <text class="loop__label" x="662" y="65" text-anchor="middle">Rule</text>
+                  <text class="loop__sub" x="662" y="30" text-anchor="middle">written down</text>
+                </a>
+                <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-016.md">
+                  <rect class="loop__node" x="752" y="40" width="116" height="40" rx="20"></rect>
+                  <text class="loop__label" x="810" y="65" text-anchor="middle">Next session</text>
+                  <text class="loop__sub" x="810" y="30" text-anchor="middle">handoff-NNN</text>
+                </a>
+                <text class="loop__sub" x="440" y="146" text-anchor="middle">the rule carries forward; the narrative does not</text>
+              </svg>
+              </div>
+              <figcaption>Each step links to a real file from this site&rsquo;s own build.</figcaption>
+            </figure>
+          </section>
+
+          <!-- T6 -->
+          <section class="cs-section" id="wrong" aria-labelledby="h-wrong">
+            <span class="cs-section__num">What the AI got wrong</span>
+            <h2 id="h-wrong">Three misses that went live</h2>
+
+            <p>All three were on the live site before they were caught.</p>
+
+            <ol class="mc">
+              <li>
+                <h3>A clean accessibility report, and a keyboard that lost its place</h3>
+                <p>
+                  The 3D graph on the Projects page loads when you press a button. When the graph
+                  arrived, the button hid itself, and keyboard focus went with it: it fell back to
+                  the page as a whole instead of moving to the graph. The automated accessibility
+                  checker had found nothing wrong on any page.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> looked right but was not measured &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-012.md">handoff-012 &sect;2</a></span>
+              </li>
+              <li>
+                <h3>Passed locally, broke live</h3>
+                <p>
+                  The site got a content security policy: a header that tells browsers which
+                  scripts the site may run. It passed on a local server. The live site also runs an
+                  analytics script that Cloudflare adds as it serves the page, which the local copy
+                  never had, and the policy blocked it. Visitor analytics stopped for one deploy.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> looked right but was not measured &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-015.md#traps-worth-knowing">handoff-015, traps</a></span>
+              </li>
+              <li>
+                <h3>Exact counts that disagreed with the graph</h3>
+                <p>
+                  The first live copy gave the research graph&rsquo;s size to the exact report. The
+                  copy of the graph a visitor could actually open, on another of my sites, held a
+                  small fraction of that. And the research keeps growing, so even a correct figure
+                  would have been wrong within weeks.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> drift across sessions &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3b-this-site--tc-venturesca-workthis-site">receipts-001, R-011</a></span>
+              </li>
+            </ol>
+          </section>
+
+          <!-- T7, T8 -->
+          <section class="cs-section" id="caught" aria-labelledby="h-caught">
+            <span class="cs-section__num">How I caught it</span>
+            <h2 id="h-caught">Use it, load it live, read every line</h2>
+
+            <ol class="mc mc--catch">
+              <li>
+                <h3>Tested it myself</h3>
+                <p>
+                  I found it when I tested the graph myself. I should not have trusted that it
+                  worked, but it was so basic that I assumed it did. My mistake.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-003.md">copy-review-003, T7</a>
+                  Focus now moves to the graph when it loads, and the arrow keys step through the
+                  graph&rsquo;s connections, each one described in the panel.
+                </p>
+                <span class="mc__how"><b>Became the rule:</b> test the thing itself, not a proxy for it &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/CLAUDE.md">CLAUDE.md, rule 1</a></span>
+              </li>
+              <li>
+                <h3>Loaded the live site and read its console</h3>
+                <p>
+                  The deploy was checked from outside: the real site, in a browser, not the local
+                  copy. The browser console showed the blocked script. The policy now allows
+                  Cloudflare&rsquo;s analytics, and the script was confirmed loading on the live site.
+                </p>
+                <span class="mc__how"><b>Became the rule:</b> after any change to the security policy, load the live site and read the console &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-015.md#traps-worth-knowing">handoff-015, traps</a></span>
+              </li>
+              <li>
+                <h3>A numbered review of every live sentence</h3>
+                <p>
+                  The first copy review put everything public on the site in front of me as
+                  numbered blocks, before I had read any of it, and flagged that the count on the
+                  page and the graph a visitor could reach disagreed. I ruled that counts are
+                  rounded or described, never exact. The home page now says &ldquo;nearly four
+                  thousand&rdquo;.
+                </p>
+                <span class="mc__how"><b>Became the rule:</b> never publish an exact count in copy &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-002.md#3-current-design">handoff-002 &sect;3</a></span>
+              </li>
+            </ol>
+
+            <table class="rules wide">
+              <caption>Each correction, the standing rule it falls under, and where that rule lives. The first three are the misses above; the other four come from the same inventory.</caption>
+              <thead>
+                <tr><th scope="col">The correction</th><th scope="col">The standing rule</th><th scope="col">Enforced in</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" data-th="The correction">A clean checker report; keyboard focus lost when the graph loaded <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-012.md">handoff-012</a></th>
+                  <td data-th="The standing rule">Test the thing itself, not a proxy for it: drag the slider, Tab through the page, load it logged out</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 1</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">A security policy that passed locally blocked analytics live <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-015.md#traps-worth-knowing">handoff-015</a></th>
+                  <td data-th="The standing rule">After any change to the security policy, load the live site and read the console</td>
+                  <td data-th="Enforced in">handoff traps &middot; <code>CLAUDE.md</code> rule 2</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">Exact counts that disagreed with the graph a visitor could open <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-002.md#3-current-design">handoff-002</a></th>
+                  <td data-th="The standing rule">Never publish an exact node, edge, report or grade count in copy. Round or describe.</td>
+                  <td data-th="Enforced in">handoff &sect;3, every session</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">A button marked hidden still showed with JavaScript off: a layout rule outranked the hidden attribute <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3b-this-site--tc-venturesca-workthis-site">R-019</a></th>
+                  <td data-th="The standing rule">Content renders without JavaScript, and nothing heavy loads before a click. Test it with JavaScript off</td>
+                  <td data-th="Enforced in">handoff &sect;3, every session</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">&ldquo;Three or four&rdquo; condition guides on the rare-disease site; its own menu listed five <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3b-this-site--tc-venturesca-workthis-site">R-022</a></th>
+                  <td data-th="The standing rule">Count with a command, never from memory</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 12</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">Links pointed at old <code>.html</code> addresses that redirect: on record in the third handoff, fixed in the fifteenth <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-015.md">handoff-015</a></th>
+                  <td data-th="The standing rule">Clean addresses everywhere: menu, canonical links and sitemap</td>
+                  <td data-th="Enforced in">handoff &sect;1</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">Told me my LinkedIn had no About section; the page loads in parts and was never scrolled <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-015.md#traps-worth-knowing">handoff-015</a></th>
+                  <td data-th="The standing rule">Say what you read, not what exists: &ldquo;I could not see X&rdquo;, never &ldquo;X is missing&rdquo;</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 6</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- T9 -->
+          <section class="cs-section" id="shipped" aria-labelledby="h-shipped">
+            <span class="cs-section__num">What shipped</span>
+            <h2 id="h-shipped">A static site, one stylesheet, and its working files in the open</h2>
+
+            <p>
+              The site is live at <a href="https://tc-ventures.ca">tc-ventures.ca</a>. Its words and
+              links render with JavaScript off, and the one heavy thing, the 3D graph, waits for a
+              click. The fonts and the graph&rsquo;s code library are served from the site itself,
+              not from a third party.
+            </p>
+
+            <div class="shot--pair wide">
+              <figure class="shot shot--fixed">
+                <img src="/assets/img/this-site-home.webp" width="1280" height="720" loading="lazy" decoding="async"
+                     alt="The home page: the heading I run a nonprofit's website, and I hold it to a written standard, above the opening paragraph, with Projects, Background and Contact in the menu.">
+                <figcaption>The home page.</figcaption>
+              </figure>
+              <figure class="shot shot--fixed">
+                <img src="/assets/img/this-site-gprs.webp" width="1280" height="720" loading="lazy" decoding="async"
+                     alt="The GPRS case study: the heading A housing society's website, a one-line summary, a table of stack, status and hosting, and a side index of the six sections.">
+                <figcaption>The first case study, built from the same template as this page.</figcaption>
+              </figure>
+            </div>
+
+            <h3>The honest limits</h3>
+            <p>
+              As of September 2026 the rebuild is part-way through, and the plan it follows is
+              public. There are no page-weight or accessibility scores on this page: nothing
+              measures them by script yet, and I don&rsquo;t type figures in by hand. The site has
+              not had a screen-reader run-through yet.
+            </p>
+          </section>
+
+          <!-- T10 -->
+          <section class="cs-section" id="receipts" aria-labelledby="h-receipts">
+            <span class="cs-section__num">Receipts</span>
+            <h2 id="h-receipts">The files behind every claim above</h2>
+
+            <p>
+              No document, no edge. Anything in sections three and four that could not be tied to
+              a file was cut before it got here.
+            </p>
+
+            <ul class="receipts wide">
+              <li>
+                <p class="receipts__what">The brief, in my words, before any building</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/briefs/brief-001-wow-and-contact.md">briefs/brief-001-wow-and-contact.md</a> &middot; <time datetime="2026-09-11">2026-09-11</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The standing rules every session starts from, and how a handoff is written</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-016.md">handoff-016.md</a> &sect;3, &sect;5 &middot; <time datetime="2026-09-24">2026-09-24</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The rule against exact counts, and why</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-002.md#3-current-design">handoff-002.md</a> &sect;3 &middot; <time datetime="2026-09-12">2026-09-12</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The keyboard focus fix, and what the checker could not see</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-012.md">handoff-012.md</a> &sect;2 &middot; <time datetime="2026-09-21">2026-09-21</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The blocked analytics script, and the LinkedIn misread</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-015.md#traps-worth-knowing">handoff-015.md</a>, traps &middot; <time datetime="2026-09-22">2026-09-22</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">My rulings on this page&rsquo;s copy, including how I found the focus bug</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-003.md">reviews/copy-review-003.md</a> T0&ndash;T10 &middot; <time datetime="2026-09-24">2026-09-24</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">All seven misses, with their sources</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3b-this-site--tc-venturesca-workthis-site">plans/receipts-001.md &sect;3B</a> &middot; <time datetime="2026-09-23">2026-09-23</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The twenty rules the receipts inventory produced</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/CLAUDE.md">CLAUDE.md</a> &middot; <time datetime="2026-09-23">2026-09-23</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The plan this rebuild follows</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/plan-001-showcase.md">plans/plan-001-showcase.md</a> &middot; <time datetime="2026-09-21">2026-09-21</time></p>
+              </li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+
+      <aside class="cs-layout__rail">
+        <nav class="cs-index cs-index--rail" aria-label="Sections">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+          <a class="cs-index__back" href="/projects">&larr; All work</a>
+        </nav>
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap wrap--page footer__inner">
+    <div>
+      <p class="label">Get in touch</p>
+      <p class="footer__email"><a href="mailto:thomas@tc-ventures.ca">thomas@tc-ventures.ca</a></p>
+      <p class="footer__note">Grande Prairie, Alberta &middot; Mountain Time &middot; remote &middot; open to work</p>
+    </div>
+    <div>
+      <p class="label">Elsewhere</p>
+      <ul class="footer__list">
+        <li><a href="https://www.linkedin.com/in/thomas-cheesman-20234285/">LinkedIn</a></li>
+        <li><a href="https://github.com/DriftingSplash9">github.com/DriftingSplash9</a></li>
+        <li><a href="https://thomascheesman.ca">thomascheesman.ca</a> &mdash; personal</li>
+        <li><a href="https://bareyourrare.org">bareyourrare.org</a></li>
+        <li><a href="https://gpresidentialsociety.com">gpresidentialsociety.com</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -5,7 +5,8 @@
 as it is drafted from `plans/receipts-001.md`. The first block is a correction found by
 the receipts inventory.
 **Status:** R1 ruled OK 2026-09-23 and applied to `public/index.html`. **G1–G8 (`/work/gprs`)
-drafted 2026-09-23, ruled and shipped 2026-09-24** (see "Rulings" at the end).
+drafted 2026-09-23, ruled and shipped 2026-09-24** (see "Rulings" after G8). **T1–T10
+(`/work/this-site`) drafted 2026-09-24, not yet ruled.**
 
 Same format and marks as copy-review-001/002: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -217,3 +218,333 @@ The case study had no link from the home page or the menu. "Work" goes in the me
 `/work/` exists (after `/work/this-site`).
 
 **Ruling (2026-09-24): A.** Applied to `public/index.html`.
+
+---
+
+## `/work/this-site` — the case study of this site (T1–T10)
+
+**Drafted 2026-09-24.** Sources: the seven OK rows in `plans/receipts-001.md` §3B (R-011,
+R-019, R-022, R-024, R-027, R-028, R-029). I re-opened each receipt before writing, the
+draft in `_template.html`, and `handoff-016.md` §3 and §5. Already ruled: **PL-8 ship
+without page-weight or accessibility numbers**, and **the lead misses are R-024, R-028 and
+R-011** (Thomas, 2026-09-24).
+
+Preview: `public/work/this-site.html`, with a draft banner and `noindex`. It and its two
+figures are in `.assetsignore`, so none of it deploys. On 2026-09-24 every link on the page
+returned 200. The two exceptions are expected: LinkedIn answers scripts with 999, and the
+page's own canonical address 404s until it ships. The five section anchors are confirmed on
+GitHub's rendered pages.
+
+**What happened to the template's three misses.** The screensaver names are **P-03
+(private, CUT)**. "Available now" is **R-013 (CUT)**. Only "exact counts" is **R-011 (OK)**.
+The first two are gone and do not come back.
+
+**⚠ Two template claims were false, and both are fixed in this draft.**
+1. **"All caught before they shipped."** All three lead misses were live before they were
+   caught:
+   - **R-011:** copy-review-001's header says "every word below is live right now".
+   - **R-028:** "it silently killed analytics for one deploy" (handoff-015, traps).
+   - **R-024:** the 2026-09-16 `graph-demo.js` (`0e7544d`) hides the button with no
+     `.focus()` call. It was deployed per handoff-007. The fix came 2026-09-21 (`5679e0f`).
+2. **"The first drafts stated" the counts.** They were live copy, not drafts.
+
+### T0 — ⚠ FLAG, read first: what the page links to
+
+The repo is public, but linking a file from a hiring page puts it in front of more readers
+(R-026 is the rule: every receipt is read against the privacy rules before it links).
+Private-topic mentions in the files this page links, counted with grep:
+
+- **Rocket Lander.** Every linked handoff mentions it: 002, 012, 015 and 016. brief-001 was
+  redacted for exactly this (R-026). `/work/gprs` already links handoff-015.
+- **Health disclosure.** handoff-002 records the decision to name the condition, and "the
+  symptom detail he described in review does not go on the site".
+- **Family.** Handoffs 012, 015 and 016 carry the family rules ("the parents", "children's
+  names never"). These are rules, not names.
+
+**Not linked at all: `reviews/copy-review-001.md`.** The template linked it five times. It
+debates the health disclosure over three flags, carries the career-gap "family care" and
+"caregiver" blocks (private under P-05), and describes the lander. R-011 now links
+receipts-001 and handoff-002 §3 instead. The loop's "Review" node links copy-review-003.
+Two table rows (R-019, R-022) link receipts-001 rather than handoff-005 and handoff-008,
+because handoff-008 mentions the lander 35 times.
+
+**A (recommended):** link handoffs 002, 012, 015 and 016 as they are. The page's own "Repo"
+link and the footer's GitHub link already put every handoff one click away, so redacting
+four files would hide nothing.
+**B:** redact those four the way brief-001 was redacted, marked in each file.
+**C:** no handoff links at all. Route everything through receipts-001 and `CLAUDE.md`.
+
+### T1 — header
+
+> **Label:** Case study · tc-ventures.ca
+> **H1:** This site
+> **Claim:** The site you are reading, built with AI agents one numbered session at a time.
+> The handoffs, the rules and my rulings on its copy are public in the repo.
+> **Spec table:** Stack: Hand-written HTML and CSS, with a little JavaScript on top · one
+> stylesheet · no framework, no build step · Status: Live, rebuild in progress · Hosted:
+> Cloudflare, static files · a push to `main` deploys · Repo: DriftingSplash9/tc-ventures-site
+> · Since: September 2026 · one numbered handoff per session
+> **Page title / link preview:** How this site was built - Thomas Cheesman
+
+Changes from the template:
+- **"07" dropped from the label.** `/work/gprs` has no number.
+- **"handoff-001 to handoff-013" became "one numbered handoff per session".** A range goes
+  stale with the next handoff.
+- **The claim no longer says "every claim checked against the file that actually served".**
+  R-028 shows that was not always true.
+
+The title differs from the H1 because a search result or link preview shows only the title,
+and "This site" alone says nothing there. "Since September 2026": the first commit is
+2026-09-10, and handoff-001 (2026-09-11) records the site live.
+
+### T2 — The ask: the pull quote
+
+> **H2:** What I asked for, in my own words
+>
+> "Being a bit of a portfolio it should be unique, detailed, complex, and push the limits of
+> what is modern with AI-assisted web design. It needs a 'wow' factor. Also, the contact page
+> is not done and will get some special attention because contact pages always seem like a
+> lame afterthought and they are generic." (Thomas · 2026-09-11 · brief-001)
+
+This is still word for word in the redacted `briefs/brief-001-wow-and-contact.md`, which says
+your quote was left untouched. **The date:** the brief has no date line. handoff-001, written
+2026-09-11, names it as the next piece of work, and git first shows it on 2026-09-12. I used
+09-11.
+
+### T3 — The ask: the paragraph under it (PL-4, my wording)
+
+> **Now (template):** I was looking for work, and "I build with AI" proves nothing on its
+> own. So the site had to show it: built to the same rules it describes, with the working
+> files left public for anyone to check.
+>
+> **Proposal:** "I build with AI" proves nothing on its own. So this site had to show it:
+> built to the rules it describes, with its handoffs, reviews and plans public for anyone to
+> check.
+
+Two changes:
+- **"I was looking for work" is gone.** Past tense reads as if the search is over. Present
+  tense would be a claim that goes stale, the R-013 problem.
+- **"The working files" became the named ones.** Not every working file is public: the raw
+  receipts and the private résumé copies are not.
+
+**OK** the proposal, **KEEP** the template, or give me your own line, as you did for Q-G1.
+
+### T4 — The standard
+
+> **H2:** What "good" meant, written down first
+>
+> Each session starts by reading the newest handoff: a numbered file that says where things
+> stand and which rules hold. A session that changes anything ends by writing the next one.
+> The rules carry forward; the story of each session does not. (→ handoff-016 §5)
+>
+> *Excerpt, verbatim from `handoff-016.md` §3:* "Content renders without JavaScript", "Never
+> publish an exact node, edge, report or grade count", "Do not invent dates or figures", "Copy
+> ships only through a copy review".
+
+A script checked that each excerpt line matches the handoff exactly. It failed on a copy with
+one word changed, so the check can fail. The excerpt now quotes handoff-016 instead of
+handoff-013, because 016 is current.
+
+Two template sentences are cut:
+- "Every session started from a handoff… and ended by writing the next one." The first
+  session had no handoff to start from, and §5 says a session that changed nothing writes
+  none.
+- "Most of them were born from a specific mistake, and a rule that is longer than the mistake
+  it prevents does not get read." Nothing counts the first half, and the second half is an
+  aphorism I can't back up.
+
+### T5 — The standard: the loop
+
+> **H3:** The loop each session runs through
+>
+> The brief is mine. The spec says what good means before anything is built. The agent
+> builds. I review the copy block by block and rule on each one. A correction worth keeping
+> becomes a rule, the rule goes into the next handoff, and the next session starts from there.
+>
+> *Diagram caption:* Each step links to a real file from this site's own build.
+
+Changes from the template:
+- **"I review every block and rule on it" became "I review the copy block by block".** You
+  review copy, not every code change.
+- **"Whatever I corrected becomes a rule" became "a correction worth keeping".** Not every
+  correction became a rule.
+- **Cut from the caption: "The return arrow is the part most AI work skips."** It's a claim
+  about other people's work that I can't source.
+- **Diagram links now point at handoff-016 and copy-review-003,** not handoff-013 and
+  copy-review-001 (see T0). The diagram's own labels are unchanged.
+
+### T6 — What the AI got wrong
+
+> **H2:** Three misses that went live
+>
+> All three were on the live site before they were caught.
+>
+> **1. A clean accessibility report, and a keyboard that lost its place.** The 3D graph on
+> the Projects page loads when you press a button. When the graph arrived, the button hid
+> itself, and keyboard focus went with it: it fell back to the page as a whole instead of
+> moving to the graph. The automated accessibility checker had found nothing wrong on any
+> page. *(looked right but was not measured · handoff-012 §2)*
+>
+> **2. Passed locally, broke live.** The site got a content security policy: a header that
+> tells browsers which scripts the site may run. It passed on a local server. The live site
+> also runs an analytics script that Cloudflare adds as it serves the page, which the local
+> copy never had, and the policy blocked it. Visitor analytics stopped for one deploy.
+> *(looked right but was not measured · handoff-015, traps)*
+>
+> **3. Exact counts that disagreed with the graph.** The first live copy gave the research
+> graph's size to the exact report. The copy of the graph a visitor could actually open, on
+> another of my sites, held a small fraction of that. And the research keeps growing, so even
+> a correct figure would have been wrong within weeks. *(drift across sessions · receipts-001,
+> R-011)*
+
+No count appears (F-3). The underlying figures sit in copy-review-001 X3 as roughly 3,600
+against about 300. "Within weeks" is handoff-002 §3 ("a precise figure goes stale in
+weeks"). "Content security policy" is explained in a clause because the lead role is
+nonprofit web operations, not engineering.
+
+### T7 — How I caught it
+
+> **H2:** Use it, load it live, read every line
+>
+> **1. Went past the checker to the behaviour.** The checker's clean result was not taken as
+> the answer. The pass looked at what a checker cannot see: where keyboard focus goes when
+> the button disappears. Focus now moves to the graph when it loads, and the arrow keys step
+> through the graph's connections, each one described in the panel. *(Became the rule: test
+> the thing itself, not a proxy for it · CLAUDE.md, rule 1)*
+>
+> **2. Loaded the live site and read its console.** The deploy was checked from outside: the
+> real site, in a browser, not the local copy. The browser console showed the blocked script.
+> The policy now allows Cloudflare's analytics, and the script was confirmed loading on the
+> live site. *(Became the rule: after any change to the security policy, load the live site
+> and read the console · handoff-015, traps)*
+>
+> **3. A numbered review of every live sentence.** The first copy review put everything
+> public on the site in front of me as numbered blocks, before I had read any of it, and
+> flagged that the count on the page and the graph a visitor could reach disagreed. I ruled
+> that counts are rounded or described, never exact. The home page now says "nearly four
+> thousand". *(Became the rule: never publish an exact count in copy · handoff-002 §3)*
+
+**⚠ FLAG: who caught 1 and 2.** In both, the agent ran the check: the code half of your
+accessibility pass (A-1), and the live check after a deploy. So the copy uses "the pass" and
+"the deploy was checked", not "I". Only 3 is written as yours: you ruled on X3, and
+handoff-002 says "he was emphatic".
+
+**⚠ DOUBT on 1 (reported, not overridden).** handoff-012 §2 records that axe found nothing,
+what the fault was, and the fix. It does not say in so many words how the focus drop was
+found. receipts-001 says "manual keyboard test", but that row was never ticked as re-read.
+So the copy claims only that "the pass looked at" focus behaviour, not that someone tabbed
+through it by hand.
+
+**"Became the rule" is checked for timing** (the R-001 trap):
+- **Rule 1 is in `CLAUDE.md`.** It was distilled on 2026-09-23 from the inventory, which
+  lists R-024 under it (receipts-001 §6).
+- **The console rule is handoff-015's own wording,** with "CSP" spelled out in plain words.
+- **The count rule was written in handoff-002 because of X3.**
+
+### T8 — How I caught it: the rules table
+
+> *Caption:* Each correction, the standing rule it falls under, and where that rule lives.
+> The first three are the misses above; the other four come from the same inventory.
+
+| The correction | The standing rule | Enforced in |
+|---|---|---|
+| A clean checker report; keyboard focus lost when the graph loaded (R-024) | Test the thing itself, not a proxy for it: drag the slider, Tab through the page, load it logged out | `CLAUDE.md` · rule 1 |
+| A security policy that passed locally blocked analytics live (R-028) | After any change to the security policy, load the live site and read the console | handoff traps · `CLAUDE.md` rule 2 |
+| Exact counts that disagreed with the graph a visitor could open (R-011) | Never publish an exact node, edge, report or grade count in copy. Round or describe. | handoff §3, every session |
+| A button marked hidden still showed with JavaScript off: a layout rule outranked the hidden attribute (R-019) | Content renders without JavaScript, and nothing heavy loads before a click. Test it with JavaScript off | handoff §3, every session |
+| "Three or four" condition guides on the rare-disease site; its own menu listed five (R-022) | Count with a command, never from memory | `CLAUDE.md` · rule 12 |
+| Links pointed at old `.html` addresses that redirect: on record in the third handoff, fixed in the fifteenth (R-027) | Clean addresses everywhere: menu, canonical links and sitemap | handoff §1 |
+| Told me my LinkedIn had no About section; the page loads in parts and was never scrolled (R-029) | Say what you read, not what exists: "I could not see X", never "X is missing" | `CLAUDE.md` · rule 6 |
+
+Every row carries a receipt link on the page. The caption says "falls under", not "became",
+because R-019 broke a rule that already existed. **R-022:** "three or four" is not in any
+committed version of the site, so the row doesn't say where it was written, only that it
+was wrong. **R-027:** handoff-003 records the redirect, and handoff-015 §2 records the fix.
+Rules 1, 6 and 12 are quoted word for word from `CLAUDE.md`.
+
+### T9 — What shipped
+
+> **H2:** A static site, one stylesheet, and its working files in the open
+>
+> The site is live at tc-ventures.ca. Its words and links render with JavaScript off, and the
+> one heavy thing, the 3D graph, waits for a click. The fonts and the graph's code library
+> are served from the site itself, not from a third party.
+>
+> *Fig. 1* The home page. *Fig. 2* The first case study, built from the same template as
+> this page.
+>
+> **The honest limits:** As of September 2026 the rebuild is part-way through, and the plan
+> it follows is public. There are no page-weight or accessibility scores on this page:
+> nothing measures them by script yet, and I don't type figures in by hand. The site has not
+> had a screen-reader run-through yet.
+
+Changes and checks:
+- **"Five pages" is gone.** The count was wrong and would go stale.
+- **"Nothing outside the repo can rot underneath it" became "fonts and the graph's code
+  library… not from a third party".** Cloudflare's analytics script comes from outside.
+- **Checked:** there is one stylesheet (a glob found only `style.css`), and the graph library
+  is the prebuilt `3d-force-graph.min.js` in `assets/`.
+
+The honest limits:
+- **Dated "As of September 2026",** so the line ages honestly.
+- **The PL-8 sentence is new.**
+- **"Screen-reader run-through"** is exactly what handoff-012 A-1 says is left. The template
+  sentence it replaces was about your accessibility pass. **Cut it if you'd rather the page
+  not mention that.**
+
+**Q-T1 — the figures.** Both were taken 2026-09-24 in headless Chrome at 1280×720, light
+scheme, from the live pages: `assets/img/this-site-home.webp` and `this-site-gprs.webp`.
+Neither shows a person. Yes / no, or name a different figure.
+
+### T10 — Receipts
+
+> No document, no edge. Anything in sections three and four that could not be tied to a file
+> was cut before it got here.
+
+The list:
+- brief-001 · 2026-09-11
+- handoff-016 §3, §5
+- handoff-002 §3
+- handoff-012 §2
+- handoff-015, traps
+- receipts-001 §3B
+- `CLAUDE.md`
+- plan-001
+
+"No document, no edge" is the graph's own rule (plan-001 §4a applies it to the portfolio).
+The second sentence is true of this draft: every claim in sections 3 and 4 links to a receipt.
+
+**Still to rule:** T0 (A / B / C), T1–T10, Q-T1. When ruled, it ships on the `/work/gprs`
+checklist:
+1. Remove the banner, `noindex` and the three `.assetsignore` lines.
+2. Add the page to the sitemap.
+3. Link it in. **Q-T2:** from where? I recommend both places that already describe the
+   site: Projects' "The fourth is this one…" (`projects.html` L402) and the home "Four live
+   sites" card's "…and this one." (`index.html` L127), matching G9.
+4. Verify live: the build's check-run, curl, a headless render and the console.
+
+### Rulings on T0–T10 (Thomas, 2026-09-24)
+
+- **T0: A.** The handoffs are linked as they are. copy-review-001 stays unlinked.
+- **T3: OK.** The proposal replaces the template paragraph.
+- **T7, verbatim:** "i found it when testing it, i should not have trusted it worked but
+  because it is so basic I assumed. my mistake." **Applied:** catch 1 is now yours ("Tested
+  it myself"), in your words lightly tidied as prose, not as a quote, with this ruling as the
+  receipt. The DOUBT is resolved: receipts-001's "manual keyboard test" was right. Catch 2
+  stays the agent's.
+- **Q-T1: yes.** Both figures ship.
+- **Q-T2: OK.** Linked from Projects' "The fourth is this one…" and the home card's "…and
+  this one", both as "read the case study", matching G9.
+- **New, not in the review:** "Include this one and the last one in a sub menu under
+  projects." This replaces PL-7's "no menu item until a `/work/` index exists". **Applied**
+  on every page:
+  - Projects gets a sub-menu listing both case studies, labelled with their H1s ("A housing
+    society's website", "This site"). No new copy.
+  - Without JavaScript it shows on hover and on keyboard focus.
+  - With `assets/nav.js` it becomes a disclosure button: Esc closes it, and it closes when
+    focus or a click goes elsewhere.
+  - Case-study pages mark Projects as the current section.
+
+Shipped 2026-09-24:
+- Draft banner, `noindex` and the three `.assetsignore` lines removed.
+- `/work/this-site` added to the sitemap.

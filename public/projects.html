@@ -25,6 +25,7 @@
 <link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/nav.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -33,7 +34,17 @@
   <div class="wrap topbar__inner">
     <a class="wordmark" href="/">Thomas Cheesman</a>
     <nav aria-label="Primary">
-      <a href="/projects" aria-current="page">Projects</a>
+      <div class="navsub">
+        <a href="/projects" aria-current="page">Projects</a>
+        <button class="navsub__toggle" type="button" aria-expanded="false" aria-controls="navsub-work">
+          <span class="sr-only">Case studies</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <ul class="navsub__list" id="navsub-work" aria-label="Case studies">
+          <li><a href="/work/gprs">A housing society&rsquo;s website</a></li>
+          <li><a href="/work/this-site">This site</a></li>
+        </ul>
+      </div>
       <a href="/background">Background</a>
       <a href="/contact">Contact</a>
     </nav>
@@ -401,6 +412,7 @@
         try things that have no business on a client site &mdash; The Back Quarter is its front door
         and The Desk is its menu, both written up above. The fourth is this one, the only one of the four with no WordPress under it:
         hand-written, no framework, no build step.
+        <a href="/work/this-site">Read the case study.</a>
       </p>
     </div>
   </section>
