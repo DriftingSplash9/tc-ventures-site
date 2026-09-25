@@ -867,3 +867,6 @@ M7 checklist, plus step 3b: link the home page's "How I work" section to `/metho
 - The sub-menu still opens on Enter and closes on Esc, with focus returned.
 - A negative control, the committed home page from before the change, is caught as having
   the old nav.
+
+**Found after the live check:** M6's list still said "copy-review-003 M1–M7" after M8 was
+added. Corrected to M1–M8. This is a reference fix, not new copy.
