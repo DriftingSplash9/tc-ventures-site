@@ -232,6 +232,11 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   font-size: 13px;
   letter-spacing: 0.04em;
 }
+/* Four items since /method (2026-09-25): on a phone, tighten the gap so the nav
+   keeps its side margin at 375px, and wrap rather than scroll sideways below that. */
+@media (max-width: 420px) {
+  .topbar nav { gap: 6px 14px; flex-wrap: wrap; }
+}
 .topbar nav a { color: var(--muted); text-decoration: none; }
 .topbar nav a:hover { color: var(--ink); }
 .topbar nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); }
@@ -371,6 +376,9 @@ h1 {
   letter-spacing: -0.015em;
   margin: 0 0 1.2em;
 }
+/* A section head that leads to its own page (home "How I work" -> /method). */
+.section-head a { color: var(--ink); text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
+.section-head a:hover { color: var(--accent); }
 
 /* ---- prose ---- */
 

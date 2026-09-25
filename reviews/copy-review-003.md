@@ -848,3 +848,22 @@ Caveats:
 
 **Still to rule:** M8 (A / B), and a look at the bubble diagram. Then `/method` ships on the
 M7 checklist, plus step 3b: link the home page's "How I work" section to `/method`.
+
+**Ruling (Thomas, 2026-09-25):** "m8 A, diagram ok - ship it". Applied:
+1. Removed the draft banner and `noindex`, and the `.assetsignore` lines.
+2. Added `/method` to the sitemap, after the case studies.
+3. Added Method after Projects on all eight other pages.
+   - **3b:** the home page's "How I work" heading now links to `/method`. Linking the
+     existing heading needs no new words.
+4. **Phone nav:** four items crowded the 375px screen (5px right margin). Below 420px, the
+   nav gap tightens from 22px to 14px and the nav wraps instead of scrolling sideways. At
+   375px the right margin is now 29px; at 320px, Contact wraps to a second line.
+
+**Checked locally before the push:** a 53-check browser suite, all passing.
+- Nav identical on every page, and `aria-current` correct.
+- No console errors.
+- No sideways scroll at 375px.
+- Real-key Tab order: Projects, toggle, Method, Background.
+- The sub-menu still opens on Enter and closes on Esc, with focus returned.
+- A negative control, the committed home page from before the change, is caught as having
+  the old nav.
