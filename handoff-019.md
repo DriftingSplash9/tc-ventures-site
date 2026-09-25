@@ -85,8 +85,9 @@ assets, deploy-on-push from GitHub. Deliberately separate from thomascheesman.ca
   wanted to see how organizations such as the EU and BRICS operate compared to nations." It is
   the pull quote. "nations.," was closed up, and "BRICS" is at his ruling.
 - **Q-IG2: since July 2026.**
-- **Traps now carry an `x.y` tally,** with a drop rule. Thomas's rule, so **§5 changed**
-  (2026-09-25). The first audit is in "Traps" below.
+- **Traps now carry an `x.y` tally,** with a drop rule, and **the handoff limit is ~750
+  lines**. Both are Thomas's rulings, so **§5 changed** (2026-09-25). The first audit is in
+  "Traps" below.
 
 **Live, and verified live:**
 - **`/method` M9:** the "files are private" sentence is cut (`f49090a`).
@@ -383,13 +384,15 @@ Every handoff has these, in this order, with these numbers:
 - **Never claim something is done that you have not verified.** "Deployed" means you
   saw it serve. "Written" means it is on disk. Say which.
 - **Do not state git state and do not tell Thomas to commit.** That is his routine.
-- Keep it under ~400 lines. If §2 is getting long, you are writing a diary.
+- Keep it under ~750 lines (Thomas, 2026-09-25; it was ~400). If §2 is getting long, you are
+  writing a diary.
 - **Every trap ends with a tally `x.y`** (Thomas, 2026-09-25).
   - **x** is the number of handoffs the trap has been carried into since the one that recorded
     it. Add 1 each time it is carried.
   - **y** is the number of sessions where the mention changed what was done. Add 1 only when
     you can name what it changed.
-  - **Drop a trap when x > 5 and y ≤ 1, and at x = 10 whatever y is.**
+  - **Drop a trap when x > 5 and y ≤ 1, and at x = 10 whatever y is.** "y ≤ 1" is Thomas's
+    confirmed meaning: a trap that never helped goes too.
   - *Added with it by the agent, pending Thomas's OK:*
     - A trap hit again despite its mention gets no y. Say so on the line.
     - A trap still earning its place at x = 10 belongs in code (`CLAUDE.md` rule 5).
