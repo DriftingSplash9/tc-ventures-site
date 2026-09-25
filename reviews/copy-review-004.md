@@ -389,6 +389,37 @@ the no-exact-counts rule, on `/projects`. IG6, ruled OK, puts it on this page to
 exception cover it here? I recommend yes. It's the same image, and it's the app's display, not
 copy.
 
-**Still open before it ships:** Q-IG4 (Brics / BRICS) and Q-IG5. Then it ships on IG8's
+**Ruled (Thomas, 2026-09-25): "BRICS, q-ig5 yes, ship it".**
+- **Q-IG4: BRICS.** The pull quote now reads "BRICS". This changes his quote, at his ruling.
+- **Q-IG5 yes:** the Fig. 1 exception covers this page too.
+- **Ship it.**
+
+**Shipped 2026-09-25**, on the IG8 checklist, plus P1 and Q-IG3:
+- The page: the draft banner, `noindex` and the `.assetsignore` line are removed. "BRICS"
+  applied.
+- The sitemap has `/work/influence-graph`, before `/work/gprs` (the sub-menu order).
+- The sub-menu lists it first, on all nine other pages.
+- `/projects` graph section (P1): the label, H2, two paragraphs, application figure, the new
+  "read the case study" line and the Source link are kept. The rule paragraph, the demo, "What
+  is actually hard", "It is not finished", the nations figure and the spec table are gone.
+  `graph-demo.js` is no longer loaded there.
+- **Home (Q-IG3):** the graph card links `/work/influence-graph`.
+- **CSS, one additive line:** `.shot + .prose { margin-top: var(--block); }`. Without it,
+  P1's new line sat close under the figure caption and read as part of it. A script found
+  only that one place on the site where a figure is followed directly by a prose block.
+
+Checked locally before the push:
+- **Site-wide suite: 109 of 110 passed.** It checked every page's status, the nav order, both
+  `aria-current` levels, no `noindex`, no draft banner, a clean console, and 375px. It also
+  checked the sub-menu by keyboard (Tab reaches the toggle; Enter opens; the first item is the
+  graph; Esc closes and returns focus), P1, and the home link. A negative control, the committed
+  pre-release home page, is caught as having the old sub-menu.
+- **The one failure was the test:** `/404` carries `noindex`, as it did before this release.
+- **Case-study suite: 16 of 17 passed,** with the same known Fig.-number test limit as the
+  preview.
+- **Looked at:** `/projects` graph section at 1280px, and the sub-menu open at 375px. The
+  longest label fits on one line.
+
+**Was open before it shipped:** Q-IG4 (Brics / BRICS) and Q-IG5. Then it ships on IG8's
 checklist, plus P1 and Q-IG3, when Thomas says so. Noticed, left for the design phase: the demo's
 paragraph sits tight against its frame, the same as on `/projects`.

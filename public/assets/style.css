@@ -483,6 +483,8 @@ h1 {
   color: var(--muted);
   max-width: 70ch;
 }
+/* prose straight after a figure needs the block gap, or it reads as part of the caption */
+.shot + .prose { margin-top: var(--block); }
 
 /* ---- spec tables ---- */
 

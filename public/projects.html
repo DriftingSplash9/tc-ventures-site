@@ -41,6 +41,7 @@
           <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
         </button>
         <ul class="navsub__list" id="navsub-work" aria-label="Case studies">
+          <li><a href="/work/influence-graph">The Economic Report Influence Graph</a></li>
           <li><a href="/work/gprs">A housing society&rsquo;s website</a></li>
           <li><a href="/work/this-site">This site</a></li>
         </ul>
@@ -96,134 +97,11 @@
       </figure>
 
       <div class="prose">
-        <h3>The rule the whole project runs on</h3>
         <p>
-          <em>No document, no edge.</em> A line is drawn only if a published document says, in words I
-          can quote, that one report uses the other as an input. Leads I cannot source go to a dropped
-          list with a reason attached. Every existing line is graded A, B or C on how well its cited
-          document actually supports it, and the grade is visible in the app, because a map that hides
-          its own weak spots is worse than no map.
+          The rule it runs on, a live slice of one city&rsquo;s budget, and three things the AI
+          got wrong while building it: <a href="/work/influence-graph">read the case study</a>.
         </p>
       </div>
-
-      <section class="gd" id="graph-demo" aria-labelledby="gd-head">
-        <div class="prose">
-          <h3 id="gd-head">One city&rsquo;s budget, traced all the way back</h3>
-          <p>
-            This is the slice that sits above my own city. Start at the City of Grande
-            Prairie&rsquo;s budget report, follow only what it is documented to depend on,
-            and keep following: fifty-odd published reports and seventy-odd dependencies,
-            ending at statistical standards written by the United Nations. The road-repair
-            money is in there.
-          </p>
-        </div>
-
-        <div class="gd__frame">
-          <figure class="gd__still">
-            <img src="/assets/img/graph-gp-budget.webp" width="1280" height="800"
-                 loading="lazy" decoding="async"
-                 alt="A three-dimensional web of about fifty coloured spheres joined by fine lines, one white sphere near the centre and several larger spheres at the far end.">
-          </figure>
-          <div class="gd__stage" hidden tabindex="0" role="application" aria-roledescription="3D graph"
-               aria-label="Live 3D graph of the same slice. Left and right arrow keys step through its dependencies one at a time; each is read out below the graph."></div>
-          <div class="gd__loadwrap">
-            <button type="button" class="btn gd__load" hidden>Load the live graph</button>
-          </div>
-        </div>
-        <div class="gd__panel" aria-live="polite" tabindex="-1">
-          <p class="gd__hint">
-            The still is a render of the same data. Nothing three-dimensional is
-            downloaded until you ask for it.
-          </p>
-        </div>
-
-        <ul class="gd__legend">
-          <li><span class="gd__swatch" style="background:#FFFFFF"></span>The budget itself</li>
-          <li><span class="gd__swatch" style="background:#F0A64E"></span>Municipal</li>
-          <li><span class="gd__swatch" style="background:#5CC7D1"></span>Provincial</li>
-          <li><span class="gd__swatch" style="background:#7FA8F0"></span>Federal</li>
-          <li><span class="gd__swatch" style="background:#C08FE0"></span>Institutional</li>
-          <li><span class="gd__swatch" style="background:#78C98D"></span>International</li>
-          <li>Size is how much of the whole corpus rests on that report</li>
-        </ul>
-
-        <div class="prose">
-          <h3>One path through it, in words</h3>
-          <p>
-            Six documents, and every link graded on how well the document I cited actually
-            supports it. Two of these are C&rsquo;s. They stay visible, and they stay graded
-            C, because the weak joins are the ones a reader most needs to see.
-          </p>
-        </div>
-
-        <ol class="gd__chain">
-          <li>
-            <span class="gd__step">Uses data from &middot; graded <em>B</em></span>
-            <b>City Budget Report</b>, City of Grande Prairie &rarr;
-            <b>Local Government Fiscal Framework &mdash; Capital Funding Allocations</b>,
-            Alberta Municipal Affairs
-          </li>
-          <li>
-            <span class="gd__step">Is calculated from &middot; graded <em>C</em></span>
-            <b>Local Government Fiscal Framework</b> &rarr;
-            <b>Alberta Budget &mdash; Fiscal Plan</b>, Alberta Treasury Board and Finance
-          </li>
-          <li>
-            <span class="gd__step">Uses data from &middot; graded <em>A</em></span>
-            <b>Alberta Budget &mdash; Fiscal Plan</b> &rarr;
-            <b>Canada Health Transfer</b>, Department of Finance Canada
-          </li>
-          <li>
-            <span class="gd__step">Is calculated from &middot; graded <em>C</em></span>
-            <b>Canada Health Transfer</b> &rarr;
-            <b>National Economic Accounts (Quarterly)</b>, Statistics Canada
-          </li>
-          <li>
-            <span class="gd__step">Follows the methodology of &middot; graded <em>B</em></span>
-            <b>National Economic Accounts</b> &rarr;
-            <b>System of National Accounts 2008</b>, United Nations, European Commission,
-            IMF, OECD and World Bank
-          </li>
-        </ol>
-      </section>
-
-      <div class="prose">
-        <h3>What is actually hard about it</h3>
-        <p>
-          Not the 3D. The hard part is holding one standard across eighty-odd research sessions without
-          drift, which is why the repository carries a fixed extraction protocol, two lane playbooks and
-          exactly one handoff file rather than a pile of notes &mdash; and why a validator runs on every
-          data change and refuses to pass on a dangling reference.
-        </p>
-        <p>
-          The other hard part is drawing a corpus this size without lying. Cluster spacing, node size
-          scaling and camera framing all change what a viewer believes about the data, so each is
-          measured rather than eyeballed.
-        </p>
-        <h3>It is not finished, by design</h3>
-        <p>
-          The corpus grows. Statistical agencies publish on their own schedules, so the graph is built
-          to keep looking &mdash; new releases get pulled in, new dependencies get sourced and graded,
-          and the counts move every week. Any exact figure quoted here would be wrong by the time you
-          read it, which is why you will not find one.
-        </p>
-      </div>
-
-      <figure class="shot">
-        <img src="/assets/img/graph-nations.webp" width="1280" height="800" loading="lazy" decoding="async"
-             alt="A sparser view of the same graph showing spheres of widely varying size joined by long lines.">
-        <figcaption>
-          Filtered to national-tier reports. Sphere size is weighted authority &mdash; how much of
-          everything else traces back through that one release.
-        </figcaption>
-      </figure>
-
-      <dl class="spec">
-        <div><dt>Corpus</dt><dd>Nearly 4,000 reports and the documented dependencies between them, growing weekly</dd></div>
-        <div><dt>Evidence</dt><dd>Every edge graded A, B or C on citation strength; the distribution is published in the app</dd></div>
-        <div><dt>Coverage</dt><dd>130+ countries; national, state, municipal and institutional tiers</dd></div>
-        <div><dt>Stack</dt><dd>TypeScript &middot; Vite &middot; React &middot; three-forcegraph &middot; d3-force-3d &middot; no backend</dd></div>
-      </dl>
 
       <p class="repo">Source: <a href="https://github.com/DriftingSplash9/Reports-Clustering">github.com/DriftingSplash9/Reports-Clustering</a></p>
     </div>
@@ -438,6 +316,5 @@
     </div>
   </div>
 </footer>
-<script src="/assets/graph-demo.js" defer></script>
 </body>
 </html>
