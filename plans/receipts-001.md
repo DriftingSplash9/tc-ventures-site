@@ -1,6 +1,6 @@
 # receipts-001 — the receipts inventory (PL-2)
 
-**Written:** 2026-09-23 · **Status:** ruled by Thomas 2026-09-23 (via receipts-001.xlsx): 36 OK, 76 CUT; every private (P) row CUT. **R-014 un-cut 2026-09-25: now 37 OK, 75 CUT.** **R-148 and R-149 added OK 2026-09-25 (39 OK); R-150 added, pending** · **Feeds:**
+**Written:** 2026-09-23 · **Status:** ruled by Thomas 2026-09-23 (via receipts-001.xlsx): 36 OK, 76 CUT; every private (P) row CUT. **R-014 un-cut 2026-09-25: now 37 OK, 75 CUT.** **R-148 and R-149 added OK 2026-09-25; R-141 un-cut the same day: now 40 OK, 74 CUT; R-150 added, pending** · **Feeds:**
 `/work/gprs`, `/work/this-site`, `/method`, and from 2026-09-25 `/work/influence-graph`
 (copy-review-004)
 
@@ -226,7 +226,7 @@ commits in `bareyr`.
 | ID | date | what the AI got wrong | kind | caught | rule it became | receipt | public-safe? | chk | Ruling |
 |---|---|---|---|---|---|---|---|---|---|
 | R-140 | 2026-03-04 | A site analysis invented a registered charity, "Bare Your Rare Foundation", and drafted schema and llms.txt around it, including made-up social-profile URLs | invented | read-through (later audit; privacy rewrite) | BYR is a personal patient-led project, not a charity | `_archive/loose/BYR-Website-Analysis-March2026.md` L8, §3.1; commit `2e0eb63` body | Y | ✓ | OK |
-| R-141 | 2026-04-15→09 | The same framing shipped as sitewide `NGO` schema; flagged in June, still served in September | drift | read-through; live crawl | — (still open: see §5) | commit `457abbc`; `_archive/loose/BYR-FULL-AUDIT-2026-06.md` L68; `tc-ventures site/Claude outputs/byr-crawl-audit.md` §3a | Y | | CUT |
+| R-141 | 2026-04-15→09 | The same framing shipped as sitewide `NGO` schema; flagged in June, still served in September | drift | read-through; live crawl | — (fixed 2026-09-25, `bareyr` `6e07481`: see §5) | commit `457abbc`; `_archive/loose/BYR-FULL-AUDIT-2026-06.md` L68; `tc-ventures site/Claude outputs/byr-crawl-audit.md` §3a | Y | ✓ | OK (un-cut by Thomas 2026-09-25, copy-review-004 Q-BYR3; `457abbc` and §3a re-opened, the June audit not) |
 | R-142 | 2026-04-18→06-20 | For two months two condition pages silently lacked their medical disclaimer, schema, styling and scripts — a template check was missing a path prefix — while the to-do list marked them "Deployed for all 5" | unmeasured | live check + read-through (full audit) | — | commit `87c618b`; `_archive/loose/BYR-Master-Todo-List.docx` "Already resolved"; `BYR-FULL-AUDIT-2026-06.md` L26; fixes `35ea9a3`, `abf64d2` | Y | ✓ | CUT |
 | R-143 | 2026-04-19/21 | An audit called a stray `</div>` in an accordion script "cosmetic — the accordion still works"; the syntax error meant no click handler had ever attached | unmeasured | behaviour test at fix time | — | `_archive/loose/byr-theme-audit.docx` Exec item 2, §4.5; fix `5883d52` | Y | | CUT |
 | R-144 | 2026-04-23 | Four commits in a row tuned CSS in two files the theme never loaded | unmeasured | live check | Source-of-truth markers at the top of each file | commits `2574b85`, `22a43f5`, `12c0b31`, `75b8abf`; resolution `23e35b0` | Y | | CUT |
@@ -270,7 +270,8 @@ Not receipts for a case study; open problems found while reading.
 - ~~**BYR still serves `NGO` schema** on its guide pages (R-141). The fix is in
   `bareyr/functions.php` L707–715.~~ **Fixed 2026-09-25** at Thomas's ruling (copy-review-004
   BYR0): `bareyr` `6e07481` makes it `Organization`. Uncached responses were checked the same
-  evening and carry no `NGO`. Pages already in LiteSpeed's cache still served it until a purge.
+  evening and carry no `NGO`. Thomas purged the LiteSpeed cache the same night; re-checked after:
+  no `NGO` on the home page, the five guides, the HCS story, `/about/` or `/privacy/`.
 - Several misses recur across projects with the same rule re-learned each time — e.g.
   `display` beating `[hidden]` (R-019, R-131); "pushes are not deploys" (R-007, R-130);
   "the automated checker passed" (R-024, R-129). That recurrence is itself a `/method` point.

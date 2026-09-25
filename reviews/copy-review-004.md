@@ -10,7 +10,9 @@ on `/method` false (M9).
 IG0 A, IG1–IG7 OK, P1 OK, Q-IG1 to Q-IG3 answered; see "Rulings" at the end. Q-IG4 and Q-IG5
 are open. The preview is built and checked (see the end).
 **BYR0–BYR8 and P2 (Bare Your Rare) drafted 2026-09-25**, after Step 1 was ruled ("1 yes, 2 yes,
-3 yes, 5 yes"). Open: every BYR block, and Q-BYR2 to Q-BYR6.
+3 yes, 5 yes"). **Second round ruled 2026-09-25** (see "Rulings, BYR" at the end): H1 A, quote A,
+Q-BYR2 to Q-BYR4 and Q-BYR6 answered. Open: BYR2b, Q-BYR5, Q-BYR7, and an OK on BYR3–BYR7 and P2
+as revised.
 
 Same format and marks as copy-review-001 to 003: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -447,8 +449,11 @@ private: read, never linked). Nothing in the research repo was touched.
    - After, uncached (before 21:51 UTC): `/about/`, `/faq/`, `/hcs-guide/`, and cache-busted fetches of
      `/hcs-guide/` and `/poems/` carry no `NGO`. So the deploy ran.
    - **Still `NGO`, from LiteSpeed's cache:** `/`, `/poems/`, `/sps/`, `/ecd/`, `/fechtner/`,
-     `/hajdu-cheney-syndrome/`. **Thomas: purge the LiteSpeed cache.** I re-check every page
-     after.
+     `/hajdu-cheney-syndrome/`.
+   - **Thomas purged the LiteSpeed cache.** Re-checked after, logged out: no `NGO` on `/`, the
+     five guides, `/hajdu-cheney-syndrome/`, `/about/` or `/privacy/`, and each carries the
+     sitewide `Organization` block. `/poems/` and `/ecd/` first got the host's "Bot Verification"
+     page (see 2) and were checked on a retry 20 s later. **O-13 is closed.**
    - **The first "fixed" read was wrong (rule 3).** It matched the guide's publisher block, which
      has the same name and type, and called `/poems/` fixed. Re-counted by grepping for `"NGO"`.
 2. **The host fault is only partly fixed.** Full log: `Claude outputs/byr-bot-check-2026-09-25.md`
@@ -458,6 +463,9 @@ private: read, never linked). Nothing in the research repo was touched.
      agents tried: GPTBot got a 429 every time, Claude-User and PerplexityBot got LiteSpeed's
      reCAPTCHA "Bot Verification" 403 some of the time. ClaudeBot and ChatGPT-User got through.
    - One network, one evening, spoofed user-agents: a real crawler may be treated differently.
+   - **After the purge it hit a browser too:** a Chrome user-agent, one request every 7 s, got
+     the "Bot Verification" page on 2 of 10 pages, none of them cached yet. Added to the check
+     file.
    - So plan-001 §3's frame, "the fix, verified", can't stand. BYR4 and BYR6 say what's true.
      Proposed as **R-150**.
    - **The fix is at Hostinger, not in the theme.** See Q-BYR5.
@@ -478,16 +486,25 @@ private: read, never linked). Nothing in the research repo was touched.
    "TODO: add social profile URLs when accounts are live". I can't tell from here whether the
    accounts exist or are yours: social sites refuse scripted fetches. **Q-BYR6: are they yours?**
    If not, R-140 is still live on the site this page is about.
+   - **Answered: "no, nobody has claimed them yet".** So every BYR page links four accounts that
+     don't exist. Anyone who registers those names first gets the links.
+   - **Q-BYR7: remove the four links from BYR's footer now?** I recommend yes: delete them from
+     `inc/footer.php` and put them back when you claim the accounts. The alternative is to claim
+     the four names first and keep the links.
+   - **The case study doesn't mention the footer.** The links are in the repo's first commit, and
+     R-140's analysis made up social links. But I can't show they're the same ones, so the page
+     makes no claim about where they came from.
 
 ### BYR1 — header
 
 > **Label:** Case study · a patient site
-> **H1:** **A (recommended):** A rare-disease site, written by a patient · **B:** Bare Your Rare
+> **H1:** A rare-disease site, written by a patient *(ruled A)*
 > **Claim:** Five plain-language guides to ultra-rare conditions, marked up so a search engine or
 > an AI assistant can tell what each page is, who wrote it, and when it was last reviewed.
 > **Spec table:** Stack: WordPress with a hand-coded Astra child theme · page content lives in
 > the theme, not the editor · Status: Live · Hosted: Hostinger, behind Cloudflare since
-> September 2026 · a push to `main` deploys · Repo: private · Since: *(Q-BYR2)*
+> September 2026 · a push to `main` deploys · Repo: private · Since: March 2026, as a hand-coded
+> theme
 > **Page title / link preview:** *(the H1)* - Thomas Cheesman · description: the claim.
 
 Where it comes from:
@@ -503,7 +520,10 @@ Where it comes from:
 - **Repo: private.** It 404s logged out, so nothing links it. Or drop the row. Say if you'd
   rather.
 
-**Q-BYR2: Since when?** The repo's first commit is 2026-04-05 ("Initial commit"), but the site is
+**Q-BYR2, answered:** "the idea started in March as I had to move content from the old site to the
+child theme". So **Since: March 2026, as a hand-coded theme.** The older site, built in the editor,
+isn't dated on the page. Say if you want its start year there. *Was asked:* the repo's first
+commit is 2026-04-05 ("Initial commit"), but the site is
 older than the repo:
 - the March 2026 site analysis (R-140, 2026-03-04)
 - the logo's upload path, `2026/02`
@@ -523,7 +543,7 @@ When did you start it?
 >
 > *Pull quote, Thomas, 2026-09-25:*
 >
-> **A (recommended), two typos closed up:** "I built it from a patient(me)'s point of view. I
+> **A (ruled), two typos closed up:** "I built it from a patient(me)'s point of view. I
 > asked myself what would be helpful to me to come across on the internet? What can explain the
 > nuances of HCS? And then I thought I may as well expand this to more rare disorders so I
 > researched several others. I also wanted to work on my web design and building skills."
@@ -537,6 +557,30 @@ When did you start it?
 - **The first line** is `/background`'s wording, plus "(HCS)", because the quote uses the
   abbreviation. The condition is named on purpose, and nothing about symptoms is added.
 - The quote cites this review (Q-BYR1), as `/work/gprs` cites copy-review-003 for Q-G1.
+
+### BYR2b — The ask, second half: why a hand-coded theme (new, from your Q-BYR2 answer)
+
+> In March 2026 I started moving the site out of the page builders it had been built with and into
+> a theme written for it.
+>
+> **A (recommended):** "I wanted freedom to do things I couldn't or that were a pain in the butt
+> because of the extra weight handling the themes and plugins. Why pay for a plugin when I can ask
+> [an AI] to make it my way for my content?"
+>
+> **B:** the first sentence only.
+>
+> *(Thomas, 2026-09-25 · copy-review-004, Q-BYR2)*
+
+- **The lead-in** restates your answer ("the idea started in March as I had to move content from
+  the old site to the child theme, prior I was building right in WordPress>blocks, Elementor,
+  etc."). It says "page builders" instead of the product names, because WordPress stays out of
+  the prose (it's in the spec table).
+- **"[an AI]" is an edit to your words.** You wrote "ask you", meaning me. On the page, "you" reads
+  as the visitor. Rule 8 says a quote is verbatim, so the brackets show the change. That's your
+  call: A with the brackets, or B, which drops the line. The last line is the most on-point
+  sentence for a page about directing AI, which is why A is recommended.
+- `/work/gprs` has the same point in your words ("because I wanted more freedom to experiment
+  with the code"). The two pages agree without repeating each other.
 
 ### BYR3 — The standard
 
@@ -572,7 +616,9 @@ Checked live, 2026-09-25:
 > **1. A charity that didn't exist.** A site analysis invented a registered charity for the site,
 > "Bare Your Rare Foundation", and drafted its structured data and its summary for AI tools
 > around it, with made-up social-media links to go with it. Bare Your Rare is one person's
-> project. *(plausible but invented · receipts-001, R-140)*
+> project. Part of that framing shipped: from April, every page told software the site was a
+> non-governmental organisation, and went on saying so until September. *(plausible but invented
+> · drift across sessions · receipts-001, R-140, R-141)*
 >
 > **2. Two problems that weren't there.** A crawl audit of the site said a poetry category
 > collided with the POEMS syndrome guide. The category was empty. It said the header image had no
@@ -591,6 +637,12 @@ Checked against the receipts:
 - **1:** R-140's row, and `/method`'s ruled wording for the same miss ("…with made-up social-media
   links to go with it"). The analysis file is on your disk, not in any repo I can read. R-140 is
   already ticked.
+- **1, second half (R-141, un-cut at Q-BYR3):**
+  - `bareyr` `457abbc` (2026-04-15), "Add sitewide NGO JSON-LD schema to wp_head".
+  - `byr-crawl-audit.md` §3a: still served in September.
+  - Fixed by `6e07481` (2026-09-25) and checked live after the purge (BYR0 1).
+  - "Flagged in June" is in R-141's row, but the June audit is on your disk, so the copy leaves
+    it out.
 - **2:** `byr-crawl-audit.md` §3c and §3e. `handoff-012.md` §4 O-11: "(c)… it is an empty category
   (one unpublished post)" and "(e) needed nothing: the hero image already serves `alt=""`". The
   `alt=""` is in `bareyr` `inc/hero.php` from `1bee6ba` (2026-04-19).
@@ -599,7 +651,8 @@ Checked against the receipts:
 - **"not seen, so called missing"** is a new kind label, for receipts-001's `absence`. No
   live page has used that kind yet. **FIX** it if you want other words.
 
-**Q-BYR3: un-cut R-141?** It's the rest of miss 1: the invented framing shipped as sitewide `NGO`
+**Q-BYR3, answered: "yes".** R-141 is un-cut in receipts-001 and is now in miss 1 above. *Was
+asked:* un-cut R-141? It's the rest of miss 1: the invented framing shipped as sitewide `NGO`
 schema in April, was flagged in June, and was still served until today. You cut it on
 2026-09-23, before today's fix. With it, miss 1 ends with "…and every page went on telling
 software the site was a non-governmental organisation for five months, until September." I
@@ -610,9 +663,11 @@ miss 1 stands as drafted.
 
 > **H2:** Read it before fixing it, test it before believing it
 >
-> **1. A read-through.** A later read-through took the invented foundation out, while the
-> privacy page was rewritten in plain first person. *(Falls under: never invent a date, a figure
-> or an organisation; unknown means ask me · receipts-001, R-140)*
+> **1. A read-through, then a live check.** A later read-through took the invented foundation
+> out, while the privacy page was rewritten in plain first person. The structured data kept the
+> old framing for five more months. A check of what the live pages actually serve, made before
+> this page was written, found it, and it was fixed that day. *(Falls under: never invent a date,
+> a figure or an organisation; unknown means ask me · receipts-001, R-140, R-141)*
 >
 > **2. Reading the real thing before changing it.** The session that made the audit's fixes read
 > the code and the live page first. The category held one unpublished post, so the fix became
@@ -631,7 +686,7 @@ miss 1 stands as drafted.
 
 | The correction | The standing rule | Enforced in |
 |---|---|---|
-| An analysis invented a charity for the site (R-140) | Never invent a date, a figure or an organisation. Unknown means ask me | `CLAUDE.md` · rule 11 |
+| An analysis invented a charity for the site, and its schema outlived the correction (R-140, R-141) | Never invent a date, a figure or an organisation. Unknown means ask me | `CLAUDE.md` · rule 11 |
 | An audit reported two problems that weren't there (R-147, R-149) | Say what you read, not what exists | `CLAUDE.md` · rule 6 |
 | A host fix was recorded as done without a re-test (R-150) | "Done", "verified" and "deployed" are claims. Prove them from outside | `CLAUDE.md` · rule 2 |
 
@@ -640,6 +695,9 @@ Who caught what (the "I" rule):
   removed it (`2e0eb63`, 2026-04-21) is co-authored by an AI. It doesn't say who spotted it, so
   it's impersonal. **Q-BYR4: did you catch the foundation yourself?** If so, 1 becomes "I read
   it", like the graph's sliders.
+  - **Answered: "I don't know what you are referring to?"** No memory of it, so 1 stays
+    impersonal. The live check that found R-141 was the agent's (handoff-019 step 1), so it's
+    impersonal too.
 - **2 and 3 were the agent's,** so they're impersonal. You asked for 3 ("2 yes"), but the
   refusals were found by the agent's test.
 
@@ -658,8 +716,8 @@ Who caught what (the "I" rule):
 > Every guide now tells software who wrote it and when it was last reviewed. It gives one
 > breadcrumb trail instead of two. An empty category no longer appears in search results. The
 > plain-language summary for AI tools, `llms.txt`, is linked from every page and from
-> `robots.txt`. *(If Q-BYR3 is yes: "And the site no longer describes itself to software as a
-> non-governmental organisation.")* (→ `handoff-012.md`)
+> `robots.txt`. And the site no longer describes itself to software as a non-governmental
+> organisation. (→ `handoff-012.md`, receipts-001 R-141)
 >
 > *Fig. 2 (proposed):* the top of `/hcs-guide/`, with its "Last reviewed" line, cropped above the
 > guide's text.
@@ -685,7 +743,7 @@ Other notes:
 
 ### BYR7 — Receipts
 
-- `plans/receipts-001.md` §3E (R-140, R-147 to R-150)
+- `plans/receipts-001.md` §3E (R-140, R-141, R-147 to R-150)
 - `Claude outputs/byr-crawl-audit.md` (§1, §2, §3c, §3e, §5)
 - `Claude outputs/byr-bot-check-2026-09-25.md`, and `scripts/byr_bot_check.py`
 - `handoff-011.md` (§2 "Traps", §4 O-10, O-11)
@@ -724,14 +782,32 @@ catch that.
 
 ### Open for Thomas (BYR)
 
-- **Rule on:** BYR1 (H1 A/B) · BYR2 (quote A/B) · BYR3 · BYR4 (and R-150) · BYR5 · BYR6
+- **Rule on:** BYR2b (A/B) · BYR3 · BYR4 as revised (and R-150) · BYR5 as revised · BYR6
   (Fig. 2 or none) · BYR7 · P2
-- **Q-BYR2:** since when?
-- **Q-BYR3:** un-cut R-141?
-- **Q-BYR4:** did you catch the foundation yourself?
 - **Q-BYR5: the host filter.** It's at Hostinger, so it's your call. I recommend asking Hostinger
   support. Name the symptom: uncached requests from AI user-agents get a 429 or a LiteSpeed
   reCAPTCHA 403, through Cloudflare. And **ship the case study with the limit stated**, not
   waiting for Hostinger.
-- **Q-BYR6:** are the four social accounts in BYR's footer yours?
-- **Purge the LiteSpeed cache on bareyourrare.org** (O-13, BYR0 1). I re-check after.
+- **Q-BYR7:** remove the four unclaimed social links from BYR's footer now? (BYR0 5)
+
+### Rulings, BYR (Thomas, 2026-09-25)
+
+**First round:** "1 yes, 2 yes, 3 yes, 5 yes", and Q-BYR1 (BYR2). Applied in BYR0.
+
+**Second round, verbatim:**
+
+"i did the lightspeed purge, Blocks: A...byr2 the idea started in March as I had to move content
+from the old site to the child theme, prior I was building right in WordPress>blocks, Elementor,
+etc. I wanted freedom to do things I couldn't or that were a pain in the butt because of the extra
+weight handling the themes and plugins. Why pay for a plugin when I can ask you to make it my way
+for my content? byr3 yes, byr4 I don't know what you are referring to? byr5 explain in greater
+details. byr6 no, nobody has claimed them yet"
+
+- **The purge:** done. Re-checked: O-13 is closed (BYR0 1).
+- **"Blocks: A":** read as the two A/B choices then open. The H1 is A and the quote is A. The
+  other blocks aren't ruled OK yet.
+- **Q-BYR2:** March 2026 (BYR1). The rest of the answer became BYR2b.
+- **Q-BYR3: yes.** R-141 is un-cut and is in BYR4 miss 1, BYR5 1 and BYR6.
+- **Q-BYR4: doesn't recall.** Explained in the chat; 1 stays impersonal.
+- **Q-BYR5: asked for more detail.** Explained in the chat; still open.
+- **Q-BYR6: not his; the accounts are unclaimed.** That leads to Q-BYR7.

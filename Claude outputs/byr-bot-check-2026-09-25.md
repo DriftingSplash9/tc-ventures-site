@@ -126,3 +126,29 @@ permissions-policy: geolocation=(), microphone=(), camera=()
 x-turbo-charged-by: LiteSpeed
 cf-cache-status: DYNAMIC
 ```
+
+---
+
+## Addendum — after the cache purge, the same night
+
+Thomas purged the LiteSpeed cache after the `NGO` fix (`bareyr` `6e07481`). Right after that, a
+Chrome user-agent fetched ten pages, one every 7 s, to re-check the schema. None of the pages
+were cached yet. The output below is trimmed to the status and the LiteSpeed cache header; the
+script's `botverify=1` is shown as "(Bot Verification)", and times weren't logged:
+
+```
+/ 200 x-litespeed-cache: miss
+/poems/ 403  (Bot Verification)
+/sps/ 200 x-litespeed-cache: miss
+/ecd/ 403  (Bot Verification)
+/fechtner/ 200 x-litespeed-cache: miss
+/hajdu-cheney-syndrome/ 200 x-litespeed-cache: miss
+/hcs-guide/ 200 x-litespeed-cache: miss
+/about/ 200 x-litespeed-cache: miss
+/llms.txt 200
+/privacy/ 200 x-litespeed-cache: miss
+```
+
+`/poems/` and `/ecd/` both answered 200 on a retry 20 s later. So right after a purge, with
+nothing cached, the filter also refused a browser user-agent at this pace, on 2 of 10 pages.
+
