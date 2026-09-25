@@ -728,3 +728,65 @@ When M1–M6 are ruled, it ships on the usual checklist:
 (never a link that 404s), so it joins the M7 checklist as step 3b.
 
 **Still to rule:** M1–M6. W4 needs only a confirm of A.
+
+### Rulings on M1–M6 (Thomas, 2026-09-25)
+
+Thomas's words are quoted verbatim below, typos included.
+
+- **M1 FIX, in his words.**
+  - H1: "How AI is a tool I work with and an accessibility feature itself" (his double space
+    before "itself" closed up).
+  - Lede: "I decide what gets built, I am the imaginer, and I am the final check. The AI
+    drafts and does the legwork on my ok. This page is how that holds together across many
+    sessions, and the rules I keep because AI is still evolving."
+  - Applied to the preview, and to the meta and `og:description`, which repeat the lede.
+  - The page title and link-preview title are unchanged ("How I work with AI - Thomas
+    Cheesman"). **Q-M3.**
+- **M2 OK.** Also: "i think a bubble chart showing the flow to the md's." **Q-M2.**
+- **M3 OK. M4 OK. M6 OK.**
+- **M5 OK.** W4's line is unchanged, which confirms **A**.
+- **Also on M5:** "this coul;d be a place to show how the edges and nodes are rigourously
+  tested and we are up to 28 tests for each data point that must be met ( for the cluster
+  project)." It becomes a new block, **M8**, once the figure is settled (Q-M4).
+
+**Q-M2: the bubble chart.** Read as follows: each loop step is a bubble, and each bubble
+points to the file it writes.
+- Brief → `brief-001.md`
+- Spec → `plan-001-showcase.md`
+- Review → `copy-review-003.md`
+- Rule → `CLAUDE.md`
+- Next session → `handoff-NNN.md`
+- Build writes commits, not a `.md`.
+
+Recommend: a static SVG on `/method` only, with the same links. `/work/this-site` keeps its
+row. Motion waits for Phase 3, because the motion controls do not exist yet (PL-6).
+
+**Q-M3: the page title.** The H1 is now 13 words, too long for a title. Recommend keeping
+"How I work with AI - Thomas Cheesman".
+
+**Q-M4: the "28 tests" figure.** Counted with commands in `Reports Clustering` on
+2026-09-25. Nothing there was changed, and no git was run.
+- **`validate()` (`src/lib/graph.ts` L305–1042) has 59 failure points:** 36 on reports
+  (nodes) and 23 on dependencies (edges). Many node checks only fire on some nodes (the
+  release-schedule checks, for example).
+- **`scripts/validate-data.ts` adds whole-corpus invariants on top:** commercial sources,
+  termini, retention, dropped notes, relations, evidence URLs.
+- **`scripts/test-logic.ts` has 128 `ok(` assertion lines.** They test the code's logic, not
+  each data point.
+- **No file I searched states 28.** Searched: `HANDOFF.md`, the four playbooks,
+  `README.md`, `START-HERE.md`, `REPORTS.md`, and the scripts and `src` outside `archive/`.
+  Where does 28 come from?
+
+Rules that bear on M8 whatever the figure is:
+- **F-3 (counts only rounded)** and **CLAUDE.md rule 16:** "we are up to 28" goes stale as
+  checks are added. W3 on this same page says "round in copy".
+- **The validator is in a private repo,** so M8 can link only receipts-001 §3C. R-045 is a
+  miss in this same validator (M4 row 3).
+- Recommend describing what the checks demand, rounded ("dozens of checks"), rather than a
+  number.
+
+**Q-M5: the accessibility claim.** Nothing on `/method` or elsewhere on the site says how AI
+is an accessibility feature for Thomas. `/background` names Hajdu-Cheney, and `/contact`
+mentions speech. Does the page need a sentence in his words, or does the H1 stand alone?
+
+**Still to rule:** Q-M2, Q-M3, Q-M4, Q-M5.
