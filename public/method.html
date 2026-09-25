@@ -102,11 +102,11 @@
               session starts from there.
             </p>
 
-            <figure class="loop wide">
+            <figure class="loop loop--files wide">
               <div class="loop__scroll" tabindex="0" role="group" aria-label="The working loop diagram; scrolls sideways on small screens">
-              <svg viewBox="0 0 880 160" role="img" aria-labelledby="loop-title loop-desc">
-                <title id="loop-title">The working loop</title>
-                <desc id="loop-desc">Six steps in a row - brief, spec, build, review, rule, next session - joined left to right by arrows, with a dashed arrow returning from the last step to the first.</desc>
+              <svg viewBox="0 0 880 284" role="img" aria-labelledby="loop-title loop-desc">
+                <title id="loop-title">The working loop, and the file each step writes</title>
+                <desc id="loop-desc">Six steps in a row - brief, spec, build, review, rule, next session - joined left to right by arrows, with a dashed arrow returning from the last step to the first. Below each step, the file it writes: brief-001-wow-and-contact.md, plan-001-showcase.md, the commits, copy-review-003.md, CLAUDE.md and handoff-NNN.md.</desc>
                 <defs>
                   <marker id="loop-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
                     <path class="loop__arrow" d="M0,0 L10,5 L0,10 z"></path>
@@ -114,46 +114,67 @@
                   <marker id="loop-arr-back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
                     <path class="loop__arrow loop__arrow--back" d="M0,0 L10,5 L0,10 z"></path>
                   </marker>
+                  <marker id="loop-arr-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path class="loop__arrow" d="M0,0 L10,5 L0,10 z"></path>
+                  </marker>
                 </defs>
 
-                <line class="loop__edge" x1="128" y1="60" x2="160" y2="60" marker-end="url(#loop-arr)"></line>
-                <line class="loop__edge" x1="276" y1="60" x2="308" y2="60" marker-end="url(#loop-arr)"></line>
-                <line class="loop__edge" x1="424" y1="60" x2="456" y2="60" marker-end="url(#loop-arr)"></line>
-                <line class="loop__edge" x1="572" y1="60" x2="604" y2="60" marker-end="url(#loop-arr)"></line>
-                <line class="loop__edge" x1="720" y1="60" x2="752" y2="60" marker-end="url(#loop-arr)"></line>
-                <path class="loop__edge loop__edge--back" d="M810,82 L810,118 L70,118 L70,84" marker-end="url(#loop-arr-back)"></path>
+                <text class="loop__sub" x="440" y="22" text-anchor="middle">the rule carries forward; the narrative does not</text>
+                <path class="loop__edge loop__edge--back" d="M810,64 L810,34 L70,34 L70,60" marker-end="url(#loop-arr-back)"></path>
+                <line class="loop__edge" x1="126" y1="120" x2="160" y2="120" marker-end="url(#loop-arr)"></line>
+                <line class="loop__edge" x1="274" y1="120" x2="308" y2="120" marker-end="url(#loop-arr)"></line>
+                <line class="loop__edge" x1="422" y1="120" x2="456" y2="120" marker-end="url(#loop-arr)"></line>
+                <line class="loop__edge" x1="570" y1="120" x2="604" y2="120" marker-end="url(#loop-arr)"></line>
+                <line class="loop__edge" x1="718" y1="120" x2="752" y2="120" marker-end="url(#loop-arr)"></line>
 
                 <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/briefs/brief-001-wow-and-contact.md">
-                  <rect class="loop__node loop__node--accent" x="12" y="40" width="116" height="40" rx="20"></rect>
-                  <text class="loop__label loop__label--on" x="70" y="65" text-anchor="middle">Brief</text>
-                  <text class="loop__sub" x="70" y="30" text-anchor="middle">my words</text>
+                  <circle class="loop__node loop__node--accent" cx="70" cy="120" r="54"></circle>
+                  <text class="loop__label loop__label--on" x="70" y="116" text-anchor="middle">Brief</text>
+                  <text class="loop__sub loop__sub--on" x="70" y="134" text-anchor="middle">my words</text>
+                  <line class="loop__flow" x1="70" y1="176" x2="70" y2="242" marker-end="url(#loop-arr-flow)"></line>
+                  <rect class="loop__file" x="8" y="245" width="205" height="30" rx="15"></rect>
+                  <text class="loop__file-label" x="110.5" y="264" text-anchor="middle">brief-001-wow-and-contact.md</text>
                 </a>
                 <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/plan-001-showcase.md">
-                  <rect class="loop__node" x="160" y="40" width="116" height="40" rx="20"></rect>
-                  <text class="loop__label" x="218" y="65" text-anchor="middle">Spec</text>
-                  <text class="loop__sub" x="218" y="30" text-anchor="middle">what good means</text>
+                  <circle class="loop__node" cx="218" cy="120" r="54"></circle>
+                  <text class="loop__label" x="218" y="116" text-anchor="middle">Spec</text>
+                  <text class="loop__sub" x="218" y="134" text-anchor="middle">what good means</text>
+                  <line class="loop__flow" x1="218" y1="176" x2="218" y2="196" marker-end="url(#loop-arr-flow)"></line>
+                  <rect class="loop__file" x="142" y="199" width="152" height="30" rx="15"></rect>
+                  <text class="loop__file-label" x="218" y="218" text-anchor="middle">plan-001-showcase.md</text>
                 </a>
                 <a href="https://github.com/DriftingSplash9/tc-ventures-site/commits/main">
-                  <rect class="loop__node" x="308" y="40" width="116" height="40" rx="20"></rect>
-                  <text class="loop__label" x="366" y="65" text-anchor="middle">Build</text>
-                  <text class="loop__sub" x="366" y="30" text-anchor="middle">the agent</text>
+                  <circle class="loop__node" cx="366" cy="120" r="54"></circle>
+                  <text class="loop__label" x="366" y="116" text-anchor="middle">Build</text>
+                  <text class="loop__sub" x="366" y="134" text-anchor="middle">the agent</text>
+                  <line class="loop__flow" x1="366" y1="176" x2="366" y2="196" marker-end="url(#loop-arr-flow)"></line>
+                  <rect class="loop__file loop__file--git" x="333" y="199" width="66" height="30" rx="15"></rect>
+                  <text class="loop__file-label" x="366" y="218" text-anchor="middle">commits</text>
                 </a>
                 <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-003.md">
-                  <rect class="loop__node" x="456" y="40" width="116" height="40" rx="20"></rect>
-                  <text class="loop__label" x="514" y="65" text-anchor="middle">Review</text>
-                  <text class="loop__sub" x="514" y="30" text-anchor="middle">OK &middot; CUT &middot; FIX</text>
+                  <circle class="loop__node" cx="514" cy="120" r="54"></circle>
+                  <text class="loop__label" x="514" y="116" text-anchor="middle">Review</text>
+                  <text class="loop__sub" x="514" y="134" text-anchor="middle">OK &middot; CUT &middot; FIX</text>
+                  <line class="loop__flow" x1="514" y1="176" x2="514" y2="242" marker-end="url(#loop-arr-flow)"></line>
+                  <rect class="loop__file" x="444" y="245" width="140" height="30" rx="15"></rect>
+                  <text class="loop__file-label" x="514" y="264" text-anchor="middle">copy-review-003.md</text>
                 </a>
                 <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/CLAUDE.md">
-                  <rect class="loop__node" x="604" y="40" width="116" height="40" rx="20"></rect>
-                  <text class="loop__label" x="662" y="65" text-anchor="middle">Rule</text>
-                  <text class="loop__sub" x="662" y="30" text-anchor="middle">written down</text>
+                  <circle class="loop__node" cx="662" cy="120" r="54"></circle>
+                  <text class="loop__label" x="662" y="116" text-anchor="middle">Rule</text>
+                  <text class="loop__sub" x="662" y="134" text-anchor="middle">written down</text>
+                  <line class="loop__flow" x1="662" y1="176" x2="662" y2="196" marker-end="url(#loop-arr-flow)"></line>
+                  <rect class="loop__file" x="622" y="199" width="80" height="30" rx="15"></rect>
+                  <text class="loop__file-label" x="662" y="218" text-anchor="middle">CLAUDE.md</text>
                 </a>
                 <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-017.md">
-                  <rect class="loop__node" x="752" y="40" width="116" height="40" rx="20"></rect>
-                  <text class="loop__label" x="810" y="65" text-anchor="middle">Next session</text>
-                  <text class="loop__sub" x="810" y="30" text-anchor="middle">handoff-NNN</text>
+                  <circle class="loop__node" cx="810" cy="120" r="54"></circle>
+                  <text class="loop__label" x="810" y="116" text-anchor="middle">Next</text>
+                  <text class="loop__label" x="810" y="134" text-anchor="middle">session</text>
+                  <line class="loop__flow" x1="810" y1="176" x2="810" y2="242" marker-end="url(#loop-arr-flow)"></line>
+                  <rect class="loop__file" x="754" y="245" width="112" height="30" rx="15"></rect>
+                  <text class="loop__file-label" x="810" y="264" text-anchor="middle">handoff-NNN.md</text>
                 </a>
-                <text class="loop__sub" x="440" y="146" text-anchor="middle">the rule carries forward; the narrative does not</text>
               </svg>
               </div>
               <figcaption>Each step links to a real file from this site&rsquo;s own build.</figcaption>
@@ -288,6 +309,18 @@
                 <span class="mc__how"><b>What I do:</b> use it: drag the slider, Tab through the page, load it live. And make sure the check can fail &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3c-reports-clustering--the-influence-graph-method-and-workthis-site-where-it-overlaps">R-050</a></span>
               </li>
             </ol>
+
+            <!-- M8 (draft, awaiting ruling) -->
+            <p>
+              <b>In the research graph, the checks are code.</b> Its rule is &ldquo;No document,
+              no edge&rdquo;: a link between two reports goes in only if something published says
+              it exists. Dozens of checks run on every report and every link, and a change to the
+              data is not finished until they pass. A link that cites a homepage instead of the
+              document is flagged. A link graded A must carry the exact words it was found from. A
+              report cannot depend on itself, or on a report that is not in the graph. The checks
+              are checked too: one once reduced to a constant that could never fail, and it was
+              rewritten so that it can.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3c-reports-clustering--the-influence-graph-method-and-workthis-site-where-it-overlaps">R-045</a>
+            </p>
           </section>
 
           <!-- M6 -->

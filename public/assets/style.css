@@ -1252,6 +1252,18 @@ kbd {
 .loop a:hover .loop__node--accent { fill: var(--accent-ink); }
 .loop a:focus-visible { outline: none; }
 .loop a:focus-visible .loop__node { stroke: var(--accent); stroke-width: 3; }
+/* /method variant (copy-review-003 Q-M2): each step also points down to the
+   file it writes. Taller drawing, so a slightly wider minimum keeps the file
+   names readable in the sideways scroll. */
+.loop--files svg { min-width: 720px; }
+.loop .loop__sub--on { fill: var(--paper); }
+.loop .loop__flow { fill: none; stroke: var(--rule); stroke-width: 1.5; }
+.loop .loop__file { fill: var(--paper-tint); stroke: var(--rule); stroke-width: 1.5; }
+.loop .loop__file--git { stroke-dasharray: 3 4; }       /* commits, not a .md */
+.loop .loop__file-label { font-family: var(--mono); font-size: 11px; fill: var(--ink-soft); }
+.loop a:hover .loop__file { stroke: var(--accent); }
+.loop a:hover .loop__file-label { fill: var(--accent); }
+.loop a:focus-visible .loop__file { stroke: var(--accent); stroke-width: 3; }
 .loop figcaption {
   font-family: var(--mono);
   font-size: var(--t-tag);

@@ -790,3 +790,61 @@ is an accessibility feature for Thomas. `/background` names Hajdu-Cheney, and `/
 mentions speech. Does the page need a sentence in his words, or does the H1 stand alone?
 
 **Still to rule:** Q-M2, Q-M3, Q-M4, Q-M5.
+
+**Rulings (Thomas, 2026-09-25):** "1 yes, 2 keep, 3 dozens - create a docx listing all 128
+tests in the code's logic, 4 stands alone"
+- **Q-M2 yes:** the bubble diagram as read above. It is static, on `/method` only.
+- **Q-M3 keep:** the title stays "How I work with AI - Thomas Cheesman".
+- **Q-M4 "dozens":** M8 says "dozens of checks", with no exact figure. The Word file of the
+  logic tests goes to Thomas privately, not on the site. The research repo is private.
+- **Q-M5:** the H1 stands alone. No explanatory sentence.
+
+**Done 2026-09-25:**
+- **The bubble diagram is in the preview.** Six step bubbles, each with a connector down to
+  a file pill: `brief-001-wow-and-contact.md` (the real filename), `plan-001-showcase.md`,
+  commits (dashed outline, since they are not a `.md`), `copy-review-003.md`, `CLAUDE.md`
+  and `handoff-NNN.md`.
+  - The step labels, return arrow and caption are unchanged. "Next session" drops its
+    "handoff-NNN" sub-label, because its file pill now says it.
+  - It is still six links.
+  - CSS is additive, under `.loop--files`, so `/work/this-site` is untouched.
+  - Rendered in light and dark at 1280px, and at 375px: the page doesn't scroll sideways,
+    the diagram scrolls in its own box, and there are no console errors.
+  - Connectors and arrows use `--rule`, like the existing edges. They are faint on white;
+    for A-1 (non-text contrast).
+- **The logic-test list:** `Reports Clustering/Claude outputs/logic-tests-2026-09-25.docx`.
+  - All 128 tests are named verbatim from the code, parsed rather than retyped, in ten areas.
+  - Ran the same day: "logic: all 128 checks pass".
+  - Not linked from the site.
+
+### M8 — the research graph's checks (new, under M5's list)
+
+> **In the research graph, the checks are code.** Its rule is "No document, no edge": a link
+> between two reports goes in only if something published says it exists. Dozens of checks
+> run on every report and every link, and a change to the data is not finished until they
+> pass. A link that cites a homepage instead of the document is flagged. A link graded A must
+> carry the exact words it was found from. A report cannot depend on itself, or on a report
+> that is not in the graph. The checks are checked too: one once reduced to a constant that
+> could never fail, and it was rewritten so that it can. (→ R-045)
+
+Each claim, checked against the source on 2026-09-25:
+
+| Claim | Source (private repo) |
+|---|---|
+| "No document, no edge" | `Reports Clustering/CLAUDE.md` rule 2, verbatim |
+| Dozens of checks on every report and link | `validate()` in `src/lib/graph.ts`: 36 on reports, 23 on links, counted by command |
+| Not finished until they pass | `CLAUDE.md`: "`npm run validate` must pass before and after any data change" |
+| A homepage citation is flagged | `validate()`: warning for grade B/C, error for grade A. Hence "flagged", not "refused" |
+| A grade-A link needs the exact words | `validate()`: "an A grade requires the verbatim span" |
+| Cannot depend on itself or a missing report | `validate()`: "Self-referencing edge", "Edge references unknown source/target" |
+| The constant check, rewritten | `scripts/validate-data.ts` L749–756, and R-045 |
+
+Caveats:
+- **Only R-045 can be linked,** because the repo is private. The other claims carry no
+  receipt, which is weaker than the case-study standard. **A:** ship as is. **B:** cut to
+  the R-045 sentence alone. I recommend **A**. Every claim above was read from the code.
+- **Written as a checking rule, not an enforcement one.** `npm run build` does not run the
+  validator, so the copy doesn't say the graph "won't build".
+
+**Still to rule:** M8 (A / B), and a look at the bubble diagram. Then `/method` ships on the
+M7 checklist, plus step 3b: link the home page's "How I work" section to `/method`.
