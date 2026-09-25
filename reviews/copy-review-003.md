@@ -548,3 +548,176 @@ checklist:
 Shipped 2026-09-24:
 - Draft banner, `noindex` and the three `.assetsignore` lines removed.
 - `/work/this-site` added to the sitemap.
+
+---
+
+## `/method` — how I work with AI (M1–M7)
+
+**Drafted 2026-09-25**, following plan-001 §4b. Rulings already made (Thomas, 2026-09-25):
+- **No `/work/` index.** Projects stays (recorded in plan-001 §3).
+- **`/method` gets its own menu item.**
+- **R-014 is un-cut.** receipts-001 now has 37 OK and 75 CUT, counted by script.
+
+Preview: `public/method.html`, with a draft banner and `noindex`, and listed in
+`.assetsignore`. Checks run on 2026-09-25:
+- **Links:** every one returned 200. The exceptions are expected: the page's own address
+  404s until it ships, and LinkedIn answers scripts with 999.
+- **Anchors:** all five section anchors are confirmed on GitHub's rendered pages.
+- **Rendering:** checked in light and dark in a real browser. At 375px nothing scrolls
+  sideways and the rules table stacks. No console errors.
+
+**Receipts:**
+- Every receipt the page quotes is OK and ticked.
+- R-014, R-071, R-072 and R-080 were re-opened and ticked this session.
+- Rows from the research project link to receipts-001 §3C, because that repo is private.
+- F-2 holds: the outside model is not named.
+- F-3 holds: no exact counts. "About ten sessions" is rounded.
+
+### M1 — header
+
+> **Label:** Method
+> **H1:** How I work with AI
+> **Lede:** I decide what gets built, and I am the final check. The AI drafts and does the
+> legwork. This page is how that holds together across many sessions, and the rules I keep
+> because an AI broke them.
+> **Page title / link preview:** How I work with AI - Thomas Cheesman
+
+The first two sentences are the operating guide's "main idea" (`plans/operating-guide.md`),
+put into first person. That guide was never through a copy review, so they are new site copy
+here.
+
+### M2 — The loop
+
+> **H2:** One loop, every session
+>
+> *(Paragraph: T5's ruled text, word for word. The loop diagram and its caption are the same
+> as on `/work/this-site`.)*
+
+Two diagram links differ from `/work/this-site`: "Rule" goes to `CLAUDE.md` (the rules
+themselves), and "Next session" goes to handoff-017. The diagram is copied, not shared: the
+same SVG now lives in two pages.
+
+### M3 — Handoffs
+
+> **H2:** A written handoff, not a memory
+>
+> An AI session starts without the last one's context. So every session that changes anything
+> ends by writing a numbered handoff: where things stand, what is still open, and what nearly
+> went wrong. The next session reads it before it touches anything. The numbers run in one
+> straight line; when the work forks, the open items get a tag instead of a second series of
+> files. The rules for writing one are copied word for word into every handoff. (→
+> handoff-017 §5)
+>
+> *Excerpt, verbatim from handoff-017 §5:* "State, not narrative." · "Traps are worth more
+> than successes." · "Never claim something is done that you have not verified."
+
+A script confirmed each excerpt line matches handoff-017 exactly. It failed, as it should,
+on a copy with one word changed. The paragraph restates §5's own rules:
+- one line of numbering, never forked
+- open items carry a workstream tag
+- a session that changed nothing writes no handoff
+- the highest number is the only current one
+
+### M4 — The rules
+
+> **H2:** Rules I keep because an AI broke them
+>
+> These are the rules I hold AI work to, across all of my projects. Each one was drawn from
+> misses written down in handoffs, reviews and audits, and each row links one of them. Misses
+> from the research project link to the inventory, because that project's files are private.
+
+| The rule | A miss behind it | Where |
+|---|---|---|
+| Measure the thing itself, not a stand-in for it: drag the slider, Tab through the page, load it logged out | Three layout sliders shipped doing nothing. Each force measured correctly in a script; in the app, none of the sliders had any effect. I caught it by using them. (R-050) | the research graph |
+| "Verified", "clean" and "deployed" are claims. Check them from outside | A security policy passed on a local server and blocked the analytics script on the live site. (R-028) | this site |
+| The checker can be wrong too. Test the test | A validator check reduced, algebraically, to a constant: it could never fail. (R-045) | the research graph |
+| Say what you read, not what exists: "I could not see X", never "X is missing" | For about ten sessions a legal database was recorded as blocked to every tool. A real browser loaded it normally. (R-080) | the research graph |
+| A quote is verbatim, or it is empty | A research agent reported a footnote with an exact title and date. The footnote does not exist; it was assembled from true parts. (R-075) | the research graph |
+| A recommendation, a premise or a summary is a hypothesis until it is checked | Three of one session's four recommendations rested on something false. (R-072) | the research graph |
+| Never invent a date, a figure or an organisation. Unknown means ask me | A site analysis invented a registered charity for my rare-disease site, with made-up social-media links to go with it. (R-140) | bareyourrare.org |
+| No selling: no claims that go stale, no vanity numbers, no commitments that are not the AI's to make | The contact page promised I would reply "within a working day", a commitment only I can make. I set it to "within a day or two". (R-014) | this site |
+| One copy of each fact. A claim repeated in three notes is still one claim | An agent said three times that pushes were safe because there was no automatic deploy. The wrong belief was in three notes, so every check agreed with it. (R-007) | gpresidentialsociety.com |
+| Whoever extracts does not also decide. A doubt gets reported, never quietly overridden | An outside research model noticed its own quote pointed the opposite way, wrote that down, and kept the claim anyway. (R-071) | the research graph |
+
+Where the rule wording comes from:
+- **All ten rules are the receipts-001 §6 rows,** worded plainly. Rules 7 and 10 use
+  `CLAUDE.md` rules 11 and 15. "Ask Thomas" became "ask me".
+- **One miss per rule,** chosen for the clearest story.
+- **R-028 and R-007 link to their case studies,** which carry the primary receipts.
+- **R-014 links handoff-003 CT-4, not the two commits.** Commit `fe69dd7` also adds your
+  speech-clarity line to the contact page. It is live and yours, but linking a commit shows
+  its whole diff.
+
+**Checked against the receipts:**
+- **R-080:** "every prior session described EUR-Lex as 'anti-bot gated to every client
+  here'", from EU G.22 to G.31, until a browser fetch "loaded EUR-Lex pages normally".
+- **R-072:** "Three of the four turned out to rest on something false."
+- **R-071:** the model "flagged and then overrode" the direction problem.
+
+### M5 — Where AI is weak
+
+> **H2:** Where AI is weak, and what I do about it
+>
+> **W1. Plausible, wrong facts.** It fills a gap with something that sounds right: a charity
+> that does not exist, a footnote built from true parts. *What I do:* an unknown is a question
+> for me, and a quote is checked against its source or left empty. (R-140)
+>
+> **W2. Drift across sessions.** A wrong belief written into one note gets copied into the
+> next, until it looks settled. *What I do:* one current handoff, one copy of each fact, and
+> anything about deploys checked against the live site. (R-007)
+>
+> **W3. Numbers.** Exact counts go out of date, and counts from memory are simply wrong.
+> *What I do:* count with a command, and round in copy. (R-011)
+>
+> **W4. Over-polish.** It writes like marketing: promises in my name, impressive numbers,
+> claims that go stale. *What I do:* no copy ships until I have ruled on it, block by block.
+> (R-014)
+>
+> **W5. "Done" that is not done.** A passing script, a clean checker report or a working
+> local copy stands in for the real thing. *What I do:* use it: drag the slider, Tab through
+> the page, load it live. And make sure the check can fail. (R-050)
+
+Plan-001 §4b named four weaknesses: plausible-but-wrong facts, drift, invented numbers and
+over-polish. **W5 is added** because "done without checking" is the biggest class of miss
+in the inventory (receipts-001 §1). The list uses the existing numbered-item component with a
+"W" label, one additive line of CSS.
+
+**⚠ FLAG on W4, "no copy ships until I have ruled on it".** It is the rule now, but it
+hasn't always been:
+- **The rule was first written down in handoff-015** (2026-09-22), found with grep.
+- **The Back Quarter and four-site copy went live on 2026-09-19 before you had read it**
+  (handoff-008 C-7). You OK'd it two days later (handoff-012 closes C-7).
+
+So the line is true today but not of the whole history. **A:** keep it; it describes how the
+work runs now. **B:** "copy goes through my review, block by block, before it ships"
+(present practice, no "until"). I recommend **A**. W-items describe what you do, not a
+history.
+
+### M6 — The originals
+
+> **H2:** The files this page is drawn from
+>
+> - The twenty rules, drawn from the inventory · `CLAUDE.md`
+> - How the work is divided between me and the AI, and the checking routine for each kind of
+>   change · `plans/operating-guide.md`
+> - Every miss, how it was caught, and my ruling on each · `plans/receipts-001.md`
+> - The rules for writing a handoff · handoff-017 §5
+> - The copy review this page went through · copy-review-003 M1–M7
+> - Two case studies built this way · `/work/gprs` · `/work/this-site`
+
+The operating guide is linked for the first time here. I grepped it for private topics and
+found none.
+
+### M7 — the menu (not copy)
+
+"Method" goes after Projects on every page: Projects · Method · Background · Contact.
+When M1–M6 are ruled, it ships on the usual checklist:
+1. Remove the banner, `noindex` and the `.assetsignore` line.
+2. Add the page to the sitemap.
+3. Add Method to the nav on all eight pages.
+4. Verify live.
+
+**Q-M1:** should the home page's "How I work" section (`index.html` L154) link to `/method`, as G9 did for
+`/work/gprs`? I recommend yes.
+
+**Still to rule:** M1–M6, the W4 flag (A / B), and Q-M1.

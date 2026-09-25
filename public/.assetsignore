@@ -4,3 +4,5 @@
 work/_template.html
 .assetsignore
 og-src/
+# Draft awaiting a ruling in copy-review-003 (M1-M7). Remove this line to ship.
+method.html

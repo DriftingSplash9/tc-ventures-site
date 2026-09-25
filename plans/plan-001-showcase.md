@@ -50,20 +50,21 @@ secure headers, correct link previews.
 | Page | Job | Status |
 |---|---|---|
 | `/` Home | The argument in ten seconds, and the way in | rebuild |
-| `/work/` | Index of case studies | new |
+| `/work/` | Index of case studies | **not built, ruled 2026-09-25**: case studies sit in a sub-menu under Projects instead |
 | `/work/influence-graph` | Case study — the graph (keeps the live demo) | split out of projects |
 | `/work/back-quarter` | Case study — the drivable homepage | split out of projects |
 | `/work/desk-and-drawer` | Case study — the photograph menu | split out of projects |
 | `/work/bare-your-rare` | Case study — making a patient site legible to AI assistants (the audit, the schema, the host fault, the fix, verified) | new |
 | `/work/gprs` | Case study — the Grande Prairie Residential Society site: a volunteer nonprofit's public site, run solo since 2023, through the Margaret Edgson Manor fire and rebuild | new (ruled 2026-09-21) |
 | `/work/this-site` | Case study — tc-ventures.ca itself, built across numbered handoffs | new |
-| `/method` | **The centrepiece.** How he directs AI | new |
+| `/method` | **The centrepiece.** How he directs AI | new · **its own menu item, ruled 2026-09-25** |
 | `/background` | Kitchens → career change → now; experience; résumé | tighten |
 | `/contact` | One address, done properly | finish (brief-001) |
 | `/404` | Keep — it is already on-thesis | keep |
 
-`/projects.html` becomes a redirect to `/work/` (Cloudflare `_redirects` file —
-no code, no build step). GPRS gets its own case study (ruled 2026-09-21), so the
+~~`/projects.html` becomes a redirect to `/work/`~~ **Ruled 2026-09-25: no.** There is no
+`/work/` index; `/projects` stays, with the case studies in a sub-menu under it (live
+2026-09-24). GPRS gets its own case study (ruled 2026-09-21), so the
 case-study template is used seven times, not six.
 
 ## 4. The pieces, in detail

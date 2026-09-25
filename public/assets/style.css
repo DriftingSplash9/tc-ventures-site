@@ -1214,6 +1214,7 @@ kbd {
   font-variant-numeric: tabular-nums;
 }
 .mc--catch li::before { content: "C" counter(mc); }
+.mc--weak li::before { content: "W" counter(mc); }       /* /method: where AI is weak */
 .mc h3 { margin: 0 0 0.4em; font-size: 1.1rem; }
 .mc p { margin: 0; color: var(--ink-soft); }
 .mc p + p { margin-top: 0.6em; }
