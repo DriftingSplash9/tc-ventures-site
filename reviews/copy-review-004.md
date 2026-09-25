@@ -9,6 +9,8 @@ on `/method` false (M9).
 **Status:** M9, IG0–IG8 and P1 drafted 2026-09-25. **All ruled 2026-09-25:** M9 A (live),
 IG0 A, IG1–IG7 OK, P1 OK, Q-IG1 to Q-IG3 answered; see "Rulings" at the end. Q-IG4 and Q-IG5
 are open. The preview is built and checked (see the end).
+**BYR0–BYR8 and P2 (Bare Your Rare) drafted 2026-09-25**, after Step 1 was ruled ("1 yes, 2 yes,
+3 yes, 5 yes"). Open: every BYR block, and Q-BYR2 to Q-BYR6.
 
 Same format and marks as copy-review-001 to 003: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -423,3 +425,313 @@ Checked locally before the push:
 **Was open before it shipped:** Q-IG4 (Brics / BRICS) and Q-IG5. Then it ships on IG8's
 checklist, plus P1 and Q-IG3, when Thomas says so. Noticed, left for the design phase: the demo's
 paragraph sits tight against its frame, the same as on `/projects`.
+
+---
+
+## `/work/bare-your-rare` — Bare Your Rare (BYR0–BYR8, P2)
+
+**Drafted 2026-09-25.** Sources: receipts-001 §3E, `Claude outputs/byr-crawl-audit.md`,
+`handoff-011.md`, `handoff-012.md`, the new `Claude outputs/byr-bot-check-2026-09-25.md`, the live
+site fetched logged out, and the `bareyr` repo on GitHub (`DriftingSplash9/bareyourrare`,
+private: read, never linked). Nothing in the research repo was touched.
+
+### BYR0 — Step 1: the ground, checked (not copy)
+
+**Ruled (Thomas, 2026-09-25): "1 yes, 2 yes, 3 yes, 5 yes"**, and Q-BYR1 answered (BYR2).
+
+1. **O-13, the `NGO` schema: fixed at the origin, cached copies pending a purge.**
+   - Before: all five guides and the HCS story page served the sitewide `NGO` block (checked
+     logged out, 2026-09-25).
+   - `bareyr` commit `6e07481`, pushed to `main`: `'@type' => 'Organization'`, the publisher type
+     `inc/guide-schema.php` already uses. PHP lints clean. No other field changed.
+   - After, uncached (before 21:51 UTC): `/about/`, `/faq/`, `/hcs-guide/`, and cache-busted fetches of
+     `/hcs-guide/` and `/poems/` carry no `NGO`. So the deploy ran.
+   - **Still `NGO`, from LiteSpeed's cache:** `/`, `/poems/`, `/sps/`, `/ecd/`, `/fechtner/`,
+     `/hajdu-cheney-syndrome/`. **Thomas: purge the LiteSpeed cache.** I re-check every page
+     after.
+   - **The first "fixed" read was wrong (rule 3).** It matched the guide's publisher block, which
+     has the same name and type, and called `/poems/` fixed. Re-counted by grepping for `"NGO"`.
+2. **The host fault is only partly fixed.** Full log: `Claude outputs/byr-bot-check-2026-09-25.md`
+   (script: `scripts/byr_bot_check.py`).
+   - Every page LiteSpeed had cached was served to every agent tried.
+   - Pages it had not cached were refused at the origin, behind Cloudflare, to three of the five AI
+     agents tried: GPTBot got a 429 every time, Claude-User and PerplexityBot got LiteSpeed's
+     reCAPTCHA "Bot Verification" 403 some of the time. ClaudeBot and ChatGPT-User got through.
+   - One network, one evening, spoofed user-agents: a real crawler may be treated differently.
+   - So plan-001 §3's frame, "the fix, verified", can't stand. BYR4 and BYR6 say what's true.
+     Proposed as **R-150**.
+   - **The fix is at Hostinger, not in the theme.** See Q-BYR5.
+3. **Receipts added to receipts-001 §3E:** **R-148** (the audit read one day's failures as a
+   standing block) and **R-149** (the audit said the hero image had no alt text; it had
+   `alt=""`), both OK at "3 yes". **R-150** is added as pending; BYR4 rules it. "The fix" itself
+   is not a row, because rows are misses. It's a receipt for BYR6, linked directly.
+4. **Privacy read (R-026)** of every file BYR7 links: no symptom detail and nothing about family
+   in `byr-crawl-audit.md` or the new check file. `handoff-011.md` and `handoff-012.md` carry the
+   standing family rules (a name, "the three children", no children's names) and O-4's line about
+   a disclosed address, without the address. **Precedent:** live pages already link
+   `handoff-012.md` (`/work/this-site`) and `handoff-015.md`, which carry the same rules. So
+   linking `handoff-011.md` adds nothing new.
+5. **⚠ FLAG: the footer's social links.** R-140 says the March analysis made up social-profile
+   URLs. Every BYR page's footer links `x.com/bareyourrare`, `facebook.com/bareyourrare`,
+   `instagram.com/bareyourrare` and `tiktok.com/@bareyourrare` (`inc/footer.php` L104–131, there
+   since the repo's first commit, 2026-04-05). The sitewide schema's `sameAs` is empty, under
+   "TODO: add social profile URLs when accounts are live". I can't tell from here whether the
+   accounts exist or are yours: social sites refuse scripted fetches. **Q-BYR6: are they yours?**
+   If not, R-140 is still live on the site this page is about.
+
+### BYR1 — header
+
+> **Label:** Case study · a patient site
+> **H1:** **A (recommended):** A rare-disease site, written by a patient · **B:** Bare Your Rare
+> **Claim:** Five plain-language guides to ultra-rare conditions, marked up so a search engine or
+> an AI assistant can tell what each page is, who wrote it, and when it was last reviewed.
+> **Spec table:** Stack: WordPress with a hand-coded Astra child theme · page content lives in
+> the theme, not the editor · Status: Live · Hosted: Hostinger, behind Cloudflare since
+> September 2026 · a push to `main` deploys · Repo: private · Since: *(Q-BYR2)*
+> **Page title / link preview:** *(the H1)* - Thomas Cheesman · description: the claim.
+
+Where it comes from:
+- **H1 A** describes the site, as `/work/gprs`'s "A housing society's website" does. The name
+  alone tells a stranger nothing. The sub-menu uses the H1. A is 41 characters, six more than
+  the graph's label, so it needs checking at 375px.
+- **Claim:** each part was checked live on all five guides, 2026-09-25: `MedicalWebPage` with
+  `medicalAudience: Patient`, `author` and `lastReviewed`, plus a `MedicalCondition`.
+- **Stack:** `/work/gprs`'s wording. BYR is built the same way (`bareyr` `AGENTS.md`). WordPress
+  appears once, here.
+- **Hosted:** Cloudflare since 2026-09-20 (handoff-011, O-10). "A push to `main` deploys" was seen
+  today: `6e07481` was pushed at 21:40 UTC and served to uncached requests before 21:51.
+- **Repo: private.** It 404s logged out, so nothing links it. Or drop the row. Say if you'd
+  rather.
+
+**Q-BYR2: Since when?** The repo's first commit is 2026-04-05 ("Initial commit"), but the site is
+older than the repo:
+- the March 2026 site analysis (R-140, 2026-03-04)
+- the logo's upload path, `2026/02`
+- the schema's `foundingDate`, "2026"
+
+When did you start it?
+
+### BYR2 — The ask
+
+> **H2:** What I would have wanted to find
+>
+> I have Hajdu-Cheney syndrome (HCS), a rare connective-tissue disorder.
+>
+> *(The `/projects` paragraph, unchanged: "Bare Your Rare is a patient-led site for ultra-rare
+> conditions, built because most people searching for one of them find almost nothing… put into
+> plain language.")*
+>
+> *Pull quote, Thomas, 2026-09-25:*
+>
+> **A (recommended), two typos closed up:** "I built it from a patient(me)'s point of view. I
+> asked myself what would be helpful to me to come across on the internet? What can explain the
+> nuances of HCS? And then I thought I may as well expand this to more rare disorders so I
+> researched several others. I also wanted to work on my web design and building skills."
+>
+> **B, exactly as typed:** "…And then I th ought  I may as well expand this… my webb design and
+> building skills."
+
+- **A changes only two things:** "th ought" (and its double space) becomes "thought", and "webb"
+  becomes "web". "patient(me)'s" and both question marks stay as you wrote them. This is the same
+  kind of close-up as "nations.," on the graph.
+- **The first line** is `/background`'s wording, plus "(HCS)", because the quote uses the
+  abbreviation. The condition is named on purpose, and nothing about symptoms is added.
+- The quote cites this review (Q-BYR1), as `/work/gprs` cites copy-review-003 for Q-G1.
+
+### BYR3 — The standard
+
+> **H2:** Cited, dated, and readable before any script runs
+>
+> Each guide links to the medical literature and patient organisations it was written from, and
+> says when it was last reviewed. The words are in the page the server sends, so nothing has to
+> run before a reader, a search engine or an AI assistant can read them.
+> (→ `byr-crawl-audit.md` §2, §5)
+>
+> The machine-readable copy says the same things. Each guide tells software what it is (a
+> medical web page, written for patients), which condition it covers, who wrote it, and when it
+> was last reviewed. That date comes from the same function as the date printed on the page, so
+> the two can't disagree. (→ `handoff-012.md` §4, O-11)
+>
+> *Fig. 1:* part of the structured data `/hcs-guide/` serves, verbatim, trimmed to the fields
+> named above.
+
+Checked live, 2026-09-25:
+- **Sources:** every guide links outside the site to sources. Across the five: PubMed and PMC,
+  MedlinePlus, Orphanet, OMIM, NORD, journal publishers, and condition organisations.
+- **Review date:** every guide shows "Last reviewed: April 2026", and its `MedicalWebPage` says
+  `"lastReviewed": "2026-04"`.
+- **"The same function":** handoff-012 says the visible line and the schema both read
+  `byr_guide_review_date()`. Confirmed in `bareyr`: `inc/guide-schema.php` L66 and all five guide
+  templates call it.
+- **Fig. 1** is a code excerpt, not a screenshot, so no guide text appears in it.
+
+### BYR4 — What the AI got wrong
+
+> **H2:** A charity that didn't exist, and an audit that overreached
+>
+> **1. A charity that didn't exist.** A site analysis invented a registered charity for the site,
+> "Bare Your Rare Foundation", and drafted its structured data and its summary for AI tools
+> around it, with made-up social-media links to go with it. Bare Your Rare is one person's
+> project. *(plausible but invented · receipts-001, R-140)*
+>
+> **2. Two problems that weren't there.** A crawl audit of the site said a poetry category
+> collided with the POEMS syndrome guide. The category was empty. It said the header image had no
+> text alternative on nearly every page. The image had carried an empty one since April, which is
+> how a decorative image is marked. *(plausible but invented · not seen, so called missing ·
+> receipts-001, R-147, R-149)*
+>
+> **3. A fix recorded as done.** The same audit's most serious finding was that the host refused
+> automated fetchers. That matters here: when a patient asks an AI assistant about their
+> condition, the assistant fetches the page on their behalf. The site was moved behind
+> Cloudflare, and the notes recorded the problem as fixed. Five days later, pages the host had
+> not cached were still being refused to some AI agents, by the host itself. *(looked right but
+> was not measured · receipts-001, R-150)*
+
+Checked against the receipts:
+- **1:** R-140's row, and `/method`'s ruled wording for the same miss ("…with made-up social-media
+  links to go with it"). The analysis file is on your disk, not in any repo I can read. R-140 is
+  already ticked.
+- **2:** `byr-crawl-audit.md` §3c and §3e. `handoff-012.md` §4 O-11: "(c)… it is an empty category
+  (one unpublished post)" and "(e) needed nothing: the hero image already serves `alt=""`". The
+  `alt=""` is in `bareyr` `inc/hero.php` from `1bee6ba` (2026-04-19).
+- **3:** `handoff-011.md` §4 O-11: "§1 (host blocking) is fixed by O-10". Then
+  `byr-bot-check-2026-09-25.md`.
+- **"not seen, so called missing"** is a new kind label, for receipts-001's `absence`. No
+  live page has used that kind yet. **FIX** it if you want other words.
+
+**Q-BYR3: un-cut R-141?** It's the rest of miss 1: the invented framing shipped as sitewide `NGO`
+schema in April, was flagged in June, and was still served until today. You cut it on
+2026-09-23, before today's fix. With it, miss 1 ends with "…and every page went on telling
+software the site was a non-governmental organisation for five months, until September." I
+recommend un-cutting it: it's this page's subject, and today's fix closes it. If it stays cut,
+miss 1 stands as drafted.
+
+### BYR5 — How I caught it
+
+> **H2:** Read it before fixing it, test it before believing it
+>
+> **1. A read-through.** A later read-through took the invented foundation out, while the
+> privacy page was rewritten in plain first person. *(Falls under: never invent a date, a figure
+> or an organisation; unknown means ask me · receipts-001, R-140)*
+>
+> **2. Reading the real thing before changing it.** The session that made the audit's fixes read
+> the code and the live page first. The category held one unpublished post, so the fix became
+> keeping any empty category out of search results. The image's empty text alternative was
+> already there, so nothing needed doing. *(Falls under: say what you read, not what exists ·
+> receipts-001, R-147, R-149)*
+>
+> **3. Testing from outside, before this page said "fixed".** A script fetched the site every six
+> seconds, as a browser and as five AI agents, once with pages forced past the host's cache and
+> once without. Everything cached came back. Past the cache, one agent was refused every time and
+> two others some of the time. The refusals came from the host's own server, behind Cloudflare.
+> *(Falls under: "done", "verified" and "deployed" are claims; prove them from outside ·
+> receipts-001, R-150)*
+>
+> *Rules table:* three rows, one per miss.
+
+| The correction | The standing rule | Enforced in |
+|---|---|---|
+| An analysis invented a charity for the site (R-140) | Never invent a date, a figure or an organisation. Unknown means ask me | `CLAUDE.md` · rule 11 |
+| An audit reported two problems that weren't there (R-147, R-149) | Say what you read, not what exists | `CLAUDE.md` · rule 6 |
+| A host fix was recorded as done without a re-test (R-150) | "Done", "verified" and "deployed" are claims. Prove them from outside | `CLAUDE.md` · rule 2 |
+
+Who caught what (the "I" rule):
+- **1:** R-140 says "read-through (later audit; privacy rewrite)". The `bareyr` commit that
+  removed it (`2e0eb63`, 2026-04-21) is co-authored by an AI. It doesn't say who spotted it, so
+  it's impersonal. **Q-BYR4: did you catch the foundation yourself?** If so, 1 becomes "I read
+  it", like the graph's sliders.
+- **2 and 3 were the agent's,** so they're impersonal. You asked for 3 ("2 yes"), but the
+  refusals were found by the agent's test.
+
+"Falls under", not "became", for all three:
+- The truth rules were written on 2026-09-23 (`CLAUDE.md`), after misses 1 and 2.
+- Miss 3 comes after them, but it didn't create rule 2.
+- The rows link `tc-ventures-site/CLAUDE.md`, the public copy. BYR's own `CLAUDE.md` carries the
+  same twenty rules (`bareyr` `fea5b2b`), but that repo is private.
+- `/method` quotes rules 11 and 6 in this wording (rule 6 there also carries its example), so
+  rows 1 and 2 match it. Rule 2 isn't on `/method`, so row 3 uses `CLAUDE.md`'s wording.
+
+### BYR6 — What shipped
+
+> **H2:** Readable by people and by software, with one gap left
+>
+> Every guide now tells software who wrote it and when it was last reviewed. It gives one
+> breadcrumb trail instead of two. An empty category no longer appears in search results. The
+> plain-language summary for AI tools, `llms.txt`, is linked from every page and from
+> `robots.txt`. *(If Q-BYR3 is yes: "And the site no longer describes itself to software as a
+> non-governmental organisation.")* (→ `handoff-012.md`)
+>
+> *Fig. 2 (proposed):* the top of `/hcs-guide/`, with its "Last reviewed" line, cropped above the
+> guide's text.
+>
+> **The honest limits:** Checked in September 2026: the host still refuses some AI agents when a
+> page isn't in its cache, and emptying the cache after an update reopens that gap. The filter is
+> the host's, it sits behind Cloudflare, and it isn't fixed yet. The pages are also heavy for a
+> phone on a rural connection, and that hasn't been worked on.
+
+Checked live, 2026-09-25:
+- one `BreadcrumbList` on each guide
+- `<link rel="alternate" type="text/markdown" … href="…/llms.txt">` on the guides
+- `robots.txt` ends "# Plain-language site summary for AI tools: https://bareyourrare.org/llms.txt"
+- `/category/poems/` serves `noindex`
+
+Other notes:
+- **"Checked in September 2026"** dates the limit, so it won't become false when the host is
+  fixed. It should still be updated then, like C-20.
+- **Page weight** is the crawl audit's (g), still open (O-11g). "A rural connection" is the
+  audit's point, not a new claim.
+- **Fig. 2** needs you to look at the crop before it goes in (no symptom text). The alternative
+  is no second figure. Say which.
+
+### BYR7 — Receipts
+
+- `plans/receipts-001.md` §3E (R-140, R-147 to R-150)
+- `Claude outputs/byr-crawl-audit.md` (§1, §2, §3c, §3e, §5)
+- `Claude outputs/byr-bot-check-2026-09-25.md`, and `scripts/byr_bot_check.py`
+- `handoff-011.md` (§2 "Traps", §4 O-10, O-11)
+- `handoff-012.md` (§4 O-11)
+- `reviews/copy-review-004.md`, Q-BYR1 (the ask)
+- `CLAUDE.md` (rules 2, 6, 11)
+- the live site
+
+All are in this repo, which is public. The `bareyr` repo is private, so it isn't linked.
+**The two new files 404 on `main` until this branch is merged.** The preview's link check will
+catch that.
+
+### BYR8 — what goes with it (not copy)
+
+1. **The page:** `public/work/bare-your-rare.html` (plan-001's path), built on the
+   influence-graph pattern. The preview goes in `.assetsignore`, with the draft banner and
+   `noindex`.
+2. **The sub-menu:** its label is the H1. It goes second, after the graph and before the
+   housing society, which is the `/projects` order (BYR is the first of "And four live sites").
+   That's all ten files, plus the new one.
+3. **P2** below: `/projects` and the home page link the case study, in the same push.
+4. **The usual checklist:** sitemap; check-run, curl, console, 375px, keyboard; the site suite
+   local and live.
+5. **The check scripts from last session** (`site_check.py`, `ig_check.py`, `ig_shots.py`) were
+   in that machine's scratchpad, not the repo (INFRA-13). They aren't here, so they get
+   rewritten, into `scripts/` this time.
+6. **The security policy** isn't changed. No new script.
+
+### P2 — `/projects` and home: link the case study
+
+> **`/projects`**, the BYR paragraph: unchanged, plus a final "Read the case study." linking
+> `/work/bare-your-rare`, as the housing society's paragraph has.
+>
+> **Home**, the "Four live sites" card: "bareyourrare.org for rare-disease patients (read the case
+> study)", as the housing society has.
+
+### Open for Thomas (BYR)
+
+- **Rule on:** BYR1 (H1 A/B) · BYR2 (quote A/B) · BYR3 · BYR4 (and R-150) · BYR5 · BYR6
+  (Fig. 2 or none) · BYR7 · P2
+- **Q-BYR2:** since when?
+- **Q-BYR3:** un-cut R-141?
+- **Q-BYR4:** did you catch the foundation yourself?
+- **Q-BYR5: the host filter.** It's at Hostinger, so it's your call. I recommend asking Hostinger
+  support. Name the symptom: uncached requests from AI user-agents get a 429 or a LiteSpeed
+  reCAPTCHA 403, through Cloudflare. And **ship the case study with the limit stated**, not
+  waiting for Hostinger.
+- **Q-BYR6:** are the four social accounts in BYR's footer yours?
+- **Purge the LiteSpeed cache on bareyourrare.org** (O-13, BYR0 1). I re-check after.
