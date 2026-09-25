@@ -6,9 +6,9 @@ ledger, in this order: the influence graph, then Bare Your Rare, then the Back Q
 Desk together (plan-001 §5). He also ruled that the research repo,
 `DriftingSplash9/Reports-Clustering`, is **meant to be public**. That makes one live sentence
 on `/method` false (M9).
-**Status:** M9, IG0–IG8 and P1 drafted 2026-09-25. **Ruled so far:** M9 A (live), IG0 A,
-Q-IG3 yes, P1 OK; see "Rulings" at the end. There is no preview page yet. It gets built from
-the ruled copy, since the design comes later.
+**Status:** M9, IG0–IG8 and P1 drafted 2026-09-25. **All ruled 2026-09-25:** M9 A (live),
+IG0 A, IG1–IG7 OK, P1 OK, Q-IG1 to Q-IG3 answered; see "Rulings" at the end. Q-IG4 and Q-IG5
+are open. The preview is built and checked (see the end).
 
 Same format and marks as copy-review-001 to 003: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -344,5 +344,51 @@ What gets cut from both pages, and why:
   as the page, never as a link that 404s.
 - **P1 OK:** the `/projects` graph section is cut down when the case study ships, not before.
 
-**Still to rule:** IG1–IG7; Q-IG1 (the ask, in your words, or keep the `START-HERE.md` lines);
-Q-IG2 (Since); "seven" (KEEP / FIX); and the three lead misses, if you want different ones.
+"I made the Graph because I wanted to see how something at a municipal level is influenced by
+something on the international level. I also wanted to see how organizations such as the EU and
+Brics operate compared to nations., since july 2026, ig1-ig7 ok, seven keep" (verbatim)
+- **Q-IG1 answered.** His first two sentences replace the `START-HERE.md` lines as IG2's pull
+  quote. They are verbatim, except that "nations.," is closed up to "nations." (the comma
+  belongs to the ruling that follows). "Graph" and "Brics" are as he wrote them. **Q-IG4:**
+  "Brics" or "BRICS"? The research repo spells it "BRICS".
+- **Q-IG2: July 2026.** "Since: July 2026" stands.
+- **IG1–IG7 OK.** The three lead misses stand.
+- **"Seven": KEEP.**
+
+**Preview built 2026-09-25:** `public/work/influence-graph.html`, with a draft banner and
+`noindex`, and listed in `.assetsignore`. It is built from the ruled copy, with the demo
+markup and the reused `/projects` paragraphs copied unchanged.
+- **The sub-menu** lists the graph first, matching the order of `/projects`.
+- **Receipt links are pinned** to research-repo commit `8b2f593`, the archive files included.
+  IG7 said the archive files would link `main`. Pinning also covers a file being moved, which
+  that repo does (the 2026-09-07 audit found paths that had moved to `archive/`).
+- **Line ranges:** the first and last line of each range were read from the pinned commit.
+  `PLAYBOOK-RENDER.md` now starts at L33, where rule 18 begins, instead of L38.
+- **The excerpt** keeps the "2." rule number, as the source line has it.
+
+Checked locally in headless Chromium: 16 of 17 checks passed.
+- **Passed:**
+  - status, title, the six sections in order, and the sub-menu with `aria-current`
+  - the graph loads from the keyboard, focus moves to the stage, and an arrow key reads out a
+    dependency
+  - no console errors, and no sideways scroll at 375px
+  - with JavaScript off: the button and stage are hidden, and the still and the five-link chain
+    show
+  - 36 links, all 200 except LinkedIn (999, expected). A negative control (an unknown local
+    URL) returns 404, so the link check can fail.
+- **The one failure was the test (rule 3).** The browser reports the "Fig. N" rule, not the
+  number it draws, so the numbering was checked in a screenshot instead: Fig. 1 and Fig. 2.
+- **Looked at:** the header, misses, rules table and demo in light and dark at 1280px, and the
+  header at 375px.
+- **Not checked:** the live security policy, since `_headers` isn't served locally. The live
+  console gets read after the push.
+
+**Q-IG5 (new): the counts in Fig. 1.** The application screenshot shows the app's own exact
+report and dependency counts in its side panel. That screenshot is the one ruled exception to
+the no-exact-counts rule, on `/projects`. IG6, ruled OK, puts it on this page too. Does the
+exception cover it here? I recommend yes. It's the same image, and it's the app's display, not
+copy.
+
+**Still open before it ships:** Q-IG4 (Brics / BRICS) and Q-IG5. Then it ships on IG8's
+checklist, plus P1 and Q-IG3, when Thomas says so. Noticed, left for the design phase: the demo's
+paragraph sits tight against its frame, the same as on `/projects`.

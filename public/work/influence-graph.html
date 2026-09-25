@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Economic Report Influence Graph - Thomas Cheesman</title>
+<meta name="description" content="A 3D map of where official numbers come from, where a line between two reports goes in only if a published document says it belongs there.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://tc-ventures.ca/work/influence-graph">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TC &rsquo;Ventures">
+<meta property="og:url" content="https://tc-ventures.ca/work/influence-graph">
+<meta property="og:title" content="The Economic Report Influence Graph - Thomas Cheesman">
+<meta property="og:description" content="A 3D map of where official numbers come from, where a line between two reports goes in only if a published document says it belongs there.">
+<meta property="og:image" content="https://tc-ventures.ca/assets/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Thomas Cheesman, Grande Prairie, Alberta, remote. Beside the name, a slice of the Economic Report Influence Graph.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@TCheesy_">
+<meta name="twitter:creator" content="@TCheesy_">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/nav.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="draft">
+  <div class="wrap wrap--page">
+    <p><b>Draft</b> &middot; copy ruled in copy-review-004 &middot; not linked, not in the sitemap, noindex</p>
+  </div>
+</div>
+
+<header class="topbar">
+  <div class="wrap wrap--page topbar__inner">
+    <a class="wordmark" href="/">Thomas Cheesman</a>
+    <nav aria-label="Primary">
+      <div class="navsub">
+        <a href="/projects" aria-current="true">Projects</a>
+        <button class="navsub__toggle" type="button" aria-expanded="false" aria-controls="navsub-work">
+          <span class="sr-only">Case studies</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <ul class="navsub__list" id="navsub-work" aria-label="Case studies">
+          <li><a href="/work/influence-graph" aria-current="page">The Economic Report Influence Graph</a></li>
+          <li><a href="/work/gprs">A housing society&rsquo;s website</a></li>
+          <li><a href="/work/this-site">This site</a></li>
+        </ul>
+      </div>
+      <a href="/method">Method</a>
+      <a href="/background">Background</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap wrap--page">
+    <div class="cs-layout">
+
+      <div class="cs-layout__main">
+        <header class="cs-head">
+          <p class="label">Case study &middot; a research project</p>
+          <h1>The Economic Report Influence Graph</h1>
+          <p class="cs-head__claim">
+            A 3D map of where official numbers come from, where a line between two reports goes in
+            only if a published document says it belongs there.
+          </p>
+          <dl class="cs-head__meta">
+            <div><dt>Stack</dt><dd>TypeScript &middot; Vite &middot; React &middot; three-forcegraph &middot; d3-force-3d &middot; no backend</dd></div>
+            <div><dt>Status</dt><dd><span class="tag">In active development</span></dd></div>
+            <div><dt>Corpus</dt><dd>Thousands of published reports and the documented dependencies between them, growing weekly</dd></div>
+            <div><dt>Coverage</dt><dd>Well over a hundred countries</dd></div>
+            <div><dt>Evidence</dt><dd>Every dependency graded A, B or C on how well its document supports it</dd></div>
+            <div><dt>Repo</dt><dd><a href="https://github.com/DriftingSplash9/Reports-Clustering">DriftingSplash9/Reports-Clustering</a></dd></div>
+            <div><dt>Since</dt><dd>July 2026</dd></div>
+          </dl>
+        </header>
+
+        <nav class="cs-index cs-index--inline" aria-label="On this page">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+        </nav>
+
+        <div class="cs-body">
+          <section class="cs-section" id="ask" aria-labelledby="h-ask">
+            <span class="cs-section__num">The ask</span>
+            <h2 id="h-ask">A question nobody could answer</h2>
+
+            <p>
+              Every important number in public life &mdash; inflation, a disability payment, how much your
+              city gets for road repair &mdash; is calculated from some other number, which was calculated
+              from another, back to a handful of foundational statistical releases. Almost nobody can see
+              that structure, including the people who depend on it.
+            </p>
+            <p>
+              This draws it. Each sphere is a real published report, each line a documented dependency
+              between two of them, and a report&rsquo;s size is how much everything else rests on it. It
+              runs in a browser, in 3D, with no backend.
+            </p>
+
+            <blockquote class="pull">
+              <p>
+                &ldquo;I made the Graph because I wanted to see how something at a municipal level is
+                influenced by something on the international level. I also wanted to see how
+                organizations such as the EU and Brics operate compared to nations.&rdquo;
+              </p>
+              <footer><cite>Thomas</cite> &middot; 2026-09-25 &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-004.md">copy-review-004, Q-IG1</a></footer>
+            </blockquote>
+          </section>
+          <section class="cs-section" id="standard" aria-labelledby="h-standard">
+            <span class="cs-section__num">The standard</span>
+            <h2 id="h-standard">No document, no edge</h2>
+
+            <p>
+              <em>No document, no edge.</em> A line is drawn only if a published document says, in words I
+              can quote, that one report uses the other as an input. Leads I cannot source go to a dropped
+              list with a reason attached. Every existing line is graded A, B or C on how well its cited
+              document actually supports it, and the grade is visible in the app, because a map that hides
+              its own weak spots is worse than no map.
+            </p>
+
+            <figure class="excerpt">
+              <pre>2. <mark>**No document, no edge.**</mark> If nothing published says a dependency exists it does not go in the graph; unverifiable leads go to `_dropped` with a reason.
+
+`npm run validate` must pass before and after any data change.</pre>
+              <figcaption>Two rules from <code>CLAUDE.md</code> in the project&rsquo;s repo, verbatim. Curated: the file has more.<a class="receipt" href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/CLAUDE.md?plain=1#L21-L25">CLAUDE.md</a></figcaption>
+            </figure>
+
+            <p>
+              The checks that enforce it are on the <a href="/method#weak">Method page</a>.
+            </p>
+          </section>
+          <section class="cs-section" id="wrong" aria-labelledby="h-wrong">
+            <span class="cs-section__num">What the AI got wrong</span>
+            <h2 id="h-wrong">Three misses: a slider, a sentence, and the docs</h2>
+
+            <ol class="mc">
+              <li>
+                <h3>Sliders that did nothing</h3>
+                <p>
+                  The layout has sliders for its physics, such as how hard the clusters of different
+                  countries push apart. Three times, a new force shipped with a slider that did
+                  nothing. Each time the force itself was correct, and a script measured it working.
+                  But moving the slider never restarted the simulation, and by the time anyone
+                  touched it the simulation had settled, so the force was being multiplied by almost
+                  nothing.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> looked right but was not measured &middot; <a class="receipt" href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/archive/Previous%20Handoffs/HANDOFF-2026-08-28-pre-trim-032.md?plain=1#L225-L243">handoff 032</a></span>
+              </li>
+              <li>
+                <h3>The right quote, the wrong subject</h3>
+                <p>
+                  A research session recommended a New Zealand dependency as checked and ready to
+                  add: New Zealand&rsquo;s government finance statistics, built on the international
+                  System of National Accounts. The quote behind it was real and copied correctly. But
+                  the sentence was about an international manual, not New Zealand&rsquo;s release. It
+                  said the manual is consistent with the System of National Accounts, not that New
+                  Zealand&rsquo;s figures are built from it.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> plausible but invented &middot; <a class="receipt" href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/archive/NZ/G.3.md?plain=1#L129-L164">NZ handoff G.3</a></span>
+              </li>
+              <li>
+                <h3>Documents that were true when written</h3>
+                <p>
+                  Besides the handoff, which is rewritten every session, the project keeps standing
+                  documents: its rules, its playbooks and its plain-language description. The handoff
+                  was checked every session. Nothing checked the others. When they were read against
+                  the most recent handoffs, seven statements in them were false, and every one had
+                  been true when it was written.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> drift across sessions &middot; <a class="receipt" href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/notes/doc-audit-2026-09-07.md?plain=1#L80-L100">doc audit, 2026-09-07</a></span>
+              </li>
+            </ol>
+          </section>
+          <section class="cs-section" id="caught" aria-labelledby="h-caught">
+            <span class="cs-section__num">How I caught it</span>
+            <h2 id="h-caught">Use it, read the sentence, sweep the rest</h2>
+
+            <ol class="mc mc--catch">
+              <li>
+                <h3>I used it</h3>
+                <p>
+                  The last two were caught the same way: I moved the slider, saw nothing change, and
+                  said so. The third time, my words were &ldquo;I don&rsquo;t see any effect from
+                  it.&rdquo; The force was fine. The slider had never been wired to restart the
+                  simulation, as the working sliders were. The fix copied their wiring, and it was
+                  checked by dragging the slider in my browser.
+                </p>
+                <span class="mc__how"><b>Became the rule:</b> &ldquo;verify by dragging the slider, not by measuring the force in a script&rdquo; &middot; <a class="receipt" href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/PLAYBOOK-RENDER.md?plain=1#L33-L44">PLAYBOOK-RENDER.md</a></span>
+              </li>
+              <li>
+                <h3>The next session read the sentence, not the summary</h3>
+                <p>
+                  The following session went back to the quoted sentence itself, instead of the last
+                  session&rsquo;s summary of it, and checked what the sentence was about. The
+                  dependency was not added. It went on the dropped list with the reasoning. The two
+                  other New Zealand dependencies recommended with it held up, and were added.
+                </p>
+                <span class="mc__how"><b>Became the rule:</b> &ldquo;read the sentence as well as fetching it&rdquo; &middot; <a class="receipt" href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/archive/NZ/G.3.md?plain=1#L536-L541">NZ handoff G.3</a></span>
+              </li>
+              <li>
+                <h3>I asked for the documents to be checked against the record</h3>
+                <p>
+                  Too many recent sessions had been about the machinery, not the research: &ldquo;many
+                  recent threads have had to do with the way this all works, not the actual work on
+                  the project.&rdquo; So I asked for the latest handoffs to be read against the
+                  standing documents. That read found the seven, and all seven were corrected. It is
+                  routine now: every fifth handoff sweeps the standing documents as well as itself.
+                </p>
+                <span class="mc__how"><b>The rule now:</b> sweep everything on every fifth handoff &middot; <a class="receipt" href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/HANDOFF.md?plain=1#L286-L292">HANDOFF.md</a></span>
+              </li>
+            </ol>
+
+            <table class="rules wide">
+              <caption>Each correction, the standing rule it falls under, and where that rule lives.</caption>
+              <thead>
+                <tr><th scope="col">The correction</th><th scope="col">The standing rule</th><th scope="col">Enforced in</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" data-th="The correction">Three sliders shipped doing nothing, while a script said each force worked</th>
+                  <td data-th="The standing rule">Verify by dragging the slider, not by measuring the force in a script</td>
+                  <td data-th="Enforced in"><code>PLAYBOOK-RENDER.md</code></td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">A correctly quoted sentence was about something else</th>
+                  <td data-th="The standing rule">A recommendation, a premise or a summary is a hypothesis until it is checked</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 13</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">Seven statements in the standing documents had gone stale unnoticed</th>
+                  <td data-th="The standing rule">Every fifth handoff sweeps everything, the standing documents included</td>
+                  <td data-th="Enforced in"><code>HANDOFF.md</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="cs-section" id="shipped" aria-labelledby="h-shipped">
+            <span class="cs-section__num">What shipped</span>
+            <h2 id="h-shipped">A graph that shows its own weak spots</h2>
+
+            <section class="gd wide" id="graph-demo" aria-labelledby="gd-head">
+              <div class="prose">
+                <h3 id="gd-head">One city&rsquo;s budget, traced all the way back</h3>
+                <p>
+                  This is the slice that sits above my own city. Start at the City of Grande
+                  Prairie&rsquo;s budget report, follow only what it is documented to depend on,
+                  and keep following: fifty-odd published reports and seventy-odd dependencies,
+                  ending at statistical standards written by the United Nations. The road-repair
+                  money is in there.
+                </p>
+              </div>
+
+              <div class="gd__frame">
+                <figure class="gd__still">
+                  <img src="/assets/img/graph-gp-budget.webp" width="1280" height="800"
+                       loading="lazy" decoding="async"
+                       alt="A three-dimensional web of about fifty coloured spheres joined by fine lines, one white sphere near the centre and several larger spheres at the far end.">
+                </figure>
+                <div class="gd__stage" hidden tabindex="0" role="application" aria-roledescription="3D graph"
+                     aria-label="Live 3D graph of the same slice. Left and right arrow keys step through its dependencies one at a time; each is read out below the graph."></div>
+                <div class="gd__loadwrap">
+                  <button type="button" class="btn gd__load" hidden>Load the live graph</button>
+                </div>
+              </div>
+              <div class="gd__panel" aria-live="polite" tabindex="-1">
+                <p class="gd__hint">
+                  The still is a render of the same data. Nothing three-dimensional is
+                  downloaded until you ask for it.
+                </p>
+              </div>
+
+              <ul class="gd__legend">
+                <li><span class="gd__swatch" style="background:#FFFFFF"></span>The budget itself</li>
+                <li><span class="gd__swatch" style="background:#F0A64E"></span>Municipal</li>
+                <li><span class="gd__swatch" style="background:#5CC7D1"></span>Provincial</li>
+                <li><span class="gd__swatch" style="background:#7FA8F0"></span>Federal</li>
+                <li><span class="gd__swatch" style="background:#C08FE0"></span>Institutional</li>
+                <li><span class="gd__swatch" style="background:#78C98D"></span>International</li>
+                <li>Size is how much of the whole corpus rests on that report</li>
+              </ul>
+
+              <div class="prose">
+                <h3>One path through it, in words</h3>
+                <p>
+                  Six documents, and every link graded on how well the document I cited actually
+                  supports it. Two of these are C&rsquo;s. They stay visible, and they stay graded
+                  C, because the weak joins are the ones a reader most needs to see.
+                </p>
+              </div>
+
+              <ol class="gd__chain">
+                <li>
+                  <span class="gd__step">Uses data from &middot; graded <em>B</em></span>
+                  <b>City Budget Report</b>, City of Grande Prairie &rarr;
+                  <b>Local Government Fiscal Framework &mdash; Capital Funding Allocations</b>,
+                  Alberta Municipal Affairs
+                </li>
+                <li>
+                  <span class="gd__step">Is calculated from &middot; graded <em>C</em></span>
+                  <b>Local Government Fiscal Framework</b> &rarr;
+                  <b>Alberta Budget &mdash; Fiscal Plan</b>, Alberta Treasury Board and Finance
+                </li>
+                <li>
+                  <span class="gd__step">Uses data from &middot; graded <em>A</em></span>
+                  <b>Alberta Budget &mdash; Fiscal Plan</b> &rarr;
+                  <b>Canada Health Transfer</b>, Department of Finance Canada
+                </li>
+                <li>
+                  <span class="gd__step">Is calculated from &middot; graded <em>C</em></span>
+                  <b>Canada Health Transfer</b> &rarr;
+                  <b>National Economic Accounts (Quarterly)</b>, Statistics Canada
+                </li>
+                <li>
+                  <span class="gd__step">Follows the methodology of &middot; graded <em>B</em></span>
+                  <b>National Economic Accounts</b> &rarr;
+                  <b>System of National Accounts 2008</b>, United Nations, European Commission,
+                  IMF, OECD and World Bank
+                </li>
+              </ol>
+            </section>
+
+            <figure class="shot wide">
+              <img src="/assets/img/graph-app-ui.webp" width="1900" height="886" loading="lazy" decoding="async"
+                   alt="The graph application: a dark canvas holding several dense, differently coloured clusters of spheres joined by fine lines, with a filter panel down the left side and layout controls down the right.">
+              <figcaption>
+                The application itself, filtered to national-tier reports. Colour groups reports by the
+                statistical system that publishes them. The panels are filters on one side and the layout
+                physics on the other &mdash; spacing and node size change what a viewer believes about the
+                data, so both are controls rather than settings I picked once and hid.
+              </figcaption>
+            </figure>
+
+            <figure class="shot wide">
+              <img src="/assets/img/graph-nations.webp" width="1280" height="800" loading="lazy" decoding="async"
+                   alt="A sparser view of the same graph showing spheres of widely varying size joined by long lines.">
+              <figcaption>
+                Filtered to national-tier reports. Sphere size is weighted authority &mdash; how much of
+                everything else traces back through that one release.
+              </figcaption>
+            </figure>
+
+            <h3>The honest limits</h3>
+            <p>
+              The corpus grows. Statistical agencies publish on their own schedules, so the graph is built
+              to keep looking &mdash; new releases get pulled in, new dependencies get sourced and graded,
+              and the counts move every week. Any exact figure quoted here would be wrong by the time you
+              read it, which is why you will not find one.
+            </p>
+            <p>
+              The live slice on this page is a snapshot from September 2026, and the full graph has
+              moved on since. The grades also show how unevenly the map is drawn: some countries in
+              depth, others by a single thread, which says who has looked, not what exists.<a class="receipt" href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/START-HERE.md?plain=1#L209-L228">START-HERE.md</a>
+            </p>
+          </section>
+          <section class="cs-section" id="receipts" aria-labelledby="h-receipts">
+            <span class="cs-section__num">Receipts</span>
+            <h2 id="h-receipts">The files behind every claim above</h2>
+
+            <ul class="receipts wide">
+              <li>
+                <p class="receipts__what">What the project is, in plain language, and how unevenly the map is drawn</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/START-HERE.md">START-HERE.md</a></p>
+              </li>
+              <li>
+                <p class="receipts__what">The rules every agent reads before touching the project</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/CLAUDE.md">CLAUDE.md</a></p>
+              </li>
+              <li>
+                <p class="receipts__what">Three sliders that did nothing, and the rule that came from it</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/archive/Previous%20Handoffs/HANDOFF-2026-08-28-pre-trim-032.md?plain=1#L225-L243">handoff 032</a> &middot; <time datetime="2026-08-28">2026-08-28</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">Where that rule lives now</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/PLAYBOOK-RENDER.md?plain=1#L33-L44">PLAYBOOK-RENDER.md</a></p>
+              </li>
+              <li>
+                <p class="receipts__what">The right quote with the wrong subject, and why it was refused</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/archive/NZ/G.3.md?plain=1#L129-L164">archive/NZ/G.3.md</a> &middot; <time datetime="2026-08-06">2026-08-06</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The audit that found seven stale statements</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/notes/doc-audit-2026-09-07.md">notes/doc-audit-2026-09-07.md</a> &middot; <time datetime="2026-09-07">2026-09-07</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The sweep, on every fifth handoff</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/Reports-Clustering/blob/8b2f59375216bfa9254706c314b82891df121051/HANDOFF.md?plain=1#L286-L292">HANDOFF.md</a></p>
+              </li>
+              <li>
+                <p class="receipts__what">All three misses in the receipts inventory, with the rest of the project&rsquo;s</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3c-reports-clustering--the-influence-graph-method-and-workthis-site-where-it-overlaps">plans/receipts-001.md &sect;3C</a> &middot; <time datetime="2026-09-23">2026-09-23</time></p>
+              </li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+
+      <aside class="cs-layout__rail">
+        <nav class="cs-index cs-index--rail" aria-label="Sections">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+          <a class="cs-index__back" href="/projects">&larr; All work</a>
+        </nav>
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap wrap--page footer__inner">
+    <div>
+      <p class="label">Get in touch</p>
+      <p class="footer__email"><a href="mailto:thomas@tc-ventures.ca">thomas@tc-ventures.ca</a></p>
+      <p class="footer__note">Grande Prairie, Alberta &middot; Mountain Time &middot; remote &middot; open to work</p>
+    </div>
+    <div>
+      <p class="label">Elsewhere</p>
+      <ul class="footer__list">
+        <li><a href="https://www.linkedin.com/in/thomas-cheesman-20234285/">LinkedIn</a></li>
+        <li><a href="https://github.com/DriftingSplash9">github.com/DriftingSplash9</a></li>
+        <li><a href="https://thomascheesman.ca">thomascheesman.ca</a> &mdash; personal</li>
+        <li><a href="https://bareyourrare.org">bareyourrare.org</a></li>
+        <li><a href="https://gpresidentialsociety.com">gpresidentialsociety.com</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+<script src="/assets/graph-demo.js" defer></script>
+</body>
+</html>
