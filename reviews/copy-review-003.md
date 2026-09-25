@@ -693,6 +693,10 @@ work runs now. **B:** "copy goes through my review, block by block, before it sh
 (present practice, no "until"). I recommend **A**. W-items describe what you do, not a
 history.
 
+**Thomas, 2026-09-25:** "I needed the back quarter live so I could test it and deal with any
+issues." Read as **A**: the early push was a deliberate live test, not copy skipping review.
+Awaiting his confirmation with the M1–M6 rulings.
+
 ### M6 — The originals
 
 > **H2:** The files this page is drawn from
@@ -720,4 +724,7 @@ When M1–M6 are ruled, it ships on the usual checklist:
 **Q-M1:** should the home page's "How I work" section (`index.html` L154) link to `/method`, as G9 did for
 `/work/gprs`? I recommend yes.
 
-**Still to rule:** M1–M6, the W4 flag (A / B), and Q-M1.
+**Q-M1 ruled yes (Thomas, 2026-09-25).** The home link ships in the same push as the page
+(never a link that 404s), so it joins the M7 checklist as step 3b.
+
+**Still to rule:** M1–M6. W4 needs only a confirm of A.
