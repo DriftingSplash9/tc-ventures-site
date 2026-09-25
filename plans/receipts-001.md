@@ -1,7 +1,8 @@
 # receipts-001 — the receipts inventory (PL-2)
 
 **Written:** 2026-09-23 · **Status:** ruled by Thomas 2026-09-23 (via receipts-001.xlsx): 36 OK, 76 CUT; every private (P) row CUT. **R-014 un-cut 2026-09-25: now 37 OK, 75 CUT** · **Feeds:**
-`/work/gprs`, `/work/this-site`, `/method`
+`/work/gprs`, `/work/this-site`, `/method`, and from 2026-09-25 `/work/influence-graph`
+(copy-review-004)
 
 Every row is a real, documented case of an AI getting something wrong on one of Thomas's
 projects, how it was caught, and the rule it became. Nothing here is inferred or invented:
@@ -66,7 +67,7 @@ a proxy for it; say what you read, not what exists; a quote is verbatim or it is
 | # | Finding | Why it matters | Recommendation |
 |---|---|---|---|
 | F-1 | **The live home page overstates its own receipt.** `public/index.html:167-169` says a layout force "I had already shipped turned out to have been calibrated against a measurement script with a bug in it." The receipt (`Reports Clustering/archive/Previous Handoffs/HANDOFF-2026-08-28-pre-trim-032.md` L256–263) says that 1/d² calibration was **"a real false start, caught before shipping."** What *did* ship was a different miss: a sweep baseline that never reproduced, used to raise the slider ceiling 3→10→15 (`scripts/measure-forces.ts` header L7–11; `archive/audits/audit-2026-08-31-second-independent.md` F-10). No code bug is recorded for that one. | The page making the "I measure, I don't trust" claim is itself un-measured on this point. A reader who asks for the receipt gets a mismatch. | **RULED 2026-09-23: match R-061.** The sentence is rewritten to the R-061 story (caught before shipping) in copy-review-003. Wording ruled OK in copy-review-003 R1 and applied to `public/index.html` on 2026-09-23. |
-| F-2 | Rows involving the outside research model name it in the receipts. On 2026-09-07 Thomas ruled that Reports Clustering docs drop its name "as if it never existed." | Public case studies would contradict that ruling if they name it. | **RULED 2026-09-23: don't name it.** Case studies, `/method` and all site copy say "an outside research model" or similar. (File names in the receipt paths still contain the name; they are paths into a private repo and are never published.) |
+| F-2 | Rows involving the outside research model name it in the receipts. On 2026-09-07 Thomas ruled that Reports Clustering docs drop its name "as if it never existed." | Public case studies would contradict that ruling if they name it. | **RULED 2026-09-23: don't name it.** Case studies, `/method` and all site copy say "an outside research model" or similar. (File names in the receipt paths still contain the name; they are paths into a private repo and are never published.) **Corrected 2026-09-25:** the research repo is public, and Thomas confirmed it is meant to be. 52 file paths in it carry the name (GitHub's file list, counted by script). See copy-review-004 IG0. |
 | F-3 | Several of the strongest Reports Clustering stories rest on exact counts (edges refused, share graded A). | Standing rule: no exact counts in copy. | Rows marked **[count]** can be used only in rounded or descriptive form ("about half", "most"). |
 | F-4 | GPRS has thin coverage: the GPRS repo and handoff record few AI misses that are both public-safe and not about the Margaret Edgson Manor rebuild. | `/work/gprs` needs 2–3 real misses. | **Thomas, 2026-09-23:** GPRS was built before he used Claude Code or Cowork; there were no handoffs, so there is no session record to mine. R-001–R-003 (the March 2026 audits) are the pre-method record; R-006–R-008 are from after. |
 
@@ -119,7 +120,8 @@ a proxy for it; say what you read, not what exists; a quote is verbatim or it is
 ### 3C. Reports Clustering — the influence graph (`/method`, and `/work/this-site` where it overlaps)
 
 Paths are relative to `C:\Users\thoma\Desktop\My Files\Reports Clustering\` (private repo;
-no public URLs). `PH/` = `archive/Previous Handoffs/`. `TT/` = the earliest research bundle,
+no public URLs). **Corrected 2026-09-25:** the repo is public on GitHub as
+`DriftingSplash9/Reports-Clustering`, and Thomas confirmed that is intended. `PH/` = `archive/Previous Handoffs/`. `TT/` = the earliest research bundle,
 `Research/Grok Handoff Bundles/THREE-TIER-COMPLETE-V0.14-2026-08-01/` (outside that repo).
 
 **Measurement and verification**
@@ -194,7 +196,7 @@ no public URLs). `PH/` = `archive/Previous Handoffs/`. `TT/` = the earliest rese
 | R-107 | 2026-08-08→09 | Eighteen handoffs carried two work blocks as "untouched" after both were closed | drift | read-through (survey) | Name the underlying document beside every block label | `archive/EU/G.75.md` L29–56 | Y | | CUT |
 | R-108 | 2026-08-29/30 | The main handoff was overwritten three times in one session without being archived | tooling | reconstruction after the fact | "Archive first, then rewrite" + checksum | `PH/…-033.md` L1–5; `notes/handoff-procedure.md` step 2 | Y | | CUT |
 | R-109 | ≤2026-09-06 | Agents kept telling Thomas to commit ("you need to stop reminding me to commit") | selling | Thomas | Never tell Thomas to commit | `archive/playbook/PLAYBOOK-2026-09-06-pre-3way-split.md` §2 rule 1 L42–53 | Y | | CUT |
-| R-110 | 2026-09-07 | The first audit of the slow-layer docs found seven live false statements, the oldest about three weeks old | drift | read-through (sweep) | Periodic sweep; correct in place, showing the old wording | `notes/doc-audit-2026-09-07.md` §1 L80–107 | Y | | OK |
+| R-110 | 2026-09-07 | The first audit of the slow-layer docs found seven live false statements, the oldest about three weeks old | drift | read-through (sweep) | Periodic sweep; correct in place, showing the old wording | `notes/doc-audit-2026-09-07.md` §1 L80–107 | Y | ✓ | OK |
 | R-111 | 2026-09-02 | Handoffs carried false claims for weeks, including "uncommitted bodies of work" and memory entries that did not exist | drift | independent audit | No doc states git status | `Claude outputs/AUDIT-2026-09-02-independent-technical-audit.md` §1, §C1 | Y | | OK |
 
 ### 3D. thomascheesman.ca — the personal site (supporting examples)

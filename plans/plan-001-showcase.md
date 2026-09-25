@@ -169,6 +169,11 @@ reply promise. Nothing generic.
 | 8 | **Engineering pass** | headers, schema, OG images, redirects, sitemap, budget script; verify live | push |
 | 9 | **Thomas's accessibility pass** | his run-through once design and content are final | him |
 
+**Ruled 2026-09-25:** the four remaining case studies come **before** the build ledger (row 6),
+in this order: the influence graph, then Bare Your Rare, then the Back Quarter and the Desk and
+the Drawer together (one receipts pass over thomascheesman.ca covers both). Design waits until
+the content is mostly in place. Drafts go in `reviews/copy-review-004.md`.
+
 Every session ends with the next numbered handoff. Copy is drafted, then put in
 front of Thomas in the copy-review format (numbered blocks, OK / CUT / FIX)
 before it ships.
