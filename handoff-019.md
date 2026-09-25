@@ -21,18 +21,12 @@ against the live site, the graph loaded live under the real CSP, and live screen
    Thomas and the AI divide the work, and §4 there is the checking routine.
 3. **`plans/plan-001-showcase.md`**: the plan. **The §5 note (2026-09-25)** holds the new order.
    §3 lists the case studies, and §4c is the build ledger that now comes after them.
-4. **`plans/receipts-001.md`**: the ruled inventory, 37 OK / 75 CUT. Only OK rows may be
-   used in copy. Tick `chk` on a row before quoting it. **Coverage for what's next:** §3E
-   (BYR) has two OK rows. §3D (thomascheesman.ca) has three, and none of them is about the
-   Back Quarter or the Desk.
-5. **`reviews/copy-review-004.md`**: the current review. M9, IG0–IG8 and P1 are fully ruled
-   and shipped. The BYR, Back Quarter and Desk blocks go in the same file.
-6. The shipped pages: `public/work/gprs.html`, `public/work/this-site.html`,
-   `public/work/influence-graph.html` and `public/method.html`. `public/work/_template.html`
-   is the bare template. **`influence-graph.html` is the newest pattern**, and the one to copy.
-7. `claude/thomas-study.md` and `claude/tc-ventures-site-decisions.md` in the Claude
-   project "TC 'Ventures" (the voice study and the decisions). They are not on disk and were
-   not read this session.
+4. **`plans/receipts-001.md`**: the ruled inventory, 37 OK / 75 CUT. Only OK rows go in copy.
+   Tick `chk` before quoting a row.
+5. **`reviews/copy-review-004.md`**: the current review. The next case studies' blocks go in it.
+6. The shipped pages under `public/`. **`work/influence-graph.html` is the pattern to copy.**
+7. `claude/thomas-study.md` and `claude/tc-ventures-site-decisions.md` in the Claude project
+   "TC 'Ventures" (not on disk, not read this session).
 8. `README.md`.
 9. If the job is GPRS itself, stop here and read `GPRS Organization/00 Working Notes/gprs-handoff-001.md`.
 
@@ -91,65 +85,86 @@ assets, deploy-on-push from GitHub. Deliberately separate from thomascheesman.ca
   wanted to see how organizations such as the EU and BRICS operate compared to nations." It is
   the pull quote. "nations.," was closed up, and "BRICS" is at his ruling.
 - **Q-IG2: since July 2026.**
+- **Traps now carry an `x.y` tally,** with a drop rule. Thomas's rule, so **§5 changed**
+  (2026-09-25). The first audit is in "Traps" below.
 
 **Live, and verified live:**
-- **`/method` M9:** "Misses from the research project link to the inventory, because that
-  project's files are private" is cut (`f49090a`).
+- **`/method` M9:** the "files are private" sentence is cut (`f49090a`).
 - **`/work/influence-graph`** (`5dda7b6`):
-  - It has the six sections. The three misses are R-050 (the sliders), R-076 (the right quote
-    with the wrong subject) and R-110 (the stale standing docs).
-  - The live demo moved here from `/projects`.
-  - Receipts link the research repo, **pinned to commit `8b2f593`**.
-  - It's in the sitemap and first in the sub-menu on all ten files.
-- **`/projects` graph section cut down (P1):** it keeps the intro, the app figure, a "read the
-  case study" line and the Source link.
-- **Home:** the graph card links `/work/influence-graph`, not `/projects#graph`.
-- **CSS, one additive line:** `.shot + .prose { margin-top: var(--block); }`. That was the only
-  place on the site where a figure is followed directly by prose.
+  - The three misses are R-050, R-076 and R-110.
+  - The demo moved here from `/projects`.
+  - Receipts are pinned to research commit `8b2f593`.
+  - It's in the sitemap, and first in the sub-menu on all ten files.
+- **`/projects` (P1)** now has the intro, the app figure, "read the case study" and the Source
+  link.
+- **Home** links the case study.
+- **CSS, one additive line:** `.shot + .prose`, for the one place on the site where prose
+  follows a figure directly.
 - **Verified live:**
-  - The check-run succeeded on each push.
-  - curl: every page 200, `.html` 307, an unknown URL 404, and the page is in the sitemap with
-    no `noindex` or banner.
-  - The logged-out site suite passed 100 of 101. The one failure is `/404`'s own `noindex`,
-    which predates this and is correct.
-  - The graph loaded live under the real CSP: focus moves to the stage, an arrow key reads out
-    a dependency, the console is clean in light and dark, and the beacon answers 200.
+  - The check-runs succeeded, and curl was run on every page, `.html` and an unknown URL.
+  - The logged-out suite passed 100 of 101. The failure is `/404`'s intended `noindex`.
+  - The graph loaded under the real CSP, with keyboard read-out, a clean console in both
+    themes, and the beacon answering 200.
 
 ### Traps worth knowing
 
-- **Bash `cd` moved the session's working directory into `public/` twice more.** Don't start
-  a Bash command with `cd` at all. Use absolute paths, `git -C`, or `( cd … && … )`.
-- **A full-page screenshot of a tall page tiles and repeats near the bottom,** and lazy
-  images render black. Take viewport shots per section, after `scrollIntoView` and about 700
-  ms. `ig_shots.py` does this.
-- **`getComputedStyle(el, '::before').content` returns the CSS expression** (`"Fig. "
-  counter(fig)`), not the number drawn. It can't test figure numbering, so check a screenshot.
-- **The research repo is public, and 52 of its file paths contain the outside research
-  model's name** (F-2; counted from GitHub's file list). Never link one of those paths. The
-  three files `/work/influence-graph` links mention the name in their text; that was ruled
-  acceptable (IG0 A).
-- **Pin research-repo receipts to a commit SHA.** Its `HANDOFF.md` is rewritten every session,
-  and files move into `archive/`, so `main` links rot. Read the first and last line of every
-  anchored range in the pinned commit through `raw.githubusercontent.com`.
-- **Review notes get checked like copy.** A name written from memory ("the country pull") and
-  "all three caught by use" were both wrong. Only two are recorded as Thomas's catches.
-  Both were fixed before the ruling.
-- **A new case study means ten nav files.** Copy `ship_ig.py`'s pattern: one script, every edit
-  asserted to match once, each file's own line ending kept.
-- **Carried, still true:**
-  - **Git Bash `grep -c $'\r'` can't see carriage returns;** detect CRLF in Python.
-    `.assetsignore`, `sitemap.xml`, `projects.html`, `work/gprs.html` and `receipts-001.md` are
-    CRLF. Edit byte-wise.
-  - `/404` answers 200, so test with an unknown URL.
-  - Analytics can't be seen headless. Check that `beacon.min.js` answers 200 and the console is
-    clean.
-  - Loop Tab until the toggle has focus. A hidden browser pane fires no focus events, so use
-    Playwright.
-  - Headless Chrome defaults to dark mode.
-  - Run the test server inside the Python process. Git Bash heredocs eat backslashes.
-  - There's no LibreOffice or pandoc here: render a `.docx` through Word COM.
-  - A figure Thomas gives, or a "caught" column, can have no source on disk. Check it, and ask.
-  - Never link `copy-review-001`. Handoffs are fine.
+Each trap ends with its tally, **`x.y`** (§5). x was counted by grep across handoff-001 to 019,
+older wordings included. y starts this session, because no earlier handoff recorded an avoided
+trap. "Restored" marks six traps this handoff's first draft dropped without comment.
+
+**New this session:**
+- `getComputedStyle(el, '::before').content` returns the CSS expression (`"Fig. "
+  counter(fig)`), not the number drawn. Check figure numbering in a screenshot. `0.0`
+- Pin research-repo receipts to a commit SHA. Its `HANDOFF.md` is rewritten every session and
+  its files move into `archive/`. Read the first and last line of each anchored range in the
+  pinned commit via `raw.githubusercontent.com`. `0.0`
+
+**Carried:**
+- Bash `cd` moves the session's working directory (into `public/`, and once into `Reports
+  Clustering`). Never start a Bash command with `cd`. Use absolute paths, `git -C`, or
+  `( cd … && … )`. **Hit twice more this session despite the mention** (INFRA-14). `2.0`
+- Full-page headless shots of a tall page: lazy images render black, and the shot tiles near the
+  bottom. Shoot per section after `scrollIntoView` and about 700 ms (`ig_shots.py`). **Hit
+  again this session despite the mention** (INFRA-14). `5.0`
+- Git Bash `grep -c $'\r'` can't see carriage returns. Detect CRLF in Python. These are CRLF:
+  `.assetsignore`, `sitemap.xml`, `projects.html`, `work/gprs.html`, `plans/receipts-001.md`.
+  Edit byte-wise. `1.1`
+- Python heredocs through Git Bash eat backslashes. Use forward slashes, or write the script
+  to a file. `4.1`
+- Run a local test server inside the Python process. A Git Bash `http.server` survives
+  `pkill`. `2.1`
+- Headless Chrome defaults to dark mode. Set the colour scheme for each browser context. `3.1`
+- Wait about 400 ms after a click before a screenshot (restored). `2.1`
+- `/404` answers 200. Test "not found" with an unknown URL. `1.1`
+- Analytics can't be seen headless. Check that `beacon.min.js` answers 200 and the console has
+  no CSP errors. `1.1`
+- Cloudflare injects the beacon at the edge, so read the live console after any CSP change. A
+  new inline `<script>` is blocked by the CSP; put it in `/assets/*.js` (restored). `4.0`
+- Cloudflare's build start has ranged from about 1 to 10 minutes. Check the check-run before
+  diagnosing a live page (restored). `3.1`
+- A test that Tabs a fixed number of times can land on the wrong control. Loop until the
+  target has focus. `1.1`
+- A hidden browser pane fires no focus or blur events, so test focus logic in Playwright.
+  Playwright's visibility checks see through `clip-path: inset(50%)` (that part restored).
+  `2.1`
+- A receipt's "caught" column can be a guess. Open the receipt before copy says "I". `2.1`
+- A figure Thomas gives can have no source on disk. Say where you searched, and ask. `1.0`
+- `gh api markdown` emits no heading ids (curl the blob page for `user-content-<anchor>`), and
+  `git log -S` needs `--no-textconv` here (restored). `2.0`
+- There's no LibreOffice, pandoc or `pdftoppm` here. Render a `.docx` through Word COM,
+  read-only, with `Quit()` in `finally`, then make page images with PyMuPDF. `1.0`
+
+**Audit, 2026-09-25:**
+- **By the `x.y` rule, none goes yet.** Full-page shots, at `5.0`, goes next handoff unless it
+  earns a use.
+- **Five cut as repeats of rules written elsewhere** (rule 17):
+  - copy-review-001 links (§3)
+  - count from memory (`CLAUDE.md` 12)
+  - the model's name in paths (§3, O-14)
+  - review notes from memory (`CLAUDE.md` 11)
+  - ten nav files (§3, INFRA-13)
+- `cd` and full-page shots were hit again despite the mention, so they belong in code
+  (INFRA-14).
 
 ## 3. Current design
 
@@ -283,6 +298,7 @@ counters, figures `Fig. N` per page; receipts as small mono links with a leading
 | # | Item | Notes |
 |---|---|---|
 | INFRA-13 | **The nav is copied into ten files** | Adding a page means editing all ten. Rule 5 says the same miss twice becomes code. This session's `site_check.py` checks nav equality, both `aria-current` levels, keyboard, 375px and console, with a negative control; `ship_ig.py` makes the ten edits with asserted matches. **Both are still in the scratchpad, not in the repo.** Moving them into `scripts/` is the rule-5 step. |
+| INFRA-14 | **Two traps the mention doesn't prevent** (§2, tallies `2.0` and `5.0`) | Rule 5: move them into code. (a) **Bash `cd`**: a Claude Code `PreToolUse` hook that refuses a Bash command starting with `cd`. That changes Thomas's harness settings, so it is **his call; not built**. (b) **Full-page screenshots**: move `ig_shots.py` (per-section shots) into `scripts/`, with INFRA-13. |
 | INFRA-11 | **`www.tc-ventures.ca` did not answer** | Seen 2026-09-24: curl got no response. Anyone typing `www.` reaches nothing. Thomas's call whether to add a `www` → apex redirect. Raised with him 2026-09-25, and not yet ruled. |
 | INFRA-4 | Permanent email undecided | `thomas@tc-ventures.ca` works; he wants a non-general address. |
 | INFRA-6 | Dead lander CSS in `style.css` (search `lander embed`) | Delete if still unused by mid-October 2026. |
@@ -368,6 +384,17 @@ Every handoff has these, in this order, with these numbers:
   saw it serve. "Written" means it is on disk. Say which.
 - **Do not state git state and do not tell Thomas to commit.** That is his routine.
 - Keep it under ~400 lines. If §2 is getting long, you are writing a diary.
+- **Every trap ends with a tally `x.y`** (Thomas, 2026-09-25).
+  - **x** is the number of handoffs the trap has been carried into since the one that recorded
+    it. Add 1 each time it is carried.
+  - **y** is the number of sessions where the mention changed what was done. Add 1 only when
+    you can name what it changed.
+  - **Drop a trap when x > 5 and y ≤ 1, and at x = 10 whatever y is.**
+  - *Added with it by the agent, pending Thomas's OK:*
+    - A trap hit again despite its mention gets no y. Say so on the line.
+    - A trap still earning its place at x = 10 belongs in code (`CLAUDE.md` rule 5).
+    - A "trap" that repeats a rule already in §3 or `CLAUDE.md` is not a trap: cut it.
+    - A dropped trap gets one line in §2 of the handoff that drops it, naming it, and no more.
 
 ## 6. Next up — the Bare Your Rare case study
 
