@@ -6,8 +6,9 @@ ledger, in this order: the influence graph, then Bare Your Rare, then the Back Q
 Desk together (plan-001 §5). He also ruled that the research repo,
 `DriftingSplash9/Reports-Clustering`, is **meant to be public**. That makes one live sentence
 on `/method` false (M9).
-**Status:** M9, IG0–IG8 and P1 drafted 2026-09-25, **not yet ruled**. There is no preview page
-yet. It gets built from the ruled copy, since the design comes later.
+**Status:** M9, IG0–IG8 and P1 drafted 2026-09-25. **Ruled so far:** M9 A (live), IG0 A,
+Q-IG3 yes, P1 OK; see "Rulings" at the end. There is no preview page yet. It gets built from
+the ruled copy, since the design comes later.
 
 Same format and marks as copy-review-001 to 003: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -331,5 +332,17 @@ What gets cut from both pages, and why:
   - **CUT** (recommended), or **KEEP** it in the case study under IG3.
 - **The spec table.** It moves to the case study header (IG1), so there is one copy.
 
-**Still to rule:** M9 (A / B); IG0 (A / B); IG1–IG7; P1; Q-IG1, Q-IG2 and Q-IG3; "seven"
-(KEEP / FIX); and the three lead misses, if you want different ones.
+---
+
+### Rulings (Thomas, 2026-09-25)
+
+"m9 A, ig0 A, q-ig3 yes, p1 ok"
+- **M9 A:** the "private" sentence is cut. Applied to `public/method.html` 2026-09-25 and
+  shipped on its own, because it corrects a false line that was live.
+- **IG0 A:** the case study links the three research files as they are.
+- **Q-IG3 yes:** the home page's graph card will link the case study. It ships in the same push
+  as the page, never as a link that 404s.
+- **P1 OK:** the `/projects` graph section is cut down when the case study ships, not before.
+
+**Still to rule:** IG1–IG7; Q-IG1 (the ask, in your words, or keep the `START-HERE.md` lines);
+Q-IG2 (Since); "seven" (KEEP / FIX); and the three lead misses, if you want different ones.
