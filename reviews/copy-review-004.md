@@ -899,7 +899,7 @@ No Cloudflare HTML caching for now. The copy doesn't change.
 **Shipped (Thomas, 2026-09-26: "ship it").** What changed with the ship:
 - noindex and the draft banner are off the page
 - the page is out of `.assetsignore`
-- it is in the Projects sub-menu on all eleven pages, second after the graph
+- it is in the Projects sub-menu, second after the graph, on every page and in `work/_template.html`
 - it is in the sitemap
 - it is linked from `/projects` (P2) and from the home page
 
@@ -911,4 +911,14 @@ Checked locally before the push:
   blob links to files that are only on this branch until it merges, and the GitHub profile, which
   this session's proxy refuses
 
-The live check comes after the deploy.
+Checked live after the merge (2026-09-26; merged 16:39 UTC):
+- `/work/bare-your-rare` answers 200, with no `noindex` and no draft banner, and it is in the live
+  sitemap
+- every sitemap page plus /404 answers 200 and is byte-identical to the file the local suite passed
+- the page's only script is `/assets/nav.js`, which the live CSP allows; it has no inline script
+  or handler
+- the two GitHub receipt links that 404'd before the merge now answer 200
+
+Not done live: the browser suite (`site_check.py --live`). Chromium in this session rejects the
+session proxy's certificate, so the live check was curl, which verifies TLS. On Thomas's machine
+`--live` runs as written.
