@@ -130,24 +130,25 @@
 
         <h3>Three things the build taught me</h3>
         <p>
-          <strong>A vehicle that can turn on the spot does not feel like a vehicle.</strong> Early on
-          the buggy pivoted like a tank and nothing about it read as driving. The fix was not more
-          physics, it was less permission: yaw rate now follows forward speed, so she has to be rolling
-          before she will turn, and she eases into it. Grip drops in the wet. Reversing flips the
-          steering sense, the way it does in a real yard.
+          <strong>A vehicle that can turn on the spot does not feel like a vehicle.</strong> For most
+          of the build the buggy could pivot in place, and turning felt harsh. The fix was not more
+          physics, it was less permission: in the 3D world the yaw rate now follows forward speed, so
+          she has to be rolling before she will turn, and she eases into it. Grip drops in the wet.
+          Reversing flips the steering sense, the way it does in a real yard. The painted map that
+          phones get still turns on the spot.
         </p>
         <p>
           <strong>Bloom is a night instrument.</strong> Glow is driven by the same day factor that runs
-          the sky, so it climbs after sunset and falls away at dawn. I learned that the hard way: for
-          one version the daylight walls glowed too, and the whole farm looked like moulded plastic.
+          the sky, so it climbs after sunset and falls away at dawn. I learned that the hard way: the
+          glow was first tuned at dusk, and in daylight the white church blazed featureless white.
           Light has to behave like light, or the painting stops being a place.
         </p>
         <p>
           <strong>The fire sounded like someone bashing a tin can.</strong> Every pop was the same
           noise through the same filter, so every pop rang the same note, and an ear catches that
           instantly. It is now a low ember roar with discrete pops a few hundredths of a second long,
-          each one through its own randomly tuned filter. Nothing rings. Same amount of code,
-          completely different room.
+          each one through its own randomly tuned filter. Nothing rings. A completely
+          different room.
         </p>
 
         <h3>The rule underneath it</h3>
@@ -210,17 +211,16 @@
         <h3>Three things the build taught me</h3>
         <p>
           <strong>An interface that is a picture still has to be a menu.</strong> There is a plain-list
-          toggle on the desk, a separate ordinary navigation for phones, a full keyboard path through
-          every hotspot, and an Escape key that closes exactly one layer at a time &mdash; drawer,
-          then search, then the overlay itself. A visitor who wants a list of links gets a list of
-          links, one click in. The picture is the reward, never the toll.
+          toggle on the desk, a separate ordinary navigation for phones, and an Escape key that closes
+          exactly one layer at a time &mdash; drawer, then search, then the overlay itself. A visitor
+          who wants a list of links gets a list of links, one click in. The picture is the reward, never the toll.
         </p>
         <p>
-          <strong>Nothing loads until someone asks for it.</strong> The physics engine and the
-          renderer behind the pinball table are most of a megabyte between them, and neither one
-          touches the network until a visitor clicks the marble. Same for the arcade, the slideshow
-          and the desk art itself. A visitor who never clicks pays nothing for any of it, which is the
-          only honest way to put a game in a footer.
+          <strong>Nothing loads until someone asks for it.</strong> Neither the physics engine nor
+          the renderer behind the pinball table touches the network until a visitor clicks the marble.
+          Same for the slideshow and the desk art itself. The arcade&rsquo;s game script is the
+          exception: it still loads with every page. A visitor who never clicks pays almost nothing,
+          which is the only honest way to put a game in a footer.
         </p>
         <p>
           <strong>Plan for the dependency that does not arrive.</strong> The pinball table wants a
@@ -252,7 +252,7 @@
       <dl class="spec">
         <div><dt>Built with</dt><dd>Plain JavaScript and CSS &mdash; no framework, no build step</dd></div>
         <div><dt>Loaded on demand</dt><dd>Physics and renderer injected on click, cached after, non-fatal if either fails</dd></div>
-        <div><dt>Accessibility</dt><dd>Plain-list mode, separate phone navigation, full keyboard path, layered Escape</dd></div>
+        <div><dt>Accessibility</dt><dd>Plain-list mode, separate phone navigation, layered Escape</dd></div>
         <div><dt>Scores</dt><dd>A custom endpoint on the site's own API keeps the arcade and pinball high scores</dd></div>
         <div><dt>Nice touches</dt><dd>Rot13 email with copy-on-click, a clock on Mountain Time, a cursor-trail picker</dd></div>
       </dl>

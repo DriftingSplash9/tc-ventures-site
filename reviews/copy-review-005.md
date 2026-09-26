@@ -4,9 +4,9 @@
 **Why:** the last two case studies of Phase 1b (plan-001 §5 note, 2026-09-25):
 `/work/back-quarter` and `/work/desk-and-drawer` (plan-001 §3). One receipts pass over
 thomascheesman.ca covers both. Thomas chose a new review, 005, over adding to 004 (2026-09-26).
-**Status:** Step 1 (BQD0) drafted 2026-09-26. Q-BQD1 and Q-BQD2 answered the same day; the rows
-(R-160 to R-174) aren't ruled yet. PJ1–PJ6, the six `/projects` fixes, drafted 2026-09-26 at his
-"fix the 6". No case-study copy drafted yet.
+**Status:** Step 1 (BQD0) ruled 2026-09-26: Q-BQD1 A, Q-BQD2 answered, Q-BQD3 A, and R-160 to R-174 in
+receipts-001 §3F (8 OK, 7 CUT; see "Rulings, round 2"). PJ1–PJ6 ruled and applied to `/projects` the
+same day. No case-study copy drafted yet: that is step 2.
 
 Same format and marks as copy-review-001 to 004: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -86,7 +86,9 @@ line numbers for a commit are lines of `git log -1 --format=%B <hash>`.
 | R-173 | 2026-06-25 | "Debugged" a blank game canvas at length; it was a background tab, which pauses animation | tooling | not stated (the agent's own note) | "Check `document.hidden` before concluding 'blank = broken.'" | V0.36 L21, L96 | Y | ✓ | |
 | R-174 | 2026-05-20 | The flippers stuck in place because the agent divided by the frame time "under the wrong assumption" about the physics library's velocity units | invented | not stated | — | `12f7b8f` L3–8 | Y | ✓ | |
 
-**Who caught what (the "I" rule):** Thomas is named in R-162, R-163, R-164, R-167 and R-172. R-168's
+*Ruled 2026-09-26: the rows now live in receipts-001 §3F, which is the copy to use. The tables above are the proposal as it was put.*
+
+**Who caught what (the "I" rule), as proposed:** Thomas is named in R-162, R-163, R-164, R-167 and R-172. R-168's
 catch is "the user's Chrome", which the record doesn't name, so it stays impersonal unless you say it
 was you. The rest are the agent's.
 
@@ -173,6 +175,28 @@ ancestors came from", "a happy family", "easter eggs for them".
 >
 > **B:** quote only the sentences without family ("Social media is messy…", "games and puzzles and
 > such, a literal arcade, a map you race around…").
+
+### Rulings, round 2 (Thomas, 2026-09-26)
+
+Verbatim: "BQD3  - A, 160- me, 161- me, 165- me, 166you, 168 -me, 169 me, 174 me. you decide which up to
+8 are worthy of keeping. pj1- a, pj2- ok, pj3- ok, pj4 cut, pj5 - A, pj 6 - cut"
+
+- **Q-BQD3: A.** The Q-BQD2 answer is a second ruled exception to "nothing familial", for this quote on
+  these two pages.
+- **Catchers, in his words:** Thomas caught R-160, R-161, R-165, R-168 (the record's "user"), R-169 and
+  R-174. The agent caught R-166. "How I caught it" can say "I" for his.
+- **"You decide which up to 8":** the agent kept 8, four per page, so each case study has three misses
+  and a spare:
+  - **Back Quarter:** R-160 (a bundle built from the wrong grep hits; the fallback hid it), R-162
+    (daylight bloom), R-163 (the fire), R-164 (animals declared wandering, standing still). R-162 and
+    R-163 also back the `/projects` lines fixed in PJ2 and PJ3.
+  - **Desk and Drawer:** R-168 (Chrome blamed for the agent's own rule), R-169 (the way out was
+    unreachable), R-170 (an audit asked for work already done), R-172 (test balls passed, real play
+    didn't).
+  - **Why these:** Thomas caught seven of the eight, and the four on each page are different kinds of
+    miss. The first alternate is R-165 (the feel-test note that was dropped), the only drift row.
+  - **CUT:** R-161, R-165, R-166, R-167, R-171, R-173, R-174. Any can be swapped back in.
+- **PJ:** see "Ruled" at the end of PJ1–PJ6.
 
 ---
 
@@ -267,8 +291,23 @@ Source: the theme's `assets/js/vendor/`: `matter-0.20.0.min.js` 83,476 bytes + `
 456,133 bytes = about 540 KB before compression (about 162 KB gzipped). What the server sends wasn't
 checked.
 
-### Open for Thomas (PJ)
+### Ruled (Thomas, 2026-09-26): "pj1- a, pj2- ok, pj3- ok, pj4 cut, pj5 - A, pj 6 - cut"
 
-- **PJ1:** A or B · **PJ2:** OK · **PJ3:** OK · **PJ4:** OK · **PJ5:** A or B · **PJ6:** OK
-- Once they're ruled, the changes ship on their own with `scripts/site_check.py` run locally before
-  the push and the page checked live after it.
+- **PJ1 A, PJ2 OK, PJ3 OK, PJ5 A:** applied as drafted.
+- **PJ4 CUT and PJ6 CUT:** read as cutting the claim itself, not keeping the live wording (the live
+  wording is what was wrong). Applied:
+  - PJ4, paragraph: "…a separate ordinary navigation for phones, and an Escape key that closes exactly
+    one layer at a time…". Spec table: "Plain-list mode, separate phone navigation, layered Escape".
+  - PJ6: "Neither the physics engine nor the renderer behind the pinball table touches the network
+    until a visitor clicks the marble." (the size clause is gone).
+
+Checked locally before the push:
+- `scripts/site_check.py`: 84 of 84 checks passed.
+- The rendered `/projects` text carries all nine ruled sentences and none of the seven cut phrases
+  ("Early on", "moulded plastic", "Same amount of code", "full keyboard path", "most of a megabyte",
+  "Same for the arcade", "pays nothing for any of it"). The same check with one word changed fails,
+  so it can fail.
+- Looked at: both sections at 1280px and 375px, light and dark.
+
+Noticed, not changed: the Desk section's opening still says the whole thing "costs a visitor nothing to
+ignore", and the arcade script loads with every page (PJ5). Small, but the same kind of claim.
