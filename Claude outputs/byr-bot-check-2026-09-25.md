@@ -292,3 +292,88 @@ Treat what they say as reports only.
 3. Re-run `scripts/byr_bot_check.py`.
 4. If the 429 remains, open a ticket with Hostinger.
 
+---
+
+## Addendum 4 — after the `.htaccess` off-switch (2026-09-26, UTC)
+
+Thomas added this at the top of BYR's `.htaccess` (his paste):
+
+```
+<IfModule LiteSpeed>
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} (GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-User|Claude-SearchBot|PerplexityBot|Perplexity-User) [NC]
+RewriteRule .* - [E=verifycaptcha:off]
+</IfModule>
+```
+
+The site still served (home page 200). The same test was then re-run.
+
+**Result: it did not stop either refusal.**
+- **Run D** (the standard 21 requests, cache-busting, from 04:26:48 UTC):
+  - GPTBot got a 429 on all three of its requests.
+  - PerplexityBot got "Bot Verification" on `/about/` once out of three.
+  - Everything else answered 200.
+- **Run E** (PerplexityBot only, `/about/` cache-busted, every 8 s, 8 requests): 7 answered 200
+  and 1 got "Bot Verification" (04:30:18).
+- **The 403's headers don't carry `platform: hostinger` or `panel: hpanel`,** which the WordPress
+  pages and the 429 do. It has only `x-turbo-charged-by: LiteSpeed`. So the challenge is answered
+  by the web server before WordPress, and the `.htaccess` flag isn't overriding it.
+- **Can't tell whether it cut the rate.** Before, PerplexityBot was refused about one uncached
+  request in three. After, 2 of 11. The samples are too small to call it either way.
+
+**Next:** Hostinger. The whitelist (LiteSpeed's "Bot White List") and the per-site override
+(`LsRecaptcha 0`) are both in configuration only the host can reach, according to LiteSpeed's docs.
+The block Thomas added is harmless and can stay, or come out. Either way it's recorded here.
+
+Run D:
+
+```
+04:26:51 200 chrome        /hcs-guide/            ls=miss  cf=dynamic  Hajdu-Cheney Syndrome Symptoms
+04:26:58 200 curl          /poems/                ls=miss  cf=dynamic  POEMS Syndrome: Symptoms, Diag
+04:27:05 200 ClaudeBot     /sps/                  ls=miss  cf=dynamic  Stiff Person Syndrome (SPS): S
+04:27:12 200 Claude-User   /ecd/                  ls=miss  cf=dynamic  Erdheim-Chester Disease (ECD):
+04:27:19 429 GPTBot        /fechtner/             ls=-     cf=dynamic  
+04:27:26 200 ChatGPT-User  /about/                ls=-     cf=dynamic  About Bare Your Rare | Patient
+04:27:32 200 PerplexityBot /robots.txt            ls=miss  cf=miss     
+04:27:39 200 chrome        /llms.txt              ls=-     cf=dynamic  
+04:27:46 200 curl          /hcs-guide/            ls=miss  cf=dynamic  Hajdu-Cheney Syndrome Symptoms
+04:27:53 200 ClaudeBot     /poems/                ls=miss  cf=dynamic  POEMS Syndrome: Symptoms, Diag
+04:28:00 200 Claude-User   /sps/                  ls=miss  cf=dynamic  Stiff Person Syndrome (SPS): S
+04:28:07 429 GPTBot        /ecd/                  ls=-     cf=dynamic  
+04:28:14 200 ChatGPT-User  /fechtner/             ls=-     cf=dynamic  Fechtner Syndrome (MYH9-Relate
+04:28:21 403 PerplexityBot /about/                ls=-     cf=dynamic  BOTVERIFY
+04:28:28 200 chrome        /robots.txt            ls=miss  cf=miss     
+04:28:34 200 curl          /llms.txt              ls=-     cf=dynamic  
+04:28:41 200 ClaudeBot     /hcs-guide/            ls=miss  cf=dynamic  Hajdu-Cheney Syndrome Symptoms
+04:28:48 200 Claude-User   /poems/                ls=miss  cf=dynamic  POEMS Syndrome: Symptoms, Diag
+04:28:54 429 GPTBot        /sps/                  ls=-     cf=dynamic  
+04:29:02 200 ChatGPT-User  /ecd/                  ls=-     cf=dynamic  Erdheim-Chester Disease (ECD):
+04:29:09 200 PerplexityBot /fechtner/             ls=miss  cf=dynamic  Fechtner Syndrome (MYH9-Relate
+```
+
+Run E:
+
+```
+04:29:32 PerplexityBot /about/?bust 200
+04:29:42 PerplexityBot /about/?bust 200
+04:29:51 PerplexityBot /about/?bust 200
+04:30:00 PerplexityBot /about/?bust 200
+04:30:09 PerplexityBot /about/?bust 200
+04:30:18 PerplexityBot /about/?bust 403 BOTVERIFY
+04:30:27 PerplexityBot /about/?bust 200
+04:30:36 PerplexityBot /about/?bust 200
+```
+
+Headers of the 04:30:18 403 (`date`, `cf-ray` and reporting headers dropped):
+
+```
+HTTP/2 403 
+content-type: text/html
+vary: Accept-Encoding
+server: cloudflare
+cache-control: no-cache,no-store,private
+x-frame-options: SAMEORIGIN
+x-turbo-charged-by: LiteSpeed
+cf-cache-status: DYNAMIC
+```
+
