@@ -377,3 +377,40 @@ x-turbo-charged-by: LiteSpeed
 cf-cache-status: DYNAMIC
 ```
 
+---
+
+## Addendum 5 — keeping the cache warm with the LiteSpeed crawler (2026-09-26, UTC)
+
+**Why:** every refusal measured so far was on a page LiteSpeed hadn't cached. So a page that is
+always cached isn't refused. The LiteSpeed Cache plugin has a crawler that visits the sitemap as a
+logged-out guest to fill the cache.
+
+**Set up by Thomas, from his screenshots:**
+- The crawler switched ON.
+- Custom Sitemap set to `https://bareyourrare.org/page-sitemap.xml` (14 pages).
+- Crawl Interval changed from the default 302400 s (3½ days) to 3600 s (1 hour). With the default,
+  the next full crawl was scheduled for 2026-09-29, so pages emptied by a purge would have stayed
+  uncached for days.
+- The plugin shows the server load at 26.79–29.99 against a host-enforced limit of 25. So the
+  crawler may pause when the shared server is busy.
+
+**Checks here** (Chrome user-agent, one request every 7 s; the first request to a page shows
+whether it was already cached):
+
+| When (UTC) | State | Result |
+|---|---|---|
+| 04:52 | crawler on, not yet run | all 14 `miss`: nothing cached |
+| 05:11 | after the crawler's first run, before a purge | all 14 `hit` (the pages this check had cached at 04:52) |
+| 05:22 | right after Thomas's purge; the crawler had run just before it (14 "already cached") | 11 `miss`; 3 **403 "Bot Verification" to a browser user-agent**: `/`, `/poems/`, `/privacy/` |
+| 05:31 | 3 min after a manual crawler run at 05:28 | `/`, `/poems/`, `/privacy/`, `/hcs-guide/`, `/sps/`, `/about/` all `hit` |
+
+- **05:22 is the gap at its worst.** With nothing cached, the host refused even a browser on 3 of
+  14 pages, the home page among them.
+- **At 05:31 the three pages the 05:22 check never reached were cached.** Nothing but the crawler
+  is known to have fetched them in between. The crawler's own Summary tab will say for certain
+  ("Successfully Crawled").
+
+**What it changes:** the gap after a purge now closes within the crawl interval (one hour), rather
+than waiting on visitors. It doesn't remove the host's filter. A page that falls out of the cache
+between runs is still exposed, and the Hostinger ticket is still the fix.
+
