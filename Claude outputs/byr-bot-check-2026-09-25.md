@@ -152,3 +152,85 @@ script's `botverify=1` is shown as "(Bot Verification)", and times weren't logge
 `/poems/` and `/ecd/` both answered 200 on a retry 20 s later. So right after a purge, with
 nothing cached, the filter also refused a browser user-agent at this pace, on 2 of 10 pages.
 
+---
+
+## Addendum 2 — after the Hostinger "LLM" toggle, and a control on GPRS (2026-09-26, UTC)
+
+**Why:** Thomas turned off a toggle in the Hostinger plugin on bareyourrare.org (Tools, LLM
+Optimization; the screenshot shows "Create LLMs.txt file" off). His other Hostinger sites have it off
+and, as far as he'd seen, don't have the problem. He asked whether that fixed it.
+
+**Result: it did not, and the control site has the same refusal.**
+
+| | 200 | 403 "Bot Verification" | 429 | no connection |
+|---|---|---|---|---|
+| BYR, run C (after the toggle, cache-busting) | 17 | 2 (PerplexityBot 1, Chrome 1) | 3 (GPTBot 3) | 0 |
+| GPRS, run G (toggle off, not behind Cloudflare, cache-busting) | 14 | 0 | 3 (GPTBot 3) | 4 (Claude-User 1, PerplexityBot 2, Chrome 1) |
+
+- **GPTBot got a 429 on every uncached request on both sites.** GPRS has the toggle off, so the
+  toggle isn't what refuses it. It looks account-wide, or at least the same on both.
+- **GPRS sits straight on Hostinger, with no Cloudflare,** and some of its requests got no answer at
+  all (status 000). That's the connection-drop symptom the 2026-09-20 audit found on both sites
+  before BYR moved behind Cloudflare.
+- **The toggle is still worth leaving off.** Hostinger's own note says switching "Create LLMs.txt"
+  on "will replace" the existing `llms.txt`. BYR's is the hand-written one: 7,640 bytes, last
+  modified 2026-04-19, still served as written.
+- **Script bug found in this run (rule 3):** on a dropped connection the script printed the previous
+  page's title, because it read the old body file. The 000 lines below show it. Fixed in
+  `scripts/byr_bot_check.py` the same hour: it now deletes the body before each request and prints
+  "NO CONNECTION". The script also takes `BASE` from the environment now. The GPRS run used a
+  scratch copy with GPRS's paths.
+
+**Run C, BYR** (6 s gap, cache-busting):
+
+```
+02:32:22
+02:32:23 403 chrome        /hcs-guide/            ls=-     cf=dynamic  BOTVERIFY
+02:32:31 200 curl          /poems/                ls=miss  cf=dynamic  POEMS Syndrome: Symptoms, Diag
+02:32:38 200 ClaudeBot     /sps/                  ls=miss  cf=dynamic  Stiff Person Syndrome (SPS): S
+02:32:45 200 Claude-User   /ecd/                  ls=miss  cf=dynamic  Erdheim-Chester Disease (ECD):
+02:32:52 429 GPTBot        /fechtner/             ls=-     cf=dynamic  
+02:32:59 200 ChatGPT-User  /about/                ls=-     cf=dynamic  About Bare Your Rare | Patient
+02:33:05 200 PerplexityBot /robots.txt            ls=miss  cf=miss     
+02:33:12 200 chrome        /llms.txt              ls=-     cf=dynamic  
+02:33:19 200 curl          /hcs-guide/            ls=miss  cf=dynamic  Hajdu-Cheney Syndrome Symptoms
+02:33:26 200 ClaudeBot     /poems/                ls=miss  cf=dynamic  POEMS Syndrome: Symptoms, Diag
+02:33:34 200 Claude-User   /sps/                  ls=miss  cf=dynamic  Stiff Person Syndrome (SPS): S
+02:33:40 429 GPTBot        /ecd/                  ls=-     cf=dynamic  
+02:33:47 200 ChatGPT-User  /fechtner/             ls=-     cf=dynamic  Fechtner Syndrome (MYH9-Relate
+02:33:53 403 PerplexityBot /about/                ls=-     cf=dynamic  BOTVERIFY
+02:34:00 200 chrome        /robots.txt            ls=miss  cf=miss     
+02:34:06 200 curl          /llms.txt              ls=-     cf=dynamic  
+02:34:13 200 ClaudeBot     /hcs-guide/            ls=miss  cf=dynamic  Hajdu-Cheney Syndrome Symptoms
+02:34:21 200 Claude-User   /poems/                ls=miss  cf=dynamic  POEMS Syndrome: Symptoms, Diag
+02:34:27 429 GPTBot        /sps/                  ls=-     cf=dynamic  
+02:34:34 200 ChatGPT-User  /ecd/                  ls=-     cf=dynamic  Erdheim-Chester Disease (ECD):
+02:34:42 200 PerplexityBot /fechtner/             ls=miss  cf=dynamic  Fechtner Syndrome (MYH9-Relate
+```
+
+**Run G, GPRS** (6 s gap, cache-busting; the titles on the 000 lines are stale, see above):
+
+```
+02:34:53 200 chrome        /                      ls=miss  cf=-        Accessible Housing Grande Prai
+02:35:00 200 curl          /apply/                ls=miss  cf=-        Apply For Accessible Housing |
+02:35:06 200 ClaudeBot     /faq/                  ls=miss  cf=-        FAQ | GPRS Accessible Housing
+02:35:23 000 Claude-User   /timeline/             ls=-     cf=-        FAQ | GPRS Accessible Housing
+02:35:30 429 GPTBot        /accessibility/        ls=-     cf=-        
+02:35:37 200 ChatGPT-User  /our-story/            ls=-     cf=-        Our Story — 38 Years Of Provid
+02:35:54 000 PerplexityBot /robots.txt            ls=-     cf=-        Our Story — 38 Years Of Provid
+02:36:11 000 chrome        /donate/               ls=-     cf=-        Our Story — 38 Years Of Provid
+02:36:18 200 curl          /                      ls=miss  cf=-        Accessible Housing Grande Prai
+02:36:25 200 ClaudeBot     /apply/                ls=miss  cf=-        Apply For Accessible Housing |
+02:36:31 200 Claude-User   /faq/                  ls=miss  cf=-        FAQ | GPRS Accessible Housing
+02:36:38 429 GPTBot        /timeline/             ls=-     cf=-        
+02:36:44 200 ChatGPT-User  /accessibility/        ls=-     cf=-        Accessibility Statement | GP R
+02:36:51 200 PerplexityBot /our-story/            ls=miss  cf=-        Our Story — 38 Years Of Provid
+02:36:57 200 chrome        /robots.txt            ls=miss  cf=-        
+02:37:04 200 curl          /donate/               ls=miss  cf=-        Donate — Support Accessible Ho
+02:37:10 200 ClaudeBot     /                      ls=miss  cf=-        Accessible Housing Grande Prai
+02:37:17 200 Claude-User   /apply/                ls=miss  cf=-        Apply For Accessible Housing |
+02:37:23 429 GPTBot        /faq/                  ls=-     cf=-        
+02:37:30 200 ChatGPT-User  /timeline/             ls=-     cf=-        GPRS Timeline — Accessible Hou
+02:37:47 000 PerplexityBot /accessibility/        ls=-     cf=-        GPRS Timeline — Accessible Hou
+```
+

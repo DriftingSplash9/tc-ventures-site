@@ -877,3 +877,13 @@ Checked locally in headless Chromium with the new `scripts/cs_check.py`: 16 of 1
 
 **Open before it ships:** Thomas's "ship it". Then BYR8's checklist and P2, on the ten other files.
 
+**Q-BYR5, the Hostinger toggle (2026-09-26):** Thomas turned off "Create LLMs.txt file" in the
+Hostinger plugin, thinking it caused the refusals. It didn't:
+- Re-tested after the change, BYR still refused GPTBot on every uncached request, and PerplexityBot
+  and a browser once each.
+- GPRS, with the toggle off and no Cloudflare, refused GPTBot the same way and dropped some
+  connections outright.
+
+Details: `byr-bot-check-2026-09-25.md`, addendum 2. BYR6's honest limit stands as written. The
+toggle is still worth leaving off, because switching it on replaces the hand-written `llms.txt`.
+
