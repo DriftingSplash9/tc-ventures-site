@@ -4,7 +4,9 @@
 **Why:** the last two case studies of Phase 1b (plan-001 §5 note, 2026-09-25):
 `/work/back-quarter` and `/work/desk-and-drawer` (plan-001 §3). One receipts pass over
 thomascheesman.ca covers both. Thomas chose a new review, 005, over adding to 004 (2026-09-26).
-**Status:** Step 1 (BQD0) drafted 2026-09-26, for Thomas to rule. No copy drafted yet.
+**Status:** Step 1 (BQD0) drafted 2026-09-26. Q-BQD1 and Q-BQD2 answered the same day; the rows
+(R-160 to R-174) aren't ruled yet. PJ1–PJ6, the six `/projects` fixes, drafted 2026-09-26 at his
+"fix the 6". No case-study copy drafted yet.
 
 Same format and marks as copy-review-001 to 004: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -141,3 +143,132 @@ live as they are.
 - **Q-BQD1:** A or B.
 - **Q-BQD2:** why you built each one, in your words.
 - **§4:** agree to fix those six lines in the case studies, or say which you'd keep.
+
+### Rulings, BQD0 (Thomas, 2026-09-26)
+
+Verbatim: "thomascheesman.ca is private in gh. show me r-160 to 174. BDQ1 rows, BDQ2 which ones? i
+made my personal site mostly for family. Social media is messy and can get hard to use for some. I
+wanted somewhere I could tell the story of where my ancestors came from and how we came to exist in
+Grande Prairie as a happy family. I wanted to make it with easter eggs for them to discover if they
+wanted to/ there's games and puzzles and such, a literal arcade, a map you race around and collect
+coins while exploring the "back Quarter". TBH, I doubt it will see much traffic until I pass on but
+that's  ok, for now I am here :) fix the 6 projects' lines."
+
+- **The theme repo is private.** Checked 2026-09-26: GitHub's API reports `"private": true`, and an
+  anonymous fetch of a raw file answers 404.
+- **Q-BQD1: A.** The case studies link receipts-001 rows, not theme files.
+- **Q-BQD2: answered**, for the site as a whole. It covers both pages: the arcade, games and puzzles
+  are the Desk and the Drawer; "a map you race around" is the Back Quarter. How it's used goes in the
+  step-2 blocks, with a verbatim version and a closed-up one, as for BYR. **Q-BQD3 (new), below.**
+- **R-160 to R-174:** shown in the chat; not ruled yet.
+- **"fix the 6":** read as a ruling to fix all six. The wording is below (PJ1–PJ6), for his OK before it
+  ships. Each fix also carries into the case studies.
+
+**Q-BQD3: the quote is familial.** The standing rule is "nothing familial, except the ruled Back Quarter
+childhood paragraph". The answer names no one, but it is about family: "mostly for family", "where my
+ancestors came from", "a happy family", "easter eggs for them".
+
+> **A (recommended):** a second ruled exception, for this quote on these two pages. It is the reason the
+> site exists, and it names no one.
+>
+> **B:** quote only the sentences without family ("Social media is messy…", "games and puzzles and
+> such, a literal arcade, a map you race around…").
+
+---
+
+## PJ1–PJ6 — `/projects`, the six lines (BQD0 §4), at "fix the 6"
+
+These fix the live page now, as M9 did, and ship on their own. The live text is quoted from
+`public/projects.html`.
+
+### PJ1 — the buggy's steering (Back Quarter, "Three things the build taught me", 1)
+
+> **Live:** "**A vehicle that can turn on the spot does not feel like a vehicle.** Early on the buggy
+> pivoted like a tank and nothing about it read as driving. The fix was not more physics, it was less
+> permission: yaw rate now follows forward speed, so she has to be rolling before she will turn, and she
+> eases into it. Grip drops in the wet. Reversing flips the steering sense, the way it does in a real
+> yard."
+>
+> **A (recommended):** "**A vehicle that can turn on the spot does not feel like a vehicle.** For most
+> of the build the buggy could pivot in place, and turning felt harsh. The fix was not more physics, it
+> was less permission: in the 3D world the yaw rate now follows forward speed, so she has to be rolling
+> before she will turn, and she eases into it. Grip drops in the wet. Reversing flips the steering
+> sense, the way it does in a real yard. The painted map that phones get still turns on the spot."
+>
+> **B:** keep the live wording, and change the painted map's steering to match the 3D world. That's a
+> theme change on thomascheesman.ca, and plan-first.
+
+Sources: `faca583` L8–10 (the first build's steering scaled with speed); `b62ec1a` L11–13 (tank
+steering, 2026-07-03); `5f9b755` L3–4, L11–16 ("turning and acceleration/deceleration are harsh", the
+turning radius and the reversed steering, 2026-07-12, 3D script only); `97f79a6` L18–19 ("Traction
+drops to match… in the wet"); `back-quarter.js` L399–401 (the painted map).
+
+### PJ2 — daylight bloom (Back Quarter, 2)
+
+> **Live:** "…I learned that the hard way: for one version the daylight walls glowed too, and the whole
+> farm looked like moulded plastic. Light has to behave like light, or the painting stops being a place."
+>
+> **A:** "…I learned that the hard way: the glow was first tuned at dusk, and in daylight the white
+> church blazed featureless white. Light has to behave like light, or the painting stops being a place."
+
+Source: R-162 (`6430c92` L3–5). "I" stands: Thomas's screenshot caught it.
+
+### PJ3 — the fire (Back Quarter, 3)
+
+> **Live:** "…Nothing rings. Same amount of code, completely different room."
+>
+> **A:** "…Nothing rings. A completely different room."
+
+Source: `git show --numstat d1367d5` (53 lines added, 23 removed in the 3D script).
+
+### PJ4 — the keyboard path (Desk, "Three things the build taught me", 1, and the spec table)
+
+> **Live, paragraph:** "…a separate ordinary navigation for phones, a full keyboard path through every
+> hotspot, and an Escape key…"
+>
+> **A:** "…a separate ordinary navigation for phones, a keyboard path to every object that opens
+> something, and an Escape key…"
+>
+> **Live, spec table:** "Accessibility — Plain-list mode, separate phone navigation, full keyboard path,
+> layered Escape"
+>
+> **A:** "Accessibility — Plain-list mode, separate phone navigation, a keyboard path to everything
+> that opens, layered Escape"
+
+Source: `inc/desk-menu.php` at the current commit: 5 of 18 hotspots take focus, the ones that open
+something (`00e175d`: "the five clickable hotspots get role=button + tabindex=0"). The other 13 are
+hover cards. Read in the source, not Tabbed through.
+
+### PJ5 — the arcade (Desk, 2)
+
+> **Live:** "…Same for the arcade, the slideshow and the desk art itself. A visitor who never clicks pays
+> nothing for any of it, which is the only honest way to put a game in a footer."
+>
+> **A (recommended):** "…Same for the slideshow and the desk art itself. The arcade's game script is the
+> exception: it still loads with every page. A visitor who never clicks pays almost nothing, which is the
+> only honest way to put a game in a footer."
+>
+> **B:** keep the live wording, and make the arcade load on demand in the theme. The desk is a BHAG
+> surface, so that's a plan-first change on thomascheesman.ca.
+
+Checked live 2026-09-26, the home page logged out: the arcade script (`tc-desk-games-js`) is in the
+page, deferred. The desk art is referenced only in the link-preview meta tags, and no slideshow markup
+is in the page.
+
+### PJ6 — the pinball's weight (Desk, 2)
+
+> **Live:** "The physics engine and the renderer behind the pinball table are most of a megabyte between
+> them…"
+>
+> **A:** "The physics engine and the renderer behind the pinball table are about half a megabyte between
+> them…"
+
+Source: the theme's `assets/js/vendor/`: `matter-0.20.0.min.js` 83,476 bytes + `pixi-7.4.2.min.js`
+456,133 bytes = about 540 KB before compression (about 162 KB gzipped). What the server sends wasn't
+checked.
+
+### Open for Thomas (PJ)
+
+- **PJ1:** A or B · **PJ2:** OK · **PJ3:** OK · **PJ4:** OK · **PJ5:** A or B · **PJ6:** OK
+- Once they're ruled, the changes ship on their own with `scripts/site_check.py` run locally before
+  the push and the page checked live after it.
