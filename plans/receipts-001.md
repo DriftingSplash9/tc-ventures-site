@@ -1,8 +1,8 @@
 # receipts-001 — the receipts inventory (PL-2)
 
-**Written:** 2026-09-23 · **Status:** ruled by Thomas 2026-09-23 (via receipts-001.xlsx): 36 OK, 76 CUT; every private (P) row CUT. **R-014 un-cut 2026-09-25: now 37 OK, 75 CUT.** **R-148 and R-149 added OK 2026-09-25; R-141 un-cut the same day; R-150 added and ruled OK 2026-09-26: now 41 OK, 74 CUT** · **Feeds:**
+**Written:** 2026-09-23 · **Status:** ruled by Thomas 2026-09-23 (via receipts-001.xlsx): 36 OK, 76 CUT; every private (P) row CUT. **R-014 un-cut 2026-09-25: now 37 OK, 75 CUT.** **R-148 and R-149 added OK 2026-09-25; R-141 un-cut the same day; R-150 added and ruled OK 2026-09-26: now 41 OK, 74 CUT.** **R-160 to R-174 added 2026-09-26 (§3F): 8 OK, 7 CUT, the 8 chosen by the agent at Thomas's "you decide which up to 8": now 49 OK, 81 CUT** · **Feeds:**
 `/work/gprs`, `/work/this-site`, `/method`, and from 2026-09-25 `/work/influence-graph`
-(copy-review-004)
+(copy-review-004); from 2026-09-26 `/work/back-quarter` and `/work/desk-and-drawer` (copy-review-005)
 
 Every row is a real, documented case of an AI getting something wrong on one of Thomas's
 projects, how it was caught, and the rule it became. Nothing here is inferred or invented:
@@ -236,6 +236,32 @@ commits in `bareyr`.
 | R-148 | 2026-09-20 | The crawl audit called the host's refusal of automated fetchers a standing block, on one day's fetches from one place; that evening an automated request to the other Hostinger site returned 200 | unmeasured | live check (re-test the same evening) | Re-test from more than one place before treating it as fixed or broken | `tc-ventures site/Claude outputs/byr-crawl-audit.md` §1; `tc-ventures site/handoff-011.md` §2, "Bot blocking on the Hostinger sites is not constant" | Y | ✓ | OK (added at Thomas's "yes", 2026-09-25; copy-review-004 BYR0) |
 | R-149 | 2026-09-20 | The crawl audit said a hero image had no alt text on nearly every page; it had carried `alt=""`, which marks it decorative, since April | absence | read-through while fixing | — | `tc-ventures site/Claude outputs/byr-crawl-audit.md` §3e; `tc-ventures site/handoff-012.md` §4 O-11, "(e) needed nothing"; `bareyr` `inc/hero.php` at `1bee6ba` (2026-04-19) | Y | ✓ | OK (added at Thomas's "yes", 2026-09-25; copy-review-004 BYR0) |
 | R-150 | 2026-09-20→25 | The move behind Cloudflare was recorded as fixing the host's blocking of automated fetchers; five days later, uncached requests with three AI agents' user-agents were still refused at the origin (429, or a LiteSpeed "Bot Verification" 403) | unmeasured | live check (paced test by user-agent, cached and uncached) | — | `tc-ventures site/handoff-011.md` §4 O-11, "§1 (host blocking) is fixed by O-10"; `tc-ventures site/Claude outputs/byr-bot-check-2026-09-25.md` | Y | ✓ | OK (Thomas 2026-09-26, "rest ok"; copy-review-004 BYR4) |
+
+### 3F. thomascheesman.ca — the Back Quarter, the Desk and the Drawer
+
+For `/work/back-quarter` and `/work/desk-and-drawer`. Added 2026-09-26 from copy-review-005 BQD0. Paths and commits are in the theme repo,
+`DriftingSplash9/thomascheesman-ca-theme`, **private since 2026-09-26**, so nothing links it: the
+case studies link this table (Q-BQD1 A). Commit line numbers are lines of `git log -1 --format=%B`.
+Catchers the record doesn't name were supplied by Thomas on 2026-09-26 (copy-review-005, rulings).
+**Ruled:** Thomas delegated the choice ("you decide which up to 8"); the agent kept 8, four per page.
+
+| ID | date | what the AI got wrong | kind | caught | rule it became | receipt | public-safe? | chk | Ruling |
+|---|---|---|---|---|---|---|---|---|---|
+| R-160 | 2026-07-09 | Built the bloom effect's bundle from grep hits that were dependency checks, not definitions, and committed it as "the lights glow". The effect threw on load, and the fallback quietly booted the farm without bloom | tooling | Thomas (his word, 2026-09-26; the record doesn't say) | Bundle order written into the vendor file's header | `5207d03`; `0f2f9f3` L3–8 | Y | ✓ | OK |
+| R-161 | 2026-07-09 | The fixed bundle was live on the server, but browsers kept running the broken copy: its URL had no cache-buster | tooling | Thomas (his word, 2026-09-26; the record doesn't say) | Bust the URL (V0.40 L44–46) | `2a6edd7` L3–6 | Y | ✓ | CUT |
+| R-162 | 2026-07-10 | Tuned the bloom threshold at dusk only; in daylight "the white church blazed featureless white and BLOOMED" | unmeasured | Thomas (his screenshot) | "Bloom thresholds are day-driven — don't re-tune night values without checking noon" | `6430c92` L3–5; V0.40 L49–51, L140–141 | Y | ✓ | OK |
+| R-163 | 2026-07-11 | The fire's first crackle clicked "like tiny firecrackers"; its fix sent every pop through the same resonant filter, so each rang the same note | unmeasured | Thomas, both times: "the fire sounds like tin bashing." | — | `e5dba29` L3–6; `d1367d5` L3–6 | Y | ✓ | OK |
+| R-164 | 2026-07-05→11 | Shipped livestock "with graze/wander AI"; each move was one push that friction killed in under a second, so for six days the animals "stood like statues" | unmeasured | Thomas: "the animals are too still" | — | `fe821f7` L19–20; `5e355e3` L3, L7–12 | Y | ✓ | OK |
+| R-165 | 2026-07-07 | Thomas's feel-test note, that the buggy was too rigid and should lean, "never got addressed while we built the quarter" | drift | Thomas (his word, 2026-09-26; the record doesn't say) | — | `53f6490` L3–4 | Y | ✓ | CUT |
+| R-166 | 2026-07-09, 07-11 | A deploy check grepped for a string whose case didn't match the file, in two sessions running | tooling | the agent (Thomas, 2026-09-26) | "match case exactly (bit us again)": a note, not a check | V0.39 L168–169; V0.40 L148 | Y | ✓ | CUT |
+| R-167 | 2026-07-08 | Custom buttons kept rendering with invisible text, and the cause was rediscovered each time | unmeasured | Thomas: "recurring, Thomas flags it often" | The cause and the defence written into `style.css`: a comment, not a check | `bebf5c3` L29–33; `style.css` L776 | Y | ✓ | CUT |
+| R-168 | 2026-05-13 | Three versions of a hover sheen shipped without being seen to render. Two commits blamed Chrome ("parsing issue some Chrome builds have"); the cause was an older rule of the agent's own, overriding the new animation | invented | Thomas: the record's "user's Chrome" (his word, 2026-09-26) | — | `e3962e0` L3–4; `b2d382a` L5–6; `525d1a6` L3–4; `17c073d` L3–7 | Y | ✓ | OK |
+| R-169 | ≤2026-05-17 | The "View as a plain list" toggle, the desk's way out to ordinary links, sat inside the monitor's clipped area: "it was unreachable" | unmeasured | Thomas (his word, 2026-09-26; the record doesn't say) | — | `bca7b22` L3–4 | Y | ✓ | OK |
+| R-170 | 2026-06-17→19 | The agent's own site audit listed a focus trap for the desk overlay as a 3–5 hour job; the overlay had had one since 2026-06-12 | absence | read-through: "Spent real effort verifying; all confirmed against live code" | V0.33: "strike these off" | V0.31 L65 (L33: built from "the local theme files"); V0.33 L20–25; `00e175d` | Y | ✓ | OK |
+| R-171 | 2026-05-27 | Declared "The puzzle is complete."; choices made in its pop-up dialogs changed the state in memory but were never saved or redrawn, "a bug for two days" | unmeasured | not stated ("Phase 4 play-test fixes") | "Anyone adding another modal action MUST do the epilogue trio" | `aa6b356` L44–45; `4fc1ef4` L3–12; V0.16 L266–272 | Y (describe the bug, not the puzzle) | ✓ | CUT |
+| R-172 | 2026-06-23→24 | A pinball fix was "validated in-browser" with test balls, and Thomas's play still found balls stuck at the sides; the next fix's one failing drop was written off as "a rare flipper-base settle", and the next day's commit calls it "the recurring flipper-base trap" | unmeasured | Thomas: "it keeps getting stuck to the right and left" | — (falls under `CLAUDE.md` rule 1) | `0fc31ac` L3–6; `0905002` L3–12; `f037e11` L12–14 | Y | ✓ | OK |
+| R-173 | 2026-06-25 | "Debugged" a blank game canvas at length; it was a background tab, which pauses animation | tooling | not stated (the agent's own note) | "Check `document.hidden` before concluding 'blank = broken.'" | V0.36 L21, L96 | Y | ✓ | CUT |
+| R-174 | 2026-05-20 | The flippers stuck in place because the agent divided by the frame time "under the wrong assumption" about the physics library's velocity units | invented | Thomas (his word, 2026-09-26; the record doesn't say) | — | `12f7b8f` L3–8 | Y | ✓ | CUT |
 
 ---
 
