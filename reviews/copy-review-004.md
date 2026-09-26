@@ -895,3 +895,20 @@ hosting (bot-check file, addendum 6). Two things stand:
 
 No Cloudflare HTML caching for now. The copy doesn't change.
 
+
+**Shipped (Thomas, 2026-09-26: "ship it").** What changed with the ship:
+- noindex and the draft banner are off the page
+- the page is out of `.assetsignore`
+- it is in the Projects sub-menu on all eleven pages, second after the graph
+- it is in the sitemap
+- it is linked from `/projects` (P2) and from the home page
+
+Checked locally before the push:
+- `scripts/site_check.py` passes every check on every sitemap page plus /404
+- the same suite run against main's `public/` fails the sub-menu on all nine of its pages, which
+  shows the check can fail
+- `scripts/cs_check.py work/bare-your-rare` passes everything except three links: the two GitHub
+  blob links to files that are only on this branch until it merges, and the GitHub profile, which
+  this session's proxy refuses
+
+The live check comes after the deploy.
