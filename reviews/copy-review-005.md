@@ -311,3 +311,12 @@ Checked locally before the push:
 
 Noticed, not changed: the Desk section's opening still says the whole thing "costs a visitor nothing to
 ignore", and the arcade script loads with every page (PJ5). Small, but the same kind of claim.
+
+**The Desk's opening line (Thomas, 2026-09-26: "change the claim, merge, merge pr4").** He ruled the change
+without a wording round, so the agent chose the smallest true change, matching PJ5's "almost nothing":
+
+> **Live:** "None of that is the interesting part. The interesting part is that it costs a visitor nothing to
+> ignore."
+>
+> **Now:** "None of that is the interesting part. The interesting part is that ignoring it costs a visitor
+> almost nothing."
