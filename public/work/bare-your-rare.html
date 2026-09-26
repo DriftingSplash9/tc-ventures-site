@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A rare-disease site, written by a patient - Thomas Cheesman</title>
+<meta name="description" content="Five plain-language guides to ultra-rare conditions, marked up so a search engine or an AI assistant can tell what each page is, who wrote it, and when it was last reviewed.">
+<link rel="canonical" href="https://tc-ventures.ca/work/bare-your-rare">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TC &rsquo;Ventures">
+<meta property="og:url" content="https://tc-ventures.ca/work/bare-your-rare">
+<meta property="og:title" content="A rare-disease site, written by a patient - Thomas Cheesman">
+<meta property="og:description" content="Five plain-language guides to ultra-rare conditions, marked up so a search engine or an AI assistant can tell what each page is, who wrote it, and when it was last reviewed.">
+<meta property="og:image" content="https://tc-ventures.ca/assets/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Thomas Cheesman, Grande Prairie, Alberta, remote. Beside the name, a slice of the Economic Report Influence Graph.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@TCheesy_">
+<meta name="twitter:creator" content="@TCheesy_">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/nav.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+
+<header class="topbar">
+  <div class="wrap wrap--page topbar__inner">
+    <a class="wordmark" href="/">Thomas Cheesman</a>
+    <nav aria-label="Primary">
+      <div class="navsub">
+        <a href="/projects" aria-current="true">Projects</a>
+        <button class="navsub__toggle" type="button" aria-expanded="false" aria-controls="navsub-work">
+          <span class="sr-only">Case studies</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <ul class="navsub__list" id="navsub-work" aria-label="Case studies">
+          <li><a href="/work/influence-graph">The Economic Report Influence Graph</a></li>
+          <li><a href="/work/bare-your-rare" aria-current="page">A rare-disease site, written by a patient</a></li>
+          <li><a href="/work/gprs">A housing society&rsquo;s website</a></li>
+          <li><a href="/work/this-site">This site</a></li>
+        </ul>
+      </div>
+      <a href="/method">Method</a>
+      <a href="/background">Background</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap wrap--page">
+    <div class="cs-layout">
+
+      <div class="cs-layout__main">
+        <header class="cs-head">
+          <p class="label">Case study &middot; a patient site</p>
+          <h1>A rare-disease site, written by a patient</h1>
+          <p class="cs-head__claim">
+            Five plain-language guides to ultra-rare conditions, marked up so a search engine or an AI
+            assistant can tell what each page is, who wrote it, and when it was last reviewed.
+          </p>
+          <dl class="cs-head__meta">
+            <div><dt>Stack</dt><dd>WordPress with a hand-coded Astra child theme &middot; page content lives in the theme, not the editor</dd></div>
+            <div><dt>Status</dt><dd><span class="tag tag--live">Live</span></dd></div>
+            <div><dt>Hosted</dt><dd>Hostinger, behind Cloudflare since September 2026 &middot; a push to <code>main</code> deploys</dd></div>
+            <div><dt>Repo</dt><dd>Private</dd></div>
+            <div><dt>Since</dt><dd>March 2026, as a hand-coded theme</dd></div>
+          </dl>
+        </header>
+
+        <nav class="cs-index cs-index--inline" aria-label="On this page">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+        </nav>
+
+        <div class="cs-body">
+          <section class="cs-section" id="ask" aria-labelledby="h-ask">
+            <span class="cs-section__num">The ask</span>
+            <h2 id="h-ask">What I would have wanted to find</h2>
+
+            <p>
+              I have Hajdu-Cheney syndrome (HCS), a rare connective-tissue disorder.
+            </p>
+            <p>
+              <a href="https://bareyourrare.org">Bare Your Rare</a> is a patient-led site for ultra-rare
+              conditions, built because most people searching for one of them find almost nothing. It now
+              carries five guides written for patients rather than clinicians &mdash; Hajdu-Cheney syndrome,
+              Erdheim-Chester disease, Fechtner syndrome, POEMS syndrome and stiff person syndrome &mdash;
+              each one a long read assembled from the literature and put into plain language.
+            </p>
+
+            <blockquote class="pull">
+              <p>
+                &ldquo;I built it from a patient(me)&rsquo;s point of view. I asked myself what would be
+                helpful to me to come across on the internet? What can explain the nuances of HCS? And
+                then I thought I may as well expand this to more rare disorders so I researched several
+                others. I also wanted to work on my web design and building skills.&rdquo;
+              </p>
+              <footer><cite>Thomas</cite> &middot; 2026-09-25 &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-004.md">copy-review-004, Q-BYR1</a></footer>
+            </blockquote>
+
+            <p>
+              In March 2026 I started moving the site out of the page builders it had been built with and
+              into a theme written for it.
+            </p>
+
+            <blockquote class="pull">
+              <p>
+                &ldquo;I wanted freedom to do things I couldn&rsquo;t or that were a pain in the butt
+                because of the extra weight handling the themes and plugins. Why pay for a plugin when I
+                can ask [an AI] to make it my way for my content?&rdquo;
+              </p>
+              <footer><cite>Thomas</cite> &middot; 2026-09-25 &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-004.md">copy-review-004, Q-BYR2</a></footer>
+            </blockquote>
+          </section>
+          <section class="cs-section" id="standard" aria-labelledby="h-standard">
+            <span class="cs-section__num">The standard</span>
+            <h2 id="h-standard">Cited, dated, and readable before any script runs</h2>
+
+            <p>
+              Each guide links to the medical literature and patient organisations it was written from,
+              and says when it was last reviewed. The words are in the page the server sends, so nothing
+              has to run before a reader, a search engine or an AI assistant can read them.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/Claude%20outputs/byr-crawl-audit.md">crawl audit, &sect;2 &amp; &sect;5</a>
+            </p>
+            <p>
+              The machine-readable copy says the same things. Each guide tells software what it is (a
+              medical web page, written for patients), which condition it covers, who wrote it, and when
+              it was last reviewed. That date comes from the same function as the date printed on the
+              page, so the two can&rsquo;t disagree.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-012.md">handoff-012, O-11</a>
+            </p>
+
+            <figure class="excerpt">
+              <pre>{
+  "@type": <mark>"MedicalWebPage"</mark>,
+  &hellip;
+  "medicalAudience": {
+    "@type": <mark>"Patient"</mark>
+  },
+  "about": {
+    "@type": "MedicalCondition",
+    "name": <mark>"Hajdu-Cheney Syndrome"</mark>,
+    &hellip;
+  },
+  "author": {
+    "@type": "Person",
+    "name": <mark>"Thomas Cheesman"</mark>,
+    &hellip;
+  },
+  &hellip;
+  "lastReviewed": <mark>"2026-04"</mark>
+}</pre>
+              <figcaption>Part of the structured data <code>/hcs-guide/</code> serves, verbatim, trimmed to the fields named above. &ldquo;&hellip;&rdquo; marks what was left out.<a class="receipt" href="https://bareyourrare.org/hcs-guide/">bareyourrare.org/hcs-guide</a></figcaption>
+            </figure>
+          </section>
+          <section class="cs-section" id="wrong" aria-labelledby="h-wrong">
+            <span class="cs-section__num">What the AI got wrong</span>
+            <h2 id="h-wrong">A charity that didn&rsquo;t exist, and an audit that overreached</h2>
+
+            <ol class="mc">
+              <li>
+                <h3>A charity that didn&rsquo;t exist</h3>
+                <p>
+                  A site analysis invented a registered charity for the site, &ldquo;Bare Your Rare
+                  Foundation&rdquo;, and drafted its structured data and its summary for AI tools around
+                  it, with made-up social-media links to go with it. Bare Your Rare is one person&rsquo;s
+                  project. Part of that framing shipped: from April, every page told software the site
+                  was a non-governmental organisation, and went on saying so until September.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> plausible but invented &middot; drift across sessions &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3e-bareyourrare--bareyourrareorg-supporting-examples">receipts-001, R-140, R-141</a></span>
+              </li>
+              <li>
+                <h3>Two problems that weren&rsquo;t there</h3>
+                <p>
+                  A crawl audit of the site said a poetry category collided with the POEMS syndrome
+                  guide. The category was empty. It said the header image had no text alternative on
+                  nearly every page. The image had carried an empty one since April, which is how a
+                  decorative image is marked.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> plausible but invented &middot; not seen, so called missing &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3e-bareyourrare--bareyourrareorg-supporting-examples">receipts-001, R-147, R-149</a></span>
+              </li>
+              <li>
+                <h3>A fix recorded as done</h3>
+                <p>
+                  The same audit&rsquo;s most serious finding was that the host refused automated
+                  fetchers. That matters here: when a patient asks an AI assistant about their
+                  condition, the assistant fetches the page on their behalf. The site was moved behind
+                  Cloudflare, and the notes recorded the problem as fixed. Five days later, pages the
+                  host had not cached were still being refused to some AI agents, by the host itself.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> looked right but was not measured &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3e-bareyourrare--bareyourrareorg-supporting-examples">receipts-001, R-150</a></span>
+              </li>
+            </ol>
+          </section>
+          <section class="cs-section" id="caught" aria-labelledby="h-caught">
+            <span class="cs-section__num">How I caught it</span>
+            <h2 id="h-caught">Read it before fixing it, test it before believing it</h2>
+
+            <ol class="mc mc--catch">
+              <li>
+                <h3>A read-through, then a live check</h3>
+                <p>
+                  A later read-through took the invented foundation out, while the privacy page was
+                  rewritten in plain first person. The structured data kept the old framing for five
+                  more months. A check of what the live pages actually serve, made before this page was
+                  written, found it, and it was fixed that day.
+                </p>
+                <span class="mc__how"><b>Falls under:</b> never invent a date, a figure or an organisation; unknown means ask me &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3e-bareyourrare--bareyourrareorg-supporting-examples">receipts-001, R-140, R-141</a></span>
+              </li>
+              <li>
+                <h3>Reading the real thing before changing it</h3>
+                <p>
+                  The session that made the audit&rsquo;s fixes read the code and the live page first.
+                  The category held one unpublished post, so the fix became keeping any empty category
+                  out of search results. The image&rsquo;s empty text alternative was already there, so
+                  nothing needed doing.
+                </p>
+                <span class="mc__how"><b>Falls under:</b> say what you read, not what exists &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3e-bareyourrare--bareyourrareorg-supporting-examples">receipts-001, R-147, R-149</a></span>
+              </li>
+              <li>
+                <h3>Testing from outside, before this page said &ldquo;fixed&rdquo;</h3>
+                <p>
+                  A script fetched the site every six seconds, as a browser and as five AI agents, once
+                  with pages forced past the host&rsquo;s cache and once without. Everything cached came
+                  back. Past the cache, one agent was refused every time and two others some of the
+                  time. The refusals came from the host&rsquo;s own server, behind Cloudflare.
+                </p>
+                <span class="mc__how"><b>Falls under:</b> &ldquo;done&rdquo;, &ldquo;verified&rdquo; and &ldquo;deployed&rdquo; are claims; prove them from outside &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3e-bareyourrare--bareyourrareorg-supporting-examples">receipts-001, R-150</a></span>
+              </li>
+            </ol>
+
+            <table class="rules wide">
+              <caption>Each correction, the standing rule it falls under, and where that rule lives.</caption>
+              <thead>
+                <tr><th scope="col">The correction</th><th scope="col">The standing rule</th><th scope="col">Enforced in</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" data-th="The correction">An analysis invented a charity for the site, and its schema outlived the correction</th>
+                  <td data-th="The standing rule">Never invent a date, a figure or an organisation. Unknown means ask me</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 11</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">An audit reported two problems that weren&rsquo;t there</th>
+                  <td data-th="The standing rule">Say what you read, not what exists</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 6</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">A host fix was recorded as done without a re-test</th>
+                  <td data-th="The standing rule">&ldquo;Done&rdquo;, &ldquo;verified&rdquo; and &ldquo;deployed&rdquo; are claims. Prove them from outside</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 2</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="cs-section" id="shipped" aria-labelledby="h-shipped">
+            <span class="cs-section__num">What shipped</span>
+            <h2 id="h-shipped">Readable by people and by software, with one gap left</h2>
+
+            <p>
+              Every guide now tells software who wrote it and when it was last reviewed. It gives one
+              breadcrumb trail instead of two. An empty category no longer appears in search results. The
+              plain-language summary for AI tools, <code>llms.txt</code>, is linked from every page and from
+              <code>robots.txt</code>. And the site no longer describes itself to software as a
+              non-governmental organisation.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-012.md">handoff-012</a>
+            </p>
+
+            <h3>The honest limits</h3>
+            <p>
+              Checked in September 2026: the host still refuses some AI agents when a page isn&rsquo;t in
+              its cache, and emptying the cache after an update reopens that gap. The filter is the
+              host&rsquo;s, it sits behind Cloudflare, and it isn&rsquo;t fixed yet. The pages are also
+              heavy for a phone on a rural connection, and that hasn&rsquo;t been worked on.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/Claude%20outputs/byr-bot-check-2026-09-25.md">bot check, 2026-09-25</a>
+            </p>
+          </section>
+          <section class="cs-section" id="receipts" aria-labelledby="h-receipts">
+            <span class="cs-section__num">Receipts</span>
+            <h2 id="h-receipts">The files behind every claim above</h2>
+
+            <ul class="receipts wide">
+              <li>
+                <p class="receipts__what">Why I built it, in my words</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-004.md">reviews/copy-review-004.md</a>, Q-BYR1 and Q-BYR2 &middot; <time datetime="2026-09-25">2026-09-25</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The crawl audit: what it found, and what was already right</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/Claude%20outputs/byr-crawl-audit.md">Claude outputs/byr-crawl-audit.md</a> &middot; <time datetime="2026-09-20">2026-09-20</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The move behind Cloudflare, and the note that called the block fixed</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-011.md">handoff-011.md</a> &middot; <time datetime="2026-09-20">2026-09-20</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The audit&rsquo;s fixes, and the two findings that fell</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-012.md">handoff-012.md</a> &middot; <time datetime="2026-09-21">2026-09-21</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The re-check that found the host still refusing some agents, with its raw logs</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/Claude%20outputs/byr-bot-check-2026-09-25.md">Claude outputs/byr-bot-check-2026-09-25.md</a> &middot; <a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/scripts/byr_bot_check.py">scripts/byr_bot_check.py</a> &middot; <time datetime="2026-09-25">2026-09-25</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">Every miss above in the receipts inventory, with its sources</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3e-bareyourrare--bareyourrareorg-supporting-examples">plans/receipts-001.md &sect;3E</a> &middot; <time datetime="2026-09-23">2026-09-23</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The rules the corrections fall under</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/CLAUDE.md">CLAUDE.md</a></p>
+              </li>
+              <li>
+                <p class="receipts__what">The site itself</p>
+                <p class="receipts__file"><a href="https://bareyourrare.org">bareyourrare.org</a></p>
+              </li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+
+      <aside class="cs-layout__rail">
+        <nav class="cs-index cs-index--rail" aria-label="Sections">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+          <a class="cs-index__back" href="/projects">&larr; All work</a>
+        </nav>
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap wrap--page footer__inner">
+    <div>
+      <p class="label">Get in touch</p>
+      <p class="footer__email"><a href="mailto:thomas@tc-ventures.ca">thomas@tc-ventures.ca</a></p>
+      <p class="footer__note">Grande Prairie, Alberta &middot; Mountain Time &middot; remote &middot; open to work</p>
+    </div>
+    <div>
+      <p class="label">Elsewhere</p>
+      <ul class="footer__list">
+        <li><a href="https://www.linkedin.com/in/thomas-cheesman-20234285/">LinkedIn</a></li>
+        <li><a href="https://github.com/DriftingSplash9">github.com/DriftingSplash9</a></li>
+        <li><a href="https://thomascheesman.ca">thomascheesman.ca</a> &mdash; personal</li>
+        <li><a href="https://bareyourrare.org">bareyourrare.org</a></li>
+        <li><a href="https://gpresidentialsociety.com">gpresidentialsociety.com</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
