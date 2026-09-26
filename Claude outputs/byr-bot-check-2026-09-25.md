@@ -414,3 +414,40 @@ whether it was already cached):
 than waiting on visitors. It doesn't remove the host's filter. A page that falls out of the cache
 between runs is still exposed, and the Hostinger ticket is still the fix.
 
+---
+
+## Addendum 6 — Hostinger support's answer, and one correction to it (2026-09-26)
+
+Thomas asked Hostinger support in hPanel chat. He sent the exact failing requests from 08:31 UTC
+(GPTBot 429 on all three sites). The reply, as he pasted it, in summary:
+
+- **The 429s:** "match Hostinger's server-level automated-traffic rate limiter, which operates
+  before normal PHP and WordPress logging." "There is no customer-level setting to disable that
+  server-wide limiter or add a GPTBot/PerplexityBot allowlist for individual shared-hosting sites."
+  The CDN on thomascheesman.ca "recorded GPTBot requests as allowed, but the origin subsequently
+  returned 429 responses."
+- **Logs:** there were no matching 429 or Bot Verification entries in the PHP/vhost logs. There was
+  a WordPress database deadlock at 04:29:42 UTC, and the account "reached 100% CPU briefly during
+  the last 24 hours, with one recorded resource fault."
+- **The 403 "Bot Verification" on BYR:** support attributed it to Cloudflare, because the response
+  carries a `cf-ray` header.
+
+**That last point doesn't hold,** on the evidence here:
+- **`cf-ray` proves nothing.** Every response through Cloudflare carries it, the normal 200s
+  included.
+- **The 403 carries `x-turbo-charged-by: LiteSpeed`,** the origin's header. It has no
+  `cf-mitigated: challenge`, the header Cloudflare's own challenges carry.
+- **The page itself is LiteSpeed's CAPTCHA:** title "Bot Verification", form `lsrecaptcha-form`, and
+  Google reCAPTCHA (`grecaptcha.render`). It was captured on 2026-09-25, the first 403 of this
+  check.
+- **Cloudflare's own security events for the zone would settle it.** Only Thomas can see them.
+
+**What it means:**
+- The 429 is the host's, account-wide, and can't be changed on this plan. That's confirmed by the
+  host.
+- Keeping pages cached (addendum 5) is the working mitigation.
+
+**Our own load:** the deadlock (04:29:42 UTC) and the CPU peak fall in the same hours as this
+check's test runs. Run D and run E hit uncached BYR pages from 04:26 to 04:30 UTC. So the tests may
+have added to that load. Bulk runs stopped after 05:31, apart from single spot checks.
+
