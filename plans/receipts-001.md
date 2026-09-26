@@ -1,6 +1,6 @@
 # receipts-001 — the receipts inventory (PL-2)
 
-**Written:** 2026-09-23 · **Status:** ruled by Thomas 2026-09-23 (via receipts-001.xlsx): 36 OK, 76 CUT; every private (P) row CUT. **R-014 un-cut 2026-09-25: now 37 OK, 75 CUT.** **R-148 and R-149 added OK 2026-09-25; R-141 un-cut the same day: now 40 OK, 74 CUT; R-150 added, pending** · **Feeds:**
+**Written:** 2026-09-23 · **Status:** ruled by Thomas 2026-09-23 (via receipts-001.xlsx): 36 OK, 76 CUT; every private (P) row CUT. **R-014 un-cut 2026-09-25: now 37 OK, 75 CUT.** **R-148 and R-149 added OK 2026-09-25; R-141 un-cut the same day; R-150 added and ruled OK 2026-09-26: now 41 OK, 74 CUT** · **Feeds:**
 `/work/gprs`, `/work/this-site`, `/method`, and from 2026-09-25 `/work/influence-graph`
 (copy-review-004)
 
@@ -235,7 +235,7 @@ commits in `bareyr`.
 | R-147 | 2026-09-20 | The crawl audit said a category page was poetry colliding with a disease name; it was an empty category | invented | read-through while fixing | Noindex empty category archives | `tc-ventures site/Claude outputs/byr-crawl-audit.md` §3c | Y | | OK |
 | R-148 | 2026-09-20 | The crawl audit called the host's refusal of automated fetchers a standing block, on one day's fetches from one place; that evening an automated request to the other Hostinger site returned 200 | unmeasured | live check (re-test the same evening) | Re-test from more than one place before treating it as fixed or broken | `tc-ventures site/Claude outputs/byr-crawl-audit.md` §1; `tc-ventures site/handoff-011.md` §2, "Bot blocking on the Hostinger sites is not constant" | Y | ✓ | OK (added at Thomas's "yes", 2026-09-25; copy-review-004 BYR0) |
 | R-149 | 2026-09-20 | The crawl audit said a hero image had no alt text on nearly every page; it had carried `alt=""`, which marks it decorative, since April | absence | read-through while fixing | — | `tc-ventures site/Claude outputs/byr-crawl-audit.md` §3e; `tc-ventures site/handoff-012.md` §4 O-11, "(e) needed nothing"; `bareyr` `inc/hero.php` at `1bee6ba` (2026-04-19) | Y | ✓ | OK (added at Thomas's "yes", 2026-09-25; copy-review-004 BYR0) |
-| R-150 | 2026-09-20→25 | The move behind Cloudflare was recorded as fixing the host's blocking of automated fetchers; five days later, uncached requests with three AI agents' user-agents were still refused at the origin (429, or a LiteSpeed "Bot Verification" 403) | unmeasured | live check (paced test by user-agent, cached and uncached) | — | `tc-ventures site/handoff-011.md` §4 O-11, "§1 (host blocking) is fixed by O-10"; `tc-ventures site/Claude outputs/byr-bot-check-2026-09-25.md` | Y | ✓ | *pending: copy-review-004 BYR4* |
+| R-150 | 2026-09-20→25 | The move behind Cloudflare was recorded as fixing the host's blocking of automated fetchers; five days later, uncached requests with three AI agents' user-agents were still refused at the origin (429, or a LiteSpeed "Bot Verification" 403) | unmeasured | live check (paced test by user-agent, cached and uncached) | — | `tc-ventures site/handoff-011.md` §4 O-11, "§1 (host blocking) is fixed by O-10"; `tc-ventures site/Claude outputs/byr-bot-check-2026-09-25.md` | Y | ✓ | OK (Thomas 2026-09-26, "rest ok"; copy-review-004 BYR4) |
 
 ---
 

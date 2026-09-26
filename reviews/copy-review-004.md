@@ -11,8 +11,9 @@ IG0 A, IG1–IG7 OK, P1 OK, Q-IG1 to Q-IG3 answered; see "Rulings" at the end. Q
 are open. The preview is built and checked (see the end).
 **BYR0–BYR8 and P2 (Bare Your Rare) drafted 2026-09-25**, after Step 1 was ruled ("1 yes, 2 yes,
 3 yes, 5 yes"). **Second round ruled 2026-09-25** (see "Rulings, BYR" at the end): H1 A, quote A,
-Q-BYR2 to Q-BYR4 and Q-BYR6 answered. Open: BYR2b, Q-BYR5, Q-BYR7, and an OK on BYR3–BYR7 and P2
-as revised.
+Q-BYR2 to Q-BYR4 and Q-BYR6 answered. **Third round ruled 2026-09-26:** BYR2b A, BYR3–BYR7 and P2
+OK, no Fig. 2, Q-BYR7 yes. Open: Q-BYR5 (Hostinger), which doesn't block the copy. The preview is
+next.
 
 Same format and marks as copy-review-001 to 003: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -563,7 +564,7 @@ When did you start it?
 > In March 2026 I started moving the site out of the page builders it had been built with and into
 > a theme written for it.
 >
-> **A (recommended):** "I wanted freedom to do things I couldn't or that were a pain in the butt
+> **A (ruled):** "I wanted freedom to do things I couldn't or that were a pain in the butt
 > because of the extra weight handling the themes and plugins. Why pay for a plugin when I can ask
 > [an AI] to make it my way for my content?"
 >
@@ -719,8 +720,7 @@ Who caught what (the "I" rule):
 > `robots.txt`. And the site no longer describes itself to software as a non-governmental
 > organisation. (→ `handoff-012.md`, receipts-001 R-141)
 >
-> *Fig. 2 (proposed):* the top of `/hcs-guide/`, with its "Last reviewed" line, cropped above the
-> guide's text.
+> *~~Fig. 2~~: none (ruled 2026-09-26).*
 >
 > **The honest limits:** Checked in September 2026: the host still refuses some AI agents when a
 > page isn't in its cache, and emptying the cache after an update reopens that gap. The filter is
@@ -788,7 +788,8 @@ catch that.
   support. Name the symptom: uncached requests from AI user-agents get a 429 or a LiteSpeed
   reCAPTCHA 403, through Cloudflare. And **ship the case study with the limit stated**, not
   waiting for Hostinger.
-- **Q-BYR7:** remove the four unclaimed social links from BYR's footer now? (BYR0 5)
+- ~~**Q-BYR7:** remove the four unclaimed social links from BYR's footer now? (BYR0 5)~~ Ruled yes, and
+  done (see the rulings below).
 
 ### Rulings, BYR (Thomas, 2026-09-25)
 
@@ -811,3 +812,68 @@ details. byr6 no, nobody has claimed them yet"
 - **Q-BYR4: doesn't recall.** Explained in the chat; 1 stays impersonal.
 - **Q-BYR5: asked for more detail.** Explained in the chat; still open.
 - **Q-BYR6: not his; the accounts are unclaimed.** That leads to Q-BYR7.
+
+**Third round, verbatim (2026-09-26):** "byr2b A, rest ok, no fig 2, q-byr7 yes, q-byr5 what am i
+asking hostinger for? explain it to me like you would to someone who hasn't heard a thing about
+it."
+
+- **BYR2b: A.** The second quote goes in with "[an AI]".
+- **"rest ok":** BYR3, BYR4 (with R-150), BYR5, BYR6, BYR7 and P2 are OK as revised. R-150 is
+  now OK in receipts-001.
+- **No Fig. 2.** BYR6 has no second figure. Fig. 1, the code excerpt, stays.
+- **Q-BYR7: yes.** `bareyr` `ed6b054` removes the footer's four social links. It also removes the
+  lightbox share row's Instagram button, which linked the same unclaimed profile: same problem,
+  same fix. PHP lints clean and the JS parses. Checked live after the push; see below.
+- **Q-BYR5: explained again in the chat, from scratch.** It's still open, and the copy doesn't
+  wait on it: BYR6's limit is stated and dated either way.
+
+**Q-BYR7, checked live 2026-09-26:**
+- Uncached `/about/` and `/hcs-guide/` carry no link to `x.com/bareyourrare`. `/about/` had one in
+  the post-purge re-check the night before, so the check can fail.
+- The lightbox script LiteSpeed serves (its optimised copy) has no `instagram.com/bareyourrare`
+  and no `shareInstagram`. Its X share intent is still there.
+- **Pages already in LiteSpeed's cache keep the old footer until the next purge. Thomas: purge
+  again.**
+
+**Preview built 2026-09-26:** `public/work/bare-your-rare.html`, with a draft banner and
+`noindex`, and listed in `.assetsignore`. It's built from the ruled copy; the `/projects` paragraph
+is copied unchanged.
+- **The sub-menu** lists this page second, after the graph and before the housing society, on
+  this page only. The other ten files change at ship.
+- **Copy matches the ruled blocks,** checked by script sentence by sentence. The only misses were
+  expected: editorial notes, the unruled quote B, sentences whose "(→ …)" became a receipt link,
+  and tag spacing. A one-word change is caught, so the check can fail.
+- **Fig. 1 carries no "Fig. 1" label.** The site numbers only screenshot figures (`.shot`), the
+  same as the graph page's excerpt. With Fig. 2 ruled out, the page has no numbered figures.
+- **The rules table's "Enforced in"** is plain `CLAUDE.md`, as on the graph page. The receipts list
+  links it.
+- **Receipt labels** (the left column of Receipts) are new wording, not in BYR7's file list. They
+  describe the files; worth a glance.
+
+Checked locally in headless Chromium with the new `scripts/cs_check.py`: 16 of 17 passed.
+- **Passed:**
+  - status, and a made-up URL gives 404
+  - title, noindex and the banner
+  - the six sections in order
+  - the sub-menu order and both `aria-current` levels
+  - by keyboard: Tab reaches the toggle, Enter opens, Esc closes and returns focus
+  - no console errors in light or dark
+  - no sideways scroll at 375px
+  - with JavaScript off, every section, link and word is present
+- **Negative control:** run against `/work/gprs` as if it were a preview, the script fails the
+  preview checks and the sub-menu order. So those checks can fail. The run also showed that
+  `/work/gprs`'s `<title>` has a straight apostrophe where its H1 has a curly one. That's
+  cosmetic and was left alone.
+- **The one failure is three links, and none of them is a fault on the page:**
+  - the check file and its script 404 on `main` because they're only on this branch. They
+    resolve when it merges.
+  - `github.com/DriftingSplash9` got a 403 from this container's proxy, which refuses GitHub pages
+    outside the session's repos ("sessions are bound to their configured repositories"). That's
+    rule 7: it describes my network, not the site. The same footer link is on every live page.
+- **Looked at:** each section at 1280px in light and dark, the excerpt and rules table in both
+  themes, and the header at 375px. Nothing overlaps or runs off the page.
+- **Not checked:** the live security policy, since `_headers` isn't served locally. The page adds
+  no script, so the policy isn't touched.
+
+**Open before it ships:** Thomas's "ship it". Then BYR8's checklist and P2, on the ten other files.
+
