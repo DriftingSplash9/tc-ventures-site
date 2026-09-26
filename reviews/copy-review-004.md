@@ -887,3 +887,11 @@ Hostinger plugin, thinking it caused the refusals. It didn't:
 Details: `byr-bot-check-2026-09-25.md`, addendum 2. BYR6's honest limit stands as written. The
 toggle is still worth leaving off, because switching it on replaces the hand-written `llms.txt`.
 
+**Q-BYR5 closed (Thomas, 2026-09-26): "1".** The choice is option 1: leave it as it is. Hostinger
+support confirmed the 429 is their server-wide rate limiter, with no customer setting on shared
+hosting (bot-check file, addendum 6). Two things stand:
+- the LiteSpeed crawler, now hourly, keeps the pages cached
+- BYR6's honest limit, as written
+
+No Cloudflare HTML caching for now. The copy doesn't change.
+
