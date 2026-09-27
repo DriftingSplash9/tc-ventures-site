@@ -720,3 +720,30 @@ want it changed with PJ7–PJ12.
 - **DD1–DD7:** H1 A or B; the DD3 flag; the two "how" guesses in DD5; "five / thirteen" KEEP or FIX; the
   rest OK / FIX / CUT.
 - **P3:** OK.
+
+### Rulings, step 2, round 1 (Thomas, 2026-09-27)
+
+Verbatim: "pause here. the phone won't get the 2d nor 3d map/menu's. It is high time we benched the 2d menu
+altogether. So, to keep this simple - only have the 3d menu and only on pc. BDQ4 - fix, N/A, fix. ok, fix,
+fix. BDQ5 why are we talking about this anyway?"
+
+- **Decision for thomascheesman.ca (a theme change, not copy):**
+  - The painted map (2D) is retired.
+  - The 3D world runs on PCs only.
+  - Phones get neither.
+  - **Today's code differs:** touch screens under 820px, and browsers without WebGL, get the painted map
+    (`back-quarter.js`, `prefersPaintedMap()`). So this is a change still to make, not a description of the
+    live site.
+  - The Back Quarter is a plan-first surface, so it gets a plan before code. **Paused at his word.**
+- **What it changes here, once it's live:**
+  - PJ1's last sentence ("The painted map that phones get still turns on the spot") goes.
+  - The spec rows "The Painted Map" and "Input" change.
+  - BQ1's stack loses "Pixi and Matter".
+  - BQ6's phone limit goes.
+  - The copy changes when the theme does, not before, because copy describes what's live.
+- **BQD4:** 1 fix · 2 N/A · 3 fix · 4 OK · 5 fix, read as A (the copy fix; B, the theme change, stays open) ·
+  6 fix.
+  - **Reading of 2:** with the painted map retired, the grain elevator leaves the site, so the line then
+    needs the medic hut or a cut. Asked.
+- **BQD5:** he asked why it's here; answered in the chat.
+- **Nothing is applied to `/projects` yet**, at "pause here".
