@@ -747,3 +747,22 @@ fix. BDQ5 why are we talking about this anyway?"
     needs the medic hut or a cut. Asked.
 - **BQD5:** he asked why it's here; answered in the chat.
 - **Nothing is applied to `/projects` yet**, at "pause here".
+
+### Rulings, step 2, round 2 (Thomas, 2026-09-27)
+
+Verbatim: "medic hut, cut the game always starts, write handoff-021"
+
+- **BQD4 2: the medic hut.**
+- **BQD5: cut** "The game always starts."
+- **Applied to `public/projects.html` on the branch (PR #5); live once PR #5 is merged:**
+  - BQD4 1–6, with 5 as A.
+  - BQD5.
+- **Checked locally:**
+  - `scripts/site_check.py` passed 84 of 84.
+  - The rendered page carries the four new lines and none of the seven removed phrases. The same check
+    with one word changed fails.
+  - Looked at in a screenshot, the Back Quarter section at 375px.
+- **Not changed, on purpose:** PJ1's phone sentence and the painted-map rows in the spec table. They're
+  true until the theme change (handoff-021 O-20) lands.
+- **Still to rule in step 2:** BQ1–BQ7 and DD1–DD7 (H1 A/B, quote A/B, the DD3 flag, the two DD5 guesses,
+  "five / thirteen"), and P3.
