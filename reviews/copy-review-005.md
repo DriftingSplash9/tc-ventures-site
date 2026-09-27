@@ -6,7 +6,7 @@
 thomascheesman.ca covers both. Thomas chose a new review, 005, over adding to 004 (2026-09-26).
 **Status:** Step 1 (BQD0) ruled 2026-09-26: Q-BQD1 A, Q-BQD2 answered, Q-BQD3 A, and R-160 to R-174 in
 receipts-001 §3F (8 OK, 7 CUT; see "Rulings, round 2"). PJ1–PJ6 ruled and applied to `/projects` the
-same day. No case-study copy drafted yet: that is step 2.
+same day. **Step 2 (BQD4, BQD5, BQ1–BQ8, DD1–DD8, P3) drafted 2026-09-27, for Thomas to rule.**
 
 Same format and marks as copy-review-001 to 004: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -320,3 +320,449 @@ without a wording round, so the agent chose the smallest true change, matching P
 >
 > **Now:** "None of that is the interesting part. The interesting part is that ignoring it costs a visitor
 > almost nothing."
+
+---
+
+# Step 2 — the case-study copy (drafted 2026-09-27)
+
+Sources: receipts-001 §3F (the eight OK rows), the live `/projects` sections as fixed by PJ1–PJ6, the
+Q-BQD2 answer, and the theme repo (private since 2026-09-26: read, never linked). Two excerpts are
+quoted from its specs; each was checked verbatim against the file.
+
+## BQD4 — ⚠ FLAG, read first: six more `/projects` lines, all in the Back Quarter section
+
+**BQD0 §4 overstated what was traced.** It said both sections' claims were traced. The readers traced
+the lessons and the loading and keyboard claims, not the opening paragraph, the rule paragraph or the
+spec table. Those were traced on 2026-09-27, against the theme's code at its current commit. Six don't
+match, and the case study would reuse all of them:
+
+1. **"the farmhouse is the about page"**
+   - What the code does: the farmhouse opens `/thomas` ("The farmhouse — step inside, this is me"); the
+     cookshack opens `/about`.
+   - Both builds, `LANDMARKS` in each script.
+   - **Fix:** "the farmhouse is the page about me"
+2. **"the grain elevator is the page about my diagnosis"**
+   - What the code does: in the 3D world, the default, that landmark has been a medic hut since 1.0.731
+     (2026-07-11). The grain elevator is only on the painted map.
+   - **Fix:** "the medic hut is the page about my diagnosis"
+3. **"the arcade barn boots the games"**
+   - What the code does: neither build links the barn yet. The 3D world says "the arcade moves in soon";
+     the painted map says "the games are moving in here soon".
+   - **Fix:** cut the clause
+4. **"the painted farm is a real image before any of it boots"**
+   - What the code does: the still is now a frame of the 3D world (V0.42, `back-quarter-poster.webp`).
+   - **Fix:** "the farm is a real image before any of it boots"
+5. **"Nothing heavy loads until the visitor asks for it — the engines sit behind a click"**
+   - What the code does: the Back Quarter's own engines do wait. But the site's decorative background
+     loads three.js, about 600 KB before compression, for every visitor once the page is idle, unless
+     reduced motion is on (`main.js`, `tcLoadWebGLBackground`).
+   - V0.42 recorded it: "Cost: every visitor pays for it, including the phone visitors who now get the
+     Painted Map."
+   - **Fix, A (recommended):** "Nothing heavy of its own loads until the visitor asks for it — its
+     engines sit behind a click —". The case study states the three.js cost as an honest limit (BQ6).
+   - **Fix, B:** stop idle-loading three.js in the theme, then keep the live line. A theme change, and
+     V0.42 already calls it "worth revisiting".
+6. **Spec table, Sound: "Synthesised in the browser — engine, fire, machinery. No sample library"**
+   - What the code does: there are ten recorded sounds (`assets/audio/bq-*.mp3`: the engine, animals, a
+     splash, a crowd, a creak), fetched on the first sound-on, each with a synthesised fallback (V0.39
+     L68–74). The 3D script references all ten. Fire, wind and tires are synthesised.
+   - **Fix:** "Synthesised in the browser — fire, wind, tires — plus ten recorded farm and engine sounds,
+     fetched only when sound is switched on"
+
+Checked and matched: the church opens `/heritage` in both builds; bloom and colour grading run on
+WebGL2 and a plain render on WebGL1; there is no CDN; the painted map is what touch and small screens
+get, and also any browser without WebGL.
+
+**Recommended:** fix all six on `/projects` now, as PJ1–PJ6 were, and carry them into the case study.
+
+## BQD5 — ⚠ FLAG: "The game always starts" (Desk section, "Plan for the dependency that does not arrive")
+
+The fallback exists in the code (`28b8e5f`). I found no record of it being tested by making the
+renderer fail. The claim is a guess until someone forces the failure.
+- **A (recommended):** test it before the Desk page ships: block the renderer script and load the
+  pinball. If it starts, the line stands.
+- **B:** soften the line to "It is built to start either way."
+
+---
+
+## `/work/back-quarter` (BQ1–BQ8)
+
+### BQ1 — header
+
+> **Label:** Case study · a personal site's front page
+> **H1, A (recommended):** A homepage you drive around · **B:** The Back Quarter
+> **Claim:** The front page of my personal site is a quarter section of Peace Country farmland you drive
+> around in a buggy. Drive up to most of its buildings and a page of the site opens, and the ordinary
+> menu still works if none of it loads.
+> **Spec table:** Stack: WordPress with a hand-coded Astra child theme · Three.js for the 3D world ·
+> Pixi and Matter for the painted map · Status: Live · Hosted: thomascheesman.ca, on Hostinger · Repo:
+> Private · Since: July 2026. Then the `/projects` rows (3D world, The Painted Map, Surfaces, Sound as
+> fixed in BQD4, Input, Dependencies), moved here so there is one copy.
+> **Page title / link preview:** *(the H1)* - Thomas Cheesman · description: the claim.
+
+- **H1 A** tells a stranger what it is, which a name can't. This is the BYR reasoning. The sub-menu uses
+  the H1.
+- **"Most of its buildings":** the farmhouse, cookshack, medic hut and church open pages, and the tower
+  opens bareyourrare.org. The barn, shed and mailbox open nothing yet.
+- **Since:** the spec was written 2026-07-01 (`4f8e693`); the first drivable build was 2026-07-02
+  (`faca583`).
+- **WordPress** appears once, here.
+
+### BQ2 — The ask
+
+> **H2:** Somewhere to tell the story
+>
+> *Pull quote, Thomas, 2026-09-26 (Q-BQD2; Q-BQD3 A):*
+>
+> **A (recommended), two things closed up:** "I made my personal site mostly for family. Social media is
+> messy and can get hard to use for some. I wanted somewhere I could tell the story of where my
+> ancestors came from and how we came to exist in Grande Prairie as a happy family. I wanted to make it
+> with easter eggs for them to discover if they wanted to/ there's games and puzzles and such, a literal
+> arcade, a map you race around and collect coins while exploring the "back Quarter". TBH, I doubt it
+> will see much traffic until I pass on but that's ok, for now I am here :)"
+>
+> **B:** exactly as typed ("i made…", "that's  ok").
+>
+> *Then the `/projects` opening paragraph (as fixed in BQD4) and the ruled childhood paragraph ("I grew up
+> on that land…"), unchanged.*
+
+- **A changes only two things:** "i" becomes "I" at the start, and the double space in "that's  ok" is
+  closed. The slash, "TBH", ":)" and "back Quarter" stay as he wrote them.
+- **The H2** takes his words "somewhere I could tell the story".
+- **"collect coins"** is in the 3D script.
+
+### BQ3 — The standard
+
+> **H2:** A homepage has to stay a homepage
+>
+> *The `/projects` paragraph under "The rule underneath it", as fixed in BQD4 4–5.*
+>
+> *Excerpt, verbatim from the build spec:* "Performance budget: zero new bytes on first paint beyond the
+> preview image (≤ ~180KB webp) + the invitation chip. Pixi/Matter/engine/painting lazy-load on
+> engagement only."
+>
+> *Caption:* From the build spec, §4, written 2026-07-01, the day before the first drivable build. The
+> repo is private.
+
+- **Checked verbatim** against `docs/QUARTER-SECTION-SPEC.md` L142–144.
+- **Only the budget is quoted.** The same section says the old hero stays at the top. The September
+  promotion (`HERO-PROMOTION-SPEC.md`) changed that, so quoting it would be out of date.
+
+### BQ4 — What the AI got wrong
+
+> **H2:** Right in the code, wrong on the screen
+>
+> **1. Glow that never switched on.** The bloom effect, the glow around lights at night, was committed as
+> "the lights glow". Its files had been bundled from search hits that were only checks for the pieces
+> it needed, not the pieces themselves. The effect failed as it loaded, and the fallback quietly started
+> the farm without it, so nothing looked broken. *(a tooling error · receipts-001, R-160)*
+>
+> **2. A fix that made a new noise.** The campfire's crackle clicked like tiny firecrackers. The fix sent
+> every pop through the same tuned filter, so every pop rang the same note. *(looked right but was not
+> measured · receipts-001, R-163)*
+>
+> **3. Animals that were said to wander.** The cows and sheep shipped with "graze/wander AI". Each move
+> was a single push that the physics' friction killed in under a second, so for six days they stood
+> still between moves. *(looked right but was not measured · receipts-001, R-164)*
+
+- **Checked against the receipts:**
+  - **1:** `5207d03` (the claim, 09:31) and `0f2f9f3` L3–8 (the fix, 09:34, 2026-07-09).
+  - **2:** `e5dba29` L3–6 and `d1367d5` L3–6.
+  - **3:** `fe821f7` L19–20 (2026-07-05) and `5e355e3` L7–12 (2026-07-11).
+- **"a tooling error"** is a new kind label. No live page has used it yet. FIX it if you want other words.
+- **R-162 (daylight bloom) is the spare.** It already backs the bloom lesson, which moves into BQ6.
+
+### BQ5 — How I caught it
+
+> **H2:** I looked, I listened, I watched
+>
+> **1. I looked.** I caught it. The fix came three minutes after the commit that claimed the glow: the
+> missing pieces went in, in the order they depend on each other. *(Falls under: "done", "verified" and
+> "deployed" are claims; prove them from outside · receipts-001, R-160)*
+>
+> **2. I listened.** Both times it was my ear: first the firecrackers, then "the fire sounds like tin
+> bashing." The third version is a low ember roar with short pops, each through its own randomly tuned
+> filter. Nothing rings. *(Falls under: test the thing itself, not a proxy for it · receipts-001, R-163)*
+>
+> **3. I watched.** I said the animals were too still. The cause was in the physics, and a walk now holds
+> its heading for a few seconds and is pushed every frame. The agent's test browser can't run the
+> animation, so only someone driving the farm could have seen it. *(Falls under: a build or a script
+> cannot judge how something looks · receipts-001, R-164)*
+>
+> *Rules table:* three rows, one per miss.
+
+| The correction | The standing rule | Enforced in |
+|---|---|---|
+| The glow was committed as working while the fallback hid its failure (R-160) | "Done", "verified" and "deployed" are claims. Prove them from outside | `CLAUDE.md` · rule 2 |
+| A sound fix was judged by its code, and rang like tin (R-163) | Test the thing itself, not a proxy for it | `CLAUDE.md` · rule 1 |
+| The animals were said to wander, and nobody had watched them (R-164) | A build or a script cannot judge how something looks. Look at it rendered | `CLAUDE.md` · rule 4 |
+
+- **Who caught what:** all three are Thomas's, so "I" throughout.
+  - R-160: his word, 2026-09-26. The record doesn't say how, so the copy says only "I caught it" and
+    what the fix did.
+  - R-163 and R-164: in the record ("Thomas: …").
+- **"Three minutes"** comes from the two commits' timestamps.
+- **"Only someone driving it"** comes from `back-quarter.js`'s header: automation tabs freeze the
+  animation, so "the FEEL check is Thomas driving it in a foreground tab".
+- **"Falls under", not "became":** the truth rules date from 2026-09-23, after all three misses. This is
+  the same as on BYR.
+
+### BQ6 — What shipped
+
+> **H2:** A farm that is also a menu
+>
+> *The `/projects` steering and bloom paragraphs (live since PJ1 and PJ2), unchanged. Fig. 1, the 3D
+> build (`back-quarter-3d.webp`) with its `/projects` caption, unchanged. The "Drive it on
+> thomascheesman.ca" line, unchanged.*
+>
+> **The honest limits:** Checked in September 2026. The painted map that phones get still turns on the
+> spot, and neither build's barn opens anything yet. The site's decorative background loads the 3D
+> library, about 600 KB before compression, for every visitor once the page is idle, including phone
+> visitors, who get the painted map and never use it.
+
+- **The fire paragraph isn't repeated here.** BQ4 2 and BQ5 2 tell it with receipts.
+
+### BQ7 — Receipts
+
+- `reviews/copy-review-005.md`, Q-BQD2 (why I built it, in my words)
+- `plans/receipts-001.md` §3F (R-160, R-163, R-164; R-162 behind the bloom paragraph)
+- `CLAUDE.md` (rules 1, 2, 4)
+- the live site, thomascheesman.ca
+
+The theme repo is private, so the specs and commits aren't linked (Q-BQD1 A).
+
+### BQ8 — what goes with it (not copy)
+
+1. **The page:** `public/work/back-quarter.html` (plan-001's path), on the BYR pattern. The preview goes
+   in `.assetsignore`, with the draft banner and `noindex`.
+2. **The sub-menu:** the label is the H1. It goes second, after the graph and before BYR, which is the
+   `/projects` order. The Desk page goes third. That makes 13 files once both ship.
+3. **P3:** `/projects` and home link the case study, in the same push.
+4. **Fig. 1** is already on the site. No new image.
+5. **The usual checklist.** The security policy isn't changed and no script is added.
+
+---
+
+## `/work/desk-and-drawer` (DD1–DD8)
+
+### DD1 — header
+
+> **Label:** Case study · a personal site's menu and footer
+> **H1, A (recommended):** A menu that is a photograph of my desk · **B:** The Desk and the Drawer
+> **Claim:** My personal site's navigation is a photograph of my desk, and its footer is a drawer with a
+> pinball table in it. A visitor who wants a plain list of links gets one, one click in.
+> **Spec table:** Stack: WordPress with a hand-coded Astra child theme · plain JavaScript and CSS, no
+> framework · Status: Live · Hosted: thomascheesman.ca, on Hostinger · Repo: Private · Since: May 2026.
+> Then the `/projects` rows (Loaded on demand, Accessibility as fixed in PJ4, Scores, Nice touches),
+> moved here. "Built with" folds into Stack.
+> **Page title / link preview:** *(the H1)* - Thomas Cheesman · description: the claim.
+
+- **Since:** the desk menu dates from 2026-05-12 (`265cb03`); the drawer and pinball from 2026-05-20
+  (`541143c`).
+- **H1 A** is 38 characters, the longest in the sub-menu. It needs checking at 375px.
+
+### DD2 — The ask
+
+> **H2:** Things to find, if you want to
+>
+> *Pull quote, the same answer, cut to its middle:* "I wanted to make it with easter eggs for them to
+> discover if they wanted to/ there's games and puzzles and such, a literal arcade, …"
+>
+> *Then the `/projects` Desk opening paragraph and "None of that is the interesting part…" (live since
+> 2026-09-26), unchanged.*
+
+- **The quote is verbatim, cut with an ellipsis.** It's the same answer as BQ2, so there's one source
+  and one citation.
+- **A and B** from BQ2 don't touch this part, so it's the same either way.
+
+### DD3 — The standard
+
+> **H2:** A picture that is still a menu
+>
+> *The `/projects` paragraph "An interface that is a picture still has to be a menu" (as fixed by PJ4),
+> unchanged.*
+>
+> *Excerpt, verbatim from the drawer's spec:* "Performance: the drawer + libs are lazy-loaded on first open
+> — visitors who never trigger it pay nothing. Keep it that way; budget download weight." · "Mobile +
+> desktop, touch + keyboard. Touch is not an afterthought."
+>
+> *Caption:* From the drawer's spec, §5 "Constraints & guardrails", written 2026-06-22, before the June
+> pinball rebuild. The repo is private.
+
+- **Checked verbatim** against `docs/SECRET-DRAWER-VISION.md` L201–203. The source's bold marks are
+  dropped.
+- **The same section** also names an outside model and carries a privacy rule about family content.
+  Neither is quoted.
+- **⚠ FLAG: there's no written standard for the Desk itself.** Nothing written before the desk was built
+  (2026-05-12) turned up. The closest is the theme `CLAUDE.md`'s "plan + propose" rule for these
+  surfaces (2026-05-20), which is about process, not what good looks like. So the Desk half of the
+  standard is the principle as the page states it.
+
+### DD4 — What the AI got wrong
+
+> **H2:** It blamed the browser, hid the exit, and trusted the test balls
+>
+> **1. The browser got the blame.** A shimmer that sweeps across each object on the desk was changed three
+> times without anyone seeing it render. Two of those commits blamed Chrome, "a parsing issue some
+> Chrome builds have". The cause was an older style rule of the agent's own, overriding the new
+> animation. *(plausible but invented · receipts-001, R-168)*
+>
+> **2. The way out was out of reach.** The "View as a plain list" button, the desk's way out to an
+> ordinary list of links, sat inside the monitor's clipped area, where it couldn't be reached. *(looked
+> right but was not measured · receipts-001, R-169)*
+>
+> **3. The test balls passed; play didn't.** A pinball fix was "validated in-browser" with dropped test
+> balls, and real play still found balls stuck at the sides. The next fix's one failing drop was
+> written off as "a rare flipper-base settle that real momentum clears". The next day's commit calls it
+> "the recurring flipper-base trap". *(looked right but was not measured · receipts-001, R-172)*
+
+- **Checked against the receipts:**
+  - **1:** `e3962e0`, `b2d382a` L5–6, `525d1a6`, and `17c073d` L3–7 (the root cause).
+  - **2:** `bca7b22` L3–4.
+  - **3:** `0fc31ac` L3–6, `0905002` L3–12, and `f037e11` L12–14.
+- **R-170 (the audit that asked for work already done) is the spare.**
+
+### DD5 — How I caught it
+
+> **H2:** I used it
+>
+> **1. I saw nothing there.** I caught it in my browser: none of the three versions showed. The fix
+> removed the old rule and brought back the technique the commits had said Chrome couldn't handle.
+> *(Falls under: a recommendation, a premise or a summary is a hypothesis until it is checked ·
+> receipts-001, R-168)*
+>
+> **2. I went looking for the way out.** I caught it. The button moved out from under the monitor's edge
+> to sit below it. *(Falls under: a build or a script cannot judge how something looks · receipts-001,
+> R-169)*
+>
+> **3. I played it.** "It keeps getting stuck to the right and left." The bar that fixed those two traps
+> was my idea: a bar "in line with the top of the blue triangles". The trap written off as rare got a
+> watchdog the next day: a ball that sits still for about three seconds gets a nudge. *(Falls under:
+> test the thing itself, not a proxy for it · receipts-001, R-172)*
+>
+> *Rules table:* three rows, one per miss.
+
+| The correction | The standing rule | Enforced in |
+|---|---|---|
+| A bug of the agent's own was blamed on the browser (R-168) | A recommendation, a premise or a summary is a hypothesis until it is checked | `CLAUDE.md` · rule 13 |
+| The plain-list button was unreachable, and nobody had looked (R-169) | A build or a script cannot judge how something looks. Look at it rendered | `CLAUDE.md` · rule 4 |
+| Test balls passed while real play still stuck (R-172) | Test the thing itself, not a proxy for it | `CLAUDE.md` · rule 1 |
+
+- **Who caught what:** all three are Thomas's.
+  - R-168: the record's "user's Chrome", his word 2026-09-26.
+  - R-169: his word.
+  - R-172: the record quotes him.
+- **R-168 and R-169:** the record doesn't say how he found them. The copy says "I caught it" and what the
+  fix did, nothing more. **"I saw nothing there" and "I went looking for the way out" are guesses at
+  how. FIX them if they're wrong.**
+- **"The bar… was my idea":** `0905002` ("Thomas's fix… his 'bar in line with the top of the blue
+  triangles'").
+- **"About three seconds":** `f037e11` L13 ("~3s").
+
+### DD6 — What shipped
+
+> **H2:** A desk you can ignore, and a drawer with a game in it
+>
+> *The `/projects` paragraphs "Nothing loads until someone asks for it" (live since PJ5 and PJ6) and "Plan
+> for the dependency that does not arrive" (as settled by BQD5), unchanged. Fig. 1, the desk; Fig. 2,
+> the arcade; both with their `/projects` captions, unchanged. The "Open the menu on thomascheesman.ca"
+> line, unchanged.*
+>
+> **The honest limits:** Checked in September 2026. Only the five objects that open something can be
+> reached with the keyboard. The other thirteen are hover cards, so their notes can't be read without a
+> mouse. The arcade's script loads with every page.
+
+- **"Five" and "thirteen"** come from `inc/desk-menu.php` at the current commit: 5 `role="button"` with
+  `tabindex="0"`, and 13 `role="group"`. I read the source; I didn't Tab through it.
+- **These are counts of the page's own parts, not of a corpus,** so they won't go stale unless the desk
+  changes. **KEEP** them, or **FIX** to "most of the objects".
+
+### DD7 — Receipts
+
+- `reviews/copy-review-005.md`, Q-BQD2
+- `plans/receipts-001.md` §3F (R-168, R-169, R-172)
+- `CLAUDE.md` (rules 1, 4, 13)
+- the live site, thomascheesman.ca
+
+### DD8 — what goes with it (not copy)
+
+1. **The page:** `public/work/desk-and-drawer.html`, on the same pattern, with a preview first.
+2. **The sub-menu:** third, after the Back Quarter.
+3. **P3.** Both figures are already on the site. The security policy isn't changed.
+
+---
+
+## P3 — `/projects` and home, once both pages ship
+
+> **`/projects`, Back Quarter:** keep the label, the H2, the two opening paragraphs (as fixed in BQD4),
+> the figure and the "Drive it" line. Add: "What it was built to, three things the AI got wrong while
+> building it, and how I caught them: read the case study." "Three things the build taught me", "The
+> rule underneath it" and the spec table move to the case study.
+>
+> **`/projects`, Desk:** keep the label, the H2, the two opening paragraphs, the desk figure and the "Open
+> the menu" line. Add the same "read the case study" line. "Three things", the arcade figure and the spec
+> table move.
+>
+> **Home:** the two cards link the case studies instead of `/projects#quarter` and `/projects#desk`, as
+> Q-IG3 did for the graph. The cards' words don't change.
+
+Noticed on the home cards, not proposed: the Desk card says "nothing heavy loads for a visitor who
+never asks for it". For the desk itself that's true, but three.js loads site-wide (BQD4 5). Say if you
+want it changed with PJ7–PJ12.
+
+**C-23** (the `/projects` lede) is settled after both pages ship.
+
+## Open for Thomas (step 2)
+
+- **BQD4:** fix the six lines on `/projects` now (PJ7–PJ12). For 5, A or B.
+- **BQD5:** A (test the pinball fallback) or B (soften).
+- **BQ1–BQ7:** H1 A or B; quote A or B; the rest OK / FIX / CUT.
+- **DD1–DD7:** H1 A or B; the DD3 flag; the two "how" guesses in DD5; "five / thirteen" KEEP or FIX; the
+  rest OK / FIX / CUT.
+- **P3:** OK.
+
+### Rulings, step 2, round 1 (Thomas, 2026-09-27)
+
+Verbatim: "pause here. the phone won't get the 2d nor 3d map/menu's. It is high time we benched the 2d menu
+altogether. So, to keep this simple - only have the 3d menu and only on pc. BDQ4 - fix, N/A, fix. ok, fix,
+fix. BDQ5 why are we talking about this anyway?"
+
+- **Decision for thomascheesman.ca (a theme change, not copy):**
+  - The painted map (2D) is retired.
+  - The 3D world runs on PCs only.
+  - Phones get neither.
+  - **Today's code differs:** touch screens under 820px, and browsers without WebGL, get the painted map
+    (`back-quarter.js`, `prefersPaintedMap()`). So this is a change still to make, not a description of the
+    live site.
+  - The Back Quarter is a plan-first surface, so it gets a plan before code. **Paused at his word.**
+- **What it changes here, once it's live:**
+  - PJ1's last sentence ("The painted map that phones get still turns on the spot") goes.
+  - The spec rows "The Painted Map" and "Input" change.
+  - BQ1's stack loses "Pixi and Matter".
+  - BQ6's phone limit goes.
+  - The copy changes when the theme does, not before, because copy describes what's live.
+- **BQD4:** 1 fix · 2 N/A · 3 fix · 4 OK · 5 fix, read as A (the copy fix; B, the theme change, stays open) ·
+  6 fix.
+  - **Reading of 2:** with the painted map retired, the grain elevator leaves the site, so the line then
+    needs the medic hut or a cut. Asked.
+- **BQD5:** he asked why it's here; answered in the chat.
+- **Nothing is applied to `/projects` yet**, at "pause here".
+
+### Rulings, step 2, round 2 (Thomas, 2026-09-27)
+
+Verbatim: "medic hut, cut the game always starts, write handoff-021"
+
+- **BQD4 2: the medic hut.**
+- **BQD5: cut** "The game always starts."
+- **Applied to `public/projects.html` on the branch (PR #5); live once PR #5 is merged:**
+  - BQD4 1–6, with 5 as A.
+  - BQD5.
+- **Checked locally:**
+  - `scripts/site_check.py` passed 84 of 84.
+  - The rendered page carries the four new lines and none of the seven removed phrases. The same check
+    with one word changed fails.
+  - Looked at in a screenshot, the Back Quarter section at 375px.
+- **Not changed, on purpose:** PJ1's phone sentence and the painted-map rows in the spec table. They're
+  true until the theme change (handoff-021 O-20) lands.
+- **Still to rule in step 2:** BQ1–BQ7 and DD1–DD7 (H1 A/B, quote A/B, the DD3 flag, the two DD5 guesses,
+  "five / thirteen"), and P3.
