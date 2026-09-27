@@ -392,8 +392,9 @@ renderer fail. The claim is a guess until someone forces the failure.
 > **Label:** Case study · a personal site's front page
 > **H1, A (recommended):** A homepage you drive around · **B:** The Back Quarter
 > **Claim:** The front page of my personal site is a quarter section of Peace Country farmland you drive
-> around in a buggy. Drive up to most of its buildings and a page of the site opens, and the ordinary
-> menu still works if none of it loads.
+> around in a buggy. Drive up to most of its buildings and press Enter, and a page of the site opens.
+> The ordinary menu still works if none of it loads. *(Fixed 2026-09-27, round 4: nothing opens on
+> arrival.)*
 > **Spec table:** Stack: WordPress with a hand-coded Astra child theme · Three.js for the 3D world ·
 > Pixi and Matter for the painted map · Status: Live · Hosted: thomascheesman.ca, on Hostinger · Repo:
 > Private · Since: July 2026. Then the `/projects` rows (3D world, The Painted Map, Surfaces, Sound as
@@ -766,3 +767,35 @@ Verbatim: "medic hut, cut the game always starts, write handoff-021"
   true until the theme change (handoff-021 O-20) lands.
 - **Still to rule in step 2:** BQ1–BQ7 and DD1–DD7 (H1 A/B, quote A/B, the DD3 flag, the two DD5 guesses,
   "five / thirteen"), and P3.
+
+### Rulings, step 2, round 3 (Thomas, 2026-09-27)
+
+Verbatim: "A, A, ok, 1, ok, why is there a painted map"
+
+- **BQ1: A**, the H1 is "A homepage you drive around".
+- **BQ2: A**, the quote with "I" capitalised and the double space closed.
+- **BQ3: OK.**
+- **BQ4: OK.** Asked what "1" meant; Thomas: "1 means ok".
+- **BQ5: OK.**
+- **BQ6:** he asked why there is a painted map. Answered in the chat: the theme at the local checkout still serves
+  it to touch screens under 820px and to browsers without WebGL (`back-quarter.js` L128–140), and O-20
+  (retire it) hasn't been built. Not ruled.
+- **BQ7: OK** ("bq7 ok").
+- **Next, at his word ("plan O-20 next"):** the O-20 plan in the theme repo, before the Desk copy. BQ6's
+  painted-map limit and BQ1's "Pixi and Matter" wait for it.
+
+### Rulings, step 2, round 4 (Thomas, 2026-09-27)
+
+Verbatim: "both ok, fix pj7 and bq1, build it."
+
+- **Found while planning O-20:** in the 3D world a building opens only on Enter (`back-quarter-3d.js`
+  `enterLandmark`, called on Enter). Driving up shows a prompt and nothing more. Thomas: "the buildings
+  don't open".
+- **PJ7, `/projects` Back Quarter opening paragraph:** "Drive up to one and it opens." →
+  "Drive up to one and press Enter to step inside." Applied to `public/projects.html`.
+- **BQ1 claim:** "Drive up to most of its buildings and a page of the site opens, and the ordinary menu
+  still works if none of it loads." → "Drive up to most of its buildings and press Enter, and a page of
+  the site opens. The ordinary menu still works if none of it loads." Fixed in the draft above.
+- **"both ok":** the theme's homepage lede and the phone line in the O-20 plan (theme repo,
+  `docs/BQ-3D-ONLY-PLAN.md`). Theme copy, not this site's.
+- **"build it":** O-20 is being built in the theme repo.
