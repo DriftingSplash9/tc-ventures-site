@@ -27,6 +27,8 @@ from playwright.sync_api import sync_playwright
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUBMENU = [
     ("/work/influence-graph", "The Economic Report Influence Graph"),
+    ("/work/back-quarter", "A homepage you drive around"),
+    ("/work/desk-and-drawer", "A menu that is a photograph of my desk"),
     ("/work/bare-your-rare", "A rare-disease site, written by a patient"),
     ("/work/gprs", "A housing society’s website"),
     ("/work/this-site", "This site"),

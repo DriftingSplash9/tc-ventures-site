@@ -42,6 +42,8 @@
         </button>
         <ul class="navsub__list" id="navsub-work" aria-label="Case studies">
           <li><a href="/work/influence-graph">The Economic Report Influence Graph</a></li>
+          <li><a href="/work/back-quarter">A homepage you drive around</a></li>
+          <li><a href="/work/desk-and-drawer">A menu that is a photograph of my desk</a></li>
           <li><a href="/work/bare-your-rare">A rare-disease site, written by a patient</a></li>
           <li><a href="/work/gprs">A housing society&rsquo;s website</a></li>
           <li><a href="/work/this-site">This site</a></li>
@@ -128,36 +130,9 @@
           This does the job and says something while it does it.
         </p>
 
-        <h3>Three things the build taught me</h3>
         <p>
-          <strong>A vehicle that can turn on the spot does not feel like a vehicle.</strong> For most
-          of the build the buggy could pivot in place, and turning felt harsh. The fix was not more
-          physics, it was less permission: in the 3D world the yaw rate now follows forward speed, so
-          she has to be rolling before she will turn, and she eases into it. Grip drops in the wet.
-          Reversing flips the steering sense, the way it does in a real yard.
-        </p>
-        <p>
-          <strong>Bloom is a night instrument.</strong> Glow is driven by the same day factor that runs
-          the sky, so it climbs after sunset and falls away at dawn. I learned that the hard way: the
-          glow was first tuned at dusk, and in daylight the white church blazed featureless white.
-          Light has to behave like light, or the painting stops being a place.
-        </p>
-        <p>
-          <strong>The fire sounded like someone bashing a tin can.</strong> Every pop was the same
-          noise through the same filter, so every pop rang the same note, and an ear catches that
-          instantly. It is now a low ember roar with discrete pops a few hundredths of a second long,
-          each one through its own randomly tuned filter. Nothing rings. A completely
-          different room.
-        </p>
-
-        <h3>The rule underneath it</h3>
-        <p>
-          A homepage has to stay a homepage. Nothing heavy of its own loads until the visitor asks for
-          it &mdash; its engines sit behind a click &mdash; the farm is a real image before any of it
-          boots, and every destination in the world is also an ordinary link in the ordinary menu.
-          If the graphics fail, or a visitor never touches them, the site still works exactly as a site
-          should. A world you can drive around should be the reward for wanting one, never the toll
-          gate on the way in.
+          What it was built to, three things the AI got wrong while building it, and how I caught
+          them: <a href="/work/back-quarter">read the case study</a>.
         </p>
       </div>
 
@@ -169,15 +144,6 @@
           running over it.
         </figcaption>
       </figure>
-
-      <dl class="spec">
-        <div><dt>3D world</dt><dd>Three.js, with Matter for the physics &middot; custom vehicle handling &middot; bloom and colour grade on WebGL2, plain render on WebGL1</dd></div>
-        <div><dt>Where it runs</dt><dd>A computer with a mouse or trackpad and WebGL. Phones and tablets see a still of the farm and a line pointing at the menu</dd></div>
-        <div><dt>Surfaces</dt><dd>Procedural textures, prairie dust and distance haze, instanced planting</dd></div>
-        <div><dt>Sound</dt><dd>Synthesised in the browser &mdash; fire, wind, tires &mdash; plus ten recorded farm and engine sounds, fetched only when sound is switched on</dd></div>
-        <div><dt>Input</dt><dd>Keyboard: W A S D or the arrows, Enter to step inside, Esc to hop out</dd></div>
-        <div><dt>Dependencies</dt><dd>Self-hosted, loaded on demand. No build step, no CDN</dd></div>
-      </dl>
 
       <p class="repo">
         <a href="https://thomascheesman.ca/">Drive it on thomascheesman.ca</a>, on a computer &mdash; the
@@ -194,8 +160,8 @@
 
       <div class="prose">
         <p>
-          The same site's navigation is a photograph of the desk I work at. The objects on it are the
-          menu: the monitor holds the table of contents, the keyboard opens site search, a toad on the
+          The same site has a second menu, behind a button marked T&rsquo;s Desktop: a photograph of
+          the desk I work at. The objects on it are the menu: the monitor holds the table of contents, the keyboard opens site search, a toad on the
           desk opens an arcade, a bin of memory cards opens a slideshow, the mouse changes the cursor
           trail. Hover anything and it tells you what it is. The footer is the other half &mdash; a
           drawer that slides open as you reach the bottom, with the sitemap in it, a clock running on
@@ -207,26 +173,9 @@
           visitor almost nothing.
         </p>
 
-        <h3>Three things the build taught me</h3>
         <p>
-          <strong>An interface that is a picture still has to be a menu.</strong> There is a plain-list
-          toggle on the desk, a separate ordinary navigation for phones, and an Escape key that closes
-          exactly one layer at a time &mdash; drawer, then search, then the overlay itself. A visitor
-          who wants a list of links gets a list of links, one click in. The picture is the reward, never the toll.
-        </p>
-        <p>
-          <strong>Nothing loads until someone asks for it.</strong> Neither the physics engine nor
-          the renderer behind the pinball table touches the network until a visitor clicks the marble.
-          Same for the slideshow and the desk art itself. The arcade&rsquo;s game script is the
-          exception: it still loads with every page. A visitor who never clicks pays almost nothing,
-          which is the only honest way to put a game in a footer.
-        </p>
-        <p>
-          <strong>Plan for the dependency that does not arrive.</strong> The pinball table wants a
-          WebGL renderer, but if that script fails to load it does not fail with it: it notices the
-          missing library and boots its plain-canvas renderer instead. That
-          habit came out of kitchens, where the delivery not showing up is not an excuse, it is
-          Tuesday.
+          What it was built to, three things the AI got wrong while building it, and how I caught
+          them: <a href="/work/desk-and-drawer">read the case study</a>.
         </p>
       </div>
 
@@ -234,31 +183,14 @@
         <img src="/assets/img/desk-hotspots.webp" width="1600" height="745" loading="lazy" decoding="async"
              alt="A photograph of a home-office desk used as a website menu: a wide curved monitor running a screensaver of falling green characters signed TC 'Ventures, a lit mechanical keyboard, a mug, a small stuffed toy, a rubber duck and a stack of books, with a small on-screen pill reading View as a plain list.">
         <figcaption>
-          The desk itself, which is the menu. Each object is a hotspot with its own card; the pill in
+          The desk itself, which is a menu. Each object is a hotspot with its own card; the pill in
           the middle is the way out to an ordinary list of links.
         </figcaption>
       </figure>
 
-      <figure class="shot">
-        <img src="/assets/img/desk-arcade.webp" width="1600" height="1000" loading="lazy" decoding="async"
-             alt="A panel headed Arcade, reading Hidden inside the toad, pick a game, listing Snake, Pong, Pac-Man, Asteroids, Brickles, Solitaire and Pinball, each with a high score under it.">
-        <figcaption>
-          The arcade, which opens from a toad on the desk. Seven games, each keeping its own high
-          score through a small endpoint I added to the site's API.
-        </figcaption>
-      </figure>
-
-      <dl class="spec">
-        <div><dt>Built with</dt><dd>Plain JavaScript and CSS &mdash; no framework, no build step</dd></div>
-        <div><dt>Loaded on demand</dt><dd>Physics and renderer injected on click, cached after, non-fatal if either fails</dd></div>
-        <div><dt>Accessibility</dt><dd>Plain-list mode, separate phone navigation, layered Escape</dd></div>
-        <div><dt>Scores</dt><dd>A custom endpoint on the site's own API keeps the arcade and pinball high scores</dd></div>
-        <div><dt>Nice touches</dt><dd>Rot13 email with copy-on-click, a clock on Mountain Time, a cursor-trail picker</dd></div>
-      </dl>
-
       <p class="repo">
-        <a href="https://thomascheesman.ca/about/">Open the menu on thomascheesman.ca</a> &mdash; the
-        button marked MENU in the bar at the top. The Back Quarter above is the front door of the
+        <a href="https://thomascheesman.ca/about/">Open the desk on thomascheesman.ca</a> &mdash; the
+        button marked T&rsquo;s Desktop in the bar at the top, on a computer. The Back Quarter above is the front door of the
         same site.
       </p>
     </div>
