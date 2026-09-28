@@ -1124,3 +1124,13 @@ study" line. The detail the lede promises lives on the case studies now.
 - **PJ21:** KEEP or FIX.
 - **PJ22:** OK / FIX / CUT.
 - On your word they go on `/projects` after #10 is live, checked the same way.
+
+### Rulings, C-23 (Thomas, 2026-09-28)
+
+Verbatim: "yes merge it, pj20 A, pj21 keep, pj22 ok"
+
+- **"yes merge it":** PR #10 (the ship) merged by the agent at his word, `dcd2ed0`. #9's commit came
+  with it.
+- **PJ20: A.** Applied to `public/projects.html`.
+- **PJ21: KEEP.** Both descriptions unchanged.
+- **PJ22: OK.** Applied.
