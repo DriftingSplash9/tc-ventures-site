@@ -194,8 +194,8 @@
 
       <div class="prose">
         <p>
-          The same site's navigation is a photograph of the desk I work at. The objects on it are the
-          menu: the monitor holds the table of contents, the keyboard opens site search, a toad on the
+          The same site has a second menu, behind a button marked T&rsquo;s Desktop: a photograph of
+          the desk I work at. The objects on it are the menu: the monitor holds the table of contents, the keyboard opens site search, a toad on the
           desk opens an arcade, a bin of memory cards opens a slideshow, the mouse changes the cursor
           trail. Hover anything and it tells you what it is. The footer is the other half &mdash; a
           drawer that slides open as you reach the bottom, with the sitemap in it, a clock running on
@@ -209,10 +209,11 @@
 
         <h3>Three things the build taught me</h3>
         <p>
-          <strong>An interface that is a picture still has to be a menu.</strong> There is a plain-list
-          toggle on the desk, a separate ordinary navigation for phones, and an Escape key that closes
-          exactly one layer at a time &mdash; drawer, then search, then the overlay itself. A visitor
-          who wants a list of links gets a list of links, one click in. The picture is the reward, never the toll.
+          <strong>An interface that is a picture still has to be a menu.</strong> The plain list is the
+          default: the button marked Menu opens it, and the desk opens only from its own button. On
+          the desk there is a toggle back to the list, phones get their own ordinary navigation, and
+          an Escape key closes exactly one layer at a time &mdash; drawer, then search, then the
+          overlay itself. The picture is the reward, never the toll.
         </p>
         <p>
           <strong>Nothing loads until someone asks for it.</strong> Neither the physics engine nor
@@ -250,15 +251,15 @@
 
       <dl class="spec">
         <div><dt>Built with</dt><dd>Plain JavaScript and CSS &mdash; no framework, no build step</dd></div>
-        <div><dt>Loaded on demand</dt><dd>Physics and renderer injected on click, cached after, non-fatal if either fails</dd></div>
+        <div><dt>Loaded on demand</dt><dd>Physics and renderer loaded on click, cached after; if the renderer fails, the game runs on plain canvas</dd></div>
         <div><dt>Accessibility</dt><dd>Plain-list mode, separate phone navigation, layered Escape</dd></div>
         <div><dt>Scores</dt><dd>A custom endpoint on the site's own API keeps the arcade and pinball high scores</dd></div>
         <div><dt>Nice touches</dt><dd>Rot13 email with copy-on-click, a clock on Mountain Time, a cursor-trail picker</dd></div>
       </dl>
 
       <p class="repo">
-        <a href="https://thomascheesman.ca/about/">Open the menu on thomascheesman.ca</a> &mdash; the
-        button marked MENU in the bar at the top. The Back Quarter above is the front door of the
+        <a href="https://thomascheesman.ca/about/">Open the desk on thomascheesman.ca</a> &mdash; the
+        button marked T&rsquo;s Desktop in the bar at the top, on a computer. The Back Quarter above is the front door of the
         same site.
       </p>
     </div>

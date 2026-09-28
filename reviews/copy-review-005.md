@@ -926,3 +926,133 @@ Verbatim: "all ok, pj11 A"
 - **PJ8–PJ10, PJ12–PJ14: OK.** Applied to `public/projects.html` and `public/index.html`.
 - **PJ11: A**, the "Where it runs" row, and Matter in the 3D row. Applied.
 - **BQ1 and BQ6 fixes: OK.** Fixed in the drafts above.
+
+---
+
+## C-25 — the Desk re-trace (PJ15–PJ19, and fixes to DD1, DD3 and DD6)
+
+**Written:** 2026-09-28.
+**Why:** handoff-022 §6 step 3: re-trace the Desk's `/projects` copy against the theme code before the
+case study reuses it. Read at theme `ddbdadc` (V0.43 handoff on top of `baa7b24`), `Version: 1.0.758`.
+The code was read; the site was not loaded (handoff-022 §2, first trap).
+
+**True as written, checked in the code:**
+- The objects: monitor = contents (`role="navigation"`), keyboard = search, toad = arcade, memory cards =
+  slideshow, mouse = cursor trail (`inc/desk-menu.php` L69, L259, L269, L303, L314).
+- The footer drawer opens on scroll into view, rot13 email with copy on click, clock on
+  `America/Edmonton`, marble starts the pinball (`desk-drawer.js` L5–10, L66–161).
+- Escape closes drawer, then search, then the overlay (`desk-menu.js` `wireGlobalEsc`, L413–447).
+- Phones get their own accordion menu (`desk-menu.css` L1037–1066, ≤720px).
+- The desk markup and art load on the first click (`tc_ajax_load_desk_menu`, G7). The arcade script
+  loads on every page (`functions.php` L302–308, no condition). Matter, Pixi and `desk-pinball.js`
+  load on the marble click and are cached after.
+- Pixi failing downgrades the pinball to Canvas2D (`desk-drawer.js` L208–216, `desk-pinball.js` L348–413).
+- Seven games, as listed (`desk-menu.php` L589–613); scores through `tc-games/v1/scores`.
+- DD6's counts: 5 `role="button" tabindex="0"`, 13 `role="group"` (counted with grep).
+- DD1's dates: `265cb03` 2026-05-12, `541143c` 2026-05-20.
+
+**⚠ FLAG: false today.** Since 2026-06-15 (`29c8fb9`) the plain list is the default menu and the desk is
+opt-in. Since 2026-06-23 (`9b7efbc`) the header has two buttons: **"Menu"** opens the plain list,
+**"T's Desktop"** opens the desk (`header.php` L60–73, L183–190; `desk-menu.js` L169–197). So:
+
+### PJ15 — `/projects` Desk, first sentence
+
+> "The same site's navigation is a photograph of the desk I work at." →
+> "The same site has a second menu, behind a button marked T's Desktop: a photograph of the desk I work
+> at."
+
+### PJ16 — `/projects` Desk, "An interface that is a picture still has to be a menu"
+
+> "There is a plain-list toggle on the desk, a separate ordinary navigation for phones, and an Escape key
+> that closes exactly one layer at a time — drawer, then search, then the overlay itself. A visitor who
+> wants a list of links gets a list of links, one click in. The picture is the reward, never the toll." →
+> "The plain list is the default: the button marked Menu opens it, and the desk opens only from its own
+> button. On the desk there is a toggle back to the list, phones get their own ordinary navigation, and
+> an Escape key closes exactly one layer at a time — drawer, then search, then the overlay itself. The
+> picture is the reward, never the toll."
+
+### PJ17 — `/projects` Desk spec table, "Loaded on demand"
+
+Only the renderer is optional. If Matter fails, the pinball doesn't start (`desk-drawer.js` L225–229:
+a console warning, and the next click retries).
+
+> "Physics and renderer injected on click, cached after, non-fatal if either fails" →
+> "Physics and renderer loaded on click, cached after; if the renderer fails, the game runs on plain
+> canvas"
+
+### PJ18 — `/projects` Desk, the "Open the menu" line
+
+> "Open the menu on thomascheesman.ca — the button marked MENU in the bar at the top." →
+> "Open the desk on thomascheesman.ca — the button marked T's Desktop in the bar at the top, on a
+> computer."
+
+- "On a computer": at 720px and under the desk's objects are hidden and the accordion shows instead. I
+  didn't find a rule hiding the button itself on phones.
+
+### PJ19 — home, the Desk card
+
+> "The menu on that same site is a photograph of my desk — the monitor is the contents, the keyboard is
+> search, a toad opens an arcade. A plain list of links is always one click away, and nothing heavy loads
+> for a visitor who never asks for it." →
+> "That same site has a second menu that is a photograph of my desk — the monitor is the contents, the
+> keyboard is search, a toad opens an arcade. The plain list is the default, and the desk and its games
+> load only when a visitor asks for them."
+
+- The old "nothing heavy loads" was already doubtful (three.js idle-loads site-wide, BQD4 5). The new
+  line claims only what the desk and the pinball do. The arcade script is small but does load everywhere,
+  hence "the desk and its games" rather than "nothing".
+
+### DD1 FIX — the claim
+
+> "My personal site's navigation is a photograph of my desk, and its footer is a drawer with a pinball
+> table in it. A visitor who wants a plain list of links gets one, one click in." →
+> "My personal site has a second menu that is a photograph of my desk, and its footer is a drawer with a
+> pinball table in it. The plain list of links is the default; the desk is there for anyone who asks."
+
+- **H1 A** ("A menu that is a photograph of my desk") stays true: it is a menu.
+
+### DD3 FIX — the spec excerpt
+
+**⚠ FLAG:** the quoted spec is `docs/SECRET-DRAWER-VISION.md`, the spec for **the Secret Drawer**, the
+escape room behind the footer's brass handle. Its §0 table says the two footer easter eggs "are different
+things". "The drawer + libs are lazy-loaded on first open" is about the escape room, not the pinball
+drawer this page is about. A reader would take it as the pinball drawer's rule.
+
+> **A (recommended):** quote only "Mobile + desktop, touch + keyboard. Touch is not an afterthought." ·
+> *Caption:* From the spec for the footer's easter eggs, §5 "Constraints & guardrails", written
+> 2026-06-22. The repo is private.
+> **B:** keep both lines, captioned "From the spec for the Secret Drawer, the footer's other easter egg".
+> That puts a surface on the page the page doesn't describe.
+
+- With A, the standard is the principle plus the touch-and-keyboard line, and DD6's honest limit (13 hover
+  cards with no keyboard path) shows where the Desk falls short of it. That's the point of the section.
+
+### DD6 FIX — the paragraphs it reuses
+
+DD6 reuses "Nothing loads until someone asks for it" (true, checked above) and the "Open the menu" line:
+it takes PJ18's wording. The spec rows moved by DD1 take PJ17's.
+
+### Open for Thomas (C-25)
+
+- **PJ15–PJ19:** OK / FIX / CUT. On your word they go on `/projects` and home, checked with
+  `site_check.py`, then curl against `main` after the merge.
+- **DD1 claim fix, DD6:** OK / FIX.
+- **DD3:** A or B.
+- **Still open from step 2 (above):** DD1 H1 A or B; the DD3 flag (no written standard for the Desk
+  itself); the two DD5 guesses; DD6 "five / thirteen" KEEP or FIX; DD2, DD4, DD5, DD7 OK / FIX / CUT; P3.
+
+### Rulings, C-25 and step 2 (Thomas, 2026-09-28)
+
+Verbatim: "pj15-19 ok, A, dd3 A, keep, rest ok"
+
+- **PJ15–PJ19: OK.** Applied to `public/projects.html` and `public/index.html`.
+- **"A":** read as **DD1 H1 A**, "A menu that is a photograph of my desk" (the only A/B left besides DD3).
+- **DD3: A.** Quote only the touch-and-keyboard line, captioned as the spec for the footer's easter eggs.
+- **"keep":** DD6 keeps "five" and "thirteen".
+- **"rest ok":**
+  - DD1's claim fix, DD2, DD4, DD6's fix, DD7: OK.
+  - DD3's old flag (no written standard for the Desk itself): accepted as drafted.
+  - DD5, with both "how" guesses ("I saw nothing there", "I went looking for the way out") as written.
+  - P3: OK.
+- **So DD1–DD7 are ruled.** With BQ1–BQ7 ruled, both case studies' copy is settled. Next: the previews
+  (handoff-022 §6 step 4).
