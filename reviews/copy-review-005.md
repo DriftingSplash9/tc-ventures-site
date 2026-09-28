@@ -395,10 +395,10 @@ renderer fail. The claim is a guess until someone forces the failure.
 > around in a buggy. Drive up to most of its buildings and press Enter, and a page of the site opens.
 > The ordinary menu still works if none of it loads. *(Fixed 2026-09-27, round 4: nothing opens on
 > arrival.)*
-> **Spec table:** Stack: WordPress with a hand-coded Astra child theme · Three.js for the 3D world ·
-> Pixi and Matter for the painted map · Status: Live · Hosted: thomascheesman.ca, on Hostinger · Repo:
-> Private · Since: July 2026. Then the `/projects` rows (3D world, The Painted Map, Surfaces, Sound as
-> fixed in BQD4, Input, Dependencies), moved here so there is one copy.
+> **Spec table:** Stack: WordPress with a hand-coded Astra child theme · Three.js and Matter for the 3D
+> world · Status: Live · Hosted: thomascheesman.ca, on Hostinger · Repo: Private · Since: July 2026. Then
+> the `/projects` rows (3D world as fixed in PJ11, Where it runs, Surfaces, Sound as fixed in BQD4, Input
+> as fixed in PJ12, Dependencies), moved here so there is one copy. *(Fixed 2026-09-27, C-24.)*
 > **Page title / link preview:** *(the H1)* - Thomas Cheesman · description: the claim.
 
 - **H1 A** tells a stranger what it is, which a name can't. This is the BYR reasoning. The sub-menu uses
@@ -516,10 +516,10 @@ renderer fail. The claim is a guess until someone forces the failure.
 > build (`back-quarter-3d.webp`) with its `/projects` caption, unchanged. The "Drive it on
 > thomascheesman.ca" line, unchanged.*
 >
-> **The honest limits:** Checked in September 2026. The painted map that phones get still turns on the
-> spot, and neither build's barn opens anything yet. The site's decorative background loads the 3D
-> library, about 600 KB before compression, for every visitor once the page is idle, including phone
-> visitors, who get the painted map and never use it.
+> **The honest limits:** Checked in September 2026. The farm can't be driven on a phone or tablet yet,
+> and the barn doesn't open anything. The site's decorative background still loads the 3D library, about
+> 600 KB before compression, for every visitor once the page is idle, including phone visitors, who can't
+> drive the farm at all. *(Fixed 2026-09-27, C-24.)*
 
 - **The fire paragraph isn't repeated here.** BQ4 2 and BQ5 2 tell it with receipts.
 
@@ -799,3 +799,130 @@ Verbatim: "both ok, fix pj7 and bq1, build it."
 - **"both ok":** the theme's homepage lede and the phone line in the O-20 plan (theme repo,
   `docs/BQ-3D-ONLY-PLAN.md`). Theme copy, not this site's.
 - **"build it":** O-20 is being built in the theme repo.
+
+---
+
+## C-24 — the Back Quarter copy follows O-20 (PJ8–PJ14, and fixes to BQ1 and BQ6)
+
+**Written:** 2026-09-27, after handoff-022.
+**Why:** O-20 shipped in the theme (1.0.755, `4a8eb03`). The painted map is gone, so seven live lines on
+tc-ventures.ca now describe something that isn't there. Copy follows the site (round 1).
+
+**Traced against:** the theme at `baa7b24` (1.0.758), by reading the code. Nothing was loaded from
+thomascheesman.ca. `back-quarter-3d.js` didn't change between O-20 and `baa7b24`, so BQD4's traces of the
+3D world, Surfaces and Sound rows still hold.
+
+**What the code does now:**
+- **Who gets the 3D world:** a device whose main pointer is a mouse or trackpad (`(hover: hover) and
+  (pointer: fine)`), with WebGL (`back-quarter.js`, `isPC()` and `hasWebGL()`).
+- **Phones and tablets:** the poster, and "The farm is a 3D world built for a computer. On a phone, the
+  menu up top goes everywhere." (`front-page.php` L55). No button.
+- **A PC without WebGL:** "This browser can’t run the 3D world. The menu up top goes everywhere."
+- **A failed load:** "The 3D world couldn’t start. The menu up top goes everywhere." The button stays for
+  a retry.
+- **What loads on engage:** Matter, three r128, the bloom stack and `back-quarter-3d.js`, only on the
+  button or W / Up arrow (`engage3d`). **Matter is the 3D world's physics** (`back-quarter-3d.js`
+  L1278 on). **Pixi isn't used by the Back Quarter at all** (no match in either script or
+  `front-page.php`). It stays in `vendor/` for the drawer's pinball.
+- **Controls shown:** "W A S D or arrows · Enter steps inside · Esc hops out" (`front-page.php` L53).
+- **The site-wide wash** still idle-loads three.js for every visitor unless reduced motion is on. Phones
+  now draw it at 1x pixels and about 20 fps (`main.js`, 1.0.757).
+
+### PJ8 — `/projects` label (Back Quarter)
+
+> **Live:** "The front page itself · Three.js, Pixi, Matter"
+> **FIX:** "The front page itself · Three.js, Matter"
+
+### PJ9 — `/projects`, the steering lesson's last sentence (PJ1)
+
+> **Live:** "…Reversing flips the steering sense, the way it does in a real yard. The painted map that
+> phones get still turns on the spot."
+> **CUT** the last sentence. The paragraph ends at "real yard."
+
+### PJ10 — `/projects`, Fig. caption
+
+> **Live:** "The 3D build, mid-afternoon. The same quarter section as the painted map, modelled and lit,
+> with a day and night cycle running over it."
+> **FIX:** "The 3D world, mid-afternoon: the quarter section modelled and lit, with a day and night cycle
+> running over it."
+
+### PJ11 — `/projects` spec table: the 3D world row and the Painted Map row
+
+> **Live:** "3D world — Three.js · custom vehicle handling · bloom and colour grade on WebGL2, plain render
+> on WebGL1" and "The Painted Map — Pixi and Matter over a painted board — the fallback: phones, no WebGL,
+> or a failed load"
+> **FIX, 3D world:** "Three.js, with Matter for the physics · custom vehicle handling · bloom and colour
+> grade on WebGL2, plain render on WebGL1"
+> **A (recommended), replace the Painted Map row:** "Where it runs — A computer with a mouse or trackpad
+> and WebGL. Phones and tablets see a still of the farm and a line pointing at the menu"
+> **B:** cut the row, and say nothing about phones in the table.
+
+- **Why A:** a hiring reader is likely to open it on a phone. The table should tell them before they
+  try, and the fallback is part of the design, not an apology.
+- **Why Matter moves into the 3D row:** with the Painted Map row gone, the label would name Matter and
+  nothing in the table would say what it does.
+
+### PJ12 — `/projects` spec table, Input
+
+> **Live:** "Keyboard, and a touch build with a reduced tier for small screens"
+> **FIX:** "Keyboard: W A S D or the arrows, Enter to step inside, Esc to hop out"
+
+- The touch controls are still in the 3D script, kept for the later phone job (O-20), but no phone or
+  tablet reaches them now.
+
+### PJ13 — `/projects`, the "Drive it" line
+
+> **Live:** "Drive it on thomascheesman.ca — the 3D world is what the button opens, and the painted map is
+> what a phone gets, or a browser that cannot run the engine. Neither one loads until someone asks for
+> it."
+> **FIX:** "Drive it on thomascheesman.ca, on a computer — the 3D world is what the button opens, and it
+> doesn't load until someone asks for it. A phone gets a still of the farm and the ordinary menu."
+
+- The link text stays "Drive it on thomascheesman.ca". ", on a computer" sits outside the link.
+
+### PJ14 — home page, the Back Quarter card
+
+> **Live:** "Built with — Three.js · Pixi · Matter · no build step"
+> **FIX:** "Built with — Three.js · Matter · no build step"
+
+- The card's paragraph ("…it degrades to an ordinary menu if the graphics never load") is still true. No
+  change.
+
+### BQ1 FIX — the case study's spec table
+
+> **Draft:** "Stack: WordPress with a hand-coded Astra child theme · Three.js for the 3D world · Pixi and
+> Matter for the painted map · …" Then the `/projects` rows (3D world, The Painted Map, Surfaces, Sound,
+> Input, Dependencies).
+> **FIX:** "Stack: WordPress with a hand-coded Astra child theme · Three.js and Matter for the 3D world ·
+> …" Then the `/projects` rows as fixed by PJ11 and PJ12 (3D world, Where it runs or nothing, Surfaces,
+> Sound, Input, Dependencies).
+
+### BQ6 FIX — the case study's honest limits
+
+> **Draft:** "Checked in September 2026. The painted map that phones get still turns on the spot, and
+> neither build's barn opens anything yet. The site's decorative background loads the 3D library, about
+> 600 KB before compression, for every visitor once the page is idle, including phone visitors, who get
+> the painted map and never use it."
+> **FIX:** "Checked in September 2026. The farm can't be driven on a phone or tablet yet, and the barn
+> doesn't open anything. The site's decorative background still loads the 3D library, about 600 KB
+> before compression, for every visitor once the page is idle, including phone visitors, who can't drive
+> the farm at all."
+
+- "Yet": Thomas, "we will bring it to the mobile" (O-20). The line goes when that ships.
+- The barn: `back-quarter-3d.js` is unchanged since BQD4 3, so the barn still opens nothing.
+
+### Open for Thomas (C-24)
+
+- **PJ8–PJ10, PJ12–PJ14:** OK / FIX / CUT.
+- **PJ11:** A (a "Where it runs" row) or B (cut the row).
+- **BQ1 and BQ6 fixes:** OK / FIX.
+- **On your word,** PJ8–PJ14 go on `/projects` and home, checked locally with `site_check.py` and a
+  rendered-text check with a control, then curled live against `main` after the merge.
+
+### Rulings, C-24 (Thomas, 2026-09-27)
+
+Verbatim: "all ok, pj11 A"
+
+- **PJ8–PJ10, PJ12–PJ14: OK.** Applied to `public/projects.html` and `public/index.html`.
+- **PJ11: A**, the "Where it runs" row, and Matter in the 3D row. Applied.
+- **BQ1 and BQ6 fixes: OK.** Fixed in the drafts above.

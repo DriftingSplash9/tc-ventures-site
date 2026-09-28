@@ -110,7 +110,7 @@
 
   <article class="band band--tint project" id="quarter">
     <div class="wrap">
-      <p class="label label--accent">The front page itself &middot; Three.js, Pixi, Matter</p>
+      <p class="label label--accent">The front page itself &middot; Three.js, Matter</p>
       <h2>The Back Quarter</h2>
 
       <div class="prose">
@@ -134,8 +134,7 @@
           of the build the buggy could pivot in place, and turning felt harsh. The fix was not more
           physics, it was less permission: in the 3D world the yaw rate now follows forward speed, so
           she has to be rolling before she will turn, and she eases into it. Grip drops in the wet.
-          Reversing flips the steering sense, the way it does in a real yard. The painted map that
-          phones get still turns on the spot.
+          Reversing flips the steering sense, the way it does in a real yard.
         </p>
         <p>
           <strong>Bloom is a night instrument.</strong> Glow is driven by the same day factor that runs
@@ -166,24 +165,24 @@
         <img src="/assets/img/back-quarter-3d.webp" width="1600" height="900" loading="lazy" decoding="async"
              alt="A low-polygon farmyard in daylight, seen from beside a campfire ring: an orange roll-caged buggy with a spare wheel on the back, a white camper trailer, a sheep and a spotted dog on the grass, and beyond them a brick windmill, twin grain bins, a red gambrel barn and a line of spruce.">
         <figcaption>
-          The 3D build, mid-afternoon. The same quarter section as the painted map, modelled and lit,
-          with a day and night cycle running over it.
+          The 3D world, mid-afternoon: the quarter section modelled and lit, with a day and night cycle
+          running over it.
         </figcaption>
       </figure>
 
       <dl class="spec">
-        <div><dt>3D world</dt><dd>Three.js &middot; custom vehicle handling &middot; bloom and colour grade on WebGL2, plain render on WebGL1</dd></div>
-        <div><dt>The Painted Map</dt><dd>Pixi and Matter over a painted board &mdash; the fallback: phones, no WebGL, or a failed load</dd></div>
+        <div><dt>3D world</dt><dd>Three.js, with Matter for the physics &middot; custom vehicle handling &middot; bloom and colour grade on WebGL2, plain render on WebGL1</dd></div>
+        <div><dt>Where it runs</dt><dd>A computer with a mouse or trackpad and WebGL. Phones and tablets see a still of the farm and a line pointing at the menu</dd></div>
         <div><dt>Surfaces</dt><dd>Procedural textures, prairie dust and distance haze, instanced planting</dd></div>
         <div><dt>Sound</dt><dd>Synthesised in the browser &mdash; fire, wind, tires &mdash; plus ten recorded farm and engine sounds, fetched only when sound is switched on</dd></div>
-        <div><dt>Input</dt><dd>Keyboard, and a touch build with a reduced tier for small screens</dd></div>
+        <div><dt>Input</dt><dd>Keyboard: W A S D or the arrows, Enter to step inside, Esc to hop out</dd></div>
         <div><dt>Dependencies</dt><dd>Self-hosted, loaded on demand. No build step, no CDN</dd></div>
       </dl>
 
       <p class="repo">
-        <a href="https://thomascheesman.ca/">Drive it on thomascheesman.ca</a> &mdash; the 3D world is
-        what the button opens, and the painted map is what a phone gets, or a browser that cannot run
-        the engine. Neither one loads until someone asks for it.
+        <a href="https://thomascheesman.ca/">Drive it on thomascheesman.ca</a>, on a computer &mdash; the
+        3D world is what the button opens, and it doesn&rsquo;t load until someone asks for it. A phone
+        gets a still of the farm and the ordinary menu.
       </p>
     </div>
   </article>
