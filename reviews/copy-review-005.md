@@ -1056,3 +1056,22 @@ Verbatim: "pj15-19 ok, A, dd3 A, keep, rest ok"
   - P3: OK.
 - **So DD1–DD7 are ruled.** With BQ1–BQ7 ruled, both case studies' copy is settled. Next: the previews
   (handoff-022 §6 step 4).
+
+### Rulings on the previews (Thomas, 2026-09-28)
+
+Raised after the previews were built: (1) the standard sections' H2 repeated word for word as the first
+sentence below it; (2) BQ6's bloom paragraph ends "or the painting stops being a place", and the painted
+map is gone; (3) the Desk figure caption "The desk itself, which is the menu."; (4) an R-162 receipt link
+added after the bloom paragraph.
+
+Verbatim: "the repeated sentence should go. fix it. fix - which is a menu replaces which is the menu. it
+can go"
+
+- **1: cut, on both pages.** Back Quarter: "A homepage has to stay a homepage." goes from the start of the
+  standard paragraph. Desk: the bold "An interface that is a picture still has to be a menu." goes.
+- **2: FIX, wording delegated.** "…or the painting stops being a place." → "…or the farm stops being a
+  place." The agent chose the smallest change.
+- **3: FIX.** "The desk itself, which is a menu."
+- **4: cut.** The bloom paragraph carries no receipt link.
+- **Applied to the previews only.** `/projects` is unchanged: P3 moves these paragraphs off it at the
+  ship.
