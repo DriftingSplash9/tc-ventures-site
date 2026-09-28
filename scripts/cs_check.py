@@ -10,7 +10,7 @@ then drives headless Chromium through Playwright. Checks:
   2. title and H1 match; noindex and the draft banner are present with
      --preview and absent without it
   3. the six case-study sections, in the fixed order
-  4. the Projects sub-menu: its order, aria-current on this page and on
+  4. the Projects sub-menu: its order (with --preview, PLANNED_SUBMENU), aria-current on this page and on
      Projects; by keyboard, Tab reaches the toggle, Enter opens it, Esc closes
      it and returns focus
   5. no console errors, in light and in dark
@@ -34,6 +34,10 @@ from playwright.sync_api import sync_playwright
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "public")
 SECTIONS = ["ask", "standard", "wrong", "caught", "shipped", "receipts"]
 SUBMENU = ["/work/influence-graph", "/work/bare-your-rare", "/work/gprs", "/work/this-site"]
+# A preview carries the sub-menu it will ship with; the live pages don't have it
+# yet. At the ship, SUBMENU becomes this list (and site_check.py's SUBMENU too).
+PLANNED_SUBMENU = ["/work/influence-graph", "/work/back-quarter", "/work/desk-and-drawer",
+                   "/work/bare-your-rare", "/work/gprs", "/work/this-site"]
 CHROMIUM = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 
 
@@ -111,7 +115,7 @@ def main():
                 ids = page.eval_on_selector_all(".cs-section", "els => els.map(e => e.id)")
                 check("six sections in order", ids == SECTIONS, ",".join(ids))
                 hrefs = page.eval_on_selector_all("#navsub-work a", "els => els.map(e => e.getAttribute('href'))")
-                check("sub-menu order", hrefs == SUBMENU, ",".join(hrefs))
+                check("sub-menu order", hrefs == (PLANNED_SUBMENU if preview else SUBMENU), ",".join(hrefs))
                 cur = page.eval_on_selector_all("#navsub-work a[aria-current='page']", "els => els.map(e => e.getAttribute('href'))")
                 check("sub-menu aria-current=page on this page", cur == [page_path], ",".join(cur))
                 proj = page.locator(".navsub > a[href='/projects']").get_attribute("aria-current")

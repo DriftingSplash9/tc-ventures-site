@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A homepage you drive around - Thomas Cheesman</title>
+<meta name="description" content="The front page of my personal site is a quarter section of Peace Country farmland you drive around in a buggy. Drive up to most of its buildings and press Enter, and a page of the site opens. The ordinary menu still works if none of it loads.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://tc-ventures.ca/work/back-quarter">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TC &rsquo;Ventures">
+<meta property="og:url" content="https://tc-ventures.ca/work/back-quarter">
+<meta property="og:title" content="A homepage you drive around - Thomas Cheesman">
+<meta property="og:description" content="The front page of my personal site is a quarter section of Peace Country farmland you drive around in a buggy. Drive up to most of its buildings and press Enter, and a page of the site opens. The ordinary menu still works if none of it loads.">
+<meta property="og:image" content="https://tc-ventures.ca/assets/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Thomas Cheesman, Grande Prairie, Alberta, remote. Beside the name, a slice of the Economic Report Influence Graph.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@TCheesy_">
+<meta name="twitter:creator" content="@TCheesy_">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/familjen-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/nav.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="draft">
+  <div class="wrap wrap--page">
+    <p><b>Preview</b> &middot; ruled copy (copy-review-005, BQ1&ndash;BQ7, C-24) &middot; not linked, not in the sitemap, noindex</p>
+  </div>
+</div>
+
+<header class="topbar">
+  <div class="wrap wrap--page topbar__inner">
+    <a class="wordmark" href="/">Thomas Cheesman</a>
+    <nav aria-label="Primary">
+      <div class="navsub">
+        <a href="/projects" aria-current="true">Projects</a>
+        <button class="navsub__toggle" type="button" aria-expanded="false" aria-controls="navsub-work">
+          <span class="sr-only">Case studies</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <ul class="navsub__list" id="navsub-work" aria-label="Case studies">
+          <li><a href="/work/influence-graph">The Economic Report Influence Graph</a></li>
+          <li><a href="/work/back-quarter" aria-current="page">A homepage you drive around</a></li>
+          <li><a href="/work/desk-and-drawer">A menu that is a photograph of my desk</a></li>
+          <li><a href="/work/bare-your-rare">A rare-disease site, written by a patient</a></li>
+          <li><a href="/work/gprs">A housing society&rsquo;s website</a></li>
+          <li><a href="/work/this-site">This site</a></li>
+        </ul>
+      </div>
+      <a href="/method">Method</a>
+      <a href="/background">Background</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap wrap--page">
+    <div class="cs-layout">
+
+      <div class="cs-layout__main">
+        <header class="cs-head">
+          <p class="label">Case study &middot; a personal site&rsquo;s front page</p>
+          <h1>A homepage you drive around</h1>
+          <p class="cs-head__claim">
+            The front page of my personal site is a quarter section of Peace Country farmland you drive
+            around in a buggy. Drive up to most of its buildings and press Enter, and a page of the site
+            opens. The ordinary menu still works if none of it loads.
+          </p>
+          <dl class="cs-head__meta">
+            <div><dt>Stack</dt><dd>WordPress with a hand-coded Astra child theme &middot; Three.js and Matter for the 3D world</dd></div>
+            <div><dt>Status</dt><dd><span class="tag tag--live">Live</span></dd></div>
+            <div><dt>Hosted</dt><dd>thomascheesman.ca, on Hostinger</dd></div>
+            <div><dt>Repo</dt><dd>Private</dd></div>
+            <div><dt>Since</dt><dd>July 2026</dd></div>
+            <div><dt>3D world</dt><dd>Three.js, with Matter for the physics &middot; custom vehicle handling &middot; bloom and colour grade on WebGL2, plain render on WebGL1</dd></div>
+            <div><dt>Where it runs</dt><dd>A computer with a mouse or trackpad and WebGL. Phones and tablets see a still of the farm and a line pointing at the menu</dd></div>
+            <div><dt>Surfaces</dt><dd>Procedural textures, prairie dust and distance haze, instanced planting</dd></div>
+            <div><dt>Sound</dt><dd>Synthesised in the browser &mdash; fire, wind, tires &mdash; plus ten recorded farm and engine sounds, fetched only when sound is switched on</dd></div>
+            <div><dt>Input</dt><dd>Keyboard: W A S D or the arrows, Enter to step inside, Esc to hop out</dd></div>
+            <div><dt>Dependencies</dt><dd>Self-hosted, loaded on demand. No build step, no CDN</dd></div>
+          </dl>
+        </header>
+
+        <nav class="cs-index cs-index--inline" aria-label="On this page">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+        </nav>
+
+        <div class="cs-body">
+          <section class="cs-section" id="ask" aria-labelledby="h-ask">
+            <span class="cs-section__num">The ask</span>
+            <h2 id="h-ask">Somewhere to tell the story</h2>
+
+            <blockquote class="pull">
+              <p>
+                &ldquo;I made my personal site mostly for family. Social media is messy and can get hard
+                to use for some. I wanted somewhere I could tell the story of where my ancestors came from
+                and how we came to exist in Grande Prairie as a happy family. I wanted to make it with
+                easter eggs for them to discover if they wanted to/ there&rsquo;s games and puzzles and
+                such, a literal arcade, a map you race around and collect coins while exploring the
+                &ldquo;back Quarter&rdquo;. TBH, I doubt it will see much traffic until I pass on but
+                that&rsquo;s ok, for now I am here :)&rdquo;
+              </p>
+              <footer><cite>Thomas</cite> &middot; 2026-09-26 &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-005.md">copy-review-005, Q-BQD2</a></footer>
+            </blockquote>
+
+            <p>
+              The homepage of my personal site is not a page. It is a quarter section of farmland you
+              drive around in a buggy, and every building on it is a part of the site: the farmhouse is
+              the page about me, the medic hut is the page about my diagnosis, the church on the hill
+              holds the family histories. Drive up to one and press Enter to step inside.
+            </p>
+            <p>
+              I grew up on that land. We moved north to the Peace Country when I was ten, and the farms
+              came one after another &mdash; a bird farm at Teepee Creek, LaGlace, a pig farm, then Little
+              Smokey with no gas, a wood furnace and a rabbit trapline. The Back Quarter is that country
+              rebuilt from memory and handed to a visitor as the way in. A menu would have done the job.
+              This does the job and says something while it does it.
+            </p>
+          </section>
+          <section class="cs-section" id="standard" aria-labelledby="h-standard">
+            <span class="cs-section__num">The standard</span>
+            <h2 id="h-standard">A homepage has to stay a homepage</h2>
+
+            <p>
+              A homepage has to stay a homepage. Nothing heavy of its own loads until the visitor asks for
+              it &mdash; its engines sit behind a click &mdash; the farm is a real image before any of it
+              boots, and every destination in the world is also an ordinary link in the ordinary menu.
+              If the graphics fail, or a visitor never touches them, the site still works exactly as a site
+              should. A world you can drive around should be the reward for wanting one, never the toll
+              gate on the way in.
+            </p>
+
+            <figure class="excerpt">
+              <pre>Performance budget: zero new bytes on first paint beyond the preview image (&le; ~180KB webp) + the invitation chip. Pixi/Matter/engine/painting lazy-load on engagement only.</pre>
+              <figcaption>From the build spec, &sect;4, written 2026-07-01, the day before the first drivable build. The repo is private.</figcaption>
+            </figure>
+          </section>
+          <section class="cs-section" id="wrong" aria-labelledby="h-wrong">
+            <span class="cs-section__num">What the AI got wrong</span>
+            <h2 id="h-wrong">Right in the code, wrong on the screen</h2>
+
+            <ol class="mc">
+              <li>
+                <h3>Glow that never switched on</h3>
+                <p>
+                  The bloom effect, the glow around lights at night, was committed as &ldquo;the lights
+                  glow&rdquo;. Its files had been bundled from search hits that were only checks for the
+                  pieces it needed, not the pieces themselves. The effect failed as it loaded, and the
+                  fallback quietly started the farm without it, so nothing looked broken.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> a tooling error &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3f-thomascheesmanca--the-back-quarter-the-desk-and-the-drawer">receipts-001, R-160</a></span>
+              </li>
+              <li>
+                <h3>A fix that made a new noise</h3>
+                <p>
+                  The campfire&rsquo;s crackle clicked like tiny firecrackers. The fix sent every pop
+                  through the same tuned filter, so every pop rang the same note.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> looked right but was not measured &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3f-thomascheesmanca--the-back-quarter-the-desk-and-the-drawer">receipts-001, R-163</a></span>
+              </li>
+              <li>
+                <h3>Animals that were said to wander</h3>
+                <p>
+                  The cows and sheep shipped with &ldquo;graze/wander AI&rdquo;. Each move was a single
+                  push that the physics&rsquo; friction killed in under a second, so for six days they
+                  stood still between moves.
+                </p>
+                <span class="mc__how"><b>Kind of miss:</b> looked right but was not measured &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3f-thomascheesmanca--the-back-quarter-the-desk-and-the-drawer">receipts-001, R-164</a></span>
+              </li>
+            </ol>
+          </section>
+          <section class="cs-section" id="caught" aria-labelledby="h-caught">
+            <span class="cs-section__num">How I caught it</span>
+            <h2 id="h-caught">I looked, I listened, I watched</h2>
+
+            <ol class="mc mc--catch">
+              <li>
+                <h3>I looked</h3>
+                <p>
+                  I caught it. The fix came three minutes after the commit that claimed the glow: the
+                  missing pieces went in, in the order they depend on each other.
+                </p>
+                <span class="mc__how"><b>Falls under:</b> &ldquo;done&rdquo;, &ldquo;verified&rdquo; and &ldquo;deployed&rdquo; are claims; prove them from outside &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3f-thomascheesmanca--the-back-quarter-the-desk-and-the-drawer">receipts-001, R-160</a></span>
+              </li>
+              <li>
+                <h3>I listened</h3>
+                <p>
+                  Both times it was my ear: first the firecrackers, then &ldquo;the fire sounds like tin
+                  bashing.&rdquo; The third version is a low ember roar with short pops, each through its
+                  own randomly tuned filter. Nothing rings.
+                </p>
+                <span class="mc__how"><b>Falls under:</b> test the thing itself, not a proxy for it &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3f-thomascheesmanca--the-back-quarter-the-desk-and-the-drawer">receipts-001, R-163</a></span>
+              </li>
+              <li>
+                <h3>I watched</h3>
+                <p>
+                  I said the animals were too still. The cause was in the physics, and a walk now holds
+                  its heading for a few seconds and is pushed every frame. The agent&rsquo;s test browser
+                  can&rsquo;t run the animation, so only someone driving the farm could have seen it.
+                </p>
+                <span class="mc__how"><b>Falls under:</b> a build or a script cannot judge how something looks &middot; <a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3f-thomascheesmanca--the-back-quarter-the-desk-and-the-drawer">receipts-001, R-164</a></span>
+              </li>
+            </ol>
+
+            <table class="rules wide">
+              <caption>Each correction, the standing rule it falls under, and where that rule lives.</caption>
+              <thead>
+                <tr><th scope="col">The correction</th><th scope="col">The standing rule</th><th scope="col">Enforced in</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" data-th="The correction">The glow was committed as working while the fallback hid its failure</th>
+                  <td data-th="The standing rule">&ldquo;Done&rdquo;, &ldquo;verified&rdquo; and &ldquo;deployed&rdquo; are claims. Prove them from outside</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 2</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">A sound fix was judged by its code, and rang like tin</th>
+                  <td data-th="The standing rule">Test the thing itself, not a proxy for it</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 1</td>
+                </tr>
+                <tr>
+                  <th scope="row" data-th="The correction">The animals were said to wander, and nobody had watched them</th>
+                  <td data-th="The standing rule">A build or a script cannot judge how something looks. Look at it rendered</td>
+                  <td data-th="Enforced in"><code>CLAUDE.md</code> &middot; rule 4</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="cs-section" id="shipped" aria-labelledby="h-shipped">
+            <span class="cs-section__num">What shipped</span>
+            <h2 id="h-shipped">A farm that is also a menu</h2>
+
+            <p>
+              <strong>A vehicle that can turn on the spot does not feel like a vehicle.</strong> For most
+              of the build the buggy could pivot in place, and turning felt harsh. The fix was not more
+              physics, it was less permission: in the 3D world the yaw rate now follows forward speed, so
+              she has to be rolling before she will turn, and she eases into it. Grip drops in the wet.
+              Reversing flips the steering sense, the way it does in a real yard.
+            </p>
+            <p>
+              <strong>Bloom is a night instrument.</strong> Glow is driven by the same day factor that runs
+              the sky, so it climbs after sunset and falls away at dawn. I learned that the hard way: the
+              glow was first tuned at dusk, and in daylight the white church blazed featureless white.
+              Light has to behave like light, or the painting stops being a place.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3f-thomascheesmanca--the-back-quarter-the-desk-and-the-drawer">receipts-001, R-162</a>
+            </p>
+
+            <figure class="shot wide">
+              <img src="/assets/img/back-quarter-3d.webp" width="1600" height="900" loading="lazy" decoding="async"
+                   alt="A low-polygon farmyard in daylight, seen from beside a campfire ring: an orange roll-caged buggy with a spare wheel on the back, a white camper trailer, a sheep and a spotted dog on the grass, and beyond them a brick windmill, twin grain bins, a red gambrel barn and a line of spruce.">
+              <figcaption>
+                The 3D world, mid-afternoon: the quarter section modelled and lit, with a day and night cycle
+                running over it.
+              </figcaption>
+            </figure>
+
+            <p class="repo">
+              <a href="https://thomascheesman.ca/">Drive it on thomascheesman.ca</a>, on a computer &mdash; the
+              3D world is what the button opens, and it doesn&rsquo;t load until someone asks for it. A phone
+              gets a still of the farm and the ordinary menu.
+            </p>
+
+            <h3>The honest limits</h3>
+            <p>
+              Checked in September 2026. The farm can&rsquo;t be driven on a phone or tablet yet, and the
+              barn doesn&rsquo;t open anything. The site&rsquo;s decorative background still loads the 3D
+              library, about 600 KB before compression, for every visitor once the page is idle, including
+              phone visitors, who can&rsquo;t drive the farm at all.
+            </p>
+          </section>
+          <section class="cs-section" id="receipts" aria-labelledby="h-receipts">
+            <span class="cs-section__num">Receipts</span>
+            <h2 id="h-receipts">The files behind every claim above</h2>
+
+            <ul class="receipts wide">
+              <li>
+                <p class="receipts__what">Why I built it, in my words</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/reviews/copy-review-005.md">reviews/copy-review-005.md</a>, Q-BQD2 &middot; <time datetime="2026-09-26">2026-09-26</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">Every miss above in the receipts inventory, with its sources</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/plans/receipts-001.md#3f-thomascheesmanca--the-back-quarter-the-desk-and-the-drawer">plans/receipts-001.md &sect;3F</a> &middot; <time datetime="2026-09-26">2026-09-26</time></p>
+              </li>
+              <li>
+                <p class="receipts__what">The rules the corrections fall under</p>
+                <p class="receipts__file"><a href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/CLAUDE.md">CLAUDE.md</a></p>
+              </li>
+              <li>
+                <p class="receipts__what">The site itself</p>
+                <p class="receipts__file"><a href="https://thomascheesman.ca">thomascheesman.ca</a></p>
+              </li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+
+      <aside class="cs-layout__rail">
+        <nav class="cs-index cs-index--rail" aria-label="Sections">
+          <p class="label">On this page</p>
+          <ol>
+            <li><a href="#ask">The ask</a></li>
+            <li><a href="#standard">The standard</a></li>
+            <li><a href="#wrong">What the AI got wrong</a></li>
+            <li><a href="#caught">How I caught it</a></li>
+            <li><a href="#shipped">What shipped</a></li>
+            <li><a href="#receipts">Receipts</a></li>
+          </ol>
+          <a class="cs-index__back" href="/projects">&larr; All work</a>
+        </nav>
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap wrap--page footer__inner">
+    <div>
+      <p class="label">Get in touch</p>
+      <p class="footer__email"><a href="mailto:thomas@tc-ventures.ca">thomas@tc-ventures.ca</a></p>
+      <p class="footer__note">Grande Prairie, Alberta &middot; Mountain Time &middot; remote &middot; open to work</p>
+    </div>
+    <div>
+      <p class="label">Elsewhere</p>
+      <ul class="footer__list">
+        <li><a href="https://www.linkedin.com/in/thomas-cheesman-20234285/">LinkedIn</a></li>
+        <li><a href="https://github.com/DriftingSplash9">github.com/DriftingSplash9</a></li>
+        <li><a href="https://thomascheesman.ca">thomascheesman.ca</a> &mdash; personal</li>
+        <li><a href="https://bareyourrare.org">bareyourrare.org</a></li>
+        <li><a href="https://gpresidentialsociety.com">gpresidentialsociety.com</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
