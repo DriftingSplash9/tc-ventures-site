@@ -1075,3 +1075,52 @@ can go"
 - **4: cut.** The bloom paragraph carries no receipt link.
 - **Applied to the previews only.** `/projects` is unchanged: P3 moves these paragraphs off it at the
   ship.
+
+---
+
+## C-23 — `/projects` after the case studies ship (PJ20–PJ22)
+
+**Written:** 2026-09-28, with the ship in PR #10. These describe `/projects` as it is once #10 is live.
+**Why:** after P3, each of the three builds on `/projects` is an intro, a figure and a "read the case
+study" line. The detail the lede promises lives on the case studies now.
+
+### PJ20 — the lede
+
+> **Live:** "Three built in the open, in detail — what they are, what was hard, and what I got wrong.
+> Then the four live sites."
+> **A (recommended):** "Three things I built, then the four live sites. Each build has a case study: what
+> it was built to, what the AI got wrong, and how I caught it."
+> **B:** "Three built in the open, then the four live sites. What was hard, and what I got wrong, is in
+> each one's case study."
+
+- **Why A:** it says what a case study holds, in the same words as the "read the case study" lines.
+  "Each build" keeps it to the three; of the four sites, thomascheesman.ca has no case study of its own.
+
+### PJ21 — the meta description and link-preview description
+
+> **Live, `description`:** "The Economic Report Influence Graph, The Back Quarter, The Desk and the Drawer,
+> and four live sites - what they are, what was hard, and what I got wrong."
+> **Live, `og:description`:** "A 3D map of where official numbers come from, a drivable farm that is a
+> homepage, a desk that is a menu, and four live sites - what was hard, and what I got wrong."
+> **KEEP (recommended)** both. They describe the page and the pages it links, and nothing in them is
+> false. The case studies are one click away.
+> **FIX,** if you want them to match PJ20: replace "what they are, what was hard, and what I got wrong"
+> (and "what was hard, and what I got wrong") with "each with a case study on what the AI got wrong and
+> how I caught it".
+
+### PJ22 — "And four live sites", the thomascheesman.ca paragraph
+
+> **Live:** "…The Back Quarter is its front door and The Desk is its menu, both written up above."
+> **FIX:** "…The Back Quarter is its front door and The Desk its second menu, both above, each with its
+> own case study."
+
+- **"Second menu":** the plain list is the default (C-25).
+- **"Written up above":** after P3, the write-ups are on the case studies. The sections above are
+  introductions.
+
+### Open for Thomas (C-23)
+
+- **PJ20:** A or B.
+- **PJ21:** KEEP or FIX.
+- **PJ22:** OK / FIX / CUT.
+- On your word they go on `/projects` after #10 is live, checked the same way.
