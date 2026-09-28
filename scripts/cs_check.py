@@ -33,7 +33,8 @@ from playwright.sync_api import sync_playwright
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "public")
 SECTIONS = ["ask", "standard", "wrong", "caught", "shipped", "receipts"]
-SUBMENU = ["/work/influence-graph", "/work/bare-your-rare", "/work/gprs", "/work/this-site"]
+SUBMENU = ["/work/influence-graph", "/work/back-quarter", "/work/desk-and-drawer",
+           "/work/bare-your-rare", "/work/gprs", "/work/this-site"]
 # A preview carries the sub-menu it will ship with; the live pages don't have it
 # yet. At the ship, SUBMENU becomes this list (and site_check.py's SUBMENU too).
 PLANNED_SUBMENU = ["/work/influence-graph", "/work/back-quarter", "/work/desk-and-drawer",

@@ -4,6 +4,3 @@
 work/_template.html
 .assetsignore
 og-src/
-# Case-study previews until they ship (copy-review-005).
-work/back-quarter.html
-work/desk-and-drawer.html
