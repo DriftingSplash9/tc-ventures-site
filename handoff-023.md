@@ -18,7 +18,9 @@
     checked again after #11.
   - `site_check.py --live` passed 100 of 100 (after #10).
   - `/work/_template` answers 404, as it should.
-- **thomascheesman.ca:** nothing changed this session. O-23 (the 429) and 1.0.758 are still unconfirmed.
+- **thomascheesman.ca:** the session's second half was there. The 429s were two CDNs stacked (O-23, closed), the
+  junk drawer loads in batches (1.0.759, verified by Thomas), and Cloudflare now caches uploads. The record is in
+  the theme's **`V0.44.md`**.
   Thomas didn't answer the question this session.
 
 **The next job is §6: Phase 2, the build ledger proposal.**
@@ -43,7 +45,7 @@
    newest instances of the case-study pattern.**
 7. **`scripts/`**: `site_check.py`, `cs_check.py`, `byr_bot_check.py`. Each script's docstring is its manual.
 8. **If the job touches thomascheesman.ca:** the theme repo's `CLAUDE.md` and its newest `V0.*.md`
-   (**V0.43**).
+   (**V0.44**), and `docs/IMAGE-BURST-PLAN.md`.
 9. `claude/thomas-study.md` and `claude/tc-ventures-site-decisions.md` in the Claude project "TC 'Ventures"
    (not on disk, not read this session).
 10. `README.md`.
@@ -174,6 +176,7 @@ Each trap ends with its tally, **`x.y`** (§5).
 - **Theme docs name surfaces loosely.** "The drawer" in `SECRET-DRAWER-VISION.md` is the escape room, not
   the footer's pinball drawer, and the doc's own §0 says so. Read a spec's §0 before a caption says what
   it is the spec for. `0.0`
+- **A 429 behind Cloudflare may not be about your IP.** If Cloudflare proxies to a second CDN (`*.cdn.hstgr.net`), that CDN's per-IP limit counts Cloudflare's edge IPs, so a whole region is blocked together. It cost two days on thomascheesman.ca (O-23). Read the headers: `x-hcdn-*` means Hostinger's CDN; `x-turbo-charged-by: LiteSpeed` + `panel: hpanel` means the origin. Then check what the Cloudflare DNS record points at. `0.0`
 
 **Carried:**
 - **Never load a Hostinger site in a headless browser from Thomas's machine.** Hostinger's CDN counts
@@ -402,13 +405,14 @@ Each trap ends with its tally, **`x.y`** (§5).
 ### OTHER REPOS
 | # | Item | Notes |
 |---|---|---|
-| O-23 | **Hostinger 429 on Thomas's home IP (2026-09-27, ~15:30 MDT on)** | Caused by headless checks (§2 trap). His phone recovered; **his PC still got 429 on 2026-09-28, about 21 hours in** (Thomas, asked at this session's wrap). That is past the "few hours" Hostinger's docs give, so live chat is the next step (his call). **Later on 2026-09-28:** curl from the same connection got 200 on 11 requests (10 of them CDN misses), but Thomas's private browser window loads some pages and not others. The agent drafted a live-chat message for him (IP, both request ids, the cause, Security level question); whether he sent it is not recorded. **Later still (15:18 MDT):** the agent's own request got an empty 429 (`1a51defe59e3c156af22503a77854039-phx-edge6`, 21:18:40 GMT), so the block covers the whole connection, not just logged-in traffic; the agent then stopped all requests to thomascheesman.ca. **The CDN Security level was found at Medium** (the 2026-09-27 change to Low didn't hold); Thomas set it to Low again, and the drawer stayed broken. He was given an updated live-chat message with both request ids. **O-26 (new):** the junk drawer (`secret-drawer.js` / `drawer-engine.js`, ~68 media-library images from `inc/data/drawer-puzzle.json`) requests them all on open; under the 429 its items render as alt-text labels piled up, and with the background (media 3660) refused the stage collapses to a strip. Files checked present: 3698 and 3660 (200). **Hostinger's answer (live chat, 2026-09-28 15:33):** no per-IP reset or exemption exists for this limiter; the threshold isn't published; it's burst protection, and ~70 uncached images at once can trip it, for normal visitors too. CDN WAF is off, no IP rules, the hosting firewall isn't blocking the IP. CDN metrics show repeated 429 bursts over the past seven days, not only 27–28 September. Their options: smaller lazy-loaded batches; cacheable image URLs; bypass the CDN (site-wide, testing only). **Recommended to Thomas:** (1) theme: load the drawer's images in small batches, background and top items first (plan-first surface: write the plan, get his OK); (2) check once the block clears whether Cloudflare caches `/wp-content/uploads/` images (two header requests: `cf-cache-status`, `cache-control`); if not, a Cloudflare Cache Rule is his to add. He lowered hPanel CDN **Security level Medium → Low**; putting it back is his call. If still blocked: Hostinger live chat, with request id `cc65655179b1a68ea57d03ef1468d64e-phx-edge6`. |
-| O-25 | **The home page slides sideways on phones (only the home page, Thomas 2026-09-28, after a purge)** | 1.0.758 (`baa7b24`, 2026-09-27) set the drawer's grid tracks to `minmax(0, 1fr)`. **Thomas's phone screenshot, 2026-09-28 12:38:** the header capsule sits fully inside the screen (the 1.0.758 symptom is gone), but the drawer's labels are clipped at the left edge, the quote card above it is flush left, and there's a strip of background on the right. That reads as the page scrolled sideways, so something is still wider than the viewport. **Not confirmed:** whether 1.0.758 is deployed and purged (no curl was made: the agent's curls share his blocked IP), and which element is too wide. **After the purge (Thomas):** only the home page still slides; every other page he tried doesn't, so it isn't the drawer. 1.0.758 is deployed (the cached home page references `ver=1.0.758` 11 times). An offline rebuild of that page at 390px, touch, with its own LiteSpeed CSS, did **not** reproduce it, with JS on or off; but LiteSpeed's bundled JS wasn't loaded, so script-drawn content is the lead. Earlier plan, done: If it still moves, find the wide element with the injected-rule method (§2 trap) from a machine Hostinger isn't blocking, or with Thomas's own browser tools. Theme work (V0.43). |
+| O-23 | **CLOSED 2026-09-28: the 429s were two CDNs stacked** | Cloudflare's DNS had `thomascheesman.ca` and `www` as proxied CNAMEs to `*.cdn.hstgr.net` (Hostinger's CDN), so Hostinger's per-IP burst limiter counted Cloudflare's edge IPs, shared by a whole region. It wasn't Thomas's IP: his phone on mobile data failed too. **Fixed by Thomas:** both records are now proxied **A → `195.179.239.196`**, and Hostinger's CDN is off in hPanel. Checked: no `x-hcdn` headers, the menu fetch 200, and Thomas: "menus work, drawer loads properly now". Full record: theme `V0.44.md` and `docs/IMAGE-BURST-PLAN.md` §8. |
+| O-25 | **The home page slides sideways on phones (only the home page)** | 1.0.758 is deployed (1.0.759 too); the drawer fix holds on other pages. The home-only slide isn't found yet; the lead is content that scripts draw. Owned by theme `V0.44.md` Open. |
+| O-27 | **bareyourrare.org and gpresidentialsociety.com: check for the same stacked-CDN DNS (2026-09-28)** | Thomas sends screenshots of each zone's Cloudflare DNS records. If apex or `www` is a CNAME to `*.cdn.hstgr.net`, the fix is an A record to that site's server IP (from hPanel), proxied, then Hostinger's CDN off. Record it in BYR's and GPRS's own handoffs too. |
 | O-24 | **thomascheesman.ca phone header, and the no-JS lede** | (a) The fixed header capsule covers the start of the "THOMAS CHEESMAN" name line on phones. (b) Without JS, `.bq-lede__name` and `.bq-lede__deck` stay at opacity 0 (`.kinetic-fade`). (c) Thomas said the menu was "wonky" before the 429s. **2026-09-28: he hasn't seen it since, and will screenshot it if he does.** (d) The phone line says "On a phone" but tablets see it too. Theme work, his call on each. |
 | O-20 | **The Back Quarter: 3D on PCs only — SHIPPED 2026-09-27 (1.0.755)** | Plan and rulings: theme `docs/BQ-3D-ONLY-PLAN.md`. **3D on phones is a later job** (Thomas: "we will bring it to the mobile"). When it ships, `/work/back-quarter`'s "Where it runs" row, its honest limit and `/projects`' "A phone gets a still" line change with it. `back-quarter-3d.js`'s header comment "MOBILE PLAY … phones are IN" is stale. |
 | O-21 | **Theme repo: family material in its files, history and commit diffs** | **Private since 2026-09-26.** The history still holds the material; cleaning it is Thomas's call. The details went to him in the chat on 2026-09-26, not here, because this repo is public. |
 | O-22 | **Hostinger deploy webhook URL was in a public theme file for about seven weeks** | Anyone with the URL can trigger a redeploy of `main`, no more. **Checked by Thomas 2026-09-28: hPanel has no regenerate option.** Left as is: rotating means deleting and re-creating the deployment, and last time that meant moving the live theme folder aside (V0.41). **Rotate it the next time the deployment is rebuilt,** by switching to Hostinger's GitHub App method, which manages the webhook itself. Then delete the old SSH entry in hPanel and the old webhook in GitHub. |
-| O-16 | **Hostinger refuses AI crawlers on uncached pages: ruled leave it ("1", 2026-09-26)** | GPTBot gets an empty 429 on all three Hostinger sites, and LiteSpeed's CAPTCHA 403s PerplexityBot and Claude-User on BYR. No customer control on shared hosting. **Mitigation:** the LiteSpeed crawler, hourly. Leave the Hostinger "Create LLMs.txt file" toggle **off**. Evidence: `Claude outputs/byr-bot-check-2026-09-25.md`. `/work/bare-your-rare`'s honest limit depends on this. |
+| O-16 | **AI crawlers on the Hostinger sites: ruled leave it ("1", 2026-09-26); re-checked on thomascheesman.ca 2026-09-28** | After the O-23 DNS fix, from Thomas's IP with each crawler's name: **ClaudeBot, Claude-User, PerplexityBot, OAI-SearchBot and ChatGPT-User get 200.** **GPTBot gets an instant, empty 429 from the origin** (`x-turbo-charged-by: LiteSpeed`, `panel: hpanel`): a name rule on Hostinger's server, not the CDN. Cloudflare's AI Crawl Control for that zone was not looked at. **BYR and GPRS were not re-checked.** They likely have the same stacked-CDN DNS (O-27), which may explain BYR's refusals. Leave the Hostinger "Create LLMs.txt file" toggle **off**. Evidence for BYR: `Claude outputs/byr-bot-check-2026-09-25.md`. `/work/bare-your-rare`'s honest limit depends on this. |
 | O-17 | **BYR `.htaccess`: Thomas's `E=verifycaptcha:off` block had no effect** | Not confirmed whether it is still in the file. His call whether to take it out. |
 | O-18 | **`@bareyourrare` social accounts are unclaimed** | Links removed (`ed6b054`). Restore from that commit's parent once Thomas says the accounts are claimed. |
 | O-19 | **GPRS: WordPress "critical error" on uncached pages, 2026-09-26** | Re-tested 2026-09-27: 200 cached and uncached. The critical-error email goes to WordPress's Administration Email Address; Thomas checks its junk for "Technical Issue" if he wants the cause. GPRS's own handoff owns any fix (O-12). |
@@ -419,7 +423,7 @@ Each trap ends with its tally, **`x.y`** (§5).
 | O-5 | `bareyr\.git` lock-file junk | Cosmetic; Thomas deletes. |
 | O-6 | Rocket Lander repo not public | On hold with the lander. |
 | O-7 | Children's names in the Back Quarter world | **Thomas ruled: leave them.** They stay off this site regardless. |
-| O-8 | thomascheesman.ca's open items live in its newest `V0.*.md` (V0.43) | `three-r128.min.js` idle-loads for every visitor: **ruled keep on phones (2026-09-27), now 1x/~20 fps there** (stated in `/work/back-quarter`'s honest limits). The mouse wheel over a live stage does not scroll the page. |
+| O-8 | thomascheesman.ca's open items live in its newest `V0.*.md` (**V0.44**) | Theme at 1.0.759. `three-r128.min.js` idle-loads for every visitor: ruled keep on phones (2026-09-27), now 1x/~20 fps there. IMAGE-BURST-PLAN F3 (the HCS photos as lazy images with alt text, ruled A) is next there. |
 | O-9 | `page-hcs.php` Keg paragraph, on disk, not deployed | Thomas pushes the theme and purges all three caches. **Check before the next theme push that it isn't swept in.** Not re-checked this session (no theme commit). |
 | O-10 | bareyourrare.org and thomascheesman.ca behind Cloudflare since 2026-09-20 | thomascheesman.ca has three cache layers. Full detail in handoff-014 §4. BYR's domain is on Cloudflare DNS: **don't click "Connect domain"** in hPanel. |
 | O-11 | bareyourrare.org crawl audit, mostly deployed | `Claude outputs/byr-crawl-audit.md`. Still open: (g) page weight. |
@@ -501,9 +505,10 @@ Every handoff has these, in this order, with these numbers:
 Before anything: remind Thomas once of **D-3**. He said he'll renew on 2026-10-07, and it's due 2026-10-08.
 Each step ends with his ruling before the next starts.
 
-1. **Ask, don't test (O-23, O-25).** Ask Thomas whether his PC loads thomascheesman.ca yet, and whether his
-   phone page still slides sideways after he purged the caches (O-25). The "wonky" menu (O-24 c): he
-   hasn't seen it again and will send a screenshot if he does; don't ask again.
+1. **Ask Thomas which stream first.** Both are ready:
+   - **(a) thomascheesman.ca** (theme `V0.44.md` Open): O-27, the BYR and GPRS DNS check from his screenshots, then
+     IMAGE-BURST-PLAN F3 (the HCS photos, alt text drafted for his OK). Theme work, in the theme repo.
+   - **(b) this site:** Phase 2, below.
 2. **Phase 2: propose the build ledger** (plan-001 §4c): the home hero as a static SVG ledger. **Propose
    before building.** Read plan-001 §4c and §5, and the home page as it is, first. The proposal names:
    - what the ledger shows and where each entry's facts come from (receipts only, no invented dates or
