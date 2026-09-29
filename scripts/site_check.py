@@ -5,6 +5,7 @@ Usage: python scripts/site_check.py            (serves ./public locally)
        python scripts/site_check.py --root DIR (serves another copy of public/,
                                                 e.g. an older commit, as a
                                                 negative control)
+       add --draft-ledger for a preview whose ledger carries unruled lines
 
 Pages come from public/sitemap.xml, plus /404. For each page:
   - status 200, and a made-up URL gives 404 (negative control)
@@ -15,12 +16,17 @@ Pages come from public/sitemap.xml, plus /404. For each page:
   - no noindex (except /404, which carries it on purpose) and no draft banner
   - no console errors, and no sideways scroll at 375px
 And once, on the home page: Tab reaches the sub-menu toggle, Enter opens it,
-Esc closes it and returns focus.
+Esc closes it and returns focus. Then the build ledger (copy-review-006):
+  - the served ledger block is exactly what scripts/export-ledger.py would
+    write now, so a stale or unshipped ledger fails
+  - the landscape picture shows at 1280px and the portrait one at 375px
+  - with JavaScript off, the list opens and every line links a handoff file
+    that exists in the repo, numbered from 001 without gaps
 
 Exit code 1 if any check fails. Written 2026-09-26 (INFRA-13): the nav is
 copied into every page by hand, so this is what catches a page left behind.
 """
-import http.server, os, re, socketserver, sys, threading, urllib.request
+import http.server, importlib.util, json, os, re, socketserver, sys, threading, urllib.request
 from functools import partial
 from playwright.sync_api import sync_playwright
 
@@ -53,6 +59,24 @@ class CleanURLHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers(); self.wfile.write(body)
         else:
             super().send_error(code, message, explain)
+
+
+def ledger_expected(draft):
+    """What scripts/export-ledger.py would write now, or the reason it can't."""
+    spec = importlib.util.spec_from_file_location("export_ledger", os.path.join(HERE, "export-ledger.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    cur = json.loads(mod.CURATION.read_text(encoding="utf-8"))
+    try:
+        return mod, mod.render(cur, draft)[0], ""
+    except SystemExit as e:
+        return mod, None, str(e)
+
+
+def raw_page(url):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (site_check.py)"})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        return r.read().decode("utf-8").replace("\r\n", "\n")
 
 
 def status(url):
@@ -130,6 +154,33 @@ def main():
         check("home: Esc closes it and returns focus",
               page.locator(".navsub__toggle").get_attribute("aria-expanded") == "false"
               and page.evaluate("document.activeElement.classList.contains('navsub__toggle')"))
+        ctx.close()
+
+        mod, want, why = ledger_expected("--draft-ledger" in args)
+        served = mod.current_block(raw_page(base + "/"))
+        check("ledger: served block matches export-ledger.py now", want is not None and served == want,
+              why or ("no ledger block served" if served is None else "differs: re-run export-ledger.py"))
+        for width, shows, hides in ((1280, "land", "port"), (375, "port", "land")):
+            ctx = browser.new_context(color_scheme="light", viewport={"width": width, "height": 900})
+            page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+            vis = [page.locator(f".ledger__pic--{k}").is_visible() if page.locator(f".ledger__pic--{k}").count() == 1 else None
+                   for k in (shows, hides)]
+            check(f"ledger: {shows} picture shows at {width}px, {hides} does not", vis == [True, False], str(vis))
+            ctx.close()
+        ctx = browser.new_context(java_script_enabled=False, viewport={"width": 1280, "height": 900})
+        page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+        if page.locator("details.ledger__list > summary").count() == 1:
+            page.locator("details.ledger__list > summary").click()
+            opened = page.locator("details.ledger__list[open]").count() == 1
+        else:
+            opened = False
+        check("ledger: list opens with JavaScript off", opened)
+        hrefs = page.eval_on_selector_all("details.ledger__list li a", "els => els.map(e => e.getAttribute('href'))")
+        nums = [re.fullmatch(re.escape(mod.REPO) + r"handoff-(\d{3})\.md", h or "") for h in hrefs]
+        ok = bool(hrefs) and all(nums) and [int(m.group(1)) for m in nums] == list(range(1, len(hrefs) + 1)) \
+            and all(os.path.exists(os.path.join(HERE, "..", f"handoff-{m.group(1)}.md")) for m in nums)
+        check("ledger: every list line links a handoff file that exists, from 001 without gaps", ok,
+              f"{len(hrefs)} links" + ("" if ok else f": {hrefs[:3]}"))
         ctx.close(); browser.close()
     if srv:
         srv.shutdown()

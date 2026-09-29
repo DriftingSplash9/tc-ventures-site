@@ -1326,3 +1326,54 @@ kbd {
 .work p { margin: 0; color: var(--ink-soft); }
 .work__meta { margin: 0; font-family: var(--mono); font-size: var(--t-mono); line-height: 1.7; color: var(--muted); grid-column: 2; }
 @media (min-width: 860px) { .work__meta { grid-column: 3; padding-top: 0.3em; } }
+
+/* ---- build ledger (home hero) --------------------------------------------
+   Drawn by scripts/export-ledger.py from the handoffs (copy-review-006). Two
+   pictures of the same data: landscape, and portrait at 600px and under. The
+   list after it is the text equivalent and carries the links; <details> opens
+   without JavaScript. Closed items are --muted, open ones the accent, parked
+   ones accent dots.
+   -------------------------------------------------------------------------- */
+
+.ledger { margin: var(--block) 0 0; }
+.ledger__pic { display: block; width: 100%; height: auto; }
+.ledger__pic--port { display: none; max-width: 440px; }
+@media (max-width: 600px) {
+  .ledger__pic--land { display: none; }
+  .ledger__pic--port { display: block; }
+}
+.ledger .lg__col, .ledger .lg__sep { stroke: var(--rule); stroke-width: 1; }
+.ledger .lg__num, .ledger .lg__date, .ledger .lg__band { font-family: var(--mono); font-size: 10px; fill: var(--muted); }
+.ledger .lg__band { letter-spacing: 0.08em; }
+.ledger .lg__t { stroke: var(--muted); stroke-width: 1.2; stroke-linecap: round; }
+.ledger .lg__t--open { stroke: var(--accent); stroke-width: 1.8; }
+.ledger .lg__t--parked { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 0 4; }
+.ledger .lg__dot { fill: var(--muted); }
+.ledger .lg__dot--open { fill: var(--accent); }
+.ledger .lg__end { stroke: var(--muted); stroke-width: 1.2; }
+.ledger figcaption {
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 70ch;
+  margin-top: var(--s-3);
+}
+
+.ledger__list { margin: var(--s-4) 0 0; font-family: var(--mono); font-size: var(--t-tag); color: var(--muted); }
+.ledger__list summary { cursor: pointer; color: var(--accent); width: fit-content; }
+.ledger__list summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.ledger__list ol { list-style: none; margin: var(--s-3) 0 0; padding: 0; max-width: 92ch; }
+.ledger__list li {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: 2px var(--s-3);
+  align-items: baseline;
+  padding-block: 6px;
+  border-top: 1px solid var(--rule);
+}
+.ledger__list li span { font-family: var(--body); font-size: var(--t-small); line-height: 1.5; color: var(--ink-soft); }
+@media (max-width: 600px) {
+  .ledger__list li { grid-template-columns: auto minmax(0, 1fr); }
+  .ledger__list li span { grid-column: 1 / -1; }
+}

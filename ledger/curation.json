@@ -1,0 +1,89 @@
+{
+  "_about": "Hand-kept input for scripts/export-ledger.py. Everything here that reaches the page is ruled in a copy review first (copy-review-006). 'ruled' holds the ruling, verbatim block and date; null means drafted, not ruled, and the export stops before it.",
+
+  "exclude": {
+    "_why": "The private project, and other sites' items: this is this site's ledger (copy-review-006 LG0).",
+    "headings": ["LANDER", "OTHER REPOS"],
+    "id_prefixes": ["L", "O"]
+  },
+  "fold": {
+    "_why": "Later handoffs merged these headings; the ledger follows them (LG0).",
+    "CONTACT": "COPY",
+    "GRAPH": "PROJECTS",
+    "PROJECTS / GRAPH": "PROJECTS"
+  },
+  "bands": ["PLAN", "COPY", "DESIGN", "PROJECTS", "A11Y", "INFRA", "DOMAIN"],
+
+  "dates": {
+    "004": {"date": "2026-09-16", "why": "Q-LG5 A: handoff-005 says 004 was dated a day ahead, and git first saw 004 on 2026-09-16."}
+  },
+  "split": {},
+  "reviewed_ids": {
+    "C-15": "same item: the résumé PDF (not exported, then exported with one copy left unchecked)",
+    "G-2": "same item: the graph demo's data (don't reuse the old bundle, then the data chosen)",
+    "INFRA-5": "same item: leftover files, first in this repo, then only in other repos",
+    "PL-7": "same item: the 'Work' menu item, ruled as a sub-menu under Projects",
+    "G-7": "two items, 005 and 019 on; the gap between them splits the thread, no entry needed in 'split'"
+  },
+  "parked": {
+    "PL-1": "a record of approved answers, not work",
+    "PL-8": "ruled: waits for the Phase 4 budget script",
+    "C-9": "his prose and his call",
+    "C-13": "a record of facts, not work",
+    "C-16": "a record of facts, not work",
+    "C-17": "his call; not to be raised again",
+    "C-19": "unresolved on purpose; no claim is made",
+    "C-20": "waits for the rebuild to end and for A-1",
+    "C-21": "his call; not to be raised again",
+    "C-22": "his call",
+    "P-6": "nothing queued, on purpose",
+    "G-6": "his call",
+    "A-1": "deferred by Thomas",
+    "A-3": "accepted for now; A-1 confirms it",
+    "INFRA-4": "his call",
+    "INFRA-10": "his to run: a LinkedIn tool (LGP, INFRA-10 dotted)",
+    "INFRA-6": "waits for a date",
+    "INFRA-9": "deliberate",
+    "INFRA-11": "his call",
+    "INFRA-14": "his call",
+    "INFRA-15": "his call",
+    "D-1": "harmless; when convenient",
+    "D-2": "a caution, not work",
+    "D-3": "his, on a date he set"
+  },
+
+  "copy": {
+    "ruled": "LG1 OK 2026-09-29",
+    "title": "The build ledger",
+    "desc_land": "Each column is one numbered handoff, the file that passes this site’s work from one session to the next, oldest on the left. Each line is an item a handoff left open, running from the handoff that opened it to the one that closed it, in bands by workstream. Lines still open run to the right edge; dotted ones are parked on purpose or waiting on me.",
+    "desc_port": "Each row is one numbered handoff, the file that passes this site’s work from one session to the next, oldest at the top. Each line is an item a handoff left open, running from the handoff that opened it to the one that closed it, in bands by workstream. Lines still open run to the bottom edge; dotted ones are parked on purpose or waiting on me.",
+    "caption_html": "The build ledger. Time runs in numbered handoffs: the files that pass this site’s work from one session to the next. Each line is an item a handoff left open, running until the session that closed it. Teal lines are still open; dotted ones are parked on purpose or waiting on me. A script draws it from the handoffs themselves, and leaves out items about my other sites. <a href=\"/method\">How I work</a> &middot; <a href=\"/work/this-site\">This site’s case study</a>",
+    "summary": "The ledger as a list, one line per handoff"
+  },
+
+  "handoffs": {
+    "001": {"ruled": "LG2 OK 2026-09-29", "line": "From a standing start to a live site on tc-ventures.ca."},
+    "002": {"ruled": "LG3 OK 2026-09-29", "line": "I read the copy that was already public and ruled on every block; all four pages were rewritten."},
+    "003": {"ruled": "LG4 OK 2026-09-29", "line": "A voice pass, a second résumé rebuild and the contact page. The rewrite before it was confirmed live, byte for byte."},
+    "004": {"ruled": "LG5 OK 2026-09-29", "line": "Copy fixes from my own corrections, a third résumé pass, a new home-page lede, and scouting data for a graph demo."},
+    "005": {"ruled": "LG6 OK 2026-09-29", "line": "I chose where the graph demo goes and that it is 3D; it was built and tested locally."},
+    "006": {"ruled": "LG7 OK 2026-09-29", "line": "I annotated the previous handoff and handed it back; every ruling in it was acted on the same day."},
+    "007": {"ruled": "LG8 OK 2026-09-29", "line": "The first real deploy: pushed to GitHub, built by Cloudflare, verified serving."},
+    "008": {"ruled": "LG9 OK 2026-09-29", "line": "A real favicon, and two new project write-ups: the Back Quarter and the Desk and the Drawer."},
+    "009": {"ruled": "LG10 OK 2026-09-29", "line": "The previous session’s work taken live and verified; two more project write-ups, and the four sites written up as four briefs."},
+    "010": {"ruled": "LG11 OK 2026-09-29", "line": "A short clean-up: small open items closed, and one correction on my personal site. Nothing here changed."},
+    "011": {"ruled": "LG12 OK 2026-09-29", "line": "Mostly other sites: a crawl audit of the rare-disease site, and two sites moved behind Cloudflare. Here, only the résumé changed."},
+    "012": {"ruled": "LG13 OK 2026-09-29", "line": "Cleared what could be closed without my input: markup fixes on the rare-disease site, and a keyboard path through the graph. Verified live."},
+    "013": {"ruled": "LG14 OK 2026-09-29", "line": "The plan to take this site from skeleton to showcase, written and approved."},
+    "014": {"ruled": "LG15 OK 2026-09-29", "line": "The design system and the case-study template, built on one page with placeholder copy."},
+    "015": {"ruled": "LG16 OK 2026-09-29", "line": "An audit and a phased plan. Phase 0 shipped: clean addresses, security headers, and the home page rewritten from my rulings."},
+    "016": {"ruled": "LG17 OK 2026-09-29", "line": "The receipts inventory ruled, the truth rules written, and the first case study live: the housing society’s site."},
+    "017": {"ruled": "LG18 OK 2026-09-29", "line": "This site’s own case study live, and a Projects sub-menu on every page."},
+    "018": {"ruled": "LG19 OK 2026-09-29", "line": "The method page live, with my own headline and lede."},
+    "019": {"ruled": "LG20 OK 2026-09-29", "line": "I moved the case studies ahead of this ledger. The influence graph’s case study live."},
+    "020": {"ruled": "LG21 OK 2026-09-29", "line": "The rare-disease site’s case study live, after a schema fix on that site and a second look at its host fault."},
+    "021": {"ruled": "LG22 OK 2026-09-29", "line": "Receipts for the last two case studies ruled; their copy drafted, then paused at my word for a decision about the Back Quarter."},
+    "022": {"ruled": "LG23 OK 2026-09-29", "line": "The Back Quarter copy ruled, then work on my personal site: the 3D world on computers only, and three layout fixes."},
+    "023": {"ruled": "LG24 OK 2026-09-29", "line": "The last two case studies live, after a re-trace against the code found the Desk’s description out of date. All six are done."}
+  }
+}
