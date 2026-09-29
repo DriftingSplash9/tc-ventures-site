@@ -322,3 +322,16 @@ Thomas, verbatim: **"LG1–LG24 ok, LGR ok, LGP ok, INFRA-10 dotted"**. Read as:
 - LGR OK: R5's first sentence is cut.
 - LGP OK, with INFRA-10 moved to dotted. That makes 7 solid and 24 dotted.
 - LG25 is procedure, not copy, and wasn't ruled. The next handoff's line comes here at wrap.
+
+**Shipped:** PR #15 (merge `de37b8f`), live and verified 2026-09-29. Curl of `/` and `style.css` is
+byte-identical to `main`, and `site_check.py --live` passed 105 of 105.
+
+---
+
+## LG25 — handoff-024's line (drafted 2026-09-29, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG25 | 024 · 2026-09-29 | This ledger: I ruled the proposal and every line on it, and a script draws it from the handoffs. | "**LG0, the proposal, ruled "LG0 ok, all A".**"; "**LG1–LG24, LGR and LGP ruled**, and shipped as PR #15." |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 023 until this is ruled.
