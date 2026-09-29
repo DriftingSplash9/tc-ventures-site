@@ -36,7 +36,8 @@ SECTIONS = ["ask", "standard", "wrong", "caught", "shipped", "receipts"]
 SUBMENU = ["/work/influence-graph", "/work/back-quarter", "/work/desk-and-drawer",
            "/work/bare-your-rare", "/work/gprs", "/work/this-site"]
 # A preview carries the sub-menu it will ship with; the live pages don't have it
-# yet. At the ship, SUBMENU becomes this list (and site_check.py's SUBMENU too).
+# yet. At the ship, scripts/ship_case_study.py makes SUBMENU this list (and
+# site_check.py's SUBMENU too).
 PLANNED_SUBMENU = ["/work/influence-graph", "/work/back-quarter", "/work/desk-and-drawer",
                    "/work/bare-your-rare", "/work/gprs", "/work/this-site"]
 CHROMIUM = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"

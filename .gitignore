@@ -1,0 +1,2 @@
+# Python writes these when one script imports another (scripts/ship_case_study.py imports patch.py).
+__pycache__/

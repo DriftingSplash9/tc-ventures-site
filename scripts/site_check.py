@@ -15,6 +15,8 @@ Pages come from public/sitemap.xml, plus /404. For each page:
     /work/ page
   - no noindex (except /404, which carries it on purpose) and no draft banner
   - no console errors, and no sideways scroll at 375px
+  - at 375px, a click on the sub-menu toggle opens it, and with it open the
+    page still doesn't scroll sideways (DESIGN-1, a known fault: see below)
 And once, on the home page: Tab reaches the sub-menu toggle, Enter opens it,
 Esc closes it and returns focus. Then the build ledger (copy-review-006):
   - the served ledger block is exactly what scripts/export-ledger.py would
@@ -25,6 +27,12 @@ Esc closes it and returns focus. Then the build ledger (copy-review-006):
 
 Exit code 1 if any check fails. Written 2026-09-26 (INFRA-13): the nav is
 copied into every page by hand, so this is what catches a page left behind.
+
+A known fault is a check that fails today for a reason logged in the handoff's
+open items. It isn't counted and doesn't fail the run: the summary names it,
+and -v prints each one as KNOWN. The day it passes, it fails the run until its
+mark comes off the check, so a fixed fault can't go on being excused. Now:
+DESIGN-1, the open sub-menu at 375px (added 2026-09-29).
 """
 import http.server, importlib.util, json, os, re, socketserver, sys, threading, urllib.request
 from functools import partial
@@ -102,8 +110,15 @@ def main():
         threading.Thread(target=srv.serve_forever, daemon=True).start()
         base = f"http://127.0.0.1:{srv.server_address[1]}"
 
-    results = []
-    def check(name, ok, detail=""):
+    results, known = [], []
+    def check(name, ok, detail="", fault=None):
+        if fault and not ok:
+            known.append(fault)
+            if "-v" in args:
+                print(f"KNOWN {name}  [{detail}] ({fault})", flush=True)
+            return
+        if fault:
+            ok, detail = False, f"passes now: take the {fault} mark off this check"
         results.append(ok)
         if not ok or "-v" in args:
             print(("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail else ""), flush=True)
@@ -139,6 +154,13 @@ def main():
             page = ctx.new_page(); page.goto(base + path, wait_until="networkidle")
             sw = page.evaluate("[document.documentElement.scrollWidth, document.documentElement.clientWidth]")
             check(f"{path}: no sideways scroll at 375px", sw[0] <= sw[1], f"{sw}")
+            page.locator(".navsub__toggle").click(); page.wait_for_timeout(400)
+            opened = page.locator(".navsub__toggle").get_attribute("aria-expanded") == "true"
+            check(f"{path}: a click opens the sub-menu at 375px", opened)
+            if opened:
+                sw = page.evaluate("[document.documentElement.scrollWidth, document.documentElement.clientWidth]")
+                check(f"{path}: no sideways scroll at 375px with the sub-menu open", sw[0] <= sw[1], f"{sw}",
+                      fault="DESIGN-1")
             ctx.close()
 
         ctx = browser.new_context(viewport={"width": 1280, "height": 900}); page = ctx.new_page()
@@ -184,7 +206,8 @@ def main():
         ctx.close(); browser.close()
     if srv:
         srv.shutdown()
-    print(f"{sum(results)} of {len(results)} checks passed")
+    faults = ", ".join(f"{known.count(f)} {f}" for f in sorted(set(known)))
+    print(f"{sum(results)} of {len(results)} checks passed" + (f"; known faults, not counted: {faults}" if known else ""))
     sys.exit(0 if all(results) else 1)
 
 
