@@ -17,7 +17,9 @@
     the pre-merge `index.html`.
   - `site_check.py --live` passed 105 of 105, including "served block matches export-ledger.py now".
 - **thomascheesman.ca:** nothing changed this session. The theme is at 1.0.761 (V0.45).
-- **Not live, on a branch:** this handoff, and LG25 (this handoff's ledger line, drafted for Thomas to rule).
+- **Later, 2026-09-29:** Thomas ruled LG25 ("LG25 ok"). Column 024 went live in #17 (merge `86cf340`). Curl of `/`
+  is byte-identical to `main`, with a control against the pre-merge page, and `site_check.py --live` passed 105 of
+  105. This handoff reached `main` in #16.
 
 **The next job is §6.**
 
@@ -36,7 +38,7 @@
 4. **`plans/receipts-001.md`**: the ruled inventory, 49 OK / 81 CUT. Only OK rows go in copy. Tick `chk`
    before quoting a row.
 5. **`reviews/copy-review-006.md`**: the build ledger's rulings.
-   - Everything is shipped except **LG25**, this handoff's ledger line, which is for Thomas to rule.
+   - Everything is ruled and shipped, LG25 included (column 024, live in #17).
    - Later handoffs' ledger lines go here too (LG26 and on).
    - Phase 3 copy opens `copy-review-007`.
 6. The shipped pages under `public/`. **`work/back-quarter.html` and `work/desk-and-drawer.html` are the
@@ -573,8 +575,9 @@ Every handoff has these, in this order, with these numbers:
 Before anything: remind Thomas once of **D-3**, if it's still open. He said he'll renew on 2026-10-07, and
 it's due 2026-10-08. Each step ends with his ruling before the next starts.
 
-1. **LG25, this handoff's ledger line** (copy-review-006). On his OK:
-   1. Set `ruled` for `024` in `ledger/curation.json`.
+1. **Done 2026-09-29: LG25 was ruled and is live (#17).** It's kept here as the recipe for LG26, the next
+   handoff's line:
+   1. Set `ruled` for that handoff in `ledger/curation.json`.
    2. Run `python scripts/export-ledger.py`, then `--check`, then `site_check.py`.
    3. Open a PR, and merge on his word.
    4. Curl `/` against `main`, and run `site_check.py --live`.
