@@ -170,6 +170,7 @@ header).
   push that followed created the branch at `main`'s commit. Redone from a file.
 - **A pre-merge `gh pr view` broke on PowerShell quoting, and the `gh pr merge` on the same line ran anyway.**
   Thomas had ruled it ("merge 15"). The state was read afterwards: merged.
+- **A Bash command started with `cd`** (INFRA-14a), for the push of this handoff. It did no harm.
 - **The proposal's first draft had three claims wrong against the survey output:**
   - which heights were compared;
   - how many handoffs share a date;
@@ -454,7 +455,7 @@ Each trap ends with its tally, **`x.y`** (§5).
 | # | Item | Notes |
 |---|---|---|
 | INFRA-13 | **The nav is copied into thirteen files** | **Checker done (2026-09-26):** `site_check.py` checks every page's sub-menu. **Still manual:** the edit. This session's `ship.py` (scratchpad only) did it as all-or-nothing exact-match edits: the sub-menu li on every page lacking it, sitemap, `.assetsignore`, banner and noindex off, `SUBMENU`. A `scripts/` version that takes the new page, its label and its position is the rule-5 step. Not built. **2026-09-29:** the scratchpad `patch.py` is its core: all-or-nothing exact-match edits that keep each file's line endings. |
-| INFRA-14 | **Two traps the mention doesn't prevent** | (a) **Bash `cd`** (trap dropped at `6.0` this handoff; still hit this session): a Claude Code `PreToolUse` hook that refuses a Bash command starting with `cd`. That changes Thomas's harness settings, so it is **his call; not built**. (b) **Full-page screenshots: done**, as `cs_check.py --shots`. |
+| INFRA-14 | **Two traps the mention doesn't prevent** | (a) **Bash `cd`** (trap dropped at `6.0` in handoff-023; hit again 2026-09-28 and 2026-09-29): a Claude Code `PreToolUse` hook that refuses a Bash command starting with `cd`. That changes Thomas's harness settings, so it is **his call; not built**. (b) **Full-page screenshots: done**, as `cs_check.py --shots`. |
 | INFRA-16 | **A verbatim-quote checker in `scripts/`** | A shared script that takes the quote and the file, and runs its own control, is the rule-5 step. Not built. 2026-09-28's quotes were checked by `sed` against the theme source. 2026-09-29's were checked by a scratchpad `quote_check.py` (51 fragments, with a control), which caught one quote that joined two bullets. |
 | INFRA-17 | **Theme-side test harnesses, in the scratchpad only (2026-09-27)** | (a) a page built from `front-page.php`'s Back Quarter markup + theme files, five Playwright cases; (b) an offline rebuild of a saved live page with DevTools' matched-rules list; (c) WebGL draw-call counting; (d) a live page with a rule injected by `add_init_script`. Worth a home in the theme repo (`tools/`?). **Mind the Hostinger trap:** (d) hits the live site. |
 | INFRA-15 | **Cloudflare blocks GPTBot and ClaudeBot on tc-ventures.ca** | Re-checked 2026-09-26: both get 403; Claude-User and ChatGPT-User get 200. It's a setting in Thomas's Cloudflare dashboard (AI bot blocking). **His call; not raised as a recommendation.** |
