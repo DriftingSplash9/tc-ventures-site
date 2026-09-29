@@ -335,3 +335,6 @@ byte-identical to `main`, and `site_check.py --live` passed 105 of 105.
 | LG25 | 024 · 2026-09-29 | This ledger: I ruled the proposal and every line on it, and a script draws it from the handoffs. | "**LG0, the proposal, ruled "LG0 ok, all A".**"; "**LG1–LG24, LGR and LGP ruled**, and shipped as PR #15." |
 
 It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 023 until this is ruled.
+
+**Ruled 2026-09-29.** Thomas, verbatim: **"LG25 ok"**. Recorded as `"LG25 OK 2026-09-29"`, and column 024
+is drawn.
