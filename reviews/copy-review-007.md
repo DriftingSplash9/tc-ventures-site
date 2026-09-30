@@ -422,6 +422,12 @@ They're listed here so the words themselves get a ruling.
 - **Looked at:** screenshots of the header at 1280, 760, 700 and 375, the panel open at 1280 and 375,
   Dark chosen on a light OS, More in light and dark next to Standard, Larger at 375 and 1280, and the
   panel in forced colours.
+### Rulings, step 3 (2026-09-29)
+
+Thomas, verbatim: **"dp1-3 ok, merge 21, then wrap"**. Read as:
+- DP1, DP2 and DP3 OK as written.
+- Ship #21. The preview screenshots were in front of him, so this is read as his look too.
+
 - **Found by control C, not fixed:**
   - If `display.js` failed to load while scripts run, the button would still show and do nothing. That's
     the same trade the Projects caret makes.
