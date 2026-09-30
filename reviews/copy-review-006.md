@@ -351,3 +351,18 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 
 **Ruled 2026-09-29.** Thomas, verbatim, in `handoff-025-decisions.xlsx` row 1 ("A: ok as written"): **"A"**.
 Recorded as `"LG26 OK 2026-09-29"`, and column 025 is drawn.
+
+---
+
+## LG27 — handoff-026's line (drafted 2026-09-30, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG27 | 026 · 2026-09-30 | A layout pass: the pages now reflow for readers who enlarge the text, and the www address works. I ruled each fix and set up the address myself. | "**"s4-1 A, s4-2 A"**"; "Every width breakpoint is now `em`."; "Thomas added the redirect rule and turned on Always Use HTTPS" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 025 until this is ruled.
+
+**Ruled 2026-09-30.** Thomas, verbatim: **"LG27 ok"**. Recorded as `"LG27 OK 2026-09-30"`, and column 026
+is drawn. In the same change, `parked` drops C-22 (ruled A, now work) and the seven items closed in
+handoff-026 (C-19, P-6, G-6, INFRA-10, INFRA-11, INFRA-14, INFRA-15), and adds INFRA-19 and INFRA-20
+(his call). A closed thread is drawn closed whether or not it is parked, so the seven change nothing drawn.
