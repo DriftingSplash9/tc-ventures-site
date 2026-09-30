@@ -315,4 +315,123 @@ What changes is underneath. It isn't copy, so there's nothing to rule here, only
   - **The data-theme route mapping one token wrong:** fails the dark-route check only.
   - **Light muted text at `#8A93A0`:** fails light contrast only (3.03 and 2.83).
 
+**Shipped:** #20, merged at Thomas's word ("merge 20"), merge `7242c7f`.
+- The build check-run completed with success.
+- Curl, cache-busted: `/assets/style.css`, `/` and `/404` are byte-identical to `main`. As a control,
+  the live CSS and `/404` differ from the pre-merge `135f6e8`.
+- `site_check.py --live` passed 133 of 133, plus 12 known DESIGN-1 faults.
+
+---
+
+## Step 3 — the Display panel, built (2026-09-29), for Thomas to look at and rule
+
+**To rule:** DP1 to DP3 (the panel's words), and a look at the preview screenshots. Nothing is live.
+
+### What it is
+
+- **The button:** "Display" at the end of the top bar on all 13 files, with the same caret as Projects.
+  - At 720px and under, it moves up to the name's line.
+  - At 700px the bar is then two lines, which is the same as a phone today. At 760px everything fits
+    on one line.
+  - Without scripts it doesn't show.
+- **The panel:** four rows of choices, each starting at System, and one line of note under them.
+  - It hangs under the bar at the right, and overlays the page without moving anything.
+  - Each row is a set of native radio buttons, drawn as a segmented bar. Arrow keys move along a row,
+    and Tab goes to the next.
+  - Esc closes it and puts focus back on the button, as the sub-menu does.
+- **`/assets/prefs.js`:** loaded without `defer` in each `<head>`. It puts the saved choices on `<html>`
+  before the page draws.
+  - Measured on `/method` with Dark saved: the mark was set 8.4ms in, and the first paint came at 44ms.
+  - The choices are stored under one key in this browser's `localStorage`. Nothing is sent.
+- **`/assets/display.js`:** builds the panel next to the button and writes the choices.
+- **The CSS:**
+  - **Motion:** a Reduced and an Off level.
+    - Moving things (the carets, the 404's drift) stop under Reduced.
+    - Fades (the buttons' colour changes) stop only under Off.
+    - Under System, the OS's "reduce motion" means Reduced (Q-P3-2 A). Today that setting stops the
+      button fades too, so readers who have it on will now see them fade.
+  - **Theme:** `color-scheme` now follows the theme, so scrollbars and form controls turn dark with
+    it. For a reader whose OS is dark, that's a visible change: the scrollbar is dark now.
+  - **Contrast More:** the colours short of 7:1 for text or 3:1 for rules, each mixed toward the ink
+    until it passes on both grounds, and 3px focus rings. In light: muted text `#5F6A79` → `#4A5360`,
+    the accent `#0F5F6B` → `#0F5B67`, rules `#E2E6EB` → `#878B91`. In dark: muted text `#939DAC` →
+    `#99A3B1`, rules `#222A34` → `#60666F`.
+  - **Text size:** Large 112.5% and Larger 125%, on top of the browser's own setting.
+  - In Windows high contrast (forced colours), the chosen option shows as a system-colour ring, since
+    the fill is painted over.
+- **The 3D graph** reads the site's motion setting: Reduced or Off solves its layout before the first
+  frame. The 404's drift follows the setting too.
+
+### The words (copy)
+
+**DP1 — the button.**
+> Display
+
+**DP2 — the rows and their choices.** These are as P3-0 §2 proposed, and it was ruled OK as a whole.
+They're listed here so the words themselves get a ruling.
+> **Motion:** System · Full · Reduced · Off
+> **Theme:** System · Light · Dark
+> **Contrast:** System · Standard · More
+> **Text size:** Standard · Large · Larger
+
+**DP3 — the note under the rows.**
+> Saved in this browser only.
+
+### Found while building it
+
+- **DESIGN-3 (new): text at 200% on a 375px screen scrolls sideways,** on every page, 426 to 566px wide.
+  - What runs off the edge: long unbroken strings (the email address, URLs such as
+    `github.com/DriftingSplash9/Reports-Clustering`, receipt links), the footer's lists and the spec
+    lists.
+  - Larger text (125%) doesn't do it at 375 or 1280, and neither does 200% at 1280.
+  - It has been reachable only since step 2, which let the browser's text size work at all. Before
+    that, text never grew.
+  - It's layout work, so it goes to step 4. `site_check.py` checks it as a known fault.
+
+### How it was checked
+
+- **`site_check.py` on this branch:** 169 of 169, plus 12 DESIGN-1 and 12 DESIGN-3 known faults.
+- **`shots_diff.py`, live `main` (`7242c7f`) against this branch with the button hidden:** 48 of 48
+  identical.
+  - So at default settings, at 1280 and 375, the button is the only visible change.
+  - Between 700 and 720px the bar does change: it becomes two lines (screenshot at 700).
+- **The new checks:**
+  - on every page: the button shows, and no sideways scroll with Larger text at 1280 and 375, or
+    200% text at 1280;
+  - the panel's keyboard path;
+  - a choice applies at once, carries to the next page, and is set before its first paint;
+  - the motion times at every level, chosen and under System;
+  - Off stops everything, while under Full the 404's drift runs;
+  - Contrast More by both routes, text at 7:1 and rules at 3:1;
+  - with JS off: no button, and the OS's dark mode still applies.
+- **Controls:** three copies, each carrying faults that touch different checks. Every fault was caught by
+  its check.
+  - **Copy A:**
+    - `prefs.js` delayed by 300ms: "before its first paint" fails (320.7ms against the paint).
+    - The standard grey as the More grey: More light fails (5.36 and 5.01).
+    - The button gone from `/contact`: that page's button check fails.
+    - The home H1 unbreakable under Larger: the Larger checks fail on `/` and on `/404`, which shares
+      the hero style.
+  - **Copy B:**
+    - The Reduced rule removed: the motion-times check fails.
+    - The button shown with scripting off: the JS-off check fails.
+  - **Copy C:**
+    - The Off rule removed: the times check and "Off: nothing animating" both fail.
+    - `display.js` not loaded on the home page: the panel's keyboard checks and "a choice applies"
+      fail.
+- **Looked at:** screenshots of the header at 1280, 760, 700 and 375, the panel open at 1280 and 375,
+  Dark chosen on a light OS, More in light and dark next to Standard, Larger at 375 and 1280, and the
+  panel in forced colours.
+### Rulings, step 3 (2026-09-29)
+
+Thomas, verbatim: **"dp1-3 ok, merge 21, then wrap"**. Read as:
+- DP1, DP2 and DP3 OK as written.
+- Ship #21. The preview screenshots were in front of him, so this is read as his look too.
+
+- **Found by control C, not fixed:**
+  - If `display.js` failed to load while scripts run, the button would still show and do nothing. That's
+    the same trade the Projects caret makes.
+  - Showing the button only after `display.js` runs could shift the bar on every page load, which is
+    worse.
+
 ---
