@@ -1569,6 +1569,9 @@ kbd {
 .ledger .lg__dot--open { fill: var(--accent); }
 .ledger .lg__end { stroke: var(--muted); stroke-width: 1.2; }
 .ledger .lg__col--on { stroke: var(--accent); }
+/* On the scrubber, a thread that closed after the chosen handoff was open then (ledger.js). */
+.ledger .lg__t.lg__then-open { stroke: var(--accent); stroke-width: 1.8; }
+.ledger .lg__dot.lg__then-open { fill: var(--accent); }
 .ledger figcaption {
   font-family: var(--mono);
   font-size: var(--t-tag);

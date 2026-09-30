@@ -7,8 +7,9 @@
 
    Moving the slider to a handoff clips both pictures' threads at that
    handoff's column, marks the column, and shows its line: the ledger as it
-   stood then. The slider starts at the newest handoff, which is the whole
-   ledger.
+   stood then. A thread that closed later is drawn open (teal) there, as it
+   was that day (Q-S5-1 B); the export writes each closed thread's column as
+   data-e. The slider starts at the newest handoff, which is the whole ledger.
 
    The draw-in (M2): under Motion Full, the first time the ledger scrolls into
    view, the same slider runs from 001 to the newest, in about three seconds.
@@ -29,6 +30,9 @@
     var land = svg.classList.contains('ledger__pic--land');
     var vb = svg.viewBox.baseVal;
     var cols = Array.prototype.slice.call(svg.querySelectorAll('.lg__col'));
+    var closed = Array.prototype.map.call(svg.querySelectorAll('[data-e]'), function (el) {
+      return { el: el, e: +el.getAttribute('data-e') };
+    });
     var at = cols.map(function (c) { return +c.getAttribute(land ? 'x1' : 'y1'); });
     var clip = document.createElementNS(NS, 'clipPath');
     clip.id = 'lg-clip-' + k;
@@ -38,7 +42,7 @@
     clip.appendChild(rect);
     svg.insertBefore(clip, svg.firstChild);
     svg.querySelector('.lg__threads').setAttribute('clip-path', 'url(#' + clip.id + ')');
-    return { land: land, vb: vb, cols: cols, at: at, rect: rect };
+    return { land: land, vb: vb, cols: cols, at: at, rect: rect, closed: closed };
   });
 
   /* Show the ledger as it stood at handoff v (1 to n); a fraction draws part of
@@ -55,6 +59,7 @@
       }
       p.rect.setAttribute(p.land ? 'width' : 'height', reach);
       p.cols.forEach(function (c, i) { c.classList.toggle('lg__col--on', i === j); });
+      p.closed.forEach(function (c) { c.el.classList.toggle('lg__then-open', c.e > j); });
     });
     if (j + 1 !== shown) {
       shown = j + 1;

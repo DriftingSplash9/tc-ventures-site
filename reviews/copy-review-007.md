@@ -635,4 +635,23 @@ A is in the draft. Its spoken value, which is not new copy (the ruled line of ea
   - the slider at 1280 light and 375 dark, at rest, mid draw-in and at 017;
   - a GIF of each motion, at `Claude outputs/step5-shots/`.
 
+### Rulings, step 5 (2026-09-30)
+
+Thomas, verbatim: **"ls1 A, q-s5-1 B"**. Read as:
+- LS1 A: the label is "Step through the handoffs". Recorded in `ledger/curation.json` as
+  `"LS1 A 2026-09-30"`, so the export now writes the slider.
+- Q-S5-1 B: at an earlier handoff, threads are coloured as they stood then.
+
+### Q-S5-1 B, built (2026-09-30)
+
+- **The export** writes each closed thread's closing column on its line and its start dot (`data-e`): 52
+  closed threads, 208 marks over the two pictures.
+- **`ledger.js`** draws a closed thread open (teal) at any handoff before the one that closed it. At the
+  newest handoff nothing changes.
+- **`site_check.py`, one more check:** at 017, every thread that closed later is teal (17), and none of
+  those closed by then is (35).
+  - Control C, with the recolouring removed: it fails that check only (17 of 17 not teal).
+- **`site_check.py` on this repo's `public/`, LS1 ruled:** 199 of 199.
+- **Looked at:** 017 at 1280 light and 375 dark.
+
 ---

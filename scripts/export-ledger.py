@@ -207,8 +207,11 @@ def thread_marks(t, a1, a2, fixed1, fixed2, horizontal):
     (x1, y1), (x2, y2) = pt(a1, fixed1), pt(a2, fixed2)
     cls = {"closed": "lg__t", "open": "lg__t lg__t--open", "parked": "lg__t lg__t--parked"}[t["state"]]
     dot = {"closed": "lg__dot", "open": "lg__dot lg__dot--open", "parked": "lg__dot lg__dot--open"}[t["state"]]
-    s = [f'<line class="{cls}" x1="{f(x1)}" y1="{f(y1)}" x2="{f(x2)}" y2="{f(y2)}"/>',
-         f'<circle class="{dot}" cx="{f(x1)}" cy="{f(y1)}" r="1.8"/>']
+    # A closed thread carries the column it closed at, so assets/ledger.js can draw
+    # it open (teal) at any earlier handoff on the scrubber (Q-S5-1 B).
+    e = f' data-e="{t["e"]}"' if t["state"] == "closed" else ""
+    s = [f'<line class="{cls}"{e} x1="{f(x1)}" y1="{f(y1)}" x2="{f(x2)}" y2="{f(y2)}"/>',
+         f'<circle class="{dot}"{e} cx="{f(x1)}" cy="{f(y1)}" r="1.8"/>']
     if t["state"] == "closed":
         if horizontal:
             s.append(f'<line class="lg__end" x1="{f(x2)}" y1="{f(y2 - 2.5)}" x2="{f(x2)}" y2="{f(y2 + 2.5)}"/>')

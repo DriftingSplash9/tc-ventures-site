@@ -64,7 +64,8 @@ And the motion (copy-review-007, Phase 3 step 5):
     paint, and run to the newest once the ledger is in view; under Reduced,
     Off and the OS's "reduce motion" the ledger is whole from the start
   - the scrubber: the arrow keys move it, and the column, the clip, the line
-    and the slider's spoken value follow; its box keeps one height at every
+    and the slider's spoken value follow; at that earlier handoff a thread
+    that closed later is drawn open, and one closed by then is not; its box keeps one height at every
     handoff, so nothing below it moves; with JavaScript off it doesn't show.
     It is written only once its label is ruled, so until then these fail.
 
@@ -520,7 +521,16 @@ def main():
                         shown: [...document.querySelectorAll('.ledger__at')].filter(p => getComputedStyle(p).visibility === 'visible')
                                .map(p => p.querySelector('span').textContent),
                         line: document.querySelectorAll('.ledger__list li span')[v - 1].textContent,
-                        said: i.getAttribute('aria-valuetext') || ''}; }""")
+                        said: i.getAttribute('aria-valuetext') || '',
+                        then: (() => { const els = [...document.querySelectorAll('.ledger__pic--land line[data-e]')];
+                          const teal = getComputedStyle(document.querySelector('.ledger__pic--land .lg__t--open')).stroke;
+                          const later = els.filter(e => +e.dataset.e > v - 1), done = els.filter(e => +e.dataset.e <= v - 1);
+                          return [later.length, later.filter(e => getComputedStyle(e).stroke !== teal).length,
+                                  done.length, done.filter(e => getComputedStyle(e).stroke === teal).length]; })()}; }""")
+            then = st.pop("then")
+            check("scrubber: at an earlier handoff, threads that closed later are drawn open, those closed by then are not",
+                  then[0] > 0 and then[2] > 0 and then[1] == 0 and then[3] == 0,
+                  f"closed later: {then[0]}, not teal {then[1]}; closed by then: {then[2]}, teal {then[3]}")
             ok = st["v"] == n - 9 and st["on"] == st["v"] and abs(st["w"] - st["colx"] - 4) < 0.01 \
                 and st["shown"] == [st["line"]] and st["said"].startswith(f"handoff-{st['v']:03d}, ") and st["said"].endswith(st["line"])
             check("scrubber: arrow keys move it; column, clip, line and spoken value follow", ok, str(st)[:300])
@@ -530,6 +540,8 @@ def main():
             check("scrubber: arrow keys move it; column, clip, line and spoken value follow", False,
                   "no scrubber: is its label ruled (curation copy.scrub)?")
             check("scrubber: one height at every handoff, so nothing below it moves", False, "no scrubber")
+            check("scrubber: at an earlier handoff, threads that closed later are drawn open, those closed by then are not",
+                  False, "no scrubber")
         ctx.close()
 
         ctx = browser.new_context(java_script_enabled=False, color_scheme="dark", viewport={"width": 1280, "height": 900})
