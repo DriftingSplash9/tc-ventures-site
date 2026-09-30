@@ -16,9 +16,10 @@
     differs from the pre-merge `421c009`.
   - `site_check.py --live` passed 193 of 193, **with no known faults left.**
 - **#23** (ledger column 025 and the hook) was checked live the same way when it merged (§2).
-- **thomascheesman.ca:** nothing changed from this session. The theme's `main` is at 1.0.761 (V0.45). A
-  separate session was started on 2026-09-30 for the theme items Thomas ruled (§4 OTHER REPOS); its result
-  was not read here.
+- **thomascheesman.ca:** nothing changed from this session. A separate theme session did the items Thomas
+  ruled (C-9, O-24a, b, d, INFRA-17): the theme's `main` is at `8116d50`, "V0.46: handoff-025 theme
+  rulings (1.0.762) and tools/ harnesses". Read here: its commit log and its diary row only, not V0.46,
+  the code or the live site.
 - **LG27,** this handoff's ledger line, is drafted in copy-review-006 with `"ruled": null`. The live ledger
   stops at 025 until it's ruled.
 
@@ -49,7 +50,7 @@
    - The checkers: `site_check.py`, `cs_check.py`, `byr_bot_check.py`, `shots_diff.py`, `quote_check.py`.
    - The writers: `export-ledger.py` (plus `ledger/curation.json`), `patch.py`, `ship_case_study.py`.
 9. **If the job touches thomascheesman.ca:** the theme repo's `CLAUDE.md` and its newest `V0.*.md`
-   (**V0.45**, or newer if the 2026-09-30 theme session wrote one), and `docs/IMAGE-BURST-PLAN.md`.
+   (**V0.46**), and `docs/IMAGE-BURST-PLAN.md`.
 10. `claude/thomas-study.md` and `claude/tc-ventures-site-decisions.md` in the Claude project "TC 'Ventures"
     (not on disk, not read this session).
 11. `README.md`.
@@ -153,8 +154,9 @@ assets, deploy-on-push from GitHub. Deliberately separate from thomascheesman.ca
 - **O-19 (B):** no "Technical Issue" or "critical error" email in Thomas's personal Gmail in the 14 days
   to 2026-09-30, in any folder including spam and trash. The GPRS site's WordPress admin email may be
   another inbox.
-- **Handed to separate sessions** (Thomas started both, 2026-09-30; their results were not read here):
-  the theme items (C-9, O-24a, b, d, INFRA-17) and the research-repo item (O-15). The INFRA-17 harnesses
+- **Handed to separate sessions** (Thomas started both, 2026-09-30): the theme items (C-9, O-24a, b, d,
+  INFRA-17), done there as 1.0.762 and V0.46, and the research-repo item (O-15), whose result wasn't read
+  here. The INFRA-17 harnesses
   were copied out of the Windows Temp scratchpad first, to `Claude outputs/infra-17-harnesses/`.
 
 **How it was checked (the full record is in copy-review-007 and the PR bodies):**
@@ -528,7 +530,7 @@ Each trap ends with its tally, **`x.y`** (§5).
 | C-13 | GPRS site history | WordPress.com 2023; self-hosted WordPress.org on Hostinger 2025 "because I wanted more freedom to experiment with the code." Used in `/work/gprs`. No month-level dates without asking. |
 | C-17 | R4 wording, his call | Live: "…then build it with help writing by AI." **Do not raise it again or change it unasked.** |
 | C-21 | **`/method` H1, lede and title: his call (2026-09-25)** | Same standing as C-17. The H1 stands alone (Q-M5). |
-| C-9 | `page-thomas.php` ~2010: "I couldn't get past my kitchen manager" | **Ruled B, his words (2026-09-30): "I COULDN'T GET AROUND THE HEAD CHEF"**, read as sentence case: "I couldn't get around the head chef". Theme copy, handed to the 2026-09-30 theme session; not confirmed live. |
+| C-9 | `page-thomas.php` ~2010: "I couldn't get past my kitchen manager" | **Ruled B, his words (2026-09-30): "I COULDN'T GET AROUND THE HEAD CHEF"**, read as sentence case. Done by the theme session in 1.0.762 ("get around the head chef", before/after OK'd by Thomas, per its diary row). Live state not checked from here; the theme's V0.46 owns it. |
 
 ### DESIGN
 | # | Item | Notes |
@@ -552,7 +554,7 @@ Each trap ends with its tally, **`x.y`** (§5).
 | INFRA-18 | **A script that waits for the merge commit's deploy** | The trap "Cloudflare's build start has ranged from about 1 to 10 minutes" reached `x = 10` still earning its place (§5: it belongs in code). This session's waits were an ad hoc loop on the check-runs API. A `scripts/` tool that polls the merge commit's "Workers Builds" check-run, then curls the named paths against `main` with a pre-merge control, would replace both. Not built. |
 | INFRA-19 | **A hook that refuses a heredoc in a Bash command?** | The heredoc trap was hit three times this session despite its mention (`4.3`), the same pattern that led to the `cd` hook. A hook changes his harness settings, so it's **his call; not built.** |
 | INFRA-20 | **The truth rules are in two places** | Thomas's global `CLAUDE.md` says it's "the only copy", moved there 2026-09-29 from the per-project files; this repo's `CLAUDE.md` still holds all twenty (read 2026-09-30). One copy of each fact (rule 17). Which to keep is **his call**; nothing was changed. |
-| INFRA-17 | **Theme-side test harnesses** | **Ruled A (2026-09-30): the offline ones go in the theme repo's `tools/`; leave out the one that loads the live site.** Copies saved at `Claude outputs/infra-17-harnesses/` (untracked): `bq_test.py`, `bq_test2.py`, `wash_test.py`, and `drawer_inject.py`, which loads the live site and stays out. The "offline rebuild with matched rules" harness was not among the saved files. Handed to the 2026-09-30 theme session; not confirmed. |
+| INFRA-17 | **Theme-side test harnesses** | **Ruled A (2026-09-30): the offline ones go in the theme repo's `tools/`; leave out the one that loads the live site.** Copies saved at `Claude outputs/infra-17-harnesses/` (untracked): `bq_test.py`, `bq_test2.py`, `wash_test.py`, and `drawer_inject.py`, which loads the live site and stays out. The "offline rebuild with matched rules" harness was not among the saved files. **Done by the theme session:** commit `51d2cbc` "tools/: the offline Back Quarter and wash harnesses (INFRA-17)" on the theme's `main`. The saved copies in `Claude outputs/infra-17-harnesses/` can go once Thomas is happy with that. |
 | INFRA-4 | Permanent email undecided | `thomas@tc-ventures.ca` works; he wants a non-general address. No ruling 2026-09-30. |
 | INFRA-6 | Dead lander CSS in `style.css` (search `lander embed`) | Delete if still unused by mid-October 2026. |
 | INFRA-9 | HSTS 1 yr, no `includeSubDomains`, no `preload` | Deliberate; both are hard to undo. Always Use HTTPS is on since 2026-09-30, so first visits over `http` are redirected too. |
@@ -568,7 +570,7 @@ Each trap ends with its tally, **`x.y`** (§5).
 | # | Item | Notes |
 |---|---|---|
 | O-25 | **The home page slides sideways on phones (only the home page)** | 1.0.758 is deployed (1.0.759 too); the drawer fix holds on other pages. The home-only slide isn't found yet; the lead is content that scripts draw. Owned by the theme's newest `V0.*.md` Open (V0.45). |
-| O-24 | **thomascheesman.ca phone header, and the no-JS lede** | **Ruled 2026-09-30:** (a) the fixed header capsule covers the start of the "THOMAS CHEESMAN" name line on phones: **A, fix**. (b) Without JS, `.bq-lede__name` and `.bq-lede__deck` stay at opacity 0 (`.kinetic-fade`): **A, fix**. (d) The phone line says "On a phone" but tablets see it too: **A, reword to cover tablets**, his words. (c) The "wonky" menu: he'll screenshot it if he sees it again. (a), (b) and (d) were handed to the 2026-09-30 theme session; not confirmed. |
+| O-24 | **thomascheesman.ca phone header, and the no-JS lede** | **Ruled 2026-09-30:** (a) the fixed header capsule covers the start of the "THOMAS CHEESMAN" name line on phones: **A, fix**. (b) Without JS, `.bq-lede__name` and `.bq-lede__deck` stay at opacity 0 (`.kinetic-fade`): **A, fix**. (d) The phone line says "On a phone" but tablets see it too: **A, reword to cover tablets**, his words. (c) The "wonky" menu: he'll screenshot it if he sees it again. (a), (b) and (d) were done by the theme session in 1.0.762 (per its commit log and diary row; the V0.46 file, the code and the live site weren't read here). The theme's V0.46 owns them now. |
 | O-21 | **Theme repo: family material in its files, history and commit diffs** | **Ruled A (2026-09-30): leave it while private; clean it before it could ever go public.** Private since 2026-09-26. The details went to him in the chat on 2026-09-26, not here, because this repo is public. |
 | O-17 | **BYR `.htaccess`: Thomas's `E=verifycaptcha:off` block had no effect** | **Ruled A (2026-09-30): remove it if it's there.** `.htaccess` isn't in the BYR repo, so Thomas checks the live file in hPanel's File Manager. |
 | O-19 | **GPRS: WordPress "critical error" on uncached pages, 2026-09-26** | Re-tested 2026-09-27: 200 cached and uncached. **Ruled B (2026-09-30): search for the "Technical Issue" email.** Not in Thomas's personal Gmail (§2). Which inbox is GPRS's WordPress admin email is Thomas's to say. GPRS's own handoff owns any fix (O-12). |
@@ -582,7 +584,7 @@ Each trap ends with its tally, **`x.y`** (§5).
 | O-5 | `bareyr\.git` lock-file junk | Cosmetic; Thomas deletes. |
 | O-6 | Rocket Lander repo not public | On hold with the lander. |
 | O-7 | Children's names in the Back Quarter world | **Thomas ruled: leave them.** They stay off this site regardless. |
-| O-8 | thomascheesman.ca's open items live in its newest `V0.*.md` (**V0.45**) | Theme at 1.0.761. `three-r128.min.js` idle-loads for every visitor: ruled keep on phones (2026-09-27), now 1x/~20 fps there. |
+| O-8 | thomascheesman.ca's open items live in its newest `V0.*.md` (**V0.46**) | Theme at 1.0.762 on `main` (2026-09-30). `three-r128.min.js` idle-loads for every visitor: ruled keep on phones (2026-09-27), now 1x/~20 fps there. |
 | O-10 | bareyourrare.org and thomascheesman.ca behind Cloudflare since 2026-09-20 | thomascheesman.ca has three cache layers. Full detail in handoff-014 §4. BYR's domain is on Cloudflare DNS: **don't click "Connect domain"** in hPanel. |
 | O-11 | bareyourrare.org crawl audit, mostly deployed | `Claude outputs/byr-crawl-audit.md`. Still open: (g) page weight. |
 | O-12 | GPRS work has its own handoff | `GPRS Organization/00 Working Notes/gprs-handoff-001.md`. |
