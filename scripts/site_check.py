@@ -21,11 +21,14 @@ Pages come from public/sitemap.xml, plus /404. For each page:
     left out: it is never seen, and the one in the sub-menu button takes the
     browser's fixed button size.
   - the Display button shows
-  - no sideways scroll with Larger text at 1280 and 375px, or with the
-    browser's text at 200% at 1280; at 375px with text at 200%, a known fault
-    (DESIGN-3: long addresses, receipts and the footer run off the edge)
+  - no sideways scroll with Larger text at 1280 and 375px
+  - no sideways scroll with the browser's text at 200%, at 375, 480, 760 and
+    1280px, with the sub-menu shut and open (DESIGN-3 and DESIGN-4, fixed in
+    Phase 3 step 4). The size is set as the browser's own text-size setting
+    sets it (CDP Page.setFontSizes), so em breakpoints respond as they would
+    for a reader; a :root font-size override doesn't reach media queries.
   - at 375px, a click on the sub-menu toggle opens it, and with it open the
-    page still doesn't scroll sideways (DESIGN-1, a known fault: see below)
+    page still doesn't scroll sideways (DESIGN-1, fixed in Phase 3 step 4)
 And once, on the home page: Tab reaches the sub-menu toggle, Enter opens it,
 Esc closes it and returns focus. Then the build ledger (copy-review-006):
   - the served ledger block is exactly what scripts/export-ledger.py would
@@ -59,8 +62,8 @@ A known fault is a check that fails today for a reason logged in the handoff's
 open items. It isn't counted and doesn't fail the run: the summary names it,
 and -v prints each one as KNOWN. The day it passes, it fails the run until its
 mark comes off the check, so a fixed fault can't go on being excused. Now:
-DESIGN-1, the open sub-menu at 375px (added 2026-09-29); DESIGN-3, text at 200%
-on a 375px screen (added 2026-09-29, Phase 3 step 3).
+none. DESIGN-1 and DESIGN-3 were marked from 2026-09-29 until Phase 3 step 4
+fixed them (2026-09-30).
 """
 import http.server, importlib.util, json, os, re, socketserver, sys, threading, urllib.request
 from functools import partial
@@ -79,6 +82,8 @@ SUBMENU = [
     ("/work/this-site", "This site"),
 ]
 CHROMIUM = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+# Screen widths checked with the browser's text at 200% (DESIGN-3 at 375, DESIGN-4 at 480 and 760)
+BIG_TEXT_WIDTHS = (375, 480, 760, 1280)
 
 
 class CleanURLHandler(http.server.SimpleHTTPRequestHandler):
@@ -204,7 +209,7 @@ def main():
             check(f"{path}: text grows with the browser's text size", bool(small) and len(small) == len(big) and not stuck,
                   f"{len(small)} text elements" + (f"; stay put: {', '.join(stuck)[:160]}" if stuck else ""))
             widths = "[document.documentElement.scrollWidth, document.documentElement.clientWidth]"
-            wide = {"1280 at 200%": page.evaluate(widths)}
+            wide = {}
             doubled.evaluate("e => e.remove()")
             page.evaluate("document.documentElement.setAttribute('data-text', 'larger')")
             wide["1280 Larger"] = page.evaluate(widths)
@@ -218,21 +223,30 @@ def main():
             check(f"{path}: a click opens the sub-menu at 375px", opened)
             if opened:
                 sw = page.evaluate("[document.documentElement.scrollWidth, document.documentElement.clientWidth]")
-                check(f"{path}: no sideways scroll at 375px with the sub-menu open", sw[0] <= sw[1], f"{sw}",
-                      fault="DESIGN-1")
+                check(f"{path}: no sideways scroll at 375px with the sub-menu open", sw[0] <= sw[1], f"{sw}")
                 page.keyboard.press("Escape"); page.wait_for_timeout(300)
             page.evaluate("document.documentElement.setAttribute('data-text', 'larger')")
             wide["375 Larger"] = page.evaluate(widths)
-            page.evaluate("document.documentElement.removeAttribute('data-text')")
-            page.add_style_tag(content=":root { font-size: 32px !important; }")
-            wide["375 at 200%"] = page.evaluate(widths)
             ctx.close()
-            narrow = wide.pop("375 at 200%")
             over = [f"{k}: {v[0]} wide at {v[1]}" for k, v in wide.items() if v[0] > v[1]]
-            check(f"{path}: no sideways scroll with Larger text at 1280 and 375, or text at 200% at 1280", not over,
+            check(f"{path}: no sideways scroll with Larger text at 1280 and 375", not over,
                   "; ".join(over) or f"{len(wide)} cases")
-            check(f"{path}: no sideways scroll at 375px with text at 200%", narrow[0] <= narrow[1],
-                  f"{narrow[0]} wide at {narrow[1]}", fault="DESIGN-3")
+            # The browser's own text size at 200%, set as the browser sets it, so em
+            # breakpoints see it too (a :root override would not reach a media query).
+            big = {}
+            for w in BIG_TEXT_WIDTHS:
+                ctx = browser.new_context(viewport={"width": w, "height": 800}); page = ctx.new_page()
+                cdp = ctx.new_cdp_session(page); cdp.send("Page.enable")
+                cdp.send("Page.setFontSizes", {"fontSizes": {"standard": 32, "fixed": 26}})
+                page.goto(base + path, wait_until="networkidle")
+                big[f"{w}"] = page.evaluate(widths)
+                page.locator(".navsub__toggle").click(); page.wait_for_timeout(400)
+                big[f"{w} menu open"] = page.evaluate(widths)
+                ctx.close()
+            over = [f"{k}: {v[0]} wide at {v[1]}" for k, v in big.items() if v[0] > v[1]]
+            check(f"{path}: no sideways scroll with the browser's text at 200%, at "
+                  + ", ".join(map(str, BIG_TEXT_WIDTHS)) + "px, sub-menu shut and open", not over,
+                  "; ".join(over) or f"{len(big)} cases")
 
         ctx = browser.new_context(viewport={"width": 1280, "height": 900}); page = ctx.new_page()
         page.goto(base + "/", wait_until="networkidle")
