@@ -54,6 +54,19 @@ And the Display panel (copy-review-007, Phase 3):
   - contrast More, light and dark: the choice and the OS's "more contrast" give
     the same colours, Standard undoes it, and text reaches 7:1, rules 3:1
   - with JavaScript off: no button, and the OS's dark mode still applies
+And the motion (copy-review-007, Phase 3 step 5):
+  - M1, page to page, from /projects to /work/gprs by its sub-menu label, read
+    from the new page's own view transition: under Full the label and the H1
+    share one moving group (0.5 s), the bar's parts slide (0.35 s) and the rest
+    cross-fades (0.25 s); under Reduced, chosen or the OS's, the cross-fade
+    only, with nothing moving; under Off, no transition
+  - M2, the draw-in: under Full the threads are clipped to 001 before the first
+    paint, and run to the newest once the ledger is in view; under Reduced,
+    Off and the OS's "reduce motion" the ledger is whole from the start
+  - the scrubber: the arrow keys move it, and the column, the clip, the line
+    and the slider's spoken value follow; its box keeps one height at every
+    handoff, so nothing below it moves; with JavaScript off it doesn't show.
+    It is written only once its label is ruled, so until then these fail.
 
 Exit code 1 if any check fails. Written 2026-09-26 (INFRA-13): the nav is
 copied into every page by hand, so this is what catches a page left behind.
@@ -409,8 +422,121 @@ def main():
             else:
                 check(f"contrast More ({scheme}): text 7:1 or more, rules 3:1 or more", False, f"tokens not #RRGGBB: {t}")
 
+        # ---- the motion (copy-review-007, Phase 3 step 5) ----
+        vt_log = """addEventListener('pagereveal', e => {
+            const put = v => sessionStorage.setItem('vt', JSON.stringify(v));
+            if (!e.viewTransition) { put('none'); return; }
+            e.viewTransition.ready.then(() => put(Object.fromEntries(document.getAnimations()
+                .filter(a => a.effect && a.effect.pseudoElement)
+                .map(a => [a.effect.pseudoElement, a.effect.getComputedTiming().duration]))), () => put('skipped'));
+          });"""
+        m1_want = {
+            "full": {"::view-transition-group(cs-title)": 500, "::view-transition-new(cs-title)": 500,
+                     "::view-transition-old(cs-title)": 500, "::view-transition-group(tb-name)": 350,
+                     "::view-transition-old(root)": 250, "::view-transition-new(root)": 250},
+            "reduced": {"::view-transition-group(cs-title)": None, "::view-transition-group(tb-name)": 0,
+                        "::view-transition-old(root)": 250, "::view-transition-new(root)": 250},
+        }
+        bad = []
+        for level, os_reduce in ((None, False), ("full", True), (None, True), ("reduced", False), ("off", False)):
+            ctx = browser.new_context(viewport={"width": 1280, "height": 900},
+                                      reduced_motion="reduce" if os_reduce else "no-preference")
+            ctx.add_init_script(vt_log)
+            if level:
+                ctx.add_init_script(f"localStorage.setItem('tcv-display', JSON.stringify({{motion: '{level}'}}))")
+            page = ctx.new_page(); page.goto(base + "/projects", wait_until="networkidle")
+            page.locator(".navsub__toggle").click(); page.wait_for_timeout(400)
+            page.locator("#navsub-work a[href='/work/gprs']").click()
+            page.wait_for_url("**/work/gprs"); page.wait_for_timeout(1000)
+            got = page.evaluate("JSON.parse(sessionStorage.getItem('vt') || 'null')")
+            eff = level or ("reduced" if os_reduce else "full")
+            name = f"{level or 'System'}{', OS reduce' if os_reduce else ''}"
+            if eff == "off":
+                if got not in ("none", "skipped"):
+                    bad.append(f"{name}: a transition ran {got}")
+            elif not isinstance(got, dict):
+                bad.append(f"{name}: no transition ({got})")
+            else:
+                miss = [f"{k} {got.get(k)} not {v}" for k, v in m1_want[eff].items() if got.get(k) != v]
+                if miss:
+                    bad.append(f"{name}: " + ", ".join(miss))
+            ctx.close()
+        check("motion M1: /projects to /work/gprs by its label, at each level, chosen and under System", not bad,
+              "; ".join(bad) or "5 cases")
+
+        scrub = """() => { const i = document.getElementById('ledger-scrub'); if (!i) return null;
+            const r = document.querySelector('#lg-clip-0 rect');
+            return {v: +i.value, max: +i.max, w: r ? +r.getAttribute('width') : null,
+                    at: window.__clipAt === undefined ? null : window.__clipAt,
+                    paint: (performance.getEntriesByName('first-paint')[0] || {}).startTime || null}; }"""
+        clip_at = """new MutationObserver(() => {
+            const g = document.querySelector('.lg__threads');
+            if (window.__clipAt === undefined && g && g.hasAttribute('clip-path')) window.__clipAt = performance.now();
+          }).observe(document, {attributes: true, childList: true, subtree: true});"""
+        bad = []
+        for level, os_reduce in ((None, False), ("full", False), (None, True), ("reduced", False), ("off", False)):
+            ctx = browser.new_context(viewport={"width": 1280, "height": 900},
+                                      reduced_motion="reduce" if os_reduce else "no-preference")
+            ctx.add_init_script(clip_at)
+            if level:
+                ctx.add_init_script(f"localStorage.setItem('tcv-display', JSON.stringify({{motion: '{level}'}}))")
+            page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+            s0 = page.evaluate(scrub)
+            name = f"{level or 'System'}{', OS reduce' if os_reduce else ''}"
+            if s0 is None:
+                bad.append(f"{name}: no scrubber"); ctx.close(); continue
+            page.locator(".ledger").scroll_into_view_if_needed()
+            page.wait_for_timeout(4500)
+            s1 = page.evaluate(scrub)
+            if (level or ("reduced" if os_reduce else "full")) == "full":
+                ok = s0["v"] == 1 and s0["w"] < 150 and s0["at"] is not None and s0["paint"] is not None \
+                    and s0["at"] < s0["paint"] and s1["v"] == s1["max"] and s1["w"] == 944
+            else:
+                ok = s0["v"] == s0["max"] and s0["w"] == 944 and s1["v"] == s1["max"]
+            if not ok:
+                bad.append(f"{name}: at load {s0}, in view {s1}")
+            ctx.close()
+        check("motion M2: the draw-in under Full (clipped before first paint), whole under Reduced, Off and the OS's",
+              not bad, "; ".join(bad) or "5 cases")
+
+        ctx = browser.new_context(viewport={"width": 1280, "height": 900}, reduced_motion="reduce")
+        page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+        if page.locator("#ledger-scrub").count():
+            n = page.evaluate("+document.getElementById('ledger-scrub').max")
+            heights = set()
+            for v in range(1, n + 1):
+                heights.add(page.evaluate("v => { const i = document.getElementById('ledger-scrub'); i.value = v;"
+                                          " i.dispatchEvent(new Event('input'));"
+                                          " return document.querySelector('.ledger__scrub').getBoundingClientRect().height; }", v))
+            page.evaluate(f"(() => {{ const i = document.getElementById('ledger-scrub'); i.value = {n};"
+                          " i.dispatchEvent(new Event('input')); })()")
+            page.locator("#ledger-scrub").focus()
+            for _ in range(9):
+                page.keyboard.press("ArrowLeft")
+            st = page.evaluate("""() => { const i = document.getElementById('ledger-scrub'), v = +i.value;
+                const cols = [...document.querySelectorAll('.ledger__pic--land .lg__col')];
+                return {v, on: cols.findIndex(c => c.classList.contains('lg__col--on')) + 1,
+                        colx: +cols[v - 1].getAttribute('x1'), w: +document.querySelector('#lg-clip-0 rect').getAttribute('width'),
+                        shown: [...document.querySelectorAll('.ledger__at')].filter(p => getComputedStyle(p).visibility === 'visible')
+                               .map(p => p.querySelector('span').textContent),
+                        line: document.querySelectorAll('.ledger__list li span')[v - 1].textContent,
+                        said: i.getAttribute('aria-valuetext') || ''}; }""")
+            ok = st["v"] == n - 9 and st["on"] == st["v"] and abs(st["w"] - st["colx"] - 4) < 0.01 \
+                and st["shown"] == [st["line"]] and st["said"].startswith(f"handoff-{st['v']:03d}, ") and st["said"].endswith(st["line"])
+            check("scrubber: arrow keys move it; column, clip, line and spoken value follow", ok, str(st)[:300])
+            check("scrubber: one height at every handoff, so nothing below it moves", len(heights) == 1,
+                  f"{len(heights)} heights over {n} handoffs: {sorted(heights)[:4]}")
+        else:
+            check("scrubber: arrow keys move it; column, clip, line and spoken value follow", False,
+                  "no scrubber: is its label ruled (curation copy.scrub)?")
+            check("scrubber: one height at every handoff, so nothing below it moves", False, "no scrubber")
+        ctx.close()
+
         ctx = browser.new_context(java_script_enabled=False, color_scheme="dark", viewport={"width": 1280, "height": 900})
         page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+        sc = page.locator(".ledger__scrub")
+        check("scrubber: with JavaScript off, it's in the page but doesn't show", sc.count() == 1 and not sc.is_visible(),
+              f"count {sc.count()}")
         shown = page.locator(".display__toggle").is_visible()
         bg = page.evaluate("getComputedStyle(document.body).backgroundColor")
         check("display: with JavaScript off, no Display button, and the OS's dark mode still applies",

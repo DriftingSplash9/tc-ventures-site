@@ -239,6 +239,36 @@
   animation: none !important;
 }
 
+/* M1, page to page (Phase 3 step 5). Where the browser has cross-document view
+   transitions, the top bar holds still and the rest cross-fades, over --fade.
+   The bar's three parts are named apart: a case study's lane is wider, so they
+   sit further out there, and one picture of the bar would cross-fade into
+   doubled text. Named, each slides to its place over --move (under Reduced it
+   is there at once) and fades over --fade. Under Full, a case study's sub-menu
+   label, clicked, grows into its H1, over --move: prefs.js names the two
+   ('cs-title') for that one change of page. Off: prefs.js skips the
+   transition, and the times here are 0 anyway. */
+@view-transition { navigation: auto; }
+.topbar { view-transition-name: topbar; }
+.topbar .wordmark { view-transition-name: tb-name; }
+.topbar nav { view-transition-name: tb-nav; }
+.topbar .display__toggle { view-transition-name: tb-display; }
+::view-transition-group(root), ::view-transition-old(root), ::view-transition-new(root),
+::view-transition-group(topbar), ::view-transition-old(topbar), ::view-transition-new(topbar),
+::view-transition-old(tb-name), ::view-transition-new(tb-name),
+::view-transition-old(tb-nav), ::view-transition-new(tb-nav),
+::view-transition-old(tb-display), ::view-transition-new(tb-display) {
+  animation-duration: calc(0.25s * var(--fade));
+}
+::view-transition-group(tb-name), ::view-transition-group(tb-nav), ::view-transition-group(tb-display) {
+  animation-duration: calc(0.35s * var(--move));
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+::view-transition-group(cs-title), ::view-transition-old(cs-title), ::view-transition-new(cs-title) {
+  animation-duration: calc(0.5s * var(--move));
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
 * { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; }
@@ -1538,6 +1568,7 @@ kbd {
 .ledger .lg__dot { fill: var(--muted); }
 .ledger .lg__dot--open { fill: var(--accent); }
 .ledger .lg__end { stroke: var(--muted); stroke-width: 1.2; }
+.ledger .lg__col--on { stroke: var(--accent); }
 .ledger figcaption {
   font-family: var(--mono);
   font-size: var(--t-tag);
@@ -1546,6 +1577,39 @@ kbd {
   max-width: 70ch;
   margin-top: var(--s-3);
 }
+
+/* The scrubber (Phase 3 step 5; assets/ledger.js): a native slider, and every
+   handoff's line stacked in one grid cell, so the box is as tall as the longest
+   line and nothing below moves as the slider does. Scripts only. */
+.ledger__scrub { display: none; margin: var(--s-3) 0 0; }
+@media (scripting: enabled) {
+  .ledger__scrub { display: grid; gap: var(--s-2); }
+}
+.ledger__scrub label { font-family: var(--mono); font-size: var(--t-tag); color: var(--muted); }
+.ledger__scrub input { width: 100%; margin: 0; accent-color: var(--accent); }
+/* In the landscape picture the thumb sits under its column: the track's ends
+   are the first and last columns (--lg-from, --lg-to, written by the export),
+   less half a thumb, which is 16px in Chromium and Safari. */
+@media (min-width: 37.5001em) {
+  .ledger__scrub input {
+    width: calc(100% - var(--lg-from) - var(--lg-to) + 16px);
+    margin-left: calc(var(--lg-from) - 8px);
+  }
+}
+.ledger__read { max-width: 92ch; }
+.ledger__scrub input:focus-visible { outline: var(--focus-w) solid var(--accent); outline-offset: 3px; }
+.ledger__read { display: grid; }
+.ledger__at {
+  grid-area: 1 / 1;
+  margin: 0;
+  visibility: hidden;
+  font-family: var(--mono);
+  font-size: var(--t-tag);
+  color: var(--muted);
+}
+.ledger__at.is-on { visibility: visible; }
+.ledger__at b { font-weight: 400; color: var(--accent); }
+.ledger__at span { font-family: var(--body); font-size: var(--t-small); line-height: 1.5; color: var(--ink-soft); }
 
 .ledger__list { margin: var(--s-4) 0 0; font-family: var(--mono); font-size: var(--t-tag); color: var(--muted); }
 .ledger__list summary { cursor: pointer; color: var(--accent); width: fit-content; }
