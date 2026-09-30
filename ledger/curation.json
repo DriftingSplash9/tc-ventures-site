@@ -32,21 +32,15 @@
     "C-13": "a record of facts, not work",
     "C-16": "a record of facts, not work",
     "C-17": "his call; not to be raised again",
-    "C-19": "unresolved on purpose; no claim is made",
     "C-20": "waits for the rebuild to end and for A-1",
     "C-21": "his call; not to be raised again",
-    "C-22": "his call",
-    "P-6": "nothing queued, on purpose",
-    "G-6": "his call",
     "A-1": "deferred by Thomas",
     "A-3": "accepted for now; A-1 confirms it",
     "INFRA-4": "his call",
-    "INFRA-10": "his to run: a LinkedIn tool (LGP, INFRA-10 dotted)",
     "INFRA-6": "waits for a date",
     "INFRA-9": "deliberate",
-    "INFRA-11": "his call",
-    "INFRA-14": "his call",
-    "INFRA-15": "his call",
+    "INFRA-19": "his call: a hook changes his harness settings",
+    "INFRA-20": "his call: which copy of the truth rules to keep",
     "D-1": "harmless; when convenient",
     "D-2": "a caution, not work",
     "D-3": "his, on a date he set"
@@ -87,6 +81,6 @@
     "023": {"ruled": "LG24 OK 2026-09-29", "line": "The last two case studies live, after a re-trace against the code found the Desk’s description out of date. All six are done."},
     "024": {"ruled": "LG25 OK 2026-09-29", "line": "This ledger: I ruled the proposal and every line on it, and a script draws it from the handoffs."},
     "025": {"ruled": "LG26 OK 2026-09-29", "line": "A Display panel for motion, theme, contrast and text size, built into the site. I ruled the plan and the panel’s words."},
-    "026": {"ruled": null, "line": "A layout pass: the pages now reflow for readers who enlarge the text, and the www address works. I ruled each fix and set up the address myself."}
+    "026": {"ruled": "LG27 OK 2026-09-30", "line": "A layout pass: the pages now reflow for readers who enlarge the text, and the www address works. I ruled each fix and set up the address myself."}
   }
 }
