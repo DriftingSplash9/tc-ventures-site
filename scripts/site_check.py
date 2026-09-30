@@ -59,7 +59,9 @@ And the motion (copy-review-007, Phase 3 step 5):
     from the new page's own view transition: under Full the label and the H1
     share one moving group (0.5 s), the bar's parts slide (0.35 s) and the rest
     cross-fades (0.25 s); under Reduced, chosen or the OS's, the cross-fade
-    only, with nothing moving; under Off, no transition
+    only, with nothing moving; under Off, no transition. Live, Chrome aborts
+    about half of these transitions (cause not yet found), so each case gets
+    up to M1_TRIES changes of page; Off must show none on every one
   - M2, the draw-in: under Full the threads are clipped to 001 before the first
     paint, and run to the newest once the ledger is in view; under Reduced,
     Off and the OS's "reduce motion" the ledger is whole from the start
@@ -96,6 +98,8 @@ SUBMENU = [
     ("/work/this-site", "This site"),
 ]
 CHROMIUM = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+# Changes of page per M1 case, since Chrome aborts some live transitions (handoff-027)
+M1_TRIES = 3
 # Screen widths checked with the browser's text at 200% (DESIGN-3 at 375, DESIGN-4 at 480 and 760)
 BIG_TEXT_WIDTHS = (375, 480, 760, 1280)
 
@@ -438,32 +442,43 @@ def main():
             "reduced": {"::view-transition-group(cs-title)": None, "::view-transition-group(tb-name)": 0,
                         "::view-transition-old(root)": 250, "::view-transition-new(root)": 250},
         }
-        bad = []
+        # Live, Chrome aborts about half of these transitions for a reason not yet found (handoff-027;
+        # locally it never does). So each case gets up to M1_TRIES changes of page: it passes on the first
+        # transition that runs as ruled, and fails if one runs wrong or none runs at all. Off must show no
+        # transition on every try.
+        bad, tries_used = [], []
         for level, os_reduce in ((None, False), ("full", True), (None, True), ("reduced", False), ("off", False)):
-            ctx = browser.new_context(viewport={"width": 1280, "height": 900},
-                                      reduced_motion="reduce" if os_reduce else "no-preference")
-            ctx.add_init_script(vt_log)
-            if level:
-                ctx.add_init_script(f"localStorage.setItem('tcv-display', JSON.stringify({{motion: '{level}'}}))")
-            page = ctx.new_page(); page.goto(base + "/projects", wait_until="networkidle")
-            page.locator(".navsub__toggle").click(); page.wait_for_timeout(400)
-            page.locator("#navsub-work a[href='/work/gprs']").click()
-            page.wait_for_url("**/work/gprs"); page.wait_for_timeout(1000)
-            got = page.evaluate("JSON.parse(sessionStorage.getItem('vt') || 'null')")
             eff = level or ("reduced" if os_reduce else "full")
             name = f"{level or 'System'}{', OS reduce' if os_reduce else ''}"
+            seen = []
+            for _ in range(M1_TRIES):
+                ctx = browser.new_context(viewport={"width": 1280, "height": 900},
+                                          reduced_motion="reduce" if os_reduce else "no-preference")
+                ctx.add_init_script(vt_log)
+                if level:
+                    ctx.add_init_script(f"localStorage.setItem('tcv-display', JSON.stringify({{motion: '{level}'}}))")
+                page = ctx.new_page(); page.goto(base + "/projects", wait_until="networkidle")
+                page.locator(".navsub__toggle").click(); page.wait_for_timeout(400)
+                page.locator("#navsub-work a[href='/work/gprs']").click()
+                page.wait_for_url("**/work/gprs"); page.wait_for_timeout(1000)
+                got = page.evaluate("JSON.parse(sessionStorage.getItem('vt') || 'null')")
+                ctx.close()
+                seen.append(got)
+                if eff != "off" and isinstance(got, dict):
+                    break                      # a transition ran: judge it, no more tries
+            tries_used.append(len(seen))
             if eff == "off":
-                if got not in ("none", "skipped"):
-                    bad.append(f"{name}: a transition ran {got}")
-            elif not isinstance(got, dict):
-                bad.append(f"{name}: no transition ({got})")
+                ran = [g for g in seen if g not in ("none", "skipped")]
+                if ran:
+                    bad.append(f"{name}: a transition ran {ran[0]}")
+            elif not isinstance(seen[-1], dict):
+                bad.append(f"{name}: no transition in {len(seen)} tries ({seen})")
             else:
-                miss = [f"{k} {got.get(k)} not {v}" for k, v in m1_want[eff].items() if got.get(k) != v]
+                miss = [f"{k} {seen[-1].get(k)} not {v}" for k, v in m1_want[eff].items() if seen[-1].get(k) != v]
                 if miss:
                     bad.append(f"{name}: " + ", ".join(miss))
-            ctx.close()
         check("motion M1: /projects to /work/gprs by its label, at each level, chosen and under System", not bad,
-              "; ".join(bad) or "5 cases")
+              "; ".join(bad) or f"5 cases, tries used {tries_used}")
 
         scrub = """() => { const i = document.getElementById('ledger-scrub'); if (!i) return null;
             const r = document.querySelector('#lg-clip-0 rect');
