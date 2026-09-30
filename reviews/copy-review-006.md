@@ -338,3 +338,13 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 
 **Ruled 2026-09-29.** Thomas, verbatim: **"LG25 ok"**. Recorded as `"LG25 OK 2026-09-29"`, and column 024
 is drawn.
+
+---
+
+## LG26 — handoff-025's line (drafted 2026-09-29, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG26 | 025 · 2026-09-29 | A Display panel for motion, theme, contrast and text size, built into the site. I ruled the plan and the panel’s words. | "**P3-0, the Phase 3 proposal, ruled "p3-0 ok, all A".**"; "**Step 3, the Display panel, ruled "dp1-3 ok, merge 21, then wrap"**, and shipped as PR #21." |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 024 until this is ruled.
