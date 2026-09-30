@@ -494,4 +494,35 @@ hero, and the checks.
 >
 > **B:** keep receipts inline and find another fix for them.
 
+### Rulings, step 4 (2026-09-30)
+
+Thomas, verbatim: **"s4-1 A, s4-2 A"**. Read as:
+- Q-S4-1 A: DESIGN-4 is fixed in step 4 before it ships, with a 200% sweep at 480 and 760 added to
+  `site_check.py`, and a control.
+- Q-S4-2 A: the receipts' few pixels are accepted.
+
+### DESIGN-4, built (2026-09-30)
+
+- **The fix:** every width breakpoint is in `em` now, not `px`: 17 in `style.css` and the one in the
+  404's own `<style>` (px ÷ 16, so `640px` is `40em`). At the default text size an em breakpoint is the
+  same width. With the browser's text size raised, it moves with the text, so the layout reflows as it
+  already does under page zoom:
+  - the top bar's links wrap (the 420px rule, now 26.25em);
+  - the header takes its phone layout, which caps the open sub-menu to the screen (45em);
+  - the rules table stacks (40em).
+- **The check:** `site_check.py` now sets "text at 200%" the way the browser's own text-size setting
+  does (CDP `Page.setFontSizes`), because a `:root` font-size override doesn't reach a media query. It
+  checks 375, 480, 760 and 1280px, with the sub-menu shut and open.
+- **How it was checked:**
+  - `site_check.py`: 193 of 193.
+  - **Controls:** `main` fails the new check on all 12 pages. `962efe8`, step 4 without the em
+    breakpoints, fails it only at 480 and 760 on all 12 pages.
+  - `shots_diff.py`, `962efe8` against this tree: 48 of 48 identical, so the em change is invisible at
+    default text. `--inject` (1px on the footer): 0 of 48, so the diff can fail.
+  - **Looked at, at 200%:** the home page at 480, the open sub-menu at 1024, `/method`'s table at 760,
+    before and after.
+- **Found:** a Playwright full-page screenshot drops the CDP text size (the root went from 32px to
+  16px). Viewport shots keep it. The first set of 200% screenshots was at default size for that reason,
+  and was redone.
+
 ---
