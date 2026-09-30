@@ -20,6 +20,10 @@ Pages come from public/sitemap.xml, plus /404. For each page:
     left in px stays put and fails). Screen-reader-only text (.sr-only) is
     left out: it is never seen, and the one in the sub-menu button takes the
     browser's fixed button size.
+  - the Display button shows
+  - no sideways scroll with Larger text at 1280 and 375px, or with the
+    browser's text at 200% at 1280; at 375px with text at 200%, a known fault
+    (DESIGN-3: long addresses, receipts and the footer run off the edge)
   - at 375px, a click on the sub-menu toggle opens it, and with it open the
     page still doesn't scroll sideways (DESIGN-1, a known fault: see below)
 And once, on the home page: Tab reaches the sub-menu toggle, Enter opens it,
@@ -34,6 +38,19 @@ Then the theme, on the home page (copy-review-007, Phase 3):
     gives, and data-theme="light" gives the light ones even on a dark OS
   - contrast, from the colours the browser resolves: every text colour token on
     both grounds, and the solid button's text, is 4.5:1 or more, light and dark
+And the Display panel (copy-review-007, Phase 3):
+  - by keyboard: Tab reaches the button, Enter opens the panel, Tab enters it,
+    an arrow key picks Full, marks <html> and saves it, Esc closes and returns
+    focus
+  - a choice (Dark) applies at once, carries to the next page, and is on
+    <html> before that page's first paint
+  - motion: the caret, the button fades and the 404's drift take the ruled
+    times at every level, chosen and under System with and without the OS's
+    "reduce motion"; under Off nothing is animating, with the menu and the
+    panel open (under Full the drift runs: the control)
+  - contrast More, light and dark: the choice and the OS's "more contrast" give
+    the same colours, Standard undoes it, and text reaches 7:1, rules 3:1
+  - with JavaScript off: no button, and the OS's dark mode still applies
 
 Exit code 1 if any check fails. Written 2026-09-26 (INFRA-13): the nav is
 copied into every page by hand, so this is what catches a page left behind.
@@ -42,7 +59,8 @@ A known fault is a check that fails today for a reason logged in the handoff's
 open items. It isn't counted and doesn't fail the run: the summary names it,
 and -v prints each one as KNOWN. The day it passes, it fails the run until its
 mark comes off the check, so a fixed fault can't go on being excused. Now:
-DESIGN-1, the open sub-menu at 375px (added 2026-09-29).
+DESIGN-1, the open sub-menu at 375px (added 2026-09-29); DESIGN-3, text at 200%
+on a 375px screen (added 2026-09-29, Phase 3 step 3).
 """
 import http.server, importlib.util, json, os, re, socketserver, sys, threading, urllib.request
 from functools import partial
@@ -172,17 +190,24 @@ def main():
             check(f"{path}: noindex only on /404", (robots == 1) == (path == "/404"), str(robots))
             check(f"{path}: no draft banner", page.locator(".draft").count() == 0)
             check(f"{path}: console clean", not errors, "; ".join(errors)[:200])
+            display = page.locator(".display__toggle")
+            check(f"{path}: Display button shows", display.count() == 1 and display.is_visible())
             sizes = """() => [...document.querySelectorAll('body *')]
                 .filter(e => !e.closest('svg, .sr-only') && !['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE'].includes(e.tagName)
                         && [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()))
                 .map(e => [e.tagName.toLowerCase() + (e.className && typeof e.className === 'string' ? '.' + e.className.split(' ')[0] : ''),
                            parseFloat(getComputedStyle(e).fontSize)])"""
             small = page.evaluate(sizes)
-            page.add_style_tag(content=":root { font-size: 32px !important; }")
+            doubled = page.add_style_tag(content=":root { font-size: 32px !important; }")
             big = page.evaluate(sizes)
             stuck = sorted({a[0] for a, b in zip(small, big) if b[1] <= a[1]})
             check(f"{path}: text grows with the browser's text size", bool(small) and len(small) == len(big) and not stuck,
                   f"{len(small)} text elements" + (f"; stay put: {', '.join(stuck)[:160]}" if stuck else ""))
+            widths = "[document.documentElement.scrollWidth, document.documentElement.clientWidth]"
+            wide = {"1280 at 200%": page.evaluate(widths)}
+            doubled.evaluate("e => e.remove()")
+            page.evaluate("document.documentElement.setAttribute('data-text', 'larger')")
+            wide["1280 Larger"] = page.evaluate(widths)
             ctx.close()
             ctx = browser.new_context(viewport={"width": 375, "height": 800})
             page = ctx.new_page(); page.goto(base + path, wait_until="networkidle")
@@ -195,7 +220,19 @@ def main():
                 sw = page.evaluate("[document.documentElement.scrollWidth, document.documentElement.clientWidth]")
                 check(f"{path}: no sideways scroll at 375px with the sub-menu open", sw[0] <= sw[1], f"{sw}",
                       fault="DESIGN-1")
+                page.keyboard.press("Escape"); page.wait_for_timeout(300)
+            page.evaluate("document.documentElement.setAttribute('data-text', 'larger')")
+            wide["375 Larger"] = page.evaluate(widths)
+            page.evaluate("document.documentElement.removeAttribute('data-text')")
+            page.add_style_tag(content=":root { font-size: 32px !important; }")
+            wide["375 at 200%"] = page.evaluate(widths)
             ctx.close()
+            narrow = wide.pop("375 at 200%")
+            over = [f"{k}: {v[0]} wide at {v[1]}" for k, v in wide.items() if v[0] > v[1]]
+            check(f"{path}: no sideways scroll with Larger text at 1280 and 375, or text at 200% at 1280", not over,
+                  "; ".join(over) or f"{len(wide)} cases")
+            check(f"{path}: no sideways scroll at 375px with text at 200%", narrow[0] <= narrow[1],
+                  f"{narrow[0]} wide at {narrow[1]}", fault="DESIGN-3")
 
         ctx = browser.new_context(viewport={"width": 1280, "height": 900}); page = ctx.new_page()
         page.goto(base + "/", wait_until="networkidle")
@@ -263,6 +300,108 @@ def main():
             check(f"contrast ({scheme}): every text colour on both grounds, and the solid button, 4.5:1 or more",
                   ok and not low, ("; ".join(low) if low else f"lowest {ratios[0][1]} on {ratios[0][2]} {ratios[0][0]:.2f}")
                   if ok else f"tokens not #RRGGBB: {t}")
+
+        # ---- the Display panel (copy-review-007, Phase 3) ----
+        dark_bg = "rgb(12, 15, 20)"                    # --dark-paper, as the browser reports it
+        focused = "document.activeElement.classList.contains('display__toggle')"
+        ctx = browser.new_context(color_scheme="light", viewport={"width": 1280, "height": 900})
+        ctx.add_init_script("""new MutationObserver(() => {
+            if (window.__themeAt === undefined && document.documentElement && document.documentElement.hasAttribute('data-theme'))
+              window.__themeAt = performance.now();
+          }).observe(document, {attributes: true, subtree: true, attributeFilter: ['data-theme']});""")
+        page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+        for _ in range(40):
+            page.keyboard.press("Tab")
+            if page.evaluate(focused):
+                break
+        check("display: Tab reaches the Display button", page.evaluate(focused))
+        page.keyboard.press("Enter"); page.wait_for_timeout(300)
+        check("display: Enter opens the panel", page.locator(".display__toggle").get_attribute("aria-expanded") == "true"
+              and page.locator(".display__panel").is_visible())
+        page.keyboard.press("Tab")
+        in_motion = page.evaluate("document.activeElement.name") == "display-motion"
+        page.keyboard.press("ArrowRight"); page.wait_for_timeout(100)
+        saved = page.evaluate("JSON.parse(localStorage.getItem('tcv-display') || '{}')")
+        check("display: Tab enters the panel; an arrow key picks Full, marks <html> and saves it",
+              in_motion and page.evaluate("document.documentElement.getAttribute('data-motion')") == "full"
+              and saved.get("motion") == "full", f"in motion group: {in_motion}, saved {saved}")
+        page.keyboard.press("Escape"); page.wait_for_timeout(300)
+        check("display: Esc closes it and returns focus",
+              page.locator(".display__toggle").get_attribute("aria-expanded") == "false" and page.evaluate(focused))
+        page.locator(".display__toggle").click()
+        if page.locator("label[for='display-theme-dark']").count():      # no panel: the check below fails, not the script
+            page.locator("label[for='display-theme-dark']").click(); page.wait_for_timeout(100)
+        bg_now = page.evaluate("getComputedStyle(document.body).backgroundColor")
+        page.goto(base + "/method", wait_until="networkidle")
+        state = page.evaluate("""() => ({theme: document.documentElement.getAttribute('data-theme'),
+            motion: document.documentElement.getAttribute('data-motion'), bg: getComputedStyle(document.body).backgroundColor,
+            at: window.__themeAt === undefined ? null : window.__themeAt,
+            paint: (performance.getEntriesByName('first-paint')[0] || {}).startTime || null})""")
+        check("display: a choice applies at once, carries to the next page, and is on <html> before its first paint",
+              bg_now == dark_bg and state["theme"] == "dark" and state["motion"] == "full" and state["bg"] == dark_bg
+              and state["at"] is not None and state["paint"] is not None and state["at"] < state["paint"],
+              f"at once {bg_now}; next page {state}")
+        ctx.close()
+
+        ctx = browser.new_context(color_scheme="light", viewport={"width": 1280, "height": 900})
+        page = ctx.new_page(); page.goto(base + "/404", wait_until="networkidle")
+        times = """() => [getComputedStyle(document.querySelector('.navsub__toggle svg')).transitionDuration,
+                           getComputedStyle(document.querySelector('.btn')).transitionDuration.split(',')[0].trim(),
+                           getComputedStyle(document.querySelector('.drift')).animationName]"""
+        ruled = {"full": ["0.15s", "0.2s", "drift"], "reduced": ["0s", "0.2s", "none"], "off": ["0s", "0s", "none"]}
+        bad = []
+        for level in (None, "full", "reduced", "off"):
+            for os_reduce in (False, True):
+                page.emulate_media(reduced_motion="reduce" if os_reduce else "no-preference")
+                page.evaluate("l => l ? document.documentElement.setAttribute('data-motion', l)"
+                              " : document.documentElement.removeAttribute('data-motion')", level)
+                got, exp = page.evaluate(times), ruled[level or ("reduced" if os_reduce else "full")]
+                if got != exp:
+                    bad.append(f"{level or 'System'}{', OS reduce' if os_reduce else ''}: {got}, not {exp}")
+        check("motion: caret, button fades and the 404's drift at each level, chosen and under System", not bad,
+              "; ".join(bad) or "8 cases")
+        page.emulate_media(reduced_motion="no-preference")
+        page.evaluate("document.documentElement.removeAttribute('data-motion')")
+        running_full = page.evaluate("document.getAnimations().length")
+        page.evaluate("document.documentElement.setAttribute('data-motion', 'off')")
+        page.locator(".navsub__toggle").click(); page.locator(".display__toggle").click()
+        running_off = page.evaluate("document.getAnimations().length")
+        check("motion Off: nothing is animating, with the menu and the panel open (under Full the drift runs)",
+              running_full > 0 and running_off == 0, f"Full {running_full}, Off {running_off}")
+        ctx.close()
+
+        more = {}
+        for scheme in ("light", "dark"):
+            ctx = browser.new_context(color_scheme=scheme, viewport={"width": 1280, "height": 900})
+            page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+            page.emulate_media(contrast="more")
+            more[scheme, "os"] = page.evaluate(tok, TOKENS + ["focus-w"])
+            page.evaluate("document.documentElement.setAttribute('data-contrast', 'standard')")
+            more[scheme, "standard"] = page.evaluate(tok, TOKENS + ["focus-w"])
+            page.emulate_media(contrast="no-preference")
+            page.evaluate("document.documentElement.setAttribute('data-contrast', 'more')")
+            more[scheme, "choice"] = page.evaluate(tok, TOKENS + ["focus-w"])
+            ctx.close()
+        for scheme in ("light", "dark"):
+            std = pal[scheme] + ["2PX"]
+            check(f"contrast More ({scheme}): the choice and the OS setting give the same colours, and Standard undoes it",
+                  more[scheme, "choice"] == more[scheme, "os"] != std and more[scheme, "standard"] == std,
+                  f"choice {more[scheme, 'choice']}, OS {more[scheme, 'os']}, standard {more[scheme, 'standard']}")
+            t = dict(zip(TOKENS, more[scheme, "choice"]))
+            if all(re.fullmatch(r"#[0-9A-F]{6}", v) for v in t.values()):
+                low = [f"{f} on {g} {contrast(t[f], t[g]):.2f}" for f, g in TEXT_ON if contrast(t[f], t[g]) < 7] \
+                    + [f"rule on {g} {contrast(t['rule'], t[g]):.2f}" for g in ("paper", "paper-tint") if contrast(t["rule"], t[g]) < 3]
+                check(f"contrast More ({scheme}): text 7:1 or more, rules 3:1 or more", not low, "; ".join(low) or "all pass")
+            else:
+                check(f"contrast More ({scheme}): text 7:1 or more, rules 3:1 or more", False, f"tokens not #RRGGBB: {t}")
+
+        ctx = browser.new_context(java_script_enabled=False, color_scheme="dark", viewport={"width": 1280, "height": 900})
+        page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+        shown = page.locator(".display__toggle").is_visible()
+        bg = page.evaluate("getComputedStyle(document.body).backgroundColor")
+        check("display: with JavaScript off, no Display button, and the OS's dark mode still applies",
+              not shown and bg == dark_bg, f"button shown {shown}, background {bg}")
+        ctx.close()
         browser.close()
     if srv:
         srv.shutdown()

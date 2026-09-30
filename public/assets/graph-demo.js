@@ -10,8 +10,9 @@
    - The button does not exist without JavaScript. It is `hidden` in the
      markup and unhidden here, so a reader with JS off sees the still and the
      written chain underneath it and misses nothing.
-   - prefers-reduced-motion means the layout is solved before the first frame
-     and then sits still. It is not "the same thing, faster".
+   - Motion Reduced or Off (the Display panel, or the OS under System) means
+     the layout is solved before the first frame and then sits still. It is
+     not "the same thing, faster".
    ========================================================================== */
 (function () {
   'use strict';
@@ -47,8 +48,9 @@
   var GRADE = { A: '#BFE3E8', B: '#7E8C9C', C: '#4E5866' };
   var ROOT = '#FFFFFF';
 
-  var reduce = window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* prefs.js reports the motion level in effect; without it, the OS decides */
+  var reduce = window.tcvMotion ? window.tcvMotion() !== 'full' :
+    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function esc(s) {
     return String(s == null ? '' : s)
