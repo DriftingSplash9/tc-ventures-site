@@ -117,12 +117,15 @@
   --s-8: 64px;
   --s-9: 96px;
 
-  /* type: fixed steps for labels and data, fluid steps for headings */
-  --t-label: 11px;                              /* mono eyebrows in tables and meta */
-  --t-tag:   12px;                              /* mono labels, captions */
-  --t-mono:  13px;                              /* mono body: nav, buttons, receipts */
+  /* type: fixed steps for labels and data, fluid steps for headings. In rem, so
+     the reader's browser text size scales them, and so will the Display panel's
+     text size (copy-review-007 P3-0). SVG diagram labels stay in px: they are in
+     the picture's own units and scale with the picture. */
+  --t-label: 0.6875rem;                              /* mono eyebrows in tables and meta */
+  --t-tag:   0.75rem;                              /* mono labels, captions */
+  --t-mono:  0.8125rem;                              /* mono body: nav, buttons, receipts */
   --t-small: 0.97rem;                           /* serif, secondary prose */
-  --t-body:  18px;                              /* serif reading size */
+  --t-body:  1.125rem;                              /* serif reading size */
   --t-lede:  clamp(1.1rem, 2vw, 1.25rem);       /* page-head lede */
   --t-h3:    1.2rem;                            /* display, component titles */
   --t-h2:    clamp(1.3rem, 2.6vw, 1.75rem);     /* display, section heads */
@@ -141,17 +144,42 @@
   --section: clamp(56px, 8vw, 96px);            /* between numbered sections */
 }
 
+/* Dark. The OS decides, unless the reader has chosen in the Display panel:
+   /assets/prefs.js (Phase 3 step 3) will set data-theme="light" or "dark" on
+   <html> for a choice, and nothing for System. The dark colours are written
+   once, here; the two rules after only switch to them, and site_check.py
+   checks that both routes give the same colours. */
+:root {
+  --dark-paper:      #0C0F14;
+  --dark-paper-tint: #12171E;
+  --dark-ink:        #E9ECF2;
+  --dark-ink-soft:   #C2C9D4;
+  --dark-muted:      #939DAC;
+  --dark-rule:       #222A34;
+  --dark-accent:     #5CC7D1;
+  --dark-accent-ink: #8CDDE4;
+}
 @media (prefers-color-scheme: dark) {
-  :root {
-    --paper:      #0C0F14;
-    --paper-tint: #12171E;
-    --ink:        #E9ECF2;
-    --ink-soft:   #C2C9D4;
-    --muted:      #939DAC;
-    --rule:       #222A34;
-    --accent:     #5CC7D1;
-    --accent-ink: #8CDDE4;
+  :root:not([data-theme="light"]) {
+    --paper:      var(--dark-paper);
+    --paper-tint: var(--dark-paper-tint);
+    --ink:        var(--dark-ink);
+    --ink-soft:   var(--dark-ink-soft);
+    --muted:      var(--dark-muted);
+    --rule:       var(--dark-rule);
+    --accent:     var(--dark-accent);
+    --accent-ink: var(--dark-accent-ink);
   }
+}
+:root[data-theme="dark"] {
+  --paper:      var(--dark-paper);
+  --paper-tint: var(--dark-paper-tint);
+  --ink:        var(--dark-ink);
+  --ink-soft:   var(--dark-ink-soft);
+  --muted:      var(--dark-muted);
+  --rule:       var(--dark-rule);
+  --accent:     var(--dark-accent);
+  --accent-ink: var(--dark-accent-ink);
 }
 
 * { box-sizing: border-box; }
@@ -163,7 +191,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--body);
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
@@ -195,7 +223,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 .label {
   margin: 0;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -229,7 +257,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   display: flex;
   gap: 22px;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   letter-spacing: 0.04em;
 }
 /* Four items since /method (2026-09-25): on a phone, tighten the gap so the nav
@@ -346,7 +374,7 @@ h1 {
   display: inline-flex;
   align-items: center;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   letter-spacing: 0.06em;
   padding: 12px 22px;
   border: 1px solid var(--rule);
@@ -387,7 +415,7 @@ h1 {
 .prose p:last-child { margin-bottom: 0; }
 .prose h3 {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -426,7 +454,7 @@ h1 {
 .proof__meta > div { margin-bottom: 12px; }
 .proof__meta dt {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -434,7 +462,7 @@ h1 {
 .proof__meta dd {
   margin: 2px 0 0;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-variant-numeric: tabular-nums;
   color: var(--ink);
 }
@@ -478,7 +506,7 @@ h1 {
 }
 .shot figcaption {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.6;
   color: var(--muted);
   max-width: 70ch;
@@ -500,7 +528,7 @@ h1 {
 .spec dt {
   margin: 0;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -509,7 +537,7 @@ h1 {
 .spec dd {
   margin: 0;
   font-family: var(--mono);
-  font-size: 13.5px;
+  font-size: 0.84375rem;
   line-height: 1.6;
   font-variant-numeric: tabular-nums;
   color: var(--ink);
@@ -519,7 +547,7 @@ h1 {
   .spec > div, .spec--wide > div { grid-template-columns: 1fr; gap: 2px; }
 }
 
-.repo { font-family: var(--mono); font-size: 13px; color: var(--muted); margin: 22px 0 0; }
+.repo { font-family: var(--mono); font-size: 0.8125rem; color: var(--muted); margin: 22px 0 0; }
 
 /* ---- cv ---- */
 
@@ -555,9 +583,9 @@ h1 {
 }
 .footer__email a { color: var(--ink); text-decoration-color: var(--accent); }
 .footer__email a:hover { color: var(--accent); }
-.footer__note { font-family: var(--mono); font-size: 12px; color: var(--muted); margin: 0.8em 0 0; }
+.footer__note { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin: 0.8em 0 0; }
 
-.footer__list { list-style: none; margin: 0.9em 0 0; padding: 0; font-family: var(--mono); font-size: 13px; line-height: 2; color: var(--muted); }
+.footer__list { list-style: none; margin: 0.9em 0 0; padding: 0; font-family: var(--mono); font-size: 0.8125rem; line-height: 2; color: var(--muted); }
 .footer__list a { color: var(--ink); text-decoration-color: var(--rule); }
 .footer__list a:hover { text-decoration-color: var(--accent); }
 
@@ -603,7 +631,7 @@ h1 {
 .tz__table { margin-top: 0; }
 .tz__table dd { font-family: var(--body); font-size: 1rem; }
 
-button.btn { background: transparent; cursor: pointer; font: inherit; font-family: var(--mono); font-size: 13px; }
+button.btn { background: transparent; cursor: pointer; font: inherit; font-family: var(--mono); font-size: 0.8125rem; }
 button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .sr-only {
@@ -680,10 +708,10 @@ button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px
   background: var(--paper-tint);
 }
 .gd__panel p { margin: 0; }
-.gd__hint { font-family: var(--mono); font-size: 12.5px; line-height: 1.7; color: var(--muted); max-width: 70ch; }
+.gd__hint { font-family: var(--mono); font-size: 0.78125rem; line-height: 1.7; color: var(--muted); max-width: 70ch; }
 .gd__kicker {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -697,8 +725,8 @@ button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px
   margin-top: 6px !important;
   color: var(--ink);
 }
-.gd__rel { font-family: var(--mono); font-size: 12px; text-transform: lowercase; color: var(--accent); letter-spacing: 0.04em; }
-.gd__meta { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 6px !important; }
+.gd__rel { font-family: var(--mono); font-size: 0.75rem; text-transform: lowercase; color: var(--accent); letter-spacing: 0.04em; }
+.gd__meta { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin-top: 6px !important; }
 .gd__basis {
   margin: 10px 0 0;
   padding-left: 14px;
@@ -708,7 +736,7 @@ button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px
   color: var(--ink-soft);
   max-width: 78ch;
 }
-.gd__src { font-family: var(--mono); font-size: 12px; margin-top: 10px !important; }
+.gd__src { font-family: var(--mono); font-size: 0.75rem; margin-top: 10px !important; }
 
 .gd__grade {
   display: inline-block;
@@ -725,7 +753,7 @@ button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px
 
 .gd__tip {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   background: rgba(6, 9, 19, 0.9);
   color: #E9ECF2;
@@ -744,7 +772,7 @@ button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px
   margin: 14px 0 0;
   padding: 0;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 .gd__legend li { display: flex; align-items: center; gap: 8px; }
@@ -777,7 +805,7 @@ button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px
   left: 0;
   top: 15px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
@@ -785,7 +813,7 @@ button.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px
 .gd__chain .gd__step {
   display: block;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -1032,7 +1060,7 @@ kbd {
 
 .receipt {
   font-family: var(--mono);
-  font-size: max(12px, 0.72em);
+  font-size: max(0.75rem, 0.72em);
   letter-spacing: 0.02em;
   color: var(--muted);
   text-decoration: none;
@@ -1298,7 +1326,8 @@ kbd {
 }
 .draft p { margin: 0; }
 .draft b { font-weight: 500; color: var(--accent); }
-@media (prefers-color-scheme: dark) { .draft { background: var(--paper-tint); color: var(--ink); border-bottom: 1px solid var(--rule); } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .draft { background: var(--paper-tint); color: var(--ink); border-bottom: 1px solid var(--rule); } }
+:root[data-theme="dark"] .draft { background: var(--paper-tint); color: var(--ink); border-bottom: 1px solid var(--rule); }
 
 /* ---- work index (/work/) — the seven case studies as rows -------------- */
 

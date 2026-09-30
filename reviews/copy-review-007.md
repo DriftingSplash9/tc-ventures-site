@@ -1,0 +1,318 @@
+# Copy review 007 — Phase 3, craft
+
+**Written:** 2026-09-29
+**Why:** Phase 3 (PL-6): motion, type and the built-in accessibility controls, plus the layout jobs logged
+for it: DESIGN-2, DESIGN-1, G-7, and the ledger's later layers (PL-9). Propose before building.
+**Status:** Step 1 (P3-0, the proposal) **ruled 2026-09-29: "p3-0 ok, all A"** (see "Rulings" at the end of
+P3-0). Step 2 (the groundwork) built and checked, and it ships on Thomas's word.
+
+Same format and marks as copy-review-001 to 006: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
+
+---
+
+## P3-0 — Step 1: the proposal (not copy)
+
+**To rule:** P3-0 as a whole (OK / FIX), plus Q-P3-1 to Q-P3-7.
+
+**The brief, Thomas, 2026-09-22 (PL-6):** "Awwwards - novel designs and motions, it needs all the
+accessibility toggles, I don't want a generic app like A11y taking over the features." The controls are
+motion full/reduced/off, theme, contrast and text size. They are built into the site, the OS settings are
+the defaults, and a choice overrides them and is remembered. In the 2026-09-22 audit (handoff-015 §2),
+design and creativity scored lowest. Phase 3 is aimed at those two.
+
+**Read and measured 2026-09-29:**
+- **Read:** plan-001; handoff-015 §2 (the audit); PL-6 and PL-9; `style.css`, `nav.js` and
+  `graph-demo.js`; `_headers`; the home hero markup.
+- **Measured:** Chromium, through a scratchpad script, on the local `public/` at `main` (135f6e8).
+  Candidate layouts were tried by injecting CSS into the loaded page. Nothing on disk or on the site
+  changed.
+
+### 1. Where the site stands
+
+- **Theme:** dark mode follows the OS only, through one `prefers-color-scheme` block of tokens. There is
+  no way to choose.
+- **Motion:** almost none.
+  - The sub-menu caret turns, and buttons fade their colours on hover.
+  - One rule switches every transition off when the OS asks for reduced motion.
+  - The 3D graph solves its layout before the first frame under reduced motion (`graph-demo.js`
+    L211).
+  - On `/`, `/method` and `/work/influence-graph`, nothing is animating once the page has loaded.
+- **Contrast:** nothing responds to the OS's "more contrast" setting. Computed from the tokens:
+  - Every text colour token (ink, ink-soft, muted, accent, accent-ink) already reaches 4.5:1 on both
+    grounds, in both themes. The lowest is muted text on the tinted ground in light, at 5.0:1.
+  - Short of 7:1:
+    - muted text in light (5.4:1 on paper, 5.0:1 on the tint);
+    - muted text on the tint in dark (6.6:1);
+    - the accent on the tint in light (6.7:1).
+  - The rules (borders) are 1.2:1 in light and 1.3:1 in dark. That's fine for decoration, and faint
+    wherever a rule carries meaning (A-1 already notes the diagrams' connectors).
+- **Text size:** body text is fixed at 18px. Of the stylesheet's 79 `font-size` declarations, 28 are in
+  px, and so are four type tokens (`--t-label`, `--t-tag`, `--t-mono`, `--t-body`).
+  - A browser set to twice the default text size was simulated by doubling the root size.
+  - On `/method`, body prose stayed 18px, the nav 13px, labels 12px and the footer list 13px. Of what
+    was measured, only the headings grew (the H1 went from 65.6 to 83.2px).
+  - So today, a reader's own browser setting does almost nothing here.
+- **Scripts:** the CSP allows no inline script (`_headers`). Any code that must run before the first
+  paint has to be a small file in `/assets/`.
+
+### 2. The controls
+
+- **One "Display" button in the top bar, on every page.** It opens a small panel, using the same
+  disclosure pattern as the Projects sub-menu: Enter opens it, Esc closes it, and it overlays the page
+  without moving anything. Inside are four native radio groups:
+  - **Motion:** System · Full · Reduced · Off
+  - **Theme:** System · Light · Dark
+  - **Contrast:** System · Standard · More
+  - **Text size:** Standard · Large · Larger
+- **System follows the OS,** and it is the default for each group.
+- **A choice is remembered in this browser only** (`localStorage`). No cookie, and nothing is sent
+  anywhere. If storage is blocked, the site quietly falls back to the OS settings.
+- **Applied before the first paint:**
+  - A small file, `/assets/prefs.js`, loads in each page's `<head>` and marks `<html>` with the
+    choices. The CSS reads those marks, so no page flashes the wrong theme.
+  - It's the only script that has to run before the page draws.
+  - An inline script with a CSP hash would do the same, but the hash would have to change in `_headers`
+    with every edit. That's one more thing to drift.
+- **Without JavaScript:** there's no button, since it can't work. The OS settings still apply, because
+  they are plain CSS. Words and links are unchanged.
+- **What each setting does:**
+  - **Motion Full:** everything in section 4.
+  - **Motion Reduced:** fades and colour changes only. Nothing moves, scales or draws in, and the ledger
+    appears whole.
+  - **Motion Off:** nothing animates at all, and pages change the way they do now.
+  - **Contrast Standard:** today's palette, unchanged.
+  - **Contrast More:** every text pair to 7:1, rules to 3:1, and thicker focus rings, in both themes.
+    Windows high contrast (forced colours) is handled whatever this is set to.
+  - **Text size:** each step scales every size on the page, on top of the reader's own browser setting.
+    That needs the px sizes converted to rem first (step 2). The ledger's SVG labels scale with the
+    picture, not the text size; its list is the text equivalent, and that does scale.
+- **The header has to fit the button.** At 375px the top bar already takes two lines (the name, then the
+  nav). The button must fit without a third, and that's checked at build.
+
+**Q-P3-1:** where the controls live.
+> **A (recommended):** a "Display" button at the end of the top bar on every page, as above.
+>
+> **B:** a "Display" section in every page's footer. There's no header change, but it's far from where
+> people look first.
+
+**Q-P3-2:** what the OS's "reduce motion" setting maps to, under System.
+> **A (recommended):** Reduced, which still allows fades. That's the common reading of the setting:
+> reduce, not remove. Today that setting switches off every transition, so for those readers this is a
+> small change.
+>
+> **B:** Off, which keeps today's behaviour exactly.
+
+**Q-P3-3:** the text-size steps.
+> **A (recommended):** Large is 1.125 times Standard and Larger is 1.25 times. Both apply on top of the
+> browser's own setting, which starts working once the sizes are in rem.
+>
+> **B:** a single Large step.
+
+### 3. Layout: DESIGN-2, DESIGN-1, G-7
+
+**DESIGN-2, the ledger against the fold.** The home lede is capped at 34ch (`style.css` L330), so at
+1280px it runs to 10 lines and 348px. The table shows where the top of the ledger picture sits against
+the bottom of the first screen: "below" means off the first screen by that much, and "on" means that
+much of it shows.
+
+| Screen | Now | A: lede 52ch | B: A, and the hero's top padding 64px at most |
+|---|---|---|---|
+| 1280×900 | 86px below | 53px on | 93px on |
+| 1440×900 | 86px below | 53px on | 93px on |
+| 1920×1080 | 94px on | 233px on | 273px on |
+| 1024×768 | 203px below | 64px below | 23px below |
+| 375×812 | 136px below | 107px below | 91px below |
+
+At 52ch the lede takes 6 lines and 209px at 1280. Screenshots of now, A and B went to Thomas in the chat.
+They're in the scratchpad, not the repo.
+
+**Q-P3-4:** DESIGN-2.
+> **A (recommended):** widen the lede to 52ch, the measure `.pagehead` ledes already use. The ledger's
+> column numbers and first band then show on a 1280×900 screen: a glimpse that invites the scroll. The
+> H1, the words and the order are unchanged (LG0 §4).
+>
+> **B:** A, and also trim the hero's top padding, so more of the ledger shows.
+>
+> **C:** leave it.
+
+**DESIGN-1, the sub-menu at 375px:**
+- **Now:** the open list runs from x=4 to x=379, so the page is 379px wide on a 375px screen.
+- **Candidate:** capping the list at the screen's width, with labels allowed to wrap, stops the sideways
+  scroll (375 wide).
+  - The first try wrapped the labels into a 240px box, narrower than it needs to be. The build sizes
+    it to the screen.
+- **The check:** since 2026-09-29, `site_check.py` checks this on every page as a known fault. When the
+  fix lands, that check starts failing until its DESIGN-1 mark is taken off, which proves the fix from
+  outside.
+
+**G-7, the graph's paragraph:** on `/work/influence-graph` there's 0px between the paragraph and the
+graph's frame, at 1280 and at 375 (the frame's top margin is 0). The fix gives it the case study's
+standard block gap (`--block`). The frame and its panel below stay joined, as now.
+
+No question for DESIGN-1 or G-7: both are fixes, not choices.
+
+### 4. Motion
+
+**The rule for all of it:** motion shows something true about the site, never a stock effect (plan-001
+§4c). It sits on top of the words and never carries them. Each motion is named here, and each has its
+Reduced and Off states.
+
+- **M1, page to page.**
+  - When a page changes, the top bar stays still and the content cross-fades.
+  - **The signature move:** a case study's sub-menu label is its H1 (a standing rule). With a native
+    CSS feature, cross-document view transitions, the label you click grows into the H1 of the page
+    that opens.
+  - No JS, and no library. Browsers without the feature change pages as they do now. Which browsers
+    support it gets checked at build, not from memory.
+  - Reduced: the cross-fade only. Off: none.
+- **M2, the ledger draws itself** (PL-9's motion layer). The first time the ledger scrolls into view,
+  the threads draw in session by session, 001 to the newest, in a few seconds. Reduced and Off: it
+  appears whole.
+- **M3, the method loop (optional).** On `/method`, the loop diagram's arrows trace the loop once, brief
+  to next session, when it scrolls into view. Reduced and Off: static.
+
+**Q-P3-5:** which motions.
+> **A (recommended):** M1 and M2 now. M3 after, if the first two earn their place.
+>
+> **B:** all three now.
+>
+> **C:** M2 only.
+
+### 5. The ledger's later layers (PL-9)
+
+LG0 left three layers out of the static ledger: motion (M2 above), click a column to read its line, and
+traps.
+
+- **Reading a column: a scrubber, not clickable columns.**
+  - Under the picture sits a native slider (`<input type="range">`), one step per handoff. Moving it
+    highlights that column and shows its ruled line underneath, like "017 · 2026-09-24 · …".
+  - A native slider already works with a keyboard, touch and a screen reader. The picture stays a
+    `role="img"` with nothing to click inside it, which answers A-1's doubt about links inside an SVG.
+  - M2's draw-in is the same scrubber running from 001 to the newest.
+  - Without JS there's no slider, and the list below carries every line, as now.
+- **Traps:** handoffs only list the traps new to each session from 019 on. Drawing them means a
+  curation pass and its own copy review.
+
+**Q-P3-6:** PL-9.
+> **A (recommended):** the scrubber and the draw-in now. Traps later, in their own review.
+>
+> **B:** all three now.
+>
+> **C:** the draw-in only.
+
+### 6. How each step is checked (rule 5)
+
+Every new check gets a control that must fail.
+
+- **Converting px to rem, and restructuring the theme tokens, must change nothing at the default
+  settings.** The proof: screenshots of every page, light and dark, at 1280 and 375, pixel-identical
+  before and after.
+- **Contrast is measured, not asserted.** A script computes the WCAG ratio for every text and background
+  token pair, in each theme at each contrast setting. Standard must reach 4.5:1 (it does today), and More
+  must reach 7:1 for text and 3:1 for rules. The control is one token pushed past the line, which must
+  fail.
+- **`site_check.py` gains:**
+  - each stored setting is on `<html>` before the first paint, and it carries to the next page;
+  - with Motion Off, nothing is animating after load and after opening the menu and the panel;
+  - at Larger text, and at twice the browser's text size, no page scrolls sideways at 375 or 1280;
+  - the panel's keyboard path, as the sub-menu's is checked now;
+  - JS off: no button, and the OS settings still apply.
+- **Looked at, not only scripted:** each step goes to Thomas as screenshots, and on a local preview if
+  he wants one.
+
+**Q-P3-7:** how it ships.
+> **A (recommended):** one step at a time, each live-checked and on Thomas's word (section 7). Each step
+> stands on its own, and the first changes nothing visible.
+>
+> **B:** all of it together, at the end.
+
+### 7. The steps
+
+1. **Step 1:** this proposal, ruled.
+2. **Step 2, the groundwork, with no visible change:**
+   - px to rem;
+   - the theme and contrast tokens restructured;
+   - the pixel-identical proof, and the contrast script.
+3. **Step 3, the Display panel:**
+   - `prefs.js`, the button on the 13 files and the new checks;
+   - the panel's labels as copy blocks here (DP1 onward), for ruling;
+   - a local preview.
+4. **Step 4, the layout:** DESIGN-2 as ruled, DESIGN-1 (with its DESIGN-1 mark taken off the check),
+   and G-7.
+5. **Step 5, the motion:** M1 and M2 as ruled, and the scrubber. The scrubber's words come from the
+   ruled ledger lines, so there's no new copy, except its label, which is a copy block here.
+
+**Not in Phase 3:**
+- **Phase 4:** headers, schema, a link-preview image per page, the budget script.
+- **A-1, Thomas's accessibility pass:** his, when design and content are final.
+- **The 3D graph's own motion:** it gets one change. It reads the site's motion setting instead of only
+  the OS's, and it keeps its dark ground.
+- **Copy beyond the panel's labels and the scrubber's label.**
+
+### Rulings, P3-0 (2026-09-29)
+
+Thomas, verbatim: **"p3-0 ok, all A"**. Read as:
+- P3-0 OK as proposed.
+- Q-P3-1 A: a "Display" button at the end of the top bar on every page.
+- Q-P3-2 A: under System, the OS's "reduce motion" maps to Reduced, which still allows fades.
+- Q-P3-3 A: text size Standard, Large (1.125×) and Larger (1.25×), on top of the browser's setting.
+- Q-P3-4 A: the home lede widens to 52ch.
+- Q-P3-5 A: M1 (page to page, the label into the H1) and M2 (the ledger draws itself) now; M3 later.
+- Q-P3-6 A: the scrubber and the draw-in now; traps later, in their own review.
+- Q-P3-7 A: one step at a time, each live-checked and on Thomas's word.
+
+---
+
+## Step 2 — the groundwork, built (2026-09-29)
+
+**Nothing looks different at the default settings.** Every page is pixel-identical before and after (below).
+What changes is underneath. It isn't copy, so there's nothing to rule here, only the ship.
+
+**What changed:**
+- **`style.css`, px to rem:**
+  - 24 `font-size` declarations and the four px type tokens are now in rem, at the same sizes (18px is
+    1.125rem, 13px is 0.8125rem, and so on; every value is an exact sixteenth).
+  - The four SVG label rules (the method loop and the ledger) stay in px. They're in the picture's own
+    units and scale with it.
+  - In `404.html`'s own style block, `.lost__code` goes to rem, and its diagram label stays in px.
+  - So a reader's browser text size now reaches every piece of HTML text. At default settings nothing
+    moves.
+- **`style.css`, the theme hooks:**
+  - The dark colours are written once, as `--dark-*`.
+  - Two rules switch to them: the OS's dark mode unless `data-theme="light"` is on `<html>`, or
+    `data-theme="dark"`.
+  - Nothing sets `data-theme` yet. `prefs.js` does that in step 3, so for now the OS decides, as
+    before.
+  - The draft banner's dark rule follows the same two routes.
+- **Moved to step 3, with a reason:** the Contrast More colours.
+  - They're new colour choices Thomas hasn't seen. They go in with the panel, where the local preview
+    shows them.
+  - So this step changes nothing for anyone, including readers whose OS asks for more contrast.
+- **`scripts/shots_diff.py` (new):** every page, light and dark, at 1280 and 375, shot whole from two
+  copies of `public/` and compared pixel for pixel.
+  - The clock is fixed, animations are held, and images are decoded before each shot.
+  - Its first stability control failed: on `main` against itself, 38 of 48 pairs matched. Lazy,
+    async-decoded images sometimes painted as an empty box. After forcing the decode: 48 of 48.
+- **`scripts/site_check.py` gains three kinds of check:**
+  - **Every page:** all text outside SVG grows when the browser's text size doubles. Screen-reader-only
+    text is left out: it's never seen, and the one in the sub-menu button takes the browser's fixed
+    button size.
+  - **The theme:** `data-theme` gives exactly the OS's colours, dark on a light OS and light on a dark
+    one.
+  - **Contrast, light and dark:** from the colours the browser resolves, every text colour token on both
+    grounds, and the solid button's text, is 4.5:1 or more. The lowest are 5.01 in light and 6.56 in
+    dark, both muted text on the tinted ground.
+
+**How it was checked:**
+- **`shots_diff.py`, `main` against this branch:** 48 of 48 pairs identical.
+  - `main` against itself: 48 of 48 (the shots are stable).
+  - A 1px shift of the name in the top bar, injected: 0 of 48 identical (a change is found).
+- **`site_check.py` on this branch:** 133 of 133, plus 12 known DESIGN-1 faults. That's 16 new checks:
+  12 text-size checks, 2 theme, 2 contrast.
+- **The new checks, each against a copy with one fault:**
+  - **`main` itself:** fails text size on all 12 pages and both theme checks; contrast passes.
+  - **`.label` back to 12px:** fails text size on all 12 pages, naming only `.label`.
+  - **The data-theme route mapping one token wrong:** fails the dark-route check only.
+  - **Light muted text at `#8A93A0`:** fails light contrast only (3.03 and 2.83).
+
+---
