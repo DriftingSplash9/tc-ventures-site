@@ -15,6 +15,11 @@ Pages come from public/sitemap.xml, plus /404. For each page:
     /work/ page
   - no noindex (except /404, which carries it on purpose) and no draft banner
   - no console errors, and no sideways scroll at 375px
+  - text grows with the browser's text size: with the root size doubled, every
+    element with text of its own, outside SVG, is larger than before (a size
+    left in px stays put and fails). Screen-reader-only text (.sr-only) is
+    left out: it is never seen, and the one in the sub-menu button takes the
+    browser's fixed button size.
   - at 375px, a click on the sub-menu toggle opens it, and with it open the
     page still doesn't scroll sideways (DESIGN-1, a known fault: see below)
 And once, on the home page: Tab reaches the sub-menu toggle, Enter opens it,
@@ -24,6 +29,11 @@ Esc closes it and returns focus. Then the build ledger (copy-review-006):
   - the landscape picture shows at 1280px and the portrait one at 375px
   - with JavaScript off, the list opens and every line links a handoff file
     that exists in the repo, numbered from 001 without gaps
+Then the theme, on the home page (copy-review-007, Phase 3):
+  - data-theme="dark" on <html> gives exactly the colours the OS's dark mode
+    gives, and data-theme="light" gives the light ones even on a dark OS
+  - contrast, from the colours the browser resolves: every text colour token on
+    both grounds, and the solid button's text, is 4.5:1 or more, light and dark
 
 Exit code 1 if any check fails. Written 2026-09-26 (INFRA-13): the nav is
 copied into every page by hand, so this is what catches a page left behind.
@@ -39,6 +49,9 @@ from functools import partial
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+TOKENS = ["paper", "paper-tint", "ink", "ink-soft", "muted", "rule", "accent", "accent-ink"]
+TEXT_ON = [(f, g) for f in ("ink", "ink-soft", "muted", "accent", "accent-ink") for g in ("paper", "paper-tint")] \
+    + [("paper", "accent")]       # the solid button
 SUBMENU = [
     ("/work/influence-graph", "The Economic Report Influence Graph"),
     ("/work/back-quarter", "A homepage you drive around"),
@@ -79,6 +92,16 @@ def ledger_expected(draft):
         return mod, mod.render(cur, draft)[0], ""
     except SystemExit as e:
         return mod, None, str(e)
+
+
+def contrast(a, b):
+    """WCAG contrast ratio of two #RRGGBB colours."""
+    def lum(h):
+        c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+        c = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    hi, lo = sorted((lum(a), lum(b)), reverse=True)
+    return (hi + 0.05) / (lo + 0.05)
 
 
 def raw_page(url):
@@ -149,6 +172,17 @@ def main():
             check(f"{path}: noindex only on /404", (robots == 1) == (path == "/404"), str(robots))
             check(f"{path}: no draft banner", page.locator(".draft").count() == 0)
             check(f"{path}: console clean", not errors, "; ".join(errors)[:200])
+            sizes = """() => [...document.querySelectorAll('body *')]
+                .filter(e => !e.closest('svg, .sr-only') && !['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE'].includes(e.tagName)
+                        && [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()))
+                .map(e => [e.tagName.toLowerCase() + (e.className && typeof e.className === 'string' ? '.' + e.className.split(' ')[0] : ''),
+                           parseFloat(getComputedStyle(e).fontSize)])"""
+            small = page.evaluate(sizes)
+            page.add_style_tag(content=":root { font-size: 32px !important; }")
+            big = page.evaluate(sizes)
+            stuck = sorted({a[0] for a, b in zip(small, big) if b[1] <= a[1]})
+            check(f"{path}: text grows with the browser's text size", bool(small) and len(small) == len(big) and not stuck,
+                  f"{len(small)} text elements" + (f"; stay put: {', '.join(stuck)[:160]}" if stuck else ""))
             ctx.close()
             ctx = browser.new_context(viewport={"width": 375, "height": 800})
             page = ctx.new_page(); page.goto(base + path, wait_until="networkidle")
@@ -203,7 +237,33 @@ def main():
             and all(os.path.exists(os.path.join(HERE, "..", f"handoff-{m.group(1)}.md")) for m in nums)
         check("ledger: every list line links a handoff file that exists, from 001 without gaps", ok,
               f"{len(hrefs)} links" + ("" if ok else f": {hrefs[:3]}"))
-        ctx.close(); browser.close()
+        ctx.close()
+
+        tok = "names => names.map(n => getComputedStyle(document.documentElement).getPropertyValue('--' + n).trim().toUpperCase())"
+        pal = {}
+        for scheme in ("light", "dark"):
+            ctx = browser.new_context(color_scheme=scheme, viewport={"width": 1280, "height": 900})
+            page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+            pal[scheme] = page.evaluate(tok, TOKENS)
+            for choice in ("light", "dark"):
+                page.evaluate(f"document.documentElement.setAttribute('data-theme', '{choice}')")
+                pal[scheme, choice] = page.evaluate(tok, TOKENS)
+            ctx.close()
+        check("theme: data-theme=dark gives the OS's dark colours, on a light OS and a dark one",
+              pal["light", "dark"] == pal["dark", "dark"] == pal["dark"] != pal["light"],
+              f"light OS {pal['light', 'dark']}, dark OS {pal['dark']}")
+        check("theme: data-theme=light gives the light colours, on a dark OS and a light one",
+              pal["dark", "light"] == pal["light", "light"] == pal["light"],
+              f"dark OS {pal['dark', 'light']}, light OS {pal['light']}")
+        for scheme in ("light", "dark"):
+            t = dict(zip(TOKENS, pal[scheme]))
+            ok = all(re.fullmatch(r"#[0-9A-F]{6}", v) for v in t.values())
+            ratios = sorted((contrast(t[f], t[g]), f, g) for f, g in TEXT_ON) if ok else []
+            low = [f"{f} on {g} {r:.2f}" for r, f, g in ratios if r < 4.5]
+            check(f"contrast ({scheme}): every text colour on both grounds, and the solid button, 4.5:1 or more",
+                  ok and not low, ("; ".join(low) if low else f"lowest {ratios[0][1]} on {ratios[0][2]} {ratios[0][0]:.2f}")
+                  if ok else f"tokens not #RRGGBB: {t}")
+        browser.close()
     if srv:
         srv.shutdown()
     faults = ", ".join(f"{known.count(f)} {f}" for f in sorted(set(known)))
