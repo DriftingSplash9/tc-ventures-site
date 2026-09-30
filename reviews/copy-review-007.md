@@ -701,4 +701,9 @@ Thomas, verbatim: **"ls1 A, q-s5-1 B"**. Read as:
 > "… The site has not had a screen-reader run-through yet. In Chrome, a case study’s name growing into
 > its heading runs on some changes of page and not others, and I haven’t found why yet."
 
+**TS1 ruled 2026-09-30.** Thomas, verbatim: **"ts1 ok"**. Shipped as written. Stale when the cause is
+found and fixed (C-20's list of lines that go stale).
+
+**#28 shipped** at Thomas's word ("merge 28"), merge `b23c2aa`.
+
 ---
