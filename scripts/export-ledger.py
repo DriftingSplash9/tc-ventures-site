@@ -12,8 +12,13 @@ A thread still open at the last column runs to the edge: solid, or dotted if
 ledger/curation.json marks the item parked.
 
 Two pictures of the same data: landscape, and portrait for phones (CSS shows
-one). Then an ordered list, the text equivalent: one line per handoff, with its
-date, linking the file on GitHub.
+one). In each, the threads sit in one <g class="lg__threads">, so
+assets/ledger.js can clip them to a handoff (Phase 3 step 5). Under them, the
+scrubber (copy-review-007 step 5): a slider, and every handoff's line stacked
+in one place, one shown at a time. Then the caption. CSS shows it only when scripts run, and the
+script leaves it out until its label is ruled (curation copy.scrub). Then an
+ordered list, the text equivalent: one line per handoff, with its date,
+linking the file on GitHub.
 
 Curated by construction
 -----------------------
@@ -202,8 +207,11 @@ def thread_marks(t, a1, a2, fixed1, fixed2, horizontal):
     (x1, y1), (x2, y2) = pt(a1, fixed1), pt(a2, fixed2)
     cls = {"closed": "lg__t", "open": "lg__t lg__t--open", "parked": "lg__t lg__t--parked"}[t["state"]]
     dot = {"closed": "lg__dot", "open": "lg__dot lg__dot--open", "parked": "lg__dot lg__dot--open"}[t["state"]]
-    s = [f'<line class="{cls}" x1="{f(x1)}" y1="{f(y1)}" x2="{f(x2)}" y2="{f(y2)}"/>',
-         f'<circle class="{dot}" cx="{f(x1)}" cy="{f(y1)}" r="1.8"/>']
+    # A closed thread carries the column it closed at, so assets/ledger.js can draw
+    # it open (teal) at any earlier handoff on the scrubber (Q-S5-1 B).
+    e = f' data-e="{t["e"]}"' if t["state"] == "closed" else ""
+    s = [f'<line class="{cls}"{e} x1="{f(x1)}" y1="{f(y1)}" x2="{f(x2)}" y2="{f(y2)}"/>',
+         f'<circle class="{dot}"{e} cx="{f(x1)}" cy="{f(y1)}" r="1.8"/>']
     if t["state"] == "closed":
         if horizontal:
             s.append(f'<line class="lg__end" x1="{f(x2)}" y1="{f(y2 - 2.5)}" x2="{f(x2)}" y2="{f(y2 + 2.5)}"/>')
@@ -212,13 +220,40 @@ def thread_marks(t, a1, a2, fixed1, fixed2, horizontal):
     return s
 
 
+def threads_g(marks):
+    """Every thread in one group, which assets/ledger.js clips to a handoff."""
+    return '<g class="lg__threads">' + "".join(marks) + "</g>"
+
+
+def scrubber(cur, shown):
+    """The slider and every line stacked in one place (copy-review-007 step 5).
+
+    Left out until its label is ruled. The last line is the one shown before
+    the script runs; CSS hides the whole thing when scripts don't run."""
+    s = cur["copy"].get("scrub") or {}
+    if not s.get("ruled"):
+        return []
+    n = len(shown)
+    # Where the first and last columns sit in the landscape picture (svg_land's
+    # LEFT, RIGHT and W), so CSS can put the slider's ends under them.
+    out = ['<div class="ledger__scrub" style="--lg-from: 9.746%; --lg-to: 3.814%">',
+           f'<label for="ledger-scrub">{esc(s["label"])}</label>',
+           f'<input type="range" id="ledger-scrub" min="1" max="{n}" step="1" value="{n}">',
+           '<div class="ledger__read">']
+    for j, h in enumerate(shown):
+        on = " is-on" if j == n - 1 else ""
+        out.append(f'<p class="ledger__at{on}"><b>{h["num"]}</b> <time datetime="{h["date"]}">{h["date"]}</time> '
+                   f'<span>{esc(h["line"])}</span></p>')
+    return out + ['</div>', '</div>']
+
+
 def svg_land(cur, shown, threads):
     n = len(shown)
-    W, LEFT, RIGHT, TOP, ROW, PAD = 944, 92, 908, 28, 5, 7
+    W, LEFT, RIGHT, TOP, ROW, PAD = 944, 92, 908, 28, 5, 7   # scrubber() mirrors LEFT, RIGHT and W
     col = [LEFT + (j * (RIGHT - LEFT) / (n - 1) if n > 1 else 0) for j in range(n)]
     spacing = (RIGHT - LEFT) / (n - 1) if n > 1 else 99
     step = next(s for s in (1, 2, 5, 10, 20, 50) if s * spacing >= 26)
-    body, y = [], TOP
+    body, marks, y = [], [], TOP
     for b in cur["bands"]:
         ts = [t for t in threads if t["band"] == b]
         if not ts:
@@ -230,7 +265,7 @@ def svg_land(cur, shown, threads):
         for t in sorted(ts, key=lambda t: (t["lane"], t["s"])):
             c = y + PAD + t["lane"] * ROW
             a2 = col[t["e"]] if t["state"] == "closed" else W - 4
-            body += thread_marks(t, col[t["s"]], a2, c, c, True)
+            marks += thread_marks(t, col[t["s"]], a2, c, c, True)
         y += h + 6
     grid = []
     for j, x in enumerate(col):
@@ -249,7 +284,7 @@ def svg_land(cur, shown, threads):
             f'aria-labelledby="ledger-land-t ledger-land-d">'
             f'<title id="ledger-land-t">{esc(c["title"])}</title>'
             f'<desc id="ledger-land-d">{esc(c["desc_land"])}</desc>'
-            + "".join(grid) + "".join(body) + "</svg>")
+            + "".join(grid) + "".join(body) + threads_g(marks) + "</svg>")
 
 
 def svg_port(cur, shown, threads):
@@ -257,7 +292,7 @@ def svg_port(cur, shown, threads):
     TOP, RS, X0, LANE, PAD, GAP = 74, 16, 70, 6, 6, 5
     row = [TOP + j * RS for j in range(n)]
     bottom = row[-1] + 12
-    body, x = [], X0
+    body, marks, x = [], [], X0
     for b in cur["bands"]:
         ts = [t for t in threads if t["band"] == b]
         if not ts:
@@ -270,7 +305,7 @@ def svg_port(cur, shown, threads):
         for t in sorted(ts, key=lambda t: (t["lane"], t["s"])):
             c = x + PAD + t["lane"] * LANE
             a2 = row[t["e"]] if t["state"] == "closed" else bottom
-            body += thread_marks(t, row[t["s"]], a2, c, c, False)
+            marks += thread_marks(t, row[t["s"]], a2, c, c, False)
         x += w + GAP
     W = x + 2
     grid = []
@@ -285,7 +320,7 @@ def svg_port(cur, shown, threads):
             f'aria-labelledby="ledger-port-t ledger-port-d">'
             f'<title id="ledger-port-t">{esc(c["title"])}</title>'
             f'<desc id="ledger-port-d">{esc(c["desc_port"])}</desc>'
-            + "".join(grid) + "".join(body) + "</svg>")
+            + "".join(grid) + "".join(body) + threads_g(marks) + "</svg>")
 
 
 def render(cur, draft=False):
@@ -293,6 +328,9 @@ def render(cur, draft=False):
     c = cur["copy"]
     if not (c.get("ruled") or draft):
         sys.exit("the ledger's own copy (curation copy) is not ruled yet; use --draft for a preview")
+    if draft and c.get("scrub") and not c["scrub"].get("ruled"):
+        c = dict(c, scrub=dict(c["scrub"], ruled="draft"))
+        cur = dict(cur, copy=c)
     items = []
     for h in shown:
         items.append(f'<li><a href="{REPO}{h["file"]}">{h["file"][:-3]}</a> '
@@ -303,6 +341,7 @@ def render(cur, draft=False):
         '<figure class="ledger">',
         svg_land(cur, shown, threads),
         svg_port(cur, shown, threads),
+        *scrubber(cur, shown),
         f'<figcaption>{c["caption_html"]}</figcaption>',
         "</figure>",
         '<details class="ledger__list">',

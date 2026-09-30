@@ -35,4 +35,37 @@
     if (m) return m;
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'full';
   };
+
+  /* M1, page to page (copy-review-007 §4, Phase 3 step 5). style.css turns on
+     cross-document view transitions (@view-transition), and names the top bar
+     so it holds still while the content cross-fades. Under Full, a case study's
+     sub-menu label, clicked, grows into the H1 of the page it opens (the label
+     is the H1, a standing rule). Reduced: the cross-fade only. Off: none.
+     Browsers without the feature change pages as before. The hooks live here
+     because the new page's must be registered before its first paint. */
+  var clicked = null;
+  function unname() {
+    var named = document.querySelectorAll('[style*="view-transition-name"]');
+    for (var i = 0; i < named.length; i++) named[i].style.viewTransitionName = '';
+  }
+  document.addEventListener('click', function (e) {
+    clicked = e.target.closest ? e.target.closest('#navsub-work a') : null;
+  }, true);
+  window.addEventListener('pageshow', function () { clicked = null; unname(); });
+  window.addEventListener('pageswap', function (e) {
+    if (!e.viewTransition) return;
+    var m = window.tcvMotion();
+    if (m === 'off') { e.viewTransition.skipTransition(); return; }
+    unname();
+    if (m === 'full' && clicked && clicked.getClientRects().length) clicked.style.viewTransitionName = 'cs-title';
+  });
+  window.addEventListener('pagereveal', function (e) {
+    if (!e.viewTransition) return;
+    var m = window.tcvMotion();
+    if (m === 'off') { e.viewTransition.skipTransition(); return; }
+    var h1 = m === 'full' && /^\/work\//.test(location.pathname) && document.querySelector('main h1');
+    if (!h1) return;
+    h1.style.viewTransitionName = 'cs-title';
+    e.viewTransition.finished.then(unname, unname);
+  });
 })();

@@ -526,3 +526,132 @@ Thomas, verbatim: **"s4-1 A, s4-2 A"**. Read as:
   and was redone.
 
 ---
+
+## Step 5 — the motion, built (2026-09-30), for Thomas to look at and rule
+
+Started at Thomas's word, "go ahead with step 5". **To rule:** LS1 (the slider's words) and Q-S5-1. Nothing
+is live. Until LS1 is ruled, the export leaves the slider out, and `site_check.py` fails its four scrubber
+and draw-in checks.
+
+### What it is
+
+- **M1, page to page:**
+  - The CSS turns on cross-document view transitions (`@view-transition`).
+  - **Browser support, read at build** from MDN's compatibility data (`browser-compat-data`, raw, HTTP
+    200): Chrome and Edge 126+, Safari 18.2+, not Firefox. Firefox changes pages as before.
+  - The top bar holds still and the rest cross-fades (0.25s).
+  - **Under Full, a case study's sub-menu label, clicked, grows into the H1 of the page it opens**
+    (0.5s). `prefs.js` names the two for that one change of page. It's the only script that runs
+    before the new page's first paint, which is when the new page's side has to be named.
+  - Reduced: the cross-fade only. Off: no transition.
+- **M2, the draw-in:**
+  - Under Full, the first time the ledger scrolls into view, the threads draw from 001 to the newest,
+    about 0.11s a handoff (2.9s for 26).
+  - Until then they're clipped to 001. The clip is set before the first paint (measured at 46ms, first
+    paint at 148ms), so the whole ledger never flashes first.
+  - Under Reduced and Off it's whole from the start. Touching the slider stops it.
+- **The scrubber (PL-9):**
+  - A native slider under the picture, one step per handoff, starting at the newest.
+  - Moving it marks that column, clips the threads there, and shows that handoff's ruled line under
+    it. The draw-in is the same slider running on its own.
+  - In the landscape picture the thumb sits under its column: measured within 1px at 700, 1024, 1280
+    and 1600px.
+  - All the lines are stacked in one place, so the box is as tall as the longest and nothing below
+    moves as the slider does.
+  - Arrow keys, touch and screen readers work, because it's a native slider. Its spoken value is the
+    handoff, its date and its line.
+  - Without JavaScript it doesn't show, and the list below carries every line, as before.
+- **Files:**
+  - `assets/ledger.js` (new, home page only).
+  - `prefs.js`, `style.css`, `index.html` (one script tag).
+  - `export-ledger.py`: the threads in one group, and the slider's markup, written only once LS1 is
+    ruled.
+  - `ledger/curation.json`: LS1's draft, unruled.
+  - `site_check.py`: five new checks.
+
+### The words (copy)
+
+**LS1 — the slider's label.**
+> A: Step through the handoffs
+>
+> B: One handoff at a time
+
+A is in the draft. Its spoken value, which is not new copy (the ruled line of each handoff), reads like
+"handoff-017, 2026-09-24: This site’s own case study live, and a Projects sub-menu on every page."
+
+### Found while building it
+
+- **The top bar isn't in the same place on every page.** A case study's lane is wider, so the name and the
+  nav sit about 120px further out than on `/projects`.
+  - Cross-faded as one picture, the bar showed doubled text mid-way ("Thomas CheesmThomas Cheesman"),
+    seen in the first frames.
+  - The name, the nav and the Display button are now named apart. Each slides to its place (0.35s),
+    and under Reduced each is there at once.
+- **Clipping at a past handoff shows each thread in its final colour.** At 017, an item still open then
+  but closed later is drawn grey, not teal. The proposal said only "highlights that column and shows its
+  ruled line". The clip is an addition, so:
+
+**Q-S5-1:** what the slider shows at a past handoff.
+> **A:** as built: the threads clipped at that handoff, each in its final colour.
+>
+> **B (recommended):** clipped, and coloured as they stood at that handoff: open then means teal, even if
+> it closed later. Then the picture says only true things about that day. It's a small addition to the
+> export (each thread's closing column) and to `ledger.js`.
+>
+> **C:** as proposed: no clip while scrubbing, only the column marked and its line shown. The draw-in
+> still clips as it runs.
+
+### How it was checked
+
+- **`site_check.py` on the preview (LS1 drafted in):** 198 of 198, the 193 before plus five new:
+  - M1 at each motion level, chosen and under System, read from the new page's own view transition;
+  - M2: the draw-in under Full, clipped before first paint; whole under Reduced, Off and the OS's;
+  - the scrubber by keyboard: the column, the clip, the line and the spoken value follow;
+  - one height at every handoff;
+  - with JavaScript off, no slider.
+- **Controls, each must fail:**
+  - This repo's `public/`, LS1 unruled: fails the four scrubber and draw-in checks.
+  - `main`: fails those four, M1 and the ledger block.
+  - **Copy A:**
+    - the clicked label left unnamed: M1 fails under Full, chosen and under System;
+    - the bar's parts sliding over `--fade`: M1 fails under Reduced, chosen and the OS's;
+    - no spoken value: the keyboard check fails.
+  - **Copy B:**
+    - Off not skipped on either side: M1 fails under Off;
+    - the draw-in ignoring the setting: M2 fails under Reduced, Off and the OS's;
+    - the other lines hidden with `display: none`: two heights, fails;
+    - the slider shown without scripts: the JS-off check fails.
+  - Two of the first control faults were badly chosen and caught nothing. Removing only the old page's
+    Off skip left the new page's. Un-stacking the lines kept one height, the sum of all. Both were
+    replaced by the faults above. The first run also crashed the keyboard check on a missing spoken
+    value, and it now fails instead.
+- **`shots_diff.py`, `main` against the preview:** 44 of 48 pairs identical. The home page differs by the
+  slider's height (111px at 1280), as intended.
+  - `--self`: 48 of 48, with the draw-in running.
+  - `--inject footer{padding-top:1px}`: 0 of 48. (The first `--inject` named a class that doesn't exist
+    and changed nothing. That was caught by its 44 of 48, and redone.)
+- **Looked at:**
+  - M1 frozen at 0, 30, 60 and 90%, before and after the bar fix;
+  - the slider at 1280 light and 375 dark, at rest, mid draw-in and at 017;
+  - a GIF of each motion, at `Claude outputs/step5-shots/`.
+
+### Rulings, step 5 (2026-09-30)
+
+Thomas, verbatim: **"ls1 A, q-s5-1 B"**. Read as:
+- LS1 A: the label is "Step through the handoffs". Recorded in `ledger/curation.json` as
+  `"LS1 A 2026-09-30"`, so the export now writes the slider.
+- Q-S5-1 B: at an earlier handoff, threads are coloured as they stood then.
+
+### Q-S5-1 B, built (2026-09-30)
+
+- **The export** writes each closed thread's closing column on its line and its start dot (`data-e`): 52
+  closed threads, 208 marks over the two pictures.
+- **`ledger.js`** draws a closed thread open (teal) at any handoff before the one that closed it. At the
+  newest handoff nothing changes.
+- **`site_check.py`, one more check:** at 017, every thread that closed later is teal (17), and none of
+  those closed by then is (35).
+  - Control C, with the recolouring removed: it fails that check only (17 of 17 not teal).
+- **`site_check.py` on this repo's `public/`, LS1 ruled:** 199 of 199.
+- **Looked at:** 017 at 1280 light and 375 dark.
+
+---
