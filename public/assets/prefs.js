@@ -52,8 +52,16 @@
     clicked = e.target.closest ? e.target.closest('#navsub-work a') : null;
   }, true);
   window.addEventListener('pageshow', function () { clicked = null; unname(); });
+  /* A skipped transition (Off, or Chrome aborting one, which it does on about
+     half of the live changes of page for a reason not yet found: handoff-027)
+     rejects its promises. Handled here, so a skip is quiet, not a console error. */
+  function quiet(vt) {
+    function none() {}
+    vt.ready.catch(none); vt.finished.catch(none); vt.updateCallbackDone.catch(none);
+  }
   window.addEventListener('pageswap', function (e) {
     if (!e.viewTransition) return;
+    quiet(e.viewTransition);
     var m = window.tcvMotion();
     if (m === 'off') { e.viewTransition.skipTransition(); return; }
     unname();
@@ -61,6 +69,7 @@
   });
   window.addEventListener('pagereveal', function (e) {
     if (!e.viewTransition) return;
+    quiet(e.viewTransition);
     var m = window.tcvMotion();
     if (m === 'off') { e.viewTransition.skipTransition(); return; }
     var h1 = m === 'full' && /^\/work\//.test(location.pathname) && document.querySelector('main h1');

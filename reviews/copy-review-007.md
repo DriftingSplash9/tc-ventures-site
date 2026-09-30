@@ -654,4 +654,51 @@ Thomas, verbatim: **"ls1 A, q-s5-1 B"**. Read as:
 - **`site_check.py` on this repo's `public/`, LS1 ruled:** 199 of 199.
 - **Looked at:** 017 at 1280 light and 375 dark.
 
+**Shipped:** #27, merged at Thomas's word ("merge 27"), merge `da64359`.
+- The build check-run completed with success.
+- Curl, cache-busted: `/`, `style.css`, `prefs.js` and `ledger.js` are byte-identical to `main`, and each
+  differs from the pre-merge `d0333b0`.
+- `site_check.py --live`: 198 of 199. The one failure was M1, below.
+
+### M1 live: Chrome skips some transitions (2026-09-30)
+
+**What's known:**
+- On tc-ventures.ca, Chrome aborts roughly half of the label-into-H1 transitions: 4 of 12, 2 of 8, 5 of
+  10, 3 of 12, 6 of 16 and 5 of 16 in headless runs.
+- **The real browser too:** 3 of 7 in the app's browser, Chrome 152, the window on screen, roughly
+  alternating hit and miss.
+- **A miss is a plain change of page,** the same as Firefox gets. Nothing breaks.
+- **The old page starts the transition every time.** At the swap, the names in use are unique (`root,
+  topbar, tb-name, tb-nav, cs-title, tb-display`), the page is visible and focus is on the clicked link.
+  Chrome then aborts it ("AbortError: Transition was skipped"), and the new page never receives it.
+- **Locally it never happens:** 0 of 40, including runs with 60ms added to every response, runs with the
+  live security headers, and runs with both.
+- **Not the cause, by test:**
+  - Cloudflare's analytics beacon: blocked 6 of 12 missed, allowed 0 of 12, and earlier unblocked runs
+    missed too.
+  - Playwright switching off Chrome's paint holding: 6 of 16 missed off, 5 of 16 on.
+- **Not known:** the cause. Leads: HTTPS or HTTP/2 locally, and a run with the bar's parts unnamed.
+
+**Q-M1-1, ruled A (Thomas, verbatim: "a"):**
+- A skipped transition is now quiet. `prefs.js` handles its promises, so a skip no longer logs an
+  uncaught error.
+- The live check tries each M1 case up to three times (`M1_TRIES`). It passes on the first transition
+  that runs as ruled, and fails if one runs wrong or none runs in three. Off must show none on every try.
+- The cause is its own open item for the next session.
+- The honest limit on `/work/this-site` changes, through TS1 below.
+
+**Checked:**
+- `site_check.py` on this tree: 199 of 199.
+- `--live`, with the new checker against the site as it is: 199 of 199.
+- **Controls:**
+  - Copy A (the label unnamed; the bar sliding under Reduced) still fails M1 on both counts.
+  - Copy B (Off not skipped) still fails M1 under Off.
+  - Pre-step-5 `main` fails "no transition in 3 tries" in every case, so the tries can't hide a
+    transition that never runs.
+
+**TS1 — `/work/this-site`, "The honest limits", one sentence added at the end.** Not shipped until ruled.
+> Now: "… The site has not had a screen-reader run-through yet." →
+> "… The site has not had a screen-reader run-through yet. In Chrome, a case study’s name growing into
+> its heading runs on some changes of page and not others, and I haven’t found why yet."
+
 ---
