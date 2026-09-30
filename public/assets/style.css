@@ -251,6 +251,7 @@ body {
   font-size: 1.125rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;   /* DESIGN-3: a word breaks only when it would run off its line */
 }
 
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
@@ -388,6 +389,17 @@ a:focus-visible { outline: var(--focus-w) solid var(--accent); outline-offset: 3
 /* a bridge over the gap, so the pointer can travel from Projects to the list */
 .navsub__list::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 20px; }
 .navsub__list a { display: block; padding: var(--s-2) var(--s-4); }
+/* DESIGN-1: at 720px and under the list hangs from the gutter, so it is
+   capped to the screen with the same margin on the right, and a long label
+   wraps. Wider screens keep one line per label. */
+@media (max-width: 720px) {
+  .navsub__list {
+    min-width: min(15rem, calc(100vw - 2 * (var(--gutter) - var(--s-4))));
+    width: max-content;
+    max-width: calc(100vw - 2 * (var(--gutter) - var(--s-4)));
+    white-space: normal;
+  }
+}
 
 /* ---- Display: the button and its panel (copy-review-007, Phase 3) --------
    The button comes after the nav. On a narrow screen, where the bar already
@@ -500,6 +512,7 @@ h1 {
   max-width: 34ch;
   margin: 0.8em 0 0;
 }
+.hero--home .hero__lede { max-width: 52ch; }   /* DESIGN-2, Q-P3-4 A: the ledger's top shows at 1280x900 */
 .pagehead .hero__lede { max-width: 52ch; font-size: clamp(1.1rem, 2vw, 1.25rem); }
 
 .hero__body {
@@ -572,13 +585,13 @@ h1 {
 
 .proof {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px 48px;
   padding-block: clamp(26px, 4vw, 38px);
   border-bottom: 1px solid var(--rule);
 }
 @media (min-width: 860px) {
-  .proof { grid-template-columns: 1.65fr 1fr; }
+  .proof { grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); }
 }
 
 .proof h3 {
@@ -661,12 +674,12 @@ h1 {
 .spec { margin: clamp(30px, 4vw, 44px) 0 0; border-top: 1px solid var(--rule); }
 .spec > div {
   display: grid;
-  grid-template-columns: minmax(130px, 190px) 1fr;
+  grid-template-columns: minmax(130px, 190px) minmax(0, 1fr);
   gap: 6px 24px;
   padding-block: 12px;
   border-bottom: 1px solid var(--rule);
 }
-.spec--wide > div { grid-template-columns: minmax(150px, 220px) 1fr; }
+.spec--wide > div { grid-template-columns: minmax(150px, 220px) minmax(0, 1fr); }
 .spec dt {
   margin: 0;
   font-family: var(--mono);
@@ -686,7 +699,7 @@ h1 {
 }
 .spec--wide dd { font-family: var(--body); font-size: 1rem; }
 @media (max-width: 560px) {
-  .spec > div, .spec--wide > div { grid-template-columns: 1fr; gap: 2px; }
+  .spec > div, .spec--wide > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
 
 .repo { font-family: var(--mono); font-size: 0.8125rem; color: var(--muted); margin: 22px 0 0; }
@@ -709,11 +722,11 @@ h1 {
 .footer { border-top: 1px solid var(--rule); background: var(--paper-tint); }
 .footer__inner {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 32px 48px;
   padding-block: clamp(40px, 6vw, 64px);
 }
-@media (min-width: 700px) { .footer__inner { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 700px) { .footer__inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 
 .footer__email {
   font-family: var(--display);
@@ -789,6 +802,7 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
    -------------------------------------------------------------------------- */
 
 .gd { margin: clamp(30px, 4vw, 44px) 0 0; }
+.gd > .prose + .gd__frame { margin-top: var(--block); }   /* G-7 */
 
 /* .btn, .gd__stage and .gd__still all set `display`, which outranks the user
    agent's [hidden] rule. Without this the button shows with JavaScript off and
@@ -1204,7 +1218,12 @@ kbd {
   text-decoration: none;
   border-bottom: 1px dotted var(--muted);
   padding-bottom: 1px;
-  white-space: nowrap;
+  /* DESIGN-3: a receipt moves to the next line whole, as nowrap did, but one
+     wider than the whole line wraps inside itself instead of running off the
+     screen (a 375px screen with text at 200%). */
+  display: inline-block;
+  max-width: 100%;
+  line-height: normal;
   vertical-align: 0.08em;
   margin-left: 0.35em;
 }
@@ -1290,6 +1309,7 @@ kbd {
 .rules tbody tr:last-child th, .rules tbody tr:last-child td { border-bottom: 1px solid var(--rule); }
 
 @media (max-width: 640px) {
+  .rules { table-layout: fixed; }   /* DESIGN-3: the stacked table keeps its 100%, whatever the text size */
   .rules thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rules tr { display: block; padding-block: var(--s-4); border-top: 1px solid var(--rule); }
   .rules tbody tr:last-child { border-bottom: 1px solid var(--rule); }

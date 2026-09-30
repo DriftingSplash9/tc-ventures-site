@@ -435,3 +435,63 @@ Thomas, verbatim: **"dp1-3 ok, merge 21, then wrap"**. Read as:
     worse.
 
 ---
+
+## Step 4 — the layout, built (2026-09-30), for Thomas to look at and rule
+
+Started at Thomas's word, "go straight to Phase 3 step 4". No copy changes: CSS, one class on the home
+hero, and the checks.
+
+### What changed
+
+- **DESIGN-2 (Q-P3-4 A):** the home lede is 52ch (`.hero--home .hero__lede`). It's 6 lines at 1280, and
+  the ledger's column numbers and first band show on a 1280×900 screen. The 404 shares the hero style
+  and keeps 34ch, so the class scopes the change to the home page. At 375 the lede now fills the column.
+- **DESIGN-1:** at 720px and under, the open sub-menu is capped to the screen, with the same 4px margin
+  on each side, and a label may wrap ("…written by a patient" takes two lines at 375). From 390px up it's
+  unchanged.
+- **G-7:** the graph's paragraph gets the `--block` gap above its frame (44px at 1280, 30 at 375).
+- **DESIGN-3, text at 200% on a 375px screen:**
+  - `overflow-wrap: break-word` on `body`: a word breaks only when it would otherwise run off its line.
+  - Grid columns `1fr` → `minmax(0, 1fr)` in the footer, the spec lists and the proof cards. A `1fr`
+    column never shrinks below its longest word, so one long address widened the whole footer.
+  - Receipts are `inline-block`: one still moves to the next line whole, as `nowrap` did, but one wider
+    than the whole line wraps inside itself.
+  - The stacked rules table (640px and under) is `table-layout: fixed`, so it keeps its 100%.
+
+### How it was checked
+
+- **`site_check.py`:** 193 of 193, with no known faults left.
+  - With the DESIGN-1 and DESIGN-3 marks still on, both checks failed on all 12 pages with "passes
+    now: take the mark off". Then the marks came off.
+  - **Control:** `main`'s `public/` fails the same 24 checks.
+- **`shots_diff.py`, `main` against this branch:** 16 of 48 pairs identical.
+  - Identical: `/projects`, `/background`, `/contact`, `/404`, light and dark, 1280 and 375.
+  - Differ as intended: the home page (DESIGN-2) and `/work/influence-graph` (G-7).
+  - **Differ, not intended: six pages with receipts are 5 to 36px shorter.** As an inline `nowrap` box the
+    mono receipt made each line holding one slightly taller; as an `inline-block` it doesn't. Seen side
+    by side on `/work/gprs`, the receipts and their dotted rules look the same.
+  - `--self`: 48 of 48. `--inject` was not re-run this session.
+- **Looked at:** the home page's first screen at 1280×900, the open sub-menu at 375, the graph's gap at
+  1280, the footer and a receipt at 375 with text at 200%, each before and after.
+
+### Found while building it
+
+- **DESIGN-4 (new): text at 200% between 375 and 1280 still scrolls sideways.** No check covers these
+  widths; `site_check.py` tests 200% only at 375 and 1280.
+  - 480 to 600px: every page is 632 to 638px wide. The top bar's links don't wrap.
+  - 660 to 960px: `/method` is about 950px wide. The rules table only stacks at 640 and under.
+  - 760 to 1024px: the open sub-menu runs past the edge. Labels stay on one line above 720.
+  - Nothing at 414, 1024 (menu closed) or 1180.
+
+**Q-S4-1:** DESIGN-4.
+> **A (recommended):** fix it in step 4 before it ships, and add a 200% sweep at 480 and 760 to
+> `site_check.py`, with a control.
+>
+> **B:** ship step 4 as it is; DESIGN-4 goes to §4 with a known-fault check.
+
+**Q-S4-2:** the receipts' few pixels.
+> **A (recommended):** accept. Nothing a reader would see moves, and the line spacing is now even.
+>
+> **B:** keep receipts inline and find another fix for them.
+
+---
