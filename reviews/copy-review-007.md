@@ -813,4 +813,7 @@ check's retries (`M1_TRIES`) and, through a copy block, TS1's sentence on `/work
 > **B:** keep a trace of it: "… The site has not had a screen-reader run-through yet. A page-change motion
 > that Chrome skipped about half the time was traced to where its switch lived, and fixed."
 
+**TS2 ruled 2026-10-01.** Thomas, verbatim: **"ts2 A, merge 34"**. The sentence is cut, in this PR.
+DESIGN-5 is closed.
+
 ---
