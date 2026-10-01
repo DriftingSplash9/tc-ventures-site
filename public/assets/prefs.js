@@ -10,6 +10,8 @@
      data-theme     light | dark
      data-contrast  standard | more
      data-text      large | larger
+     data-lg-wait   on the home page under Full, until ledger.js takes over the
+                    draw-in (DESIGN-6; below)
 
    display.js (the panel) writes the same key. If storage is blocked, every
    page falls back to the OS settings. */
@@ -36,8 +38,20 @@
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'full';
   };
 
-  /* M1, page to page (copy-review-007 §4, Phase 3 step 5). style.css turns on
-     cross-document view transitions (@view-transition), and names the top bar
+  /* M2's draw-in (DESIGN-6). ledger.js is deferred, so on a slow load the page
+     could paint the whole ledger before ledger.js clips it to 001. On the home
+     page under Full, this marks <html> before the first paint, and style.css
+     hides the threads while the mark is on. ledger.js clips them and lifts the
+     mark in one step. If ledger.js hasn't run after 3 s, the mark lifts here and
+     the ledger shows whole, with no draw-in. */
+  if (window.tcvMotion() === 'full' && /^\/(index(\.html)?)?$/.test(location.pathname) && 'IntersectionObserver' in window) {
+    root.setAttribute('data-lg-wait', '');
+    setTimeout(function () { root.removeAttribute('data-lg-wait'); }, 3000);
+  }
+
+  /* M1, page to page (copy-review-007 §4, Phase 3 step 5). Each page's <head>
+     turns on cross-document view transitions (@view-transition, inline since
+     DESIGN-5), and style.css names the top bar
      so it holds still while the content cross-fades. Under Full, a case study's
      sub-menu label, clicked, grows into the H1 of the page it opens (the label
      is the H1, a standing rule). Reduced: the cross-fade only. Off: none.

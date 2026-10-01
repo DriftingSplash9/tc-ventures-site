@@ -848,4 +848,42 @@ receipts show are his.
 
 **C22 ruled 2026-10-01.** Thomas, verbatim: **"c22 A"**. Shipped as written. C-22 is closed.
 
+**Shipped:** #35, merge `f4ee703`. `/method` byte-identical to `main` live, with the new sentence.
+
+---
+
+## DESIGN-6 — the draw-in on a slow load (2026-10-01)
+
+Started at Thomas's word, "go ahead with DESIGN-6". Not copy.
+
+**The fault:** `ledger.js` is deferred. On a slow load the page painted the whole ledger before
+`ledger.js` clipped it to 001 for the draw-in. Live, one run had its first paint at 816ms and the clip
+at 851ms (`site_check.py --live`, M2).
+
+**Reproduced locally,** with `ledger.js` held back 1s: on `main` the threads were visible and unclipped
+at the first paint (136 to 268ms), then clipped at about 1030ms. 3 of 3.
+
+**The fix:**
+- **`prefs.js`** runs before the first paint. On the home page under Full, it marks `<html>` with
+  `data-lg-wait`. If `ledger.js` hasn't run after 3s, it lifts the mark itself.
+- **`style.css`** hides the threads while the mark is on.
+- **`ledger.js`** lifts the mark on every path. On the draw-in path it lifts it only once the threads are
+  clipped, in the same step. It runs the draw-in only if the mark is still on: if the fallback lifted it
+  first, the ledger has been seen whole, and it stays so.
+- Reduced, Off and no JavaScript: no mark, as before.
+
+**Checked:**
+- **Probe, `ledger.js` 1s late:** the mark went on before the first paint, the threads were hidden at
+  it, and the mark lifted at the clip (1031ms and 1031ms). **Blocked:** hidden at paint, then whole at
+  3141ms. **Reduced:** no mark, whole.
+- **`site_check.py`: 202 of 202.**
+  - The M2 check now asks that the threads are never painted whole before the draw-in. Either the clip
+    came before the first paint, or the mark was on before it and lifted no sooner than the clip.
+  - **A new check:** `ledger.js` 1s late (twice) still never shows the ledger whole first, and the
+    draw-in still runs. `ledger.js` blocked: shown whole after 3s.
+- **Controls:**
+  - `main` fails the new check (no mark, visible at the first paint).
+  - The fix without the 3s fallback fails its blocked case: the threads stay hidden.
+- `shots_diff.py`, `main` against this branch: 48 of 48 identical.
+
 ---

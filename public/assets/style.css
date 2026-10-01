@@ -1606,6 +1606,9 @@ kbd {
 .ledger .lg__dot--open { fill: var(--accent); }
 .ledger .lg__end { stroke: var(--muted); stroke-width: 1.2; }
 .ledger .lg__col--on { stroke: var(--accent); }
+/* DESIGN-6: hidden from the first paint until ledger.js takes over the draw-in
+   (prefs.js sets the mark on the home page under Full; ledger.js lifts it). */
+:root[data-lg-wait] .ledger .lg__threads { visibility: hidden; }
 /* On the scrubber, a thread that closed after the chosen handoff was open then (ledger.js). */
 .ledger .lg__t.lg__then-open { stroke: var(--accent); stroke-width: 1.8; }
 .ledger .lg__dot.lg__then-open { fill: var(--accent); }
