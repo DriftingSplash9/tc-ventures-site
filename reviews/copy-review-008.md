@@ -246,3 +246,14 @@ ruled, the export leaves the traps out, so the live ledger doesn't change.
 >
 > **B (recommended):** draw the trap rows closer together, so the band is about two-thirds the height. Lines
 > and marks stay the same size.
+
+### Rulings, step 3 (2026-10-01)
+
+Thomas, verbatim: **"tl1 A, tl2 B, tl3 A, tl4 ok, q-tl5 a"**. Read as:
+- TL1 A: the band is labelled TRAPS.
+- TL2 B: the shorter caption sentence.
+- TL3 A: "Traps: 6 recorded, 1 into code."
+- TL4 OK: both descriptions as written.
+- Q-TL5 A: the band keeps its height as built.
+
+Recorded in `ledger/curation.json` as `copy.traps.ruled`, so the export now draws the traps.

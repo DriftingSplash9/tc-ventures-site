@@ -55,9 +55,9 @@
     "summary": "The ledger as a list, one line per handoff",
     "scrub": {"ruled": "LS1 A 2026-09-30", "label": "Step through the handoffs"},
     "traps": {
-      "ruled": null,
+      "ruled": "TL1 A, TL2 B, TL3 A, TL4 OK, Q-TL5 A 2026-10-01",
       "band": "TRAPS",
-      "caption": "The bottom band is the traps: mistakes a session wrote down so the next one would not repeat them. Each runs from the handoff that recorded it, dotted where that start is worked out from its count. A square end means a check or a script now does its job, a short bar that it was retired, and an open dot marks a session where it helped.",
+      "caption": "The bottom band is the traps, mistakes written down for the next session: dotted where a start is worked out from its count, a square end where a check now does the job, a bar where it was retired, a dot where it helped.",
       "desc_land": "The bottom band, traps, has one line per mistake a session wrote down for the next: from the handoff that recorded it to the one that retired it or moved it into code, with a dot at each session where it helped.",
       "desc_port": "The right-hand band, traps, has one line per mistake a session wrote down for the next: from the handoff that recorded it to the one that retired it or moved it into code, with a dot at each session where it helped.",
       "list": "Traps: {parts}.",
