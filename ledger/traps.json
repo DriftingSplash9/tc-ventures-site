@@ -1,6 +1,6 @@
 {
  "_about": "The ledger's traps layer (copy-review-008). One entry per trap, drafted by script from the handoffs' traps sections, 019 on: start = the handoff that recorded it (N - x of its tally); end = the handoff that dropped it (null while carried); how = 'into code' or 'retired'; helped = handoffs where its y rose. 'wordings' is every name it had, for matching only; the page never shows them. 'doubt' marks a reading Thomas rules on. Not used by the export until 'ruled' is set.",
- "ruled": null,
+ "ruled": "TL-L1 to TL-L3 OK, TD1 to TD4 A (\"links ok, TD all A\"), 2026-10-01",
  "traps": [
   {
    "id": "T01",
@@ -24,7 +24,7 @@
     "Python heredocs through Git Bash eat backslashes.",
     "Heredocs mangle scripts."
    ],
-   "doubt": "TD2: dropped 021 as 'belongs in code', nothing coded; back as T34 in 022. A: retired at 021, T34 separate. B: one trap."
+   "ruling": "TD2 A, 2026-10-01"
   },
   {
    "id": "T03",
@@ -70,7 +70,7 @@
    "wordings": [
     "Cloudflare's build start has ranged from about 1 to 10 minutes."
    ],
-   "doubt": "TD4: dropped 026, 'goes into code as INFRA-18'; INFRA-18 not built. A: retired. B: into code."
+   "ruling": "TD4 A, 2026-10-01"
   },
   {
    "id": "T06",
@@ -82,7 +82,7 @@
     "Bash `cd` moves the session's working directory (into `public/`, and once into `Reports Clustering`).",
     "Never start a Bash command with `cd`."
    ],
-   "doubt": "TD3: dropped 023, 'INFRA-14a carries it'; the cd hook was built later (#23). A: into code. B: retired."
+   "ruling": "TD3 A, 2026-10-01"
   },
   {
    "id": "T07",
@@ -311,15 +311,16 @@
   {
    "id": "T23",
    "start": 20,
-   "end": null,
-   "how": null,
+   "end": 22,
+   "how": "retired",
    "helped": [
     21
    ],
    "wordings": [
     "Pace requests to the Hostinger sites and keep runs small."
    ],
-   "doubt": "TD1: no Dropped line; replaced in 022 by T31. A: ends at 022, retired. B: one trap with T31."
+   "ruling": "TD1 A, 2026-10-01",
+   "ended_by_ruling": true
   },
   {
    "id": "T24",

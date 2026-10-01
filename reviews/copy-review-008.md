@@ -157,3 +157,92 @@ stops without a drop line (TD1). 95 "helped" dots.
 
 **Not in this table, but in the file:** every other trap and its wordings, for checking. The page never
 shows a wording.
+
+**Ruled 2026-10-01.** Thomas, verbatim: **"links ok, TD all A"**. TL-L1 to TL-L3 stand. TD1 A: T23 ends at
+022, retired, marked `ended_by_ruling` because no handoff has a Dropped line for it. TD2 A, TD3 A, TD4 A, as
+the table says. `traps.json` is ruled: 49 traps, 32 ended (9 into code, 23 retired), 17 carried.
+
+---
+
+## Step 3 — built (2026-10-01), for Thomas to look at and rule
+
+**To rule:** TL1 to TL4 (the words) and Q-TL5 (the band's height). Nothing is live. Until TL1 to TL4 are
+ruled, the export leaves the traps out, so the live ledger doesn't change.
+
+### What it is
+
+- **The export (`export-ledger.py`):**
+  - reads `ledger/traps.json` once it and the words (curation `copy.traps`) are ruled;
+  - draws a TRAPS band under DOMAIN in both pictures;
+  - adds each handoff's count to its list line from 019 on;
+  - adds a sentence to the caption and to each picture's description.
+- **The band:**
+  - one thread per trap, dotted before 019 where its start is inferred;
+  - teal while carried, grey once ended;
+  - a square end for "into code", the usual bar for "retired";
+  - an open dot at each session where it helped.
+  - The scrubber covers it as it does the rest: at a past handoff, a trap still open then is teal.
+- **No trap's words reach the page.** `traps.json` holds them for matching only.
+- **The export refuses to write** when `traps.json` doesn't match the handoffs:
+  - a trap line with no trap, or with two;
+  - a Dropped line with no ended trap to match it;
+  - an end before a start, or without its kind.
+  - **So when a new handoff records or drops a trap, `traps.json` must be updated before that handoff's
+    column can ship.** `scripts/traps_curate.py` drafts the update.
+
+### How it was checked
+
+- **`load_traps`'s checks, against broken copies of `traps.json`.** Each one failed:
+  - one wording removed;
+  - one drop taken out;
+  - T23's ruled end unmarked;
+  - one start off by one.
+  - The ruled file passes clean.
+- **`site_check.py`, on the draft preview and on the repo: 202 of 202.**
+  - The first preview run failed the scrubber's keyboard check. **The check was wrong:** it took the
+    v-th `span` in the list, and the count spans shifted it. It now reads the v-th list item's line.
+- **`export-ledger.py --check`:** the live block is unchanged while the words are unruled.
+- **Looked at:**
+  - the ledger at 1280 light and 375 dark;
+  - the scrubber at 022;
+  - the list opened.
+
+### The words (copy)
+
+**TL1 — the band's label.**
+> **A (recommended):** TRAPS
+>
+> **B:** LESSONS
+
+**TL2 — the caption's added sentence,** before "How I work · This site's case study".
+> **A:** "The bottom band is the traps: mistakes a session wrote down so the next one would not repeat
+> them. Each runs from the handoff that recorded it, dotted where that start is worked out from its
+> count. A square end means a check or a script now does its job, a short bar that it was retired, and
+> an open dot marks a session where it helped."
+>
+> **B (recommended, shorter):** "The bottom band is the traps, mistakes written down for the next
+> session: dotted where a start is worked out from its count, a square end where a check now does the
+> job, a bar where it was retired, a dot where it helped."
+
+**TL3 — each list line's count,** from 019 on. Parts that are zero are left out.
+> **A (recommended):** "Traps: 6 recorded, 1 into code."
+>
+> **B:** "New traps 6 · into code 1 · retired 0"
+
+**TL4 — the pictures' descriptions,** added at the end of each `<desc>`, for screen readers.
+> Landscape: "The bottom band, traps, has one line per mistake a session wrote down for the next: from
+> the handoff that recorded it to the one that retired it or moved it into code, with a dot at each
+> session where it helped."
+>
+> Portrait: the same, with "The right-hand band".
+>
+> OK / FIX.
+
+### The band's height
+
+**Q-TL5:** 49 traps, packed into lanes, make a band about as tall as all the others together. On a
+1280×900 screen the ledger no longer fits in one view.
+> **A:** keep it as built.
+>
+> **B (recommended):** draw the trap rows closer together, so the band is about two-thirds the height. Lines
+> and marks stay the same size.
