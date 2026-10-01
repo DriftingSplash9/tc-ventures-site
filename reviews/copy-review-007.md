@@ -816,4 +816,36 @@ check's retries (`M1_TRIES`) and, through a copy block, TS1's sentence on `/work
 **TS2 ruled 2026-10-01.** Thomas, verbatim: **"ts2 A, merge 34"**. The sentence is cut, in this PR.
 DESIGN-5 is closed.
 
+**Shipped:** #34, merged at Thomas's word, merge `eb9f887`. Curl: `/work/this-site` and `prefs.js`
+byte-identical to `main`, each different from the pre-merge `12bf939`; the sentence is gone from the
+live page. `site_check.py --live` 201 of 201, with no M1 retries.
+
+---
+
+## C-22 — `/method`, rules row 1 (drafted 2026-10-01, for Thomas to rule)
+
+Started at Thomas's word, "go ahead with C-22". Ruled A on 2026-09-30: narrow the row to the catches the
+receipts show are his.
+
+**What the record says** (the research repo's archived handoffs, read 2026-10-01; no git run there):
+- **Three sliders shipped dead, in this order:** `geoAffinity`, `galaxy`, `clusterRepulsion`.
+  Handoff 032 (`HANDOFF-2026-08-28-pre-trim-032.md`) L236–237: "THIRD time this exact omission has
+  shipped" and "geoAffinity, then galaxy".
+- **`galaxy`, his:** handoffs 006 and 007, L15 in each: "The galaxy pull doesn't appear to have".
+- **`clusterRepulsion`, his:** handoff 032, L226: "can you check out the cluster repulsion? I don't see any effect".
+- **`geoAffinity`:** no record found of who caught it or how (copy-review-004, IG5).
+- The rest of the row holds: "All three forces were correct and measured; all three sliders were
+  inert" (032 L238).
+
+**C22 — the row's last sentence.** The receipt link (R-050) stays as it is.
+> Now: "Three layout sliders shipped doing nothing. Each force measured correctly in a script; in the
+> app, none of the sliders had any effect. I caught it by using them."
+>
+> **A (recommended):** "… I caught the last two by using them." It matches `/work/influence-graph`, which
+> already says "The last two were caught the same way".
+>
+> **B:** "… I caught two of them by dragging the slider and seeing nothing move."
+
+**C22 ruled 2026-10-01.** Thomas, verbatim: **"c22 A"**. Shipped as written. C-22 is closed.
+
 ---
