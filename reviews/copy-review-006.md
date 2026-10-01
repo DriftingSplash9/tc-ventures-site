@@ -394,3 +394,13 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 
 **Ruled 2026-10-01.** Thomas, verbatim: **"lg29 ok"**. Recorded as `"LG29 OK 2026-10-01"`, and column 028
 is drawn. `parked` unchanged: DESIGN-6 is work (solid).
+
+---
+
+## LG30 — handoff-029's line (drafted 2026-10-01, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG30 | 029 · 2026-10-01 | A small fix: on a slow connection, this ledger no longer shows in full for a moment before it draws itself in. | "on a slow load the ledger no longer paints whole before its draw-in"; "were visible and unclipped at the first paint, 3 of 3" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 028 until this is ruled.
