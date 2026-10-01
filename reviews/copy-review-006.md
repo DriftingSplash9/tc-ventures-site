@@ -378,3 +378,6 @@ handoff-026 (C-19, P-6, G-6, INFRA-10, INFRA-11, INFRA-14, INFRA-15), and adds I
 "Can grow", not "grows": live, Chrome skips some of those changes of page (DESIGN-5).
 
 It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 026 until this is ruled.
+
+**Ruled 2026-09-30.** Thomas, verbatim: **"lg28 ok"**. Recorded as `"LG28 OK 2026-09-30"`, and column 027
+is drawn. `parked` unchanged: DESIGN-5 is work (solid); INFRA-19 and INFRA-20 stay parked.
