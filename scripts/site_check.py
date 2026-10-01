@@ -634,7 +634,7 @@ def main():
                         colx: +cols[v - 1].getAttribute('x1'), w: +document.querySelector('#lg-clip-0 rect').getAttribute('width'),
                         shown: [...document.querySelectorAll('.ledger__at')].filter(p => getComputedStyle(p).visibility === 'visible')
                                .map(p => p.querySelector('span').textContent),
-                        line: document.querySelectorAll('.ledger__list li span')[v - 1].textContent,
+                        line: document.querySelectorAll('.ledger__list li')[v - 1].querySelector('span').textContent,
                         said: i.getAttribute('aria-valuetext') || '',
                         then: (() => { const els = [...document.querySelectorAll('.ledger__pic--land line[data-e]')];
                           const teal = getComputedStyle(document.querySelector('.ledger__pic--land .lg__t--open')).stroke;

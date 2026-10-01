@@ -47,10 +47,11 @@ How to run
 The page must already carry <!-- ledger:begin ... --> and <!-- ledger:end -->.
 Written 2026-09-29 for Phase 2 (plan-001 §4c; copy-review-006 LG0, ruled).
 """
-import datetime, html, json, pathlib, re, sys
+import collections, datetime, html, json, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CURATION = ROOT / "ledger" / "curation.json"
+TRAPS = ROOT / "ledger" / "traps.json"
 PAGE = ROOT / "public" / "index.html"
 REPO = "https://github.com/DriftingSplash9/tc-ventures-site/blob/main/"
 BEGIN = ("<!-- ledger:begin: written by scripts/export-ledger.py from the handoffs and "
@@ -167,6 +168,134 @@ def build(cur, draft):
     return shown, threads, doubts
 
 
+# ------------------------------------------------------------------ traps --
+# The traps layer (copy-review-008): one thread per trap in ledger/traps.json, in a TRAPS band under the
+# workstreams. The file is curated (scripts/traps_curate.py drafts it, Thomas rules its doubts); the export
+# only draws it, and refuses to when it doesn't match the handoffs' traps sections. No trap's words reach
+# the page.
+
+def trap_entries(upto):
+    """Every trap entry in handoffs 019..upto as (handoff, kind, lead, x): the same reading as
+    scripts/traps_curate.py."""
+    out = []
+    for p in sorted(ROOT.glob("handoff-[0-9][0-9][0-9].md")):
+        hn = int(p.stem.split("-")[1])
+        if hn < 19 or hn > upto:
+            continue
+        m = re.search(r"^### Traps.*?$(.*?)(?=^## \d|\Z)", p.read_text(encoding="utf-8").replace("\r\n", "\n"),
+                      re.M | re.S)
+        if not m:
+            continue
+        items, kind = [], None
+        for line in m.group(1).splitlines():
+            h = re.match(r"^\*\*(New|Dropped|Carried)[^*]*\*\*\s*(.*)$", line)
+            if h:
+                kind = h.group(1)
+                if h.group(2).strip():
+                    items.append([kind, h.group(2).strip()])
+                continue
+            if re.match(r"^\*\*[A-Z]", line):
+                kind = None
+                continue
+            if line.startswith("- ") and kind:
+                items.append([kind, line[2:]])
+            elif line.strip() and items and kind:
+                items[-1][1] += " " + line.strip()
+        for kind, txt in items:
+            if kind == "Dropped":
+                q = re.search(r"[\"“](.+?)[\"”]", txt) or re.match(r"\*\*(.+?)\*\*", txt)
+                lead = q.group(1) if q else re.split(r"\s*\(", txt)[0][:80]
+            else:
+                b = re.match(r"\*\*(.+?)\*\*", txt)
+                s = re.match(r"(.+?[.:])(\s|$)", txt)
+                lead = b.group(1) if b else (s.group(1) if s else txt[:80])
+            tl = re.findall(r"`(\d+)\.(\d+)`", txt)
+            x = int(tl[-1][0]) if tl else None
+            out.append((hn, kind, re.sub(r"\s+", " ", lead).strip(), x))
+    return out
+
+
+def load_traps(cur, shown, draft):
+    """The traps to draw, as threads on the shown columns, and any mismatch with the handoffs."""
+    tc = cur["copy"].get("traps") or {}
+    if not (tc.get("ruled") or draft) or not TRAPS.exists():
+        return None, []
+    data = json.loads(TRAPS.read_text(encoding="utf-8"))
+    if not (data.get("ruled") or draft):
+        return None, []
+    traps, doubts = data["traps"], []
+    last, n = int(shown[-1]["num"]), len(shown)
+    idx = {int(h["num"]): j for j, h in enumerate(shown)}
+    for t in traps:
+        if t["end"] is not None and (t["end"] <= t["start"] or t["how"] not in ("into code", "retired")):
+            doubts.append(f"{t['id']}: end {t['end']} after start {t['start']}, with how 'into code' or 'retired'")
+    ents = trap_entries(last)
+    for hn, kind, lead, x in ents:
+        if x is None or kind == "Dropped":
+            continue
+        m = [t for t in traps if lead in t["wordings"] and t["start"] == hn - x
+             and (t["end"] is None or t["end"] > hn)]
+        if len(m) != 1:
+            doubts.append(f"handoff-{hn:03d} trap line matches {len(m)} traps in traps.json: {lead[:60]!r}")
+    drops = collections.Counter((hn, hn - x) for hn, kind, lead, x in ents if kind == "Dropped" and x is not None)
+    ends = collections.Counter((t["end"], t["start"]) for t in traps
+                               if t["end"] is not None and t["end"] <= last and not t.get("ended_by_ruling"))
+    if drops != ends:
+        doubts.append(f"Dropped lines (handoff, start) and ended traps differ: in the handoffs only "
+                      f"{sorted(drops - ends)}, in traps.json only {sorted(ends - drops)}")
+    first = idx.get(19)
+    out = []
+    for t in traps:
+        if t["start"] not in idx:
+            continue                                   # starts after the last column shown
+        s = idx[t["start"]]
+        closed = t["end"] is not None and t["end"] in idx
+        e = idx[t["end"]] if closed else n - 1
+        out.append({"id": t["id"], "s": s, "e": e, "state": "closed" if closed else "open",
+                    "how": t["how"] if closed else None,
+                    "helped": [idx[h] for h in t["helped"] if h in idx and idx[h] <= e],
+                    "inf": first if first is not None and s < first else None})
+    return out, doubts
+
+
+def trap_marks(t, pos, a2, c, horizontal):
+    """One trap: a dotted stretch where its start is inferred (before 019), the thread, its start dot, its
+    end mark (a square: into code; a bar: retired) and an open dot at each handoff where it helped."""
+    def pt(a):
+        return (a, c) if horizontal else (c, a)
+    closed = t["state"] == "closed"
+    ea = f' data-e="{t["e"]}"' if closed else ""
+    cls = "lg__t lg__trap" + ("" if closed else " lg__t--open")
+    s, a1 = [], pos[t["s"]]
+    if t["inf"] is not None:
+        (x1, y1), (x2, y2) = pt(a1), pt(pos[t["inf"]])
+        s.append(f'<line class="{cls} lg__trap--inf"{ea} x1="{f(x1)}" y1="{f(y1)}" x2="{f(x2)}" y2="{f(y2)}"/>')
+        a1 = pos[t["inf"]]
+    (x1, y1), (x2, y2) = pt(a1), pt(a2)
+    s.append(f'<line class="{cls}"{ea} x1="{f(x1)}" y1="{f(y1)}" x2="{f(x2)}" y2="{f(y2)}"/>')
+    (dx, dy) = pt(pos[t["s"]])
+    s.append(f'<circle class="lg__dot{"" if closed else " lg__dot--open"}"{ea} cx="{f(dx)}" cy="{f(dy)}" r="1.8"/>')
+    if closed:
+        if t["how"] == "into code":
+            s.append(f'<rect class="lg__trap-code" x="{f(x2 - 2.2)}" y="{f(y2 - 2.2)}" width="4.4" height="4.4"/>')
+        elif horizontal:
+            s.append(f'<line class="lg__end" x1="{f(x2)}" y1="{f(y2 - 2.5)}" x2="{f(x2)}" y2="{f(y2 + 2.5)}"/>')
+        else:
+            s.append(f'<line class="lg__end" x1="{f(x2 - 2.5)}" y1="{f(y2)}" x2="{f(x2 + 2.5)}" y2="{f(y2)}"/>')
+    for h in t["helped"]:
+        (hx, hy) = pt(pos[h])
+        s.append(f'<circle class="lg__help" cx="{f(hx)}" cy="{f(hy)}" r="1.6"/>')
+    return s
+
+
+def trap_counts(traps_json, num):
+    """(recorded, into code, retired) at one handoff, from ledger/traps.json."""
+    ts = json.loads(TRAPS.read_text(encoding="utf-8"))["traps"]
+    return (sum(t["start"] == num for t in ts),
+            sum(t["end"] == num and t["how"] == "into code" for t in ts),
+            sum(t["end"] == num and t["how"] == "retired" for t in ts))
+
+
 # -------------------------------------------------------------- rendering --
 
 def pack(ts):
@@ -247,7 +376,7 @@ def scrubber(cur, shown):
     return out + ['</div>', '</div>']
 
 
-def svg_land(cur, shown, threads):
+def svg_land(cur, shown, threads, traps=None):
     n = len(shown)
     W, LEFT, RIGHT, TOP, ROW, PAD = 944, 92, 908, 28, 5, 7   # scrubber() mirrors LEFT, RIGHT and W
     col = [LEFT + (j * (RIGHT - LEFT) / (n - 1) if n > 1 else 0) for j in range(n)]
@@ -267,6 +396,16 @@ def svg_land(cur, shown, threads):
             a2 = col[t["e"]] if t["state"] == "closed" else W - 4
             marks += thread_marks(t, col[t["s"]], a2, c, c, True)
         y += h + 6
+    if traps:
+        lanes = pack(traps)
+        h = PAD * 2 + (lanes - 1) * ROW
+        body.append(f'<line class="lg__sep" x1="0" y1="{f(y - 3)}" x2="{W}" y2="{f(y - 3)}"/>')
+        body.append(f'<text class="lg__band" x="0" y="{f(y + h / 2 + 3.5)}">{esc(cur["copy"]["traps"]["band"])}</text>')
+        for t in sorted(traps, key=lambda t: (t["lane"], t["s"])):
+            c = y + PAD + t["lane"] * ROW
+            a2 = col[t["e"]] if t["state"] == "closed" else W - 4
+            marks += trap_marks(t, col, a2, c, True)
+        y += h + 6
     grid = []
     for j, x in enumerate(col):
         grid.append(f'<line class="lg__col" x1="{f(x)}" y1="{TOP - 6}" x2="{f(x)}" y2="{f(y - 4)}"/>')
@@ -283,11 +422,11 @@ def svg_land(cur, shown, threads):
     return (f'<svg class="ledger__pic ledger__pic--land" viewBox="0 0 {W} {f(H)}" role="img" '
             f'aria-labelledby="ledger-land-t ledger-land-d">'
             f'<title id="ledger-land-t">{esc(c["title"])}</title>'
-            f'<desc id="ledger-land-d">{esc(c["desc_land"])}</desc>'
+            f'<desc id="ledger-land-d">{esc(c["desc_land"] + (" " + c["traps"]["desc_land"] if traps else ""))}</desc>'
             + "".join(grid) + "".join(body) + threads_g(marks) + "</svg>")
 
 
-def svg_port(cur, shown, threads):
+def svg_port(cur, shown, threads, traps=None):
     n = len(shown)
     TOP, RS, X0, LANE, PAD, GAP = 74, 16, 70, 6, 6, 5
     row = [TOP + j * RS for j in range(n)]
@@ -307,6 +446,17 @@ def svg_port(cur, shown, threads):
             a2 = row[t["e"]] if t["state"] == "closed" else bottom
             marks += thread_marks(t, row[t["s"]], a2, c, c, False)
         x += w + GAP
+    if traps:
+        lanes = pack(traps)
+        w = PAD * 2 + (lanes - 1) * LANE
+        body.append(f'<line class="lg__sep" x1="{f(x - 2.5)}" y1="{TOP - 8}" x2="{f(x - 2.5)}" y2="{f(bottom)}"/>')
+        body.append(f'<text class="lg__band" transform="translate({f(x + w / 2 + 3.5)} {TOP - 12}) rotate(-90)">'
+                    f'{esc(cur["copy"]["traps"]["band"])}</text>')
+        for t in sorted(traps, key=lambda t: (t["lane"], t["s"])):
+            c = x + PAD + t["lane"] * LANE
+            a2 = row[t["e"]] if t["state"] == "closed" else bottom
+            marks += trap_marks(t, row, a2, c, False)
+        x += w + GAP
     W = x + 2
     grid = []
     for j, yy in enumerate(row):
@@ -319,7 +469,7 @@ def svg_port(cur, shown, threads):
     return (f'<svg class="ledger__pic ledger__pic--port" viewBox="0 0 {f(W)} {f(H)}" role="img" '
             f'aria-labelledby="ledger-port-t ledger-port-d">'
             f'<title id="ledger-port-t">{esc(c["title"])}</title>'
-            f'<desc id="ledger-port-d">{esc(c["desc_port"])}</desc>'
+            f'<desc id="ledger-port-d">{esc(c["desc_port"] + (" " + c["traps"]["desc_port"] if traps else ""))}</desc>'
             + "".join(grid) + "".join(body) + threads_g(marks) + "</svg>")
 
 
@@ -331,18 +481,34 @@ def render(cur, draft=False):
     if draft and c.get("scrub") and not c["scrub"].get("ruled"):
         c = dict(c, scrub=dict(c["scrub"], ruled="draft"))
         cur = dict(cur, copy=c)
+    traps, tdoubts = load_traps(cur, shown, draft)
+    doubts = doubts + ["traps: " + d for d in tdoubts]
+    if traps is not None and tdoubts and not draft:
+        sys.exit("refusing to write: ledger/traps.json doesn't match the handoffs' traps: " + "; ".join(tdoubts[:4]))
+    caption = c["caption_html"]
+    if traps:
+        anchor = ' <a href="/method">'
+        if caption.count(anchor) != 1:
+            sys.exit("the caption has no single ' <a href=\"/method\">' to put the traps sentence before")
+        caption = caption.replace(anchor, " " + c["traps"]["caption"] + anchor)
     items = []
     for h in shown:
+        tc = ""
+        if traps and int(h["num"]) >= 19:
+            parts = [c["traps"]["parts"][k].format(n=v) for k, v
+                     in zip(("recorded", "code", "retired"), trap_counts(TRAPS, int(h["num"]))) if v]
+            if parts:
+                tc = f' <span class="ledger__tc">{esc(c["traps"]["list"].format(parts=", ".join(parts)))}</span>'
         items.append(f'<li><a href="{REPO}{h["file"]}">{h["file"][:-3]}</a> '
                      f'<time datetime="{h["date"]}">{h["date"]}</time> '
-                     f'<span>{esc(h["line"])}</span></li>')
+                     f'<span>{esc(h["line"])}</span>{tc}</li>')
     block = "\n".join([
         BEGIN,
         '<figure class="ledger">',
-        svg_land(cur, shown, threads),
-        svg_port(cur, shown, threads),
+        svg_land(cur, shown, threads, traps),
+        svg_port(cur, shown, threads, traps),
         *scrubber(cur, shown),
-        f'<figcaption>{c["caption_html"]}</figcaption>',
+        f'<figcaption>{caption}</figcaption>',
         "</figure>",
         '<details class="ledger__list">',
         f'<summary>{esc(c["summary"])}</summary>',
@@ -381,6 +547,10 @@ def main():
               + ("  (draft: unruled lines included)" if draft else ""))
         for state in ("closed", "open", "parked"):
             print(f"  {state}: {sum(t['state'] == state for t in threads)}")
+        tr, _ = load_traps(cur, shown, draft)
+        if tr is not None:
+            print(f"  traps drawn: {len(tr)} ({sum(t['state'] == 'open' for t in tr)} carried, "
+                  f"{sum(t['how'] == 'into code' for t in tr)} into code, {sum(t['how'] == 'retired' for t in tr)} retired)")
         for t in threads:
             if t["why"].startswith("row says"):
                 print(f"  ends on its own row: {t['id']} at {shown[t['e']]['num']} ({t['why']})")

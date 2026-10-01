@@ -53,7 +53,16 @@
     "desc_port": "Each row is one numbered handoff, the file that passes this site’s work from one session to the next, oldest at the top. Each line is an item a handoff left open, running from the handoff that opened it to the one that closed it, in bands by workstream. Lines still open run to the bottom edge; dotted ones are parked on purpose or waiting on me.",
     "caption_html": "The build ledger. Time runs in numbered handoffs: the files that pass this site’s work from one session to the next. Each line is an item a handoff left open, running until the session that closed it. Teal lines are still open; dotted ones are parked on purpose or waiting on me. A script draws it from the handoffs themselves, and leaves out items about my other sites. <a href=\"/method\">How I work</a> &middot; <a href=\"/work/this-site\">This site’s case study</a>",
     "summary": "The ledger as a list, one line per handoff",
-    "scrub": {"ruled": "LS1 A 2026-09-30", "label": "Step through the handoffs"}
+    "scrub": {"ruled": "LS1 A 2026-09-30", "label": "Step through the handoffs"},
+    "traps": {
+      "ruled": "TL1 A, TL2 B, TL3 A, TL4 OK, Q-TL5 A 2026-10-01",
+      "band": "TRAPS",
+      "caption": "The bottom band is the traps, mistakes written down for the next session: dotted where a start is worked out from its count, a square end where a check now does the job, a bar where it was retired, a dot where it helped.",
+      "desc_land": "The bottom band, traps, has one line per mistake a session wrote down for the next: from the handoff that recorded it to the one that retired it or moved it into code, with a dot at each session where it helped.",
+      "desc_port": "The right-hand band, traps, has one line per mistake a session wrote down for the next: from the handoff that recorded it to the one that retired it or moved it into code, with a dot at each session where it helped.",
+      "list": "Traps: {parts}.",
+      "parts": {"recorded": "{n} recorded", "code": "{n} into code", "retired": "{n} retired"}
+    }
   },
 
   "handoffs": {

@@ -1606,6 +1606,15 @@ kbd {
 .ledger .lg__dot--open { fill: var(--accent); }
 .ledger .lg__end { stroke: var(--muted); stroke-width: 1.2; }
 .ledger .lg__col--on { stroke: var(--accent); }
+/* The traps band (copy-review-008): threads like the items', a dotted stretch where the start is inferred,
+   a square end for "into code", the usual bar for "retired", and open dots where a trap helped. */
+.ledger .lg__trap--inf { stroke-dasharray: 1 3; }
+.ledger .lg__trap-code { fill: var(--muted); }
+.ledger .lg__help { fill: var(--paper); stroke: var(--accent); stroke-width: 1; }
+.ledger__list li .ledger__tc { grid-column: 3; font-family: var(--mono); font-size: var(--t-tag); line-height: 1.5; color: var(--muted); }
+@media (max-width: 37.5em) {
+  .ledger__list li .ledger__tc { grid-column: 1 / -1; }
+}
 /* DESIGN-6: hidden from the first paint until ledger.js takes over the draw-in
    (prefs.js sets the mark on the home page under Full; ledger.js lifts it). */
 :root[data-lg-wait] .ledger .lg__threads { visibility: hidden; }
