@@ -366,3 +366,15 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 is drawn. In the same change, `parked` drops C-22 (ruled A, now work) and the seven items closed in
 handoff-026 (C-19, P-6, G-6, INFRA-10, INFRA-11, INFRA-14, INFRA-15), and adds INFRA-19 and INFRA-20
 (his call). A closed thread is drawn closed whether or not it is parked, so the seven change nothing drawn.
+
+---
+
+## LG28 — handoff-027's line (drafted 2026-09-30, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG28 | 027 · 2026-09-30 | The motion: the ledger draws itself in, a slider steps through the handoffs, and a case study’s name can grow into its heading. I ruled the slider’s words and how it shows the past. | "the scrubber. Ruled "ls1 A, q-s5-1 B""; "case-study label grows into the H1"; "threads that closed later are drawn open" |
+
+"Can grow", not "grows": live, Chrome skips some of those changes of page (DESIGN-5).
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 026 until this is ruled.
