@@ -381,3 +381,13 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 
 **Ruled 2026-09-30.** Thomas, verbatim: **"lg28 ok"**. Recorded as `"LG28 OK 2026-09-30"`, and column 027
 is drawn. `parked` unchanged: DESIGN-5 is work (solid); INFRA-19 and INFRA-20 stay parked.
+
+---
+
+## LG29 — handoff-028's line (drafted 2026-10-01, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG29 | 028 · 2026-10-01 | The method loop traces itself, a page-change motion that Chrome was dropping is fixed, and one claim on the method page now says only what the record shows. I ruled each change. | "the method loop traces itself once"; "the cause found and fixed (#33)"; "narrowed to the two catches with receipts" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 027 until this is ruled.
