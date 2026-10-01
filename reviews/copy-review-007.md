@@ -790,4 +790,27 @@ removes the skip itself.
 **Still to do, once it's live:** run M1 against the live site, more than once. Then take out the live
 check's retries (`M1_TRIES`) and, through a copy block, TS1's sentence on `/work/this-site` (C-20).
 
+**Shipped:** #33, merged at Thomas's word ("merge 33"), merge `12bf939`.
+- Curl: `/projects`, `/work/gprs` and `style.css` byte-identical to `main`, each different from the
+  pre-merge `1673dcd`.
+- **Live, the plain M1 run: 0 skips of 24** (before the fix, about 40%).
+- `site_check.py --live`: 201 of 201 on three of four runs. The other was 200 of 201, with a failure
+  that wasn't captured (only the M1 lines were kept), and it didn't recur. Not known which check.
+
+**The retries out (this PR):**
+- `M1_TRIES` is 1, so any skip fails the check again.
+- The comments in `site_check.py` and `prefs.js` no longer call the skips unexplained.
+- With this checker: `--live` 201 of 201, twice, with every M1 case on its first try; locally 201 of
+  201.
+
+**TS2 — `/work/this-site`, "The honest limits": TS1's sentence comes out.** It's no longer true.
+> Now: "… The site has not had a screen-reader run-through yet. In Chrome, a case study’s name growing into
+> its heading runs on some changes of page and not others, and I haven’t found why yet."
+>
+> **A (recommended):** cut that sentence. The paragraph ends "… The site has not had a screen-reader
+> run-through yet." as it did before TS1.
+>
+> **B:** keep a trace of it: "… The site has not had a screen-reader run-through yet. A page-change motion
+> that Chrome skipped about half the time was traced to where its switch lived, and fixed."
+
 ---

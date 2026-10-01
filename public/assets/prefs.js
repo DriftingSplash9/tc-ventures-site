@@ -52,9 +52,10 @@
     clicked = e.target.closest ? e.target.closest('#navsub-work a') : null;
   }, true);
   window.addEventListener('pageshow', function () { clicked = null; unname(); });
-  /* A skipped transition (Off, or Chrome aborting one, which it does on about
-     half of the live changes of page for a reason not yet found: handoff-027)
-     rejects its promises. Handled here, so a skip is quiet, not a console error. */
+  /* A skipped transition (Off, or any other skip once this page has it) rejects
+     its promises. Handled here, so such a skip is quiet, not a console error.
+     (The live skips of DESIGN-5 happened on the new page before this ran; their
+     fix is the inline @view-transition opt-in in each page's head.) */
   function quiet(vt) {
     function none() {}
     vt.ready.catch(none); vt.finished.catch(none); vt.updateCallbackDone.catch(none);
