@@ -707,3 +707,38 @@ found and fixed (C-20's list of lines that go stale).
 **#28 shipped** at Thomas's word ("merge 28"), merge `b23c2aa`.
 
 ---
+
+## M3 — the method loop, built (2026-10-01)
+
+Thomas, verbatim: **"merge 31, A"**, read as A on handoff-027 §6 step 2's question: M3 now, the ledger's
+traps layer later. No copy: nothing to rule but the look.
+
+**What it is:**
+- On `/method`, the first time the working-loop diagram is half in view, it traces itself once.
+  - Each step and the arrow after it pulse teal in the loop's order, brief to next session: 0.5s each,
+    0.22s apart.
+  - Then the dashed arrow runs back to the brief (1.2s). About 3.6s in all.
+- **It only highlights what's already drawn.** Without the script the diagram is as it was, and nothing is
+  hidden before it runs, so there's no first-paint question.
+- **Motion:** every time is multiplied by `--move`. `assets/loop.js` adds the trigger class only under
+  Full, and Off stops all animation. Reduced, Off and the OS's "reduce motion": static.
+- **Files:** `assets/loop.js` (new, `/method` only, one script tag), `style.css` (the `.is-tracing` block
+  after the loop diagram's rules), `site_check.py` (one check).
+
+**How it was checked:**
+- **`site_check.py`: 200 of 200.** The new check: nothing traces before the diagram is in view; under
+  Full, the six steps, the five arrows and the return arrow run in the loop's order at the ruled times;
+  under Reduced, Off and the OS's setting, no loop animation.
+- **Controls, each fails M3 only:**
+  - the script ungated and the times without `--move`: animations under Reduced, chosen and the OS's;
+  - two steps' order swapped: out of order;
+  - tracing at load: animations before the diagram is in view.
+  - `main` without M3 fails it under Full.
+  - The script ungated alone would not show: under Reduced `--move` makes every time 0, so it ends at
+    once. That's why that control also removes `--move`.
+- **`shots_diff.py`, `main` against this branch:** 48 of 48 identical. At rest nothing changes; the
+  trace only runs once the diagram is scrolled into view.
+- **Looked at:** frames frozen at 0.3, 0.9, 1.55, 2.7 and 3.2s, before and after the return arrow got
+  its pulse.
+
+---

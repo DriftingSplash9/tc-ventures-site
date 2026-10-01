@@ -65,6 +65,10 @@ And the motion (copy-review-007, Phase 3 step 5):
   - M2, the draw-in: under Full the threads are clipped to 001 before the first
     paint, and run to the newest once the ledger is in view; under Reduced,
     Off and the OS's "reduce motion" the ledger is whole from the start
+  - M3, the method loop: on /method, nothing traces before the diagram is in
+    view; then under Full its six steps and five arrows pulse once in the
+    loop's order (0.5 s each, 0.22 s apart) and the return arrow runs last
+    (1.2 s); under Reduced, Off and the OS's "reduce motion", nothing
   - the scrubber: the arrow keys move it, and the column, the clip, the line
     and the slider's spoken value follow; at that earlier handoff a thread
     that closed later is drawn open, and one closed by then is not; its box keeps one height at every
@@ -513,6 +517,38 @@ def main():
                 bad.append(f"{name}: at load {s0}, in view {s1}")
             ctx.close()
         check("motion M2: the draw-in under Full (clipped before first paint), whole under Reduced, Off and the OS's",
+              not bad, "; ".join(bad) or "5 cases")
+
+        loop_anims = """() => document.getAnimations().filter(a => a.animationName && a.animationName.startsWith('loop-')).map(a => {
+            const t = a.effect.target, c = a.effect.getComputedTiming();
+            const key = t.closest('a') ? 'n' + [...t.closest('svg').querySelectorAll(':scope > a')].indexOf(t.closest('a'))
+                      : t.classList.contains('loop__edge--back') ? 'back'
+                      : 'e' + [...t.closest('svg').querySelectorAll(':scope > line.loop__edge')].indexOf(t);
+            return [key, Math.round(c.delay), Math.round(c.duration)]; })"""
+        order = ["n0", "e0", "n1", "e1", "n2", "e2", "n3", "e3", "n4", "e4", "n5", "back"]
+        bad = []
+        for level, os_reduce in ((None, False), ("full", False), (None, True), ("reduced", False), ("off", False)):
+            ctx = browser.new_context(viewport={"width": 1280, "height": 900},
+                                      reduced_motion="reduce" if os_reduce else "no-preference")
+            if level:
+                ctx.add_init_script(f"localStorage.setItem('tcv-display', JSON.stringify({{motion: '{level}'}}))")
+            page = ctx.new_page(); page.goto(base + "/method", wait_until="networkidle")
+            name = f"{level or 'System'}{', OS reduce' if os_reduce else ''}"
+            early = page.evaluate(loop_anims)
+            page.locator(".loop--files").scroll_into_view_if_needed(); page.wait_for_timeout(300)
+            got = page.evaluate(loop_anims)
+            ctx.close()
+            if (level or ("reduced" if os_reduce else "full")) == "full":
+                seq = [k for k, d, t in sorted(got, key=lambda r: r[1])]
+                want_t = {k: (1200 if k == "back" else 500) for k in order}
+                delays = [d for k, d, t in sorted(got, key=lambda r: r[1])]
+                ok = not early and seq == order and all(t == want_t[k] for k, d, t in got) \
+                    and delays == [round(i * 220) for i in range(12)]
+                if not ok:
+                    bad.append(f"{name}: before view {len(early)}, in view {sorted(got, key=lambda r: r[1])}")
+            elif got or early:
+                bad.append(f"{name}: {len(early) + len(got)} loop animations")
+        check("motion M3: the method loop traces once in its order under Full, nothing under Reduced, Off and the OS's",
               not bad, "; ".join(bad) or "5 cases")
 
         ctx = browser.new_context(viewport={"width": 1280, "height": 900}, reduced_motion="reduce")

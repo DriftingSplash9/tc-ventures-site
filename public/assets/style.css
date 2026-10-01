@@ -1490,6 +1490,40 @@ kbd {
 .loop a:hover .loop__file { stroke: var(--accent); }
 .loop a:hover .loop__file-label { fill: var(--accent); }
 .loop a:focus-visible .loop__file { stroke: var(--accent); stroke-width: 3; }
+
+/* M3, the method loop traces itself once (Phase 3; assets/loop.js adds
+   .is-tracing under Motion Full, once the diagram is half in view). Steps go
+   in the loop's order: node 1, arrow 1, node 2 ... node 6 (--k 0 to 10), each
+   a teal pulse, then the dashed arrow runs back to the brief (--k 11). It only
+   highlights what is already drawn, so nothing is hidden before it runs.
+   Every time is multiplied by --move: under Reduced it is nothing, and Off
+   stops all animation. */
+.loop svg > a:nth-of-type(1) .loop__node { --k: 0; }
+.loop svg > line.loop__edge:nth-of-type(1) { --k: 1; }
+.loop svg > a:nth-of-type(2) .loop__node { --k: 2; }
+.loop svg > line.loop__edge:nth-of-type(2) { --k: 3; }
+.loop svg > a:nth-of-type(3) .loop__node { --k: 4; }
+.loop svg > line.loop__edge:nth-of-type(3) { --k: 5; }
+.loop svg > a:nth-of-type(4) .loop__node { --k: 6; }
+.loop svg > line.loop__edge:nth-of-type(4) { --k: 7; }
+.loop svg > a:nth-of-type(5) .loop__node { --k: 8; }
+.loop svg > line.loop__edge:nth-of-type(5) { --k: 9; }
+.loop svg > a:nth-of-type(6) .loop__node { --k: 10; }
+.loop svg > .loop__edge--back { --k: 11; }
+.loop.is-tracing svg > a .loop__node,
+.loop.is-tracing svg > line.loop__edge {
+  animation: loop-step calc(0.5s * var(--move)) ease-in-out calc(var(--k) * 0.22s * var(--move)) 1;
+}
+.loop.is-tracing svg > .loop__edge--back {
+  animation: loop-back calc(1.2s * var(--move)) linear calc(var(--k) * 0.22s * var(--move)) 1;
+}
+@keyframes loop-step {
+  40% { stroke: var(--accent); stroke-width: 3px; }
+}
+@keyframes loop-back {
+  50% { stroke-width: 3px; }
+  to { stroke-dashoffset: -45; }        /* five whole dash periods (4 + 5), so it ends where it began */
+}
 .loop figcaption {
   font-family: var(--mono);
   font-size: var(--t-tag);
