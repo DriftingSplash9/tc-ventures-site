@@ -85,6 +85,6 @@
     "026": {"ruled": "LG27 OK 2026-09-30", "line": "A layout pass: the pages now reflow for readers who enlarge the text, and the www address works. I ruled each fix and set up the address myself."},
     "027": {"ruled": "LG28 OK 2026-09-30", "line": "The motion: the ledger draws itself in, a slider steps through the handoffs, and a case study’s name can grow into its heading. I ruled the slider’s words and how it shows the past."},
     "028": {"ruled": "LG29 OK 2026-10-01", "line": "The method loop traces itself, a page-change motion that Chrome was dropping is fixed, and one claim on the method page now says only what the record shows. I ruled each change."},
-    "029": {"ruled": null, "line": "A small fix: on a slow connection, this ledger no longer shows in full for a moment before it draws itself in."}
+    "029": {"ruled": "LG30 OK 2026-10-01", "line": "A small fix: on a slow connection, this ledger no longer shows in full for a moment before it draws itself in."}
   }
 }
