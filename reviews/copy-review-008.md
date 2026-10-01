@@ -105,3 +105,55 @@ Same format and marks as copy-review-001 to 007: `OK` · `KEEP` · `A` / `B` · 
 2. The curation pass: `traps.json` drafted, its doubts listed here for ruling.
 3. The export, the picture and the checks built; TL1 to TL4 drafted; a local preview with screenshots.
 4. Shipped on his word, and checked live from an up-to-date `main`.
+
+### Rulings, TL0 (2026-10-01)
+
+Thomas, verbatim: **"tl0 ok, all A"**. Read as:
+- TL0 OK as proposed.
+- Q-TL1 A: traps from before 019 are drawn from their tally's start, dotted before 019.
+- Q-TL2 A: two end marks, "into code" and "retired".
+- Q-TL3 A: a dot at each handoff where the trap helped.
+- Q-TL4 A: each list line from 019 on gets a short trap count (TL3's words).
+
+---
+
+## Step 2 — the curation pass, drafted (2026-10-01), for Thomas to rule
+
+**What was done:** a script read every trap entry in handoffs 019 to 029 (302 entries, after two empty
+"Dropped: none" lines), and grouped them into traps. The draft is `ledger/traps.json`, with `"ruled":
+null`, so nothing uses it yet.
+
+**The draft:** 49 traps: 31 ended (9 into code, 22 retired, as drafted), 17 still carried, and 1 that
+stops without a drop line (TD1). 95 "helped" dots.
+
+**How the grouping works:**
+- A trap's start is the handoff minus its tally's x, so one trap keeps one start as it's carried.
+- An entry joins the trap seen in the handoff before with the same start and the closest wording.
+- One wording containing the other counts as a match.
+- Rewordings that need judgment are explicit links (below), never a guess.
+- **One match was caught wrong and removed:** a rule that let the start alone decide joined 019's `cd`
+  trap to 020's `gh api markdown` line (13 traps share start 017). That rule is gone.
+- Every trap's full list of wordings was read by eye after the run.
+
+**Read for the dots:** handoff-019 says its y "starts this session", so a y above 0 at 019 is a dot at
+019.
+
+**Links, rewordings joined by hand.** Each keeps one start on both sides.
+
+| # | Handoff | Before | After | Start |
+|---|---|---|---|---|
+| TL-L1 | 020 | "Bash `cd` moves the session's working directory" | "Never start a Bash command with `cd`." | 017 |
+| TL-L2 | 020 | "Git Bash `grep -c $'\r'` can't see carriage returns." | "`.assetsignore`, `sitemap.xml`, … are CRLF in Thomas's Windows checkout" | 018 |
+| TL-L3 | 027 | "In PowerShell, `;` runs the next command even when the one before it failed." | "A gate must run on its own, then you act." | 024 |
+
+**Doubts, where the handoffs can be read two ways:**
+
+| # | Trap | What the handoffs say | A (recommended) | B |
+|---|---|---|---|---|
+| TD1 | T23, "Pace requests to the Hostinger sites" (020–021) | No Dropped line. In 022 a new trap, "Never load a Hostinger site in a headless browser" (T31), took its place. | It ends at 022, retired: T31 replaced it, as 022 records T31 as new. | One trap: T23 runs on as T31. |
+| TD2 | T02, heredocs (015–021) | Dropped at 021 with "By §5 it belongs in code"; nothing was coded. Back in 022 as a new trap (T34). | Retired at 021, and T34 separate, as the handoffs record them. | One trap from 015 on, with no end at 021. |
+| TD3 | T06, `cd` (017–023) | Dropped at 023: "INFRA-14a carries it". The `cd` hook was built after (#23). | Into code: the hook does the job now. | Retired: at 023 nothing was in code yet. |
+| TD4 | T05, Cloudflare's build start (016–026) | Dropped at 026: "goes into code as INFRA-18". INFRA-18 isn't built. | Retired: nothing is in code yet. | Into code. |
+
+**Not in this table, but in the file:** every other trap and its wordings, for checking. The page never
+shows a wording.

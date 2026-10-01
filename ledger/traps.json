@@ -1,0 +1,645 @@
+{
+ "_about": "The ledger's traps layer (copy-review-008). One entry per trap, drafted by script from the handoffs' traps sections, 019 on: start = the handoff that recorded it (N - x of its tally); end = the handoff that dropped it (null while carried); how = 'into code' or 'retired'; helped = handoffs where its y rose. 'wordings' is every name it had, for matching only; the page never shows them. 'doubt' marks a reading Thomas rules on. Not used by the export until 'ruled' is set.",
+ "ruled": null,
+ "traps": [
+  {
+   "id": "T01",
+   "start": 14,
+   "end": 20,
+   "how": "into code",
+   "helped": [],
+   "wordings": [
+    "Full-page headless shots of a tall page:"
+   ]
+  },
+  {
+   "id": "T02",
+   "start": 15,
+   "end": 21,
+   "how": "retired",
+   "helped": [
+    19
+   ],
+   "wordings": [
+    "Python heredocs through Git Bash eat backslashes.",
+    "Heredocs mangle scripts."
+   ],
+   "doubt": "TD2: dropped 021 as 'belongs in code', nothing coded; back as T34 in 022. A: retired at 021, T34 separate. B: one trap."
+  },
+  {
+   "id": "T03",
+   "start": 15,
+   "end": 21,
+   "how": "retired",
+   "helped": [
+    20
+   ],
+   "wordings": [
+    "Cloudflare injects the beacon at the edge, so read the live console after any CSP change."
+   ]
+  },
+  {
+   "id": "T04",
+   "start": 16,
+   "end": 26,
+   "how": "into code",
+   "helped": [
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+   ],
+   "wordings": [
+    "Headless Chrome defaults to dark mode."
+   ]
+  },
+  {
+   "id": "T05",
+   "start": 16,
+   "end": 26,
+   "how": "retired",
+   "helped": [
+    19,
+    21,
+    24,
+    25
+   ],
+   "wordings": [
+    "Cloudflare's build start has ranged from about 1 to 10 minutes."
+   ],
+   "doubt": "TD4: dropped 026, 'goes into code as INFRA-18'; INFRA-18 not built. A: retired. B: into code."
+  },
+  {
+   "id": "T06",
+   "start": 17,
+   "end": 23,
+   "how": "into code",
+   "helped": [],
+   "wordings": [
+    "Bash `cd` moves the session's working directory (into `public/`, and once into `Reports Clustering`).",
+    "Never start a Bash command with `cd`."
+   ],
+   "doubt": "TD3: dropped 023, 'INFRA-14a carries it'; the cd hook was built later (#23). A: into code. B: retired."
+  },
+  {
+   "id": "T07",
+   "start": 17,
+   "end": 27,
+   "how": "into code",
+   "helped": [
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26
+   ],
+   "wordings": [
+    "Run a local test server inside the Python process."
+   ]
+  },
+  {
+   "id": "T08",
+   "start": 17,
+   "end": 27,
+   "how": "into code",
+   "helped": [
+    19,
+    23,
+    24,
+    25,
+    26
+   ],
+   "wordings": [
+    "Wait about 400 ms after a click before a screenshot (restored).",
+    "Wait about 400 ms after a click before a screenshot."
+   ]
+  },
+  {
+   "id": "T09",
+   "start": 17,
+   "end": 23,
+   "how": "retired",
+   "helped": [
+    19
+   ],
+   "wordings": [
+    "A hidden browser pane fires no focus or blur events, so test focus logic in Playwright.",
+    "A hidden browser pane fires no focus or blur events."
+   ]
+  },
+  {
+   "id": "T10",
+   "start": 17,
+   "end": 27,
+   "how": "retired",
+   "helped": [
+    19,
+    21
+   ],
+   "wordings": [
+    "A receipt's \"caught\" column can be a guess."
+   ]
+  },
+  {
+   "id": "T11",
+   "start": 17,
+   "end": 23,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "`gh api markdown` emits no heading ids (curl the blob page for `user-content-<anchor>`), and `git log -S` needs `--no-textconv` here (restored).",
+    "`gh api markdown` emits no heading ids (curl the blob page for `user-content-<anchor>`), and `git log -S` needs `--no-textconv` here.",
+    "`gh api markdown` emits no heading ids"
+   ]
+  },
+  {
+   "id": "T12",
+   "start": 18,
+   "end": 28,
+   "how": "into code",
+   "helped": [
+    19,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27
+   ],
+   "wordings": [
+    "Git Bash `grep -c $'\\r'` can't see carriage returns.",
+    "`.assetsignore`, `sitemap.xml`, `projects.html`, `work/gprs.html` and `plans/receipts-001.md` are CRLF **in Thomas's Windows checkout**.",
+    "`.assetsignore`, `sitemap.xml`, `projects.html`, `work/gprs.html` and `plans/receipts-001.md` are CRLF in Thomas's Windows checkout.",
+    "`.assetsignore`, `sitemap.xml`, `projects.html`, `work/gprs.html` and `plans/receipts-001.md` are CRLF in Thomas's Windows checkout,",
+    "Most of this repo is CRLF in Thomas's Windows checkout,",
+    "Most of this repo is CRLF in Thomas's Windows checkout, and so is most of the theme.",
+    "Most of this repo is CRLF in Thomas's Windows checkout."
+   ]
+  },
+  {
+   "id": "T13",
+   "start": 18,
+   "end": 28,
+   "how": "into code",
+   "helped": [
+    19,
+    20
+   ],
+   "wordings": [
+    "`/404` answers 200."
+   ]
+  },
+  {
+   "id": "T14",
+   "start": 18,
+   "end": 24,
+   "how": "retired",
+   "helped": [
+    19
+   ],
+   "wordings": [
+    "Analytics can't be seen headless."
+   ]
+  },
+  {
+   "id": "T15",
+   "start": 18,
+   "end": 28,
+   "how": "into code",
+   "helped": [
+    19,
+    20,
+    25
+   ],
+   "wordings": [
+    "A test that Tabs a fixed number of times can land on the wrong control."
+   ]
+  },
+  {
+   "id": "T16",
+   "start": 18,
+   "end": 24,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "A figure Thomas gives can have no source on disk."
+   ]
+  },
+  {
+   "id": "T17",
+   "start": 18,
+   "end": 24,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "There's no LibreOffice, pandoc or `pdftoppm` here.",
+    "There's no LibreOffice, pandoc or `pdftoppm` on Thomas's machine."
+   ]
+  },
+  {
+   "id": "T18",
+   "start": 19,
+   "end": 25,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "`getComputedStyle(el, '::before').content` returns the CSS expression (`\"Fig.",
+    "`getComputedStyle(el, '::before').content` returns the CSS expression, not the number drawn."
+   ]
+  },
+  {
+   "id": "T19",
+   "start": 19,
+   "end": 25,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "Pin research-repo receipts to a commit SHA."
+   ]
+  },
+  {
+   "id": "T20",
+   "start": 20,
+   "end": 26,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "To check a schema type is gone, count the old type's exact string (`\"NGO\"`).",
+    "To check a schema type is gone, count the old type's exact string."
+   ]
+  },
+  {
+   "id": "T21",
+   "start": 20,
+   "end": 26,
+   "how": "retired",
+   "helped": [
+    22
+   ],
+   "wordings": [
+    "`cf-ray` is on every response through Cloudflare. It doesn't mean Cloudflare refused you.",
+    "`cf-ray` is on every response through Cloudflare."
+   ]
+  },
+  {
+   "id": "T22",
+   "start": 20,
+   "end": null,
+   "how": null,
+   "helped": [
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+   ],
+   "wordings": [
+    "A check warms the cache it is checking."
+   ]
+  },
+  {
+   "id": "T23",
+   "start": 20,
+   "end": null,
+   "how": null,
+   "helped": [
+    21
+   ],
+   "wordings": [
+    "Pace requests to the Hostinger sites and keep runs small."
+   ],
+   "doubt": "TD1: no Dropped line; replaced in 022 by T31. A: ends at 022, retired. B: one trap with T31."
+  },
+  {
+   "id": "T24",
+   "start": 20,
+   "end": 26,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "The LiteSpeed Cache crawler's default interval is 302400 s (3½ days).",
+    "The LiteSpeed Cache crawler's default interval is 302400 s."
+   ]
+  },
+  {
+   "id": "T25",
+   "start": 20,
+   "end": 26,
+   "how": "retired",
+   "helped": [
+    21
+   ],
+   "wordings": [
+    "Chromium in a claude.ai cloud session rejects the session proxy's certificate",
+    "Chromium in a claude.ai cloud session rejects the session proxy's certificate."
+   ]
+  },
+  {
+   "id": "T26",
+   "start": 21,
+   "end": null,
+   "how": null,
+   "helped": [
+    22,
+    23,
+    24,
+    25,
+    28,
+    29
+   ],
+   "wordings": [
+    "A checker can read the wrong block, and a control can be unable to fail.",
+    "A checker can read the wrong block or field, and a control can be unable to fail."
+   ]
+  },
+  {
+   "id": "T27",
+   "start": 21,
+   "end": null,
+   "how": null,
+   "helped": [
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+   ],
+   "wordings": [
+    "The Cloudflare bot says \"Deployment successful\" on branch pushes and links a \"production\" build. Branch builds don't reach tc-ventures.ca.",
+    "The Cloudflare bot says \"Deployment successful\" on branch pushes. Branch builds don't reach tc-ventures.ca."
+   ]
+  },
+  {
+   "id": "T28",
+   "start": 21,
+   "end": 27,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "In a cloud session, `pip install playwright` installs a version whose default browser path doesn't exist."
+   ]
+  },
+  {
+   "id": "T29",
+   "start": 21,
+   "end": 27,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "The cloud clone of the theme repo is shallow (50 commits)."
+   ]
+  },
+  {
+   "id": "T30",
+   "start": 21,
+   "end": 27,
+   "how": "retired",
+   "helped": [
+    23
+   ],
+   "wordings": [
+    "`/projects` copy about thomascheesman.ca goes stale when the features change."
+   ]
+  },
+  {
+   "id": "T31",
+   "start": 22,
+   "end": null,
+   "how": null,
+   "helped": [
+    23,
+    24
+   ],
+   "wordings": [
+    "Never load a Hostinger site in a headless browser from Thomas's machine."
+   ]
+  },
+  {
+   "id": "T32",
+   "start": 22,
+   "end": 28,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "An offline rebuild of a live page can't judge a font-dependent width."
+   ]
+  },
+  {
+   "id": "T33",
+   "start": 22,
+   "end": 28,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "Astra's Customizer CSS beats the child theme's bare element rules",
+    "Astra's Customizer CSS beats the child theme's bare element rules."
+   ]
+  },
+  {
+   "id": "T34",
+   "start": 22,
+   "end": null,
+   "how": null,
+   "helped": [
+    23,
+    24,
+    25,
+    29
+   ],
+   "wordings": [
+    "Heredocs mangle scripts",
+    "Heredocs mangle scripts.",
+    "Heredocs mangle scripts, and `python -` with nothing on stdin waits forever."
+   ]
+  },
+  {
+   "id": "T35",
+   "start": 23,
+   "end": null,
+   "how": null,
+   "helped": [
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+   ],
+   "wordings": [
+    "Thomas's \"merged\" may not have landed."
+   ]
+  },
+  {
+   "id": "T36",
+   "start": 23,
+   "end": 29,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "Theme docs name surfaces loosely."
+   ]
+  },
+  {
+   "id": "T37",
+   "start": 23,
+   "end": 29,
+   "how": "retired",
+   "helped": [],
+   "wordings": [
+    "A 429 behind Cloudflare may not be about your IP."
+   ]
+  },
+  {
+   "id": "T38",
+   "start": 24,
+   "end": null,
+   "how": null,
+   "helped": [
+    25,
+    26,
+    27,
+    28,
+    29
+   ],
+   "wordings": [
+    "PowerShell 5.1 splits an inline argument at its embedded double quotes."
+   ]
+  },
+  {
+   "id": "T39",
+   "start": 24,
+   "end": null,
+   "how": null,
+   "helped": [
+    25,
+    26,
+    27,
+    28,
+    29
+   ],
+   "wordings": [
+    "In PowerShell, `;` runs the next command even when the one before it failed.",
+    "A gate must run on its own, then you act."
+   ]
+  },
+  {
+   "id": "T40",
+   "start": 25,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Lazy, async-decoded images can paint as empty boxes in a Playwright full-page screenshot."
+   ]
+  },
+  {
+   "id": "T41",
+   "start": 25,
+   "end": null,
+   "how": null,
+   "helped": [
+    26,
+    27,
+    28,
+    29
+   ],
+   "wordings": [
+    "Python on Thomas's console prints in cp1252, and a `→` or `’` crashes it."
+   ]
+  },
+  {
+   "id": "T42",
+   "start": 25,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "`git rev-parse --short` takes one revision."
+   ]
+  },
+  {
+   "id": "T43",
+   "start": 26,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A Playwright full-page screenshot drops CDP `Page.setFontSizes`."
+   ]
+  },
+  {
+   "id": "T44",
+   "start": 27,
+   "end": 28,
+   "how": "into code",
+   "helped": [],
+   "wordings": [
+    "A cross-document view transition can pass locally and skip live."
+   ]
+  },
+  {
+   "id": "T45",
+   "start": 27,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Playwright's default Chromium is the headless shell, started with `PaintHolding` and `RenderDocument` switched off"
+   ]
+  },
+  {
+   "id": "T46",
+   "start": 27,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "The app's browser pane draws only while the Claude window is in front and the pane is showing."
+   ]
+  },
+  {
+   "id": "T47",
+   "start": 28,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Git Bash rewrites an argument that starts with `/` into a Windows path"
+   ]
+  },
+  {
+   "id": "T48",
+   "start": 28,
+   "end": null,
+   "how": null,
+   "helped": [
+    29
+   ],
+   "wordings": [
+    "Keep every FAIL line of a check run."
+   ]
+  },
+  {
+   "id": "T49",
+   "start": 29,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "`site_check.py --live` compares the live ledger with what the local checkout would export."
+   ]
+  }
+ ]
+}
