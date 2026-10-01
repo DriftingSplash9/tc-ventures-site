@@ -507,13 +507,27 @@ def main():
 
         scrub = """() => { const i = document.getElementById('ledger-scrub'); if (!i) return null;
             const r = document.querySelector('#lg-clip-0 rect');
+            const g = document.querySelector('.ledger__pic--land .lg__threads');
             return {v: +i.value, max: +i.max, w: r ? +r.getAttribute('width') : null,
                     at: window.__clipAt === undefined ? null : window.__clipAt,
+                    on: window.__waitOn === undefined ? null : window.__waitOn,
+                    off: window.__waitOff === undefined ? null : window.__waitOff,
+                    seen: g ? getComputedStyle(g).visibility : null,
                     paint: (performance.getEntriesByName('first-paint')[0] || {}).startTime || null}; }"""
         clip_at = """new MutationObserver(() => {
-            const g = document.querySelector('.lg__threads');
-            if (window.__clipAt === undefined && g && g.hasAttribute('clip-path')) window.__clipAt = performance.now();
+            const g = document.querySelector('.lg__threads'), r = document.documentElement, t = performance.now();
+            if (window.__clipAt === undefined && g && g.hasAttribute('clip-path')) window.__clipAt = t;
+            if (window.__waitOn === undefined && r.hasAttribute('data-lg-wait')) window.__waitOn = t;
+            if (window.__waitOn !== undefined && window.__waitOff === undefined && !r.hasAttribute('data-lg-wait')) window.__waitOff = t;
           }).observe(document, {attributes: true, childList: true, subtree: true});"""
+
+        def never_shown_whole(s):
+            """Under Full the threads never paint unclipped before the draw-in (DESIGN-6): either the clip
+            came before the first paint, or the wait mark was on before it and lifted no sooner than the clip."""
+            if s["paint"] is None or s["at"] is None:
+                return False
+            return s["at"] < s["paint"] or (s["on"] is not None and s["on"] < s["paint"]
+                                              and s["off"] is not None and s["at"] <= s["off"])
         bad = []
         for level, os_reduce in ((None, False), ("full", False), (None, True), ("reduced", False), ("off", False)):
             ctx = browser.new_context(viewport={"width": 1280, "height": 900},
@@ -530,15 +544,43 @@ def main():
             page.wait_for_timeout(4500)
             s1 = page.evaluate(scrub)
             if (level or ("reduced" if os_reduce else "full")) == "full":
-                ok = s0["v"] == 1 and s0["w"] < 150 and s0["at"] is not None and s0["paint"] is not None \
-                    and s0["at"] < s0["paint"] and s1["v"] == s1["max"] and s1["w"] == 944
+                ok = s0["v"] == 1 and s0["w"] < 150 and never_shown_whole(s0) and s1["v"] == s1["max"] and s1["w"] == 944
             else:
-                ok = s0["v"] == s0["max"] and s0["w"] == 944 and s1["v"] == s1["max"]
+                ok = s0["v"] == s0["max"] and s0["w"] == 944 and s1["v"] == s1["max"] and s0["on"] is None
             if not ok:
                 bad.append(f"{name}: at load {s0}, in view {s1}")
             ctx.close()
-        check("motion M2: the draw-in under Full (clipped before first paint), whole under Reduced, Off and the OS's",
+        check("motion M2: the draw-in under Full (never shown whole first), whole under Reduced, Off and the OS's",
               not bad, "; ".join(bad) or "5 cases")
+
+        # DESIGN-6: with ledger.js 1 s late the threads must still never paint whole before the draw-in, and
+        # the draw-in still runs; with ledger.js blocked, prefs.js's 3 s fallback shows the ledger whole.
+        bad = []
+        for hold in ("late", "late", "blocked"):
+            ctx = browser.new_context(viewport={"width": 1280, "height": 900})
+            ctx.add_init_script(clip_at)
+            ctx.add_init_script("localStorage.setItem('tcv-display', JSON.stringify({motion: 'full'}))")
+            if hold == "blocked":
+                ctx.route("**/assets/ledger.js*", lambda route: route.abort())
+            else:
+                def late_js(route):
+                    time.sleep(1.0); route.continue_()
+                ctx.route("**/assets/ledger.js*", late_js)
+            page = ctx.new_page(); page.goto(base + "/", wait_until="load")
+            s0 = page.evaluate(scrub)
+            if hold == "blocked":
+                page.wait_for_timeout(3500)
+                s1 = page.evaluate(scrub)
+                ok = s1 is not None and s1["on"] is not None and s1["off"] is not None and s1["seen"] == "visible" and s1["at"] is None
+            else:
+                page.locator(".ledger").scroll_into_view_if_needed(); page.wait_for_timeout(4500)
+                s1 = page.evaluate(scrub)
+                ok = s0 is not None and never_shown_whole(s0) and s1["v"] == s1["max"]
+            if not ok:
+                bad.append(f"{hold}: at load {s0}, after {s1}")
+            ctx.close()
+        check("motion M2: ledger.js 1 s late, never shown whole first; blocked, shown whole after 3 s (DESIGN-6)",
+              not bad, "; ".join(bad) or "3 cases")
 
         loop_anims = """() => document.getAnimations().filter(a => a.animationName && a.animationName.startsWith('loop-')).map(a => {
             const t = a.effect.target, c = a.effect.getComputedTiming();

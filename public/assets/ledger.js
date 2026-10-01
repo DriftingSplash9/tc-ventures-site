@@ -14,11 +14,20 @@
    The draw-in (M2): under Motion Full, the first time the ledger scrolls into
    view, the same slider runs from 001 to the newest, in about three seconds.
    Until then the threads are clipped to 001. Under Reduced and Off it never
-   runs, and the ledger is whole from the start. Touching the slider stops it. */
+   runs, and the ledger is whole from the start. Touching the slider stops it.
+
+   DESIGN-6: this file is deferred, so prefs.js marks <html> (data-lg-wait)
+   before the first paint and style.css hides the threads meanwhile. This file
+   lifts the mark on every path, and on the draw-in path only once the threads
+   are clipped. The draw-in runs only if the mark is still on: if prefs.js's 3 s
+   fallback lifted it first, the ledger has been shown whole, so it stays so. */
 (function () {
+  var root = document.documentElement;
+  var waiting = root.hasAttribute('data-lg-wait');
+  function release() { root.removeAttribute('data-lg-wait'); }
   var fig = document.querySelector('.ledger');
   var input = document.getElementById('ledger-scrub');
-  if (!fig || !input) return;
+  if (!fig || !input) { release(); return; }
 
   var n = +input.max;
   var lines = Array.prototype.slice.call(document.querySelectorAll('.ledger__at'));
@@ -78,9 +87,10 @@
   input.addEventListener('input', function () { stop(); show(+input.value); });
 
   var full = window.tcvMotion ? window.tcvMotion() === 'full' : true;
-  if (!full || !('IntersectionObserver' in window) || n < 2) return;
+  if (!full || !waiting || !('IntersectionObserver' in window) || n < 2) { release(); return; }
 
   show(1);
+  release();                            // clipped and revealed in one step (DESIGN-6)
   var io = new IntersectionObserver(function (entries) {
     if (!entries.some(function (e) { return e.isIntersecting; })) return;
     io.disconnect();
