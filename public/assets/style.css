@@ -247,8 +247,11 @@
    is there at once) and fades over --fade. Under Full, a case study's sub-menu
    label, clicked, grows into its H1, over --move: prefs.js names the two
    ('cs-title') for that one change of page. Off: prefs.js skips the
-   transition, and the times here are 0 anyway. */
-@view-transition { navigation: auto; }
+   transition, and the times here are 0 anyway.
+   The opt-in itself, @view-transition { navigation: auto; }, is inline in each
+   page's <head>, not here: Chrome settles whether the new page opted in before
+   a late style.css arrives, and skipped the transition whenever it was late
+   (DESIGN-5, found 2026-10-01). */
 .topbar { view-transition-name: topbar; }
 .topbar .wordmark { view-transition-name: tb-name; }
 .topbar nav { view-transition-name: tb-nav; }
