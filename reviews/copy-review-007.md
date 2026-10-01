@@ -846,4 +846,6 @@ receipts show are his.
 >
 > **B:** "… I caught two of them by dragging the slider and seeing nothing move."
 
+**C22 ruled 2026-10-01.** Thomas, verbatim: **"c22 A"**. Shipped as written. C-22 is closed.
+
 ---
