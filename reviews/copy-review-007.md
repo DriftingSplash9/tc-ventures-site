@@ -741,4 +741,53 @@ traps layer later. No copy: nothing to rule but the look.
 - **Looked at:** frames frozen at 0.3, 0.9, 1.55, 2.7 and 3.2s, before and after the return arrow got
   its pulse.
 
+**Shipped:** #32, merged at Thomas's word ("merge 32"), merge `1673dcd`. Curl: `/method`, `style.css` and
+`loop.js` byte-identical to `main`, each different from the pre-merge `75c7d6c`. `site_check.py --live`
+200 of 200.
+
+---
+
+## DESIGN-5 — the cause, and the fix (2026-10-01)
+
+Started at Thomas's word, "go ahead with DESIGN-5". Not copy.
+
+**The cause:** the M1 opt-in, `@view-transition { navigation: auto; }`, was in `style.css`. Chrome
+settles whether the new page opted in **before a late `style.css` arrives**. When the stylesheet came
+late, Chrome dropped the incoming transition. Live, `style.css` is revalidated with the server (304) on
+every change of page, so it was sometimes late.
+
+**How it was found:**
+- **Not the network:**
+  - Locally, 0 of 60 skips with HTTPS, Cloudflare's revalidation headers, the live security headers
+    and 60ms latency, alone and together.
+  - Live, the protocol is HTTP/3. With QUIC off (HTTP/2): 5 of 12, the same as 5 of 12 with it on.
+- **The new page owns the skip.** An `unhandledrejection` listener put "AbortError: Transition was
+  skipped" on `/work/gprs`, not `/projects`.
+  - In each skip the new page's first paint came after parsing had finished (`interactive`, 2 of 2).
+  - Nearly every hit painted while still `loading` (6 of 7).
+- **Reproduced locally by holding `style.css` back:** 10 of 10 skipped at 300ms, and 10 of 10 at 100ms.
+  - The same with `nav.js` and `display.js` emptied, and with `prefs.js` emptied, so not our scripts.
+  - Holding `prefs.js` back instead: 0 of 10.
+- **The fix, tested the same way:** the opt-in inline in the page's `<head>`. 0 of 10 at 300ms, 0 of 10
+  at 100ms, 0 of 10 with no delay.
+
+**Correction to the M1 record above:** #28's "quiet" covered a skip on the old page. These skips happened
+on the new page, before `prefs.js` could attach anything, so their error still showed live. The fix
+removes the skip itself.
+
+**The change:**
+- `<style>@view-transition { navigation: auto; }</style>` before the stylesheet link on all 13 pages.
+  The CSP already allows inline styles.
+- The rule is out of `style.css`, whose comment says where it went and why.
+- **`site_check.py`, one new check:** with `style.css` held back 300ms on every change of page, the
+  transition still runs as ruled, three times out of three, with no retries.
+
+**Checked:**
+- `site_check.py`: 201 of 201.
+- `main` fails the new check (3 of 3 skipped) and nothing else.
+- `shots_diff.py`, `main` against this branch: 48 of 48 identical.
+
+**Still to do, once it's live:** run M1 against the live site, more than once. Then take out the live
+check's retries (`M1_TRIES`) and, through a copy block, TS1's sentence on `/work/this-site` (C-20).
+
 ---

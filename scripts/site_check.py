@@ -85,7 +85,7 @@ mark comes off the check, so a fixed fault can't go on being excused. Now:
 none. DESIGN-1 and DESIGN-3 were marked from 2026-09-29 until Phase 3 step 4
 fixed them (2026-09-30).
 """
-import http.server, importlib.util, json, os, re, socketserver, sys, threading, urllib.request
+import http.server, importlib.util, json, os, re, socketserver, sys, threading, time, urllib.request
 from functools import partial
 from playwright.sync_api import sync_playwright
 
@@ -483,6 +483,26 @@ def main():
                     bad.append(f"{name}: " + ", ".join(miss))
         check("motion M1: /projects to /work/gprs by its label, at each level, chosen and under System", not bad,
               "; ".join(bad) or f"5 cases, tries used {tries_used}")
+
+        # DESIGN-5: Chrome settles the new page's opt-in before a late style.css arrives, so the opt-in
+        # must not live in style.css. Hold style.css back 300 ms on every change of page: the
+        # transition must still run, every time (no retries).
+        late = []
+        for _ in range(3):
+            ctx = browser.new_context(viewport={"width": 1280, "height": 900})
+            ctx.add_init_script(vt_log)
+            def slow(route):
+                time.sleep(0.3); route.continue_()
+            page = ctx.new_page(); page.goto(base + "/projects", wait_until="networkidle")
+            ctx.route("**/assets/style.css*", slow)
+            page.locator(".navsub__toggle").click(); page.wait_for_timeout(400)
+            page.locator("#navsub-work a[href='/work/gprs']").click()
+            page.wait_for_url("**/work/gprs"); page.wait_for_timeout(1500)
+            got = page.evaluate("JSON.parse(sessionStorage.getItem('vt') || 'null')")
+            late.append("ran" if isinstance(got, dict) and got.get("::view-transition-group(cs-title)") == 500 else str(got))
+            ctx.close()
+        check("motion M1: still runs when style.css arrives 300 ms late (DESIGN-5), every time",
+              late == ["ran"] * 3, str(late))
 
         scrub = """() => { const i = document.getElementById('ledger-scrub'); if (!i) return null;
             const r = document.querySelector('#lg-clip-0 rect');
