@@ -435,3 +435,19 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 
 **Ruled 2026-10-02.** Thomas, verbatim: **"merge 48, lg32 ok"**. Recorded as `"LG32 OK 2026-10-02"`, and
 column 031 is drawn. `parked` unchanged.
+
+---
+
+## LG33 — handoff-032's line (drafted 2026-10-02, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG33 | 032 · 2026-10-02 | This site's case study now gives its own page weights and accessibility results, measured by script and dated, and the engineering pass is finished. I ruled the words. | "the weights measured on 2 October 2026"; "Phase 4 is complete."; "pw0-5 ok, all A" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 031 until this is ruled.
+`ledger/traps.json` already holds handoff-032's traps.
+
+**`parked`: take PL-8 out when column 032 ships, not before.** `--report --draft` flags it ("parked but not
+open at the last column"), because it closes in 032. But the live ledger ends at 031, where PL-8 is still
+open, so its parking still draws it dotted: removing it now made `--check` fail (tried and reverted,
+2026-10-02).

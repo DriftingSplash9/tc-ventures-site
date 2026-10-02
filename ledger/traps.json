@@ -420,8 +420,8 @@
   {
    "id": "T31",
    "start": 22,
-   "end": null,
-   "how": null,
+   "end": 32,
+   "how": "retired",
    "helped": [
     23,
     24
@@ -454,14 +454,15 @@
   {
    "id": "T34",
    "start": 22,
-   "end": null,
-   "how": null,
+   "end": 32,
+   "how": "retired",
    "helped": [
     23,
     24,
     25,
     29,
-    30
+    30,
+    32
    ],
    "wordings": [
     "Heredocs mangle scripts",
@@ -482,7 +483,8 @@
     28,
     29,
     30,
-    31
+    31,
+    32
    ],
    "wordings": [
     "Thomas's \"merged\" may not have landed."
@@ -520,7 +522,8 @@
     28,
     29,
     30,
-    31
+    31,
+    32
    ],
    "wordings": [
     "PowerShell 5.1 splits an inline argument at its embedded double quotes."
@@ -538,7 +541,8 @@
     28,
     29,
     30,
-    31
+    31,
+    32
    ],
    "wordings": [
     "In PowerShell, `;` runs the next command even when the one before it failed.",
@@ -565,7 +569,8 @@
     27,
     28,
     29,
-    30
+    30,
+    32
    ],
    "wordings": [
     "Python on Thomas's console prints in cp1252, and a `→` or `’` crashes it."
@@ -584,8 +589,8 @@
   {
    "id": "T43",
    "start": 26,
-   "end": null,
-   "how": null,
+   "end": 32,
+   "how": "retired",
    "helped": [],
    "wordings": [
     "A Playwright full-page screenshot drops CDP `Page.setFontSizes`."
@@ -639,7 +644,8 @@
    "helped": [
     29,
     30,
-    31
+    31,
+    32
    ],
    "wordings": [
     "Keep every FAIL line of a check run."
@@ -652,7 +658,8 @@
    "how": null,
    "helped": [
     30,
-    31
+    31,
+    32
    ],
    "wordings": [
     "`site_check.py --live` compares the live ledger with what the local checkout would export."
@@ -673,7 +680,9 @@
    "start": 31,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    32
+   ],
    "wordings": [
     "Cloudflare adds its analytics script to an HTML page unless the request's `Accept` is `*/*`."
    ]

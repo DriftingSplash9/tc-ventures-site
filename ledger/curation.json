@@ -96,6 +96,7 @@
     "028": {"ruled": "LG29 OK 2026-10-01", "line": "The method loop traces itself, a page-change motion that Chrome was dropping is fixed, and one claim on the method page now says only what the record shows. I ruled each change."},
     "029": {"ruled": "LG30 OK 2026-10-01", "line": "A small fix: on a slow connection, this ledger no longer shows in full for a moment before it draws itself in."},
     "030": {"ruled": "LG31 OK 2026-10-01", "line": "This ledger’s last layer: a band of traps, the mistakes each session wrote down for the next, drawn from the handoffs themselves. I ruled the plan, the matching and the words."},
-    "031": {"ruled": "LG32 OK 2026-10-02", "line": "The engineering pass: every page now has a weight limit and is tested against automated accessibility rules, the case studies carry structured data and their own link previews, and each deploy is checked file by file. I ruled each step."}
+    "031": {"ruled": "LG32 OK 2026-10-02", "line": "The engineering pass: every page now has a weight limit and is tested against automated accessibility rules, the case studies carry structured data and their own link previews, and each deploy is checked file by file. I ruled each step."},
+    "032": {"ruled": null, "line": "This site’s case study now gives its own page weights and accessibility results, measured by script and dated, and the engineering pass is finished. I ruled the words."}
   }
 }
