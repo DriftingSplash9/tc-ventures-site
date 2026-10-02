@@ -492,3 +492,35 @@ the alt text the picture already carries on its page.
 > its card then both show the home page as it is.
 >
 > **B:** leave it. The card shows the same out-of-date picture the page does.
+
+### Rulings, step 5 (2026-10-02)
+
+Thomas, verbatim: **"cards ok, og1-7 ok, q-og1 a"**. Read as:
+- The cards as drawn: OK.
+- OG1 to OG7: OK as drafted.
+- Q-OG1 A: retake the home-page screenshot as the home page is now, and change its alt text's menu clause
+  to "with Projects, Method, Background and Contact in the menu" (OG6b).
+
+**Built after the ruling, and checked:**
+- `this-site-home.webp` retaken: the home page's first screen, 1280×720, light, served locally from
+  `public/`; looked at before it went in. Its alt text's menu clause changed (OG6b). It is used on
+  `/work/this-site` only.
+- `og_cards.py` writes the seven cards into `public/assets/img/og/`, each carrying its page and H1 inside the
+  PNG, and sets each page's `og:image` and `og:image:alt` (OG1 to OG7). A second run changes no tag.
+- `og_cards.py --check` failed on the seven pages before the write (the control: tag, alt and card each),
+  and passes after. `--controls`, 6 of 6: a long H1 shrinks to 50px and fits; a far longer one is reported
+  as not fitting; the page passes as it is; a changed alt, a card made for an older H1 and a missing card
+  are each caught.
+- **The controls caught two faults of their own first:** the "long" H1 still fit at 64px, so it couldn't
+  exercise the fitter; and the "older H1" fault was planted in the page's `<title>`, where the same words
+  come first, not in its `<h1>`. A code comment also stated a length as measured before it was. All three
+  fixed, then measured.
+- `site_check.py` checks every served page's link preview too: locally 226 of 226. Live before the merge,
+  246 of 253: the seven failures are the seven card pages, the control.
+- `shots_diff.py` against `main`: 44 of 48 identical; the four that differ are `/work/this-site` at each
+  width and theme, in the new screenshot's box only. Looked at, 1280 light and 375 dark.
+- `budget.py`: 48 of 48; `/work/this-site` 369 kB of its 400 (the new screenshot is 8.5 kB heavier).
+
+**Found, not fixed:** Fig. 2 beside it on `/work/this-site` (`this-site-gprs.webp`, the GPRS case study)
+shows the same old top bar: Projects, Background, Contact, no Method, no Display. Its alt text doesn't
+mention the menu, so it is still accurate. Retaking it is Thomas's call.
