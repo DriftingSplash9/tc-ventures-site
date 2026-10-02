@@ -299,3 +299,144 @@ passed, because it never ran `main()`. Renamed `fetch_headers`.
 
 **After the merge:** `deploy_wait.py` on this PR, `site_check.py --live` from an up-to-date `main` (the
 redirect checks must pass), and `budget.py --live`.
+
+**Shipped 2026-10-01 at Thomas's word ("merge 44"), PR #44, merge `9eb87e1`; checked live:**
+- `deploy_wait.py 44`: merged, on `main`, its check-run succeeded at 02:57:56 UTC; `_redirects` changed and
+  isn't served, so nothing to compare byte for byte.
+- curl: `/work` and `/work/` answer 301 to `/projects`; `/_redirects` is 404; `/work/gprs` and `/projects`
+  are 200.
+- From an up-to-date `main`: `site_check.py --live` 229 of 229 (the redirect checks that failed before the
+  merge pass); `budget.py --live` 48 of 48, A-1's fault named, not counted.
+
+---
+
+## Step 4 — P4-C, the structured data: the words (drafted 2026-10-01, for Thomas to rule)
+
+**To rule:** SD1 and SD2 (OK / FIX / CUT), and Q-SD1 to Q-SD3.
+
+**How it will be built:** `scripts/schema.py` writes one `<script type="application/ld+json">` block into
+each page's `<head>`, between markers, as the ledger export does. It takes each case study's words from the
+page itself (its H1, its claim under the H1, its canonical URL), so nothing is written twice. Its `--check`
+fails when a block isn't what it would write now; `site_check.py` runs that check and fails any other inline
+`<script>` (Q-P4-4 A). Every string in a block must be found in that page's visible text, its `<title>` or
+one of its links.
+
+**Read 2026-10-01 from `public/` at `91e2b71`:** each case study's claim under its H1 is word for word its meta
+description, all six. The wordmark in the top bar reads "Thomas Cheesman" and links home. The footer's
+"Elsewhere" list links LinkedIn, `github.com/DriftingSplash9`, `thomascheesman.ca` ("personal"),
+`bareyourrare.org` and `gpresidentialsociety.com`. "Canada" appears on one page, `/work/influence-graph`,
+and not on the home page.
+
+### SD1 — the home page: `ProfilePage` with a `Person`
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": "https://tc-ventures.ca/#profile",
+  "url": "https://tc-ventures.ca/",
+  "name": "Thomas Cheesman - websites and digital operations for nonprofits",
+  "mainEntity": {
+    "@type": "Person",
+    "@id": "https://tc-ventures.ca/#person",
+    "name": "Thomas Cheesman",
+    "url": "https://tc-ventures.ca/",
+    "email": "mailto:thomas@tc-ventures.ca",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Grande Prairie",
+      "addressRegion": "Alberta"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/in/thomas-cheesman-20234285/",
+      "https://github.com/DriftingSplash9",
+      "https://thomascheesman.ca"
+    ]
+  }
+}
+```
+
+- **From the page:** `name` is the page's `<title>`; the person's name is the label and the wordmark; the
+  place is the label's; the email is on the page; `sameAs` is the three footer links that are you (the two
+  project sites aren't).
+- **Left out:** a phone (none on the site), a photo (none of you on the site), a job title (the page never
+  states one), dates, and anything familial.
+
+### SD2 — each case study: `CreativeWork` and `BreadcrumbList`
+
+One template; `schema.py` fills `<H1>`, `<claim>` and `<URL>` from each page.
+
+```json
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": "<URL>#case-study",
+      "url": "<URL>",
+      "name": "<H1>",
+      "description": "<claim>",
+      "author": {
+        "@type": "Person",
+        "@id": "https://tc-ventures.ca/#person",
+        "name": "Thomas Cheesman",
+        "url": "https://tc-ventures.ca/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Thomas Cheesman", "item": "https://tc-ventures.ca/" },
+        { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://tc-ventures.ca/projects" },
+        { "@type": "ListItem", "position": 3, "name": "<H1>" }
+      ]
+    }
+  ]
+}
+```
+
+- **The six, as filled:** "The Economic Report Influence Graph", "A homepage you drive around", "A menu that
+  is a photograph of my desk", "A rare-disease site, written by a patient", "A housing society’s website",
+  "This site", each with its claim unchanged.
+- **The path** is the one the nav shows: the wordmark, then Projects, then the case study in Projects'
+  sub-menu. The pages have no visible breadcrumb trail of their own.
+- **The author** repeats the person's name and `@id`, so each page stands on its own for a reader that
+  doesn't follow the home page.
+
+### Questions
+
+**Q-SD1:** the country.
+> **A (recommended):** leave it out. The home page says "Grande Prairie, Alberta", and that's all it says.
+>
+> **B:** add `"addressCountry": "CA"`, which the page doesn't state.
+
+**Q-SD2:** `sameAs`.
+> **A (recommended):** LinkedIn, GitHub and thomascheesman.ca: the footer's three that are you.
+>
+> **B:** LinkedIn only.
+
+**Q-SD3:** the first breadcrumb's name.
+> **A (recommended):** "Thomas Cheesman", as the wordmark reads.
+>
+> **B:** "Home", which the site never shows.
+
+### Rulings, step 4 (2026-10-01)
+
+Thomas, verbatim: **"sd1 ok, sd2 ok, all A"**. Read as:
+- SD1 OK and SD2 OK, as drafted.
+- Q-SD1 A: no country. Q-SD2 A: `sameAs` is LinkedIn, GitHub and thomascheesman.ca. Q-SD3 A: the first
+  breadcrumb is "Thomas Cheesman".
+
+**Built after the ruling (`scripts/schema.py`), and checked:**
+- `schema.py --check` failed on the seven pages before the blocks were written (the control), and passes
+  after. A second write changes nothing.
+- `--controls`, each caught for its own reason: a string changed in the home block ("not on the page: 'Grand
+  Prairie'"), a case study's block removed, a bare inline `<script>` added. (Its first version counted any
+  problem as caught, which the changed string would have passed by differing from the export alone. It now
+  names the problem each fault must raise.)
+- `site_check.py` runs the same checks on every served page: locally 214 of 214. Live before the merge,
+  234 of 241: the seven failures are the seven pages whose blocks aren't live yet, the control. The other
+  pages pass with Cloudflare's injected analytics script, which loads from a `src`.
+- `shots_diff.py` against `main`: 48 of 48 pairs identical. Controls: `--self` 48 of 48 identical,
+  `--inject` 0 of 48.
+- `budget.py`: 48 of 48. The blocks add about 1 kB to the home page and 2 kB to each case study.
