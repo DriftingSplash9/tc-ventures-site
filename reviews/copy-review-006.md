@@ -432,3 +432,6 @@ column 030 is drawn. `parked` unchanged.
 
 It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 030 until this is ruled.
 `ledger/traps.json` already holds handoff-031's traps.
+
+**Ruled 2026-10-02.** Thomas, verbatim: **"merge 48, lg32 ok"**. Recorded as `"LG32 OK 2026-10-02"`, and
+column 031 is drawn. `parked` unchanged.
