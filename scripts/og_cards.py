@@ -22,7 +22,7 @@ The cards are fetched only by link previews, never with the page, so they add no
 card exists, is 1200x630, and was made for this page and its current H1; every other page keeps the site
 card. site_check.py runs the same check on every served page. Written 2026-10-02 for Phase 4.
 """
-import base64, html, io, os, re, socketserver, sys, threading, urllib.error, urllib.request
+import base64, html, io, os, re, socketserver, sys, threading
 from functools import partial
 from PIL import Image, PngImagePlugin
 from playwright.sync_api import sync_playwright
@@ -218,9 +218,11 @@ def problems(path, page, image_bytes):
         out.append("og:image:alt isn't the ruled text")
     if (meta(page, "og:image:width"), meta(page, "og:image:height")) != ("1200", "630"):
         out.append("og:image width and height aren't 1200 and 630")
-    data = image_bytes(card_url(path))
+    data = image_bytes(card_url(path))   # bytes; None for a 404; or another HTTP status, as a number
     if data is None:
-        return out + ["the card isn't there"]
+        return out + ["the card isn't there (404)"]
+    if isinstance(data, int):
+        return out + [f"the card answered {data}"]
     im = Image.open(io.BytesIO(data))
     if im.size != (1200, 630):
         out.append(f"the card is {im.size}, not 1200x630")
@@ -234,14 +236,6 @@ def local_image(url):
     f = os.path.join(PUBLIC, url[len(SITE) + 1:].replace("/", os.sep))
     return open(f, "rb").read() if os.path.exists(f) else None
 
-
-def live_image(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "og_cards.py", "Accept": "*/*"})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            return r.read()
-    except urllib.error.HTTPError:
-        return None
 
 
 def pages():
@@ -283,7 +277,8 @@ def controls():
     # in the <h1> itself: the same words come first in <title>, so a plain replace would miss the H1
     renamed = re.sub(r"(<h1[^>]*>).*?(</h1>)", r"\1A housing society’s web site\2", page, count=1, flags=re.S)
     say("a card made for an older H1 is caught", any("made for" in p for p in problems(path, renamed, local_image)))
-    say("a missing card is caught", "the card isn't there" in problems(path, page, lambda u: None))
+    say("a missing card is caught", "the card isn't there (404)" in problems(path, page, lambda u: None))
+    say("a card refused (403) is reported as 403", "the card answered 403" in problems(path, page, lambda u: 403))
     return ok
 
 

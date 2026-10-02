@@ -524,3 +524,20 @@ Thomas, verbatim: **"cards ok, og1-7 ok, q-og1 a"**. Read as:
 **Found, not fixed:** Fig. 2 beside it on `/work/this-site` (`this-site-gprs.webp`, the GPRS case study)
 shows the same old top bar: Projects, Background, Contact, no Method, no Display. Its alt text doesn't
 mention the menu, so it is still accurate. Retaking it is Thomas's call.
+
+**Shipped 2026-10-02 at Thomas's word ("merge 46"), PR #46, merge `31324b9`; checked live:**
+- `deploy_wait.py 46`, first run: 24 of 26. Two of the seven new cards (`work-back-quarter.png`,
+  `work-desk-and-drawer.png`) answered 404 just after the check-run reported success at 06:48:01 UTC;
+  a minute later both answered 200 with the merged bytes, and a second run passed 26 of 26.
+- **So `deploy_wait.py` now fetches a file that isn't right yet again,** up to seven times, ten seconds
+  apart, printing each retry. #46 passes on the first try; the #40 control still fails, after its retries.
+- Seen in the same fetches: a never-used `?cb=` query still came back `CF-Cache-Status: HIT`. On these
+  static files the query doesn't show it bypassed Cloudflare's cache; the pre-merge control is what shows a
+  file is new. The script's docstring says so now.
+- `site_check.py --live` from an up-to-date `main`, first run: 246 of 253, every live card "isn't there".
+  The site was fine (`deploy_wait.py` and curl both got all seven cards); the check wasn't. Its new card
+  fetch was the only one in `site_check.py` without a User-Agent, and Cloudflare answers Python's default
+  one with 403. It also reported the 403 as "isn't there", so the pre-merge control's third reason (of
+  three) on each page failed for the wrong cause. Fixed: the same User-Agent as every other fetch, and any
+  status but 404 reported as itself (a new control: a 403 is reported as 403).
+- `site_check.py --live` from an up-to-date `main`, after the fix: 253 of 253. Locally 226 of 226.

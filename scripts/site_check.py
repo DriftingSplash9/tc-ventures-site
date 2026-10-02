@@ -296,12 +296,15 @@ def main():
     # the ruled alt text, served at 1200x630 and made for this page's H1; every other page keeps the site card
     import og_cards   # here, not at the top: og_cards imports this module
     def card_bytes(url):
-        req = urllib.request.Request(base + url[len("https://tc-ventures.ca"):], headers={"Accept": "*/*"})
+        # With the same User-Agent as every other fetch here: Cloudflare answers Python's default one with 403
+        # (found 2026-10-02, when every live card looked missing). Any status but 404 is reported as itself.
+        req = urllib.request.Request(base + url[len("https://tc-ventures.ca"):],
+                                     headers={"User-Agent": "Mozilla/5.0 (site_check.py)", "Accept": "*/*"})
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
                 return r.read()
-        except urllib.error.HTTPError:
-            return None
+        except urllib.error.HTTPError as e:
+            return None if e.code == 404 else e.code
     for p in paths:
         try:
             served_page = raw_page(base + p)
