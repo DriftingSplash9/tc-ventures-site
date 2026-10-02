@@ -651,3 +651,11 @@ Thomas, verbatim: **"pw0-5 ok, all A"**. Read as:
 - GitHub's file pages answered 503 to this machine from about 07:15 to 14:30 UTC (the API and raw files
   answered 200 throughout). By 14:55 `scripts/budget.py`, `handoff-031.md` and `handoff-030.md` answered
   200: the ledger's link to handoff-031 resolves.
+
+**Shipped 2026-10-02 at Thomas's word ("merge 50"), PR #50, merge `243b424`; checked live:**
+- `deploy_wait.py 50`: 7 of 7. The screenshot answered with its old bytes (200) for about 20 seconds after
+  the check-run's success at 15:02:28 UTC, and with the merged ones on the third try.
+- `site_check.py --live` from an up-to-date `main`: 253 of 253. A plain fetch of `/work/this-site` (with
+  `Accept: */*`) carries "Measured on 2 October 2026".
+
+**Phase 4 is complete:** P4-A to P4-D and PL-8's words are live.
