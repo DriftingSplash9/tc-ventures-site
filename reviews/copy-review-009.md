@@ -440,3 +440,87 @@ Thomas, verbatim: **"sd1 ok, sd2 ok, all A"**. Read as:
 - `shots_diff.py` against `main`: 48 of 48 pairs identical. Controls: `--self` 48 of 48 identical,
   `--inject` 0 of 48.
 - `budget.py`: 48 of 48. The blocks add about 1 kB to the home page and 2 kB to each case study.
+
+**Shipped 2026-10-02 at Thomas's word ("merge 45"), PR #45, merge `18a112e`; checked live:**
+- `deploy_wait.py 45`: 17 of 17. Its check-run succeeded at 06:05:17 UTC, and all seven pages are served
+  byte for byte as merged, each different from its pre-merge copy.
+- `site_check.py --live` from an up-to-date `main`: 241 of 241. The seven structured-data checks pass, and
+  no page logs a console error (a CSP report would be one).
+
+---
+
+## Step 5 — P4-D, the cards: a look, and the alt text (drafted 2026-10-02, for Thomas to rule)
+
+**To rule:** the cards as drawn (OK / FIX), OG1 to OG7 (OK / FIX / CUT), and Q-OG1.
+
+**Drawn, not shipped:** `scripts/og_cards.py --out DIR` renders the seven cards from the pages themselves.
+Previews: `Claude outputs/og-cards-preview/` (not in the repo), with `_contact-sheet.png` showing all seven.
+- **The frame is the site card's** (`og-src/og.html`): paper on the left with the wordmark "Thomas
+  Cheesman" as the label, the page's H1 unchanged and its address; the dark panel with the teal rule on the
+  right, holding the picture whole.
+- **No new words on a card.** The H1 is sized down to fit if it must; all seven fit at the full 64px.
+- **Fixed while drawing them:** the first render's type was a fallback face. A card loaded straight into the
+  browser has a blank origin, and the site's fonts, fetched from another origin, silently didn't load. Cards
+  are now served from the site's own origin, and the script stops if the two faces aren't loaded.
+- **Still to build after the ruling:** writing the cards and each page's `og:image` and `og:image:alt`, a
+  `--check`, and a control for the H1 fitter, which none of the seven exercised.
+
+**Found, not fixed:** `/work/this-site`'s screenshot of the home page (`this-site-home.webp`, added
+2026-09-24) is out of date. Its menu reads Projects, Background, Contact: no Method, no Display button. Its
+alt text says the same. It is the only page that uses it, captioned "The home page."
+
+### The alt text
+
+Read by screen readers wherever a link is shared. Each is the H1 unchanged, then the picture, shortened from
+the alt text the picture already carries on its page.
+
+| # | Page | Alt text |
+|---|---|---|
+| OG1 | `/work/influence-graph` | Thomas Cheesman: The Economic Report Influence Graph. Beside the title, a three-dimensional web of coloured spheres joined by fine lines, on a dark ground. |
+| OG2 | `/work/back-quarter` | Thomas Cheesman: A homepage you drive around. Beside the title, a low-polygon farmyard with an orange buggy, a white camper trailer, twin grain bins and a red barn. |
+| OG3 | `/work/desk-and-drawer` | Thomas Cheesman: A menu that is a photograph of my desk. Beside the title, the photograph: a curved monitor, a lit keyboard, a mug, a rubber duck and a stack of books. |
+| OG4 | `/work/bare-your-rare` | Thomas Cheesman: A rare-disease site, written by a patient. Beside the title, an excerpt of the site's structured data, marking a guide as a medical web page for patients. |
+| OG5 | `/work/gprs` | Thomas Cheesman: A housing society’s website. Beside the title, the society's home page, under the heading Accessible and Affordable Housing in Grande Prairie. |
+| OG6 | `/work/this-site` | Thomas Cheesman: This site. Beside the title, its home page, under the heading I run a nonprofit's website, and I hold it to a written standard. |
+| OG7 | `/method` | Thomas Cheesman: How AI is a tool I work with and an accessibility feature itself. Beside the title, the working loop: six steps from the brief to the next session, and the file each step writes. |
+
+### Question
+
+**Q-OG1:** the out-of-date home-page screenshot.
+> **A (recommended):** retake it first, at the same size, as the home page is now, and change its alt text's
+> menu clause to "with Projects, Method, Background and Contact in the menu" (OG6b). `/work/this-site` and
+> its card then both show the home page as it is.
+>
+> **B:** leave it. The card shows the same out-of-date picture the page does.
+
+### Rulings, step 5 (2026-10-02)
+
+Thomas, verbatim: **"cards ok, og1-7 ok, q-og1 a"**. Read as:
+- The cards as drawn: OK.
+- OG1 to OG7: OK as drafted.
+- Q-OG1 A: retake the home-page screenshot as the home page is now, and change its alt text's menu clause
+  to "with Projects, Method, Background and Contact in the menu" (OG6b).
+
+**Built after the ruling, and checked:**
+- `this-site-home.webp` retaken: the home page's first screen, 1280×720, light, served locally from
+  `public/`; looked at before it went in. Its alt text's menu clause changed (OG6b). It is used on
+  `/work/this-site` only.
+- `og_cards.py` writes the seven cards into `public/assets/img/og/`, each carrying its page and H1 inside the
+  PNG, and sets each page's `og:image` and `og:image:alt` (OG1 to OG7). A second run changes no tag.
+- `og_cards.py --check` failed on the seven pages before the write (the control: tag, alt and card each),
+  and passes after. `--controls`, 6 of 6: a long H1 shrinks to 50px and fits; a far longer one is reported
+  as not fitting; the page passes as it is; a changed alt, a card made for an older H1 and a missing card
+  are each caught.
+- **The controls caught two faults of their own first:** the "long" H1 still fit at 64px, so it couldn't
+  exercise the fitter; and the "older H1" fault was planted in the page's `<title>`, where the same words
+  come first, not in its `<h1>`. A code comment also stated a length as measured before it was. All three
+  fixed, then measured.
+- `site_check.py` checks every served page's link preview too: locally 226 of 226. Live before the merge,
+  246 of 253: the seven failures are the seven card pages, the control.
+- `shots_diff.py` against `main`: 44 of 48 identical; the four that differ are `/work/this-site` at each
+  width and theme, in the new screenshot's box only. Looked at, 1280 light and 375 dark.
+- `budget.py`: 48 of 48; `/work/this-site` 369 kB of its 400 (the new screenshot is 8.5 kB heavier).
+
+**Found, not fixed:** Fig. 2 beside it on `/work/this-site` (`this-site-gprs.webp`, the GPRS case study)
+shows the same old top bar: Projects, Background, Contact, no Method, no Display. Its alt text doesn't
+mention the menu, so it is still accurate. Retaking it is Thomas's call.

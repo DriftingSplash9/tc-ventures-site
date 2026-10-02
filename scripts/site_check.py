@@ -78,7 +78,8 @@ And the motion (copy-review-007, Phase 3 step 5):
 
 And the structured data, every page as served (copy-review-009 P4-C, scripts/schema.py): the block is what
 schema.py writes from the page's own words, every string in it is on the page, and there is no inline
-<script> but JSON-LD.
+<script> but JSON-LD. And the link preview (scripts/og_cards.py): each card page's og:image is its own card,
+served at 1200x630 and made for its current H1, with the ruled alt text; every other page keeps the site card.
 And with --live only (copy-review-009 P4-B; the local server applies neither file):
   - headers: every page, one file of each kind (HEADER_FILES) and an unknown URL's 404 are served with
     exactly the headers public/_headers gives that path. Control: a copy of the rules with one value
@@ -291,12 +292,24 @@ def main():
 
     # Structured data, every page as served (copy-review-009 P4-C): the block schema.py writes from the page's
     # own words, every string in it on the page, and no inline <script> but JSON-LD
+    # And the link preview (copy-review-009 P4-D, scripts/og_cards.py): a card page's og:image is its card, with
+    # the ruled alt text, served at 1200x630 and made for this page's H1; every other page keeps the site card
+    import og_cards   # here, not at the top: og_cards imports this module
+    def card_bytes(url):
+        req = urllib.request.Request(base + url[len("https://tc-ventures.ca"):], headers={"Accept": "*/*"})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return r.read()
+        except urllib.error.HTTPError:
+            return None
     for p in paths:
         try:
-            probs = schema.problems(raw_page(base + p))
+            served_page = raw_page(base + p)
+            probs, previews = schema.problems(served_page), og_cards.problems(p, served_page, card_bytes)
         except urllib.error.HTTPError as e:
-            probs = [f"status {e.code}"]
+            probs = previews = [f"status {e.code}"]
         check(f"structured data: {p}", not probs, "; ".join(probs))
+        check(f"link preview: {p}", not previews, "; ".join(previews))
 
     with sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=CHROMIUM if os.path.exists(CHROMIUM) else None)
