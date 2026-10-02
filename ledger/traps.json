@@ -473,8 +473,8 @@
   {
    "id": "T35",
    "start": 23,
-   "end": null,
-   "how": null,
+   "end": 33,
+   "how": "into code",
    "helped": [
     24,
     25,
@@ -484,7 +484,8 @@
     29,
     30,
     31,
-    32
+    32,
+    33
    ],
    "wordings": [
     "Thomas's \"merged\" may not have landed."
@@ -523,7 +524,8 @@
     29,
     30,
     31,
-    32
+    32,
+    33
    ],
    "wordings": [
     "PowerShell 5.1 splits an inline argument at its embedded double quotes."
@@ -542,7 +544,8 @@
     29,
     30,
     31,
-    32
+    32,
+    33
    ],
    "wordings": [
     "In PowerShell, `;` runs the next command even when the one before it failed.",
@@ -570,7 +573,8 @@
     28,
     29,
     30,
-    32
+    32,
+    33
    ],
    "wordings": [
     "Python on Thomas's console prints in cp1252, and a `→` or `’` crashes it."
@@ -609,8 +613,8 @@
   {
    "id": "T45",
    "start": 27,
-   "end": null,
-   "how": null,
+   "end": 33,
+   "how": "retired",
    "helped": [],
    "wordings": [
     "Playwright's default Chromium is the headless shell, started with `PaintHolding` and `RenderDocument` switched off"
@@ -619,8 +623,8 @@
   {
    "id": "T46",
    "start": 27,
-   "end": null,
-   "how": null,
+   "end": 33,
+   "how": "retired",
    "helped": [],
    "wordings": [
     "The app's browser pane draws only while the Claude window is in front and the pane is showing."
@@ -659,7 +663,8 @@
    "helped": [
     30,
     31,
-    32
+    32,
+    33
    ],
    "wordings": [
     "`site_check.py --live` compares the live ledger with what the local checkout would export."

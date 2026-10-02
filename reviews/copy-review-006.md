@@ -454,3 +454,14 @@ open, so its parking still draws it dotted: removing it now made `--check` fail 
 
 **Ruled 2026-10-02.** Thomas, verbatim: **"merge 51, lg33 ok"**. Recorded as `"LG33 OK 2026-10-02"`, and
 column 032 is drawn. `parked`: PL-8 removed in the same change (it closes in 032).
+
+---
+
+## LG34 — handoff-033's line (drafted 2026-10-02, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG34 | 033 · 2026-10-02 | A short close: this ledger caught up with the last handoff, and what comes next was left for me to choose. | "Nothing else changed."; "What comes next is Thomas's to start"; "merge 51, lg33 ok" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 032 until this is ruled.
+`ledger/traps.json` already holds handoff-033's traps.
