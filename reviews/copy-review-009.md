@@ -258,3 +258,44 @@ Thomas, verbatim: **"q-p4-8 a, q-p4-9 a"**. Read as:
 - **For A-1, a fact, not a fix:** with `role="img"` off `/method`'s diagram, axe found no violation on the page.
   Whether a screen reader then reads the diagram well is A-1's to find out.
 - `budget.py` locally: 48 of 48, the A-1 fault named, not counted.
+
+---
+
+## Step 3 — P4-B built (2026-10-01), ships on Thomas's word
+
+No copy. Everything in this step was ruled in P4-0 (Q-P4-6 A, Q-P4-7 A).
+
+**`public/_redirects`:** `/work` and `/work/` answer 301 to `/projects`. Cloudflare's docs for Workers
+static assets (the "Redirects" page) say the file is read from the assets directory, never served itself,
+and applied before headers. Branch builds don't reach tc-ventures.ca, so it can only be seen working after
+the merge.
+
+**`site_check.py --live`, new checks:**
+- **Headers:** every page, one file of each kind (CSS, JS, PNG, WebP, a font, the favicon, JSON, robots,
+  sitemap) and an unknown URL's 404, each served with exactly what `_headers` gives its path. Read live
+  before the merge: all match. The control (one value changed in a copy of the rules) is caught.
+- **Redirects:** each `_redirects` line answers its code with its destination, and the destination loads.
+  Before the merge `/work` is still 404, so these fail: the control that they can.
+
+**`scripts/deploy_wait.py` (INFRA-18):** the merge gate, the merge commit's own check-run, then every
+changed served file fetched cache-busted and compared byte for byte with the merge commit's copy, with the
+pre-merge copy as the control. Run on merges already live:
+- #43 (column 030): 5 of 5.
+- **#40 (column 029), the control:** fails, because the live home page has changed since.
+- #38 (DESIGN-6): its two scripts, unchanged since, pass; `style.css`, changed since, fails. It judges file by
+  file.
+- #42 (a handoff only): "the merge changed no served file".
+
+**Found while building it:** Cloudflare adds its analytics `<script>` to an HTML page unless the request's
+`Accept` is `*/*`. A request with no `Accept` (Python's default) or `text/html` gets 367 more bytes on the
+home page; curl sends `*/*` and sees the file as committed. The script's first run failed #43 on this; it
+now sends `*/*`.
+
+**Checked before the merge:** `site_check.py` locally 202 of 202 (the new checks are live only).
+`site_check.py --live`: 227 of 229, and the two that fail are the redirects (`/work` and `/work/` still 404),
+as they must until the merge. The first live run crashed instead: the new header function was named
+`served`, the name of a variable later in `main()`. A scratch test of the functions on their own had
+passed, because it never ran `main()`. Renamed `fetch_headers`.
+
+**After the merge:** `deploy_wait.py` on this PR, `site_check.py --live` from an up-to-date `main` (the
+redirect checks must pass), and `budget.py --live`.

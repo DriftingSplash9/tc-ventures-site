@@ -76,6 +76,13 @@ And the motion (copy-review-007, Phase 3 step 5):
     handoff, so nothing below it moves; with JavaScript off it doesn't show.
     It is written only once its label is ruled, so until then these fail.
 
+And with --live only (copy-review-009 P4-B; the local server applies neither file):
+  - headers: every page, one file of each kind (HEADER_FILES) and an unknown URL's 404 are served with
+    exactly the headers public/_headers gives that path. Control: a copy of the rules with one value
+    changed must be caught on /
+  - redirects: every line of public/_redirects answers its code with a Location of its destination, and
+    the destination loads (200)
+
 Exit code 1 if any check fails. Written 2026-09-26 (INFRA-13): the nav is
 copied into every page by hand, so this is what catches a page left behind.
 
@@ -86,7 +93,7 @@ mark comes off the check, so a fixed fault can't go on being excused. Now:
 none. DESIGN-1 and DESIGN-3 were marked from 2026-09-29 until Phase 3 step 4
 fixed them (2026-09-30).
 """
-import http.server, importlib.util, json, os, re, socketserver, sys, threading, time, urllib.request
+import http.server, importlib.util, json, os, re, socketserver, sys, threading, time, urllib.error, urllib.parse, urllib.request
 from functools import partial
 from playwright.sync_api import sync_playwright
 
@@ -108,6 +115,10 @@ CHROMIUM = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 M1_TRIES = 1
 # Screen widths checked with the browser's text at 200% (DESIGN-3 at 375, DESIGN-4 at 480 and 760)
 BIG_TEXT_WIDTHS = (375, 480, 760, 1280)
+# One file of each kind, for the live header check (besides every page)
+HEADER_FILES = ["/assets/style.css", "/assets/prefs.js", "/assets/img/og-card.png", "/assets/img/graph-gp-budget.webp",
+                "/assets/fonts/source-serif-4-latin.woff2", "/favicon.svg", "/assets/gp-budget-graph.json",
+                "/robots.txt", "/sitemap.xml"]
 
 
 class CleanURLHandler(http.server.SimpleHTTPRequestHandler):
@@ -166,6 +177,58 @@ def status(url):
         return e.code
 
 
+class _NoFollow(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, *a, **k):
+        return None
+
+
+def fetch_headers(url):
+    """(status, {header name in lower case: value}) for a GET, redirects not followed."""
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (site_check.py)"})
+    try:
+        with urllib.request.build_opener(_NoFollow).open(req, timeout=20) as r:
+            return r.status, {k.lower(): v for k, v in r.headers.items()}
+    except urllib.error.HTTPError as e:
+        return e.code, {k.lower(): v for k, v in e.headers.items()}
+
+
+def headers_rules(text):
+    """public/_headers as [(path pattern, {name: value})], in file order."""
+    rules = []
+    for line in text.splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if not line[0].isspace():
+            rules.append((line.strip(), {}))
+        elif rules and ":" in line:
+            name, value = line.strip().split(":", 1)
+            rules[-1][1][name.strip().lower()] = value.strip()
+    return rules
+
+
+def headers_wanted(rules, path):
+    """Every header the rules give this path; a later rule adds to an earlier one."""
+    want = {}
+    for pattern, hs in rules:
+        if re.fullmatch(re.escape(pattern).replace(r"\*", ".*"), path):
+            want.update(hs)
+    return want
+
+
+def headers_wrong(want, got):
+    return [f"{k}: want {v!r}, got {got.get(k)!r}" for k, v in want.items() if got.get(k) != v]
+
+
+def redirect_rules(text):
+    """public/_redirects as [(source, destination, code)]."""
+    out = []
+    for line in text.splitlines():
+        parts = line.split("#")[0].split()
+        if len(parts) >= 2:
+            out.append((parts[0], parts[1], int(parts[2]) if len(parts) > 2 else 302))
+    return out
+
+
 def main():
     args = sys.argv[1:]
     root = args[args.index("--root") + 1] if "--root" in args else os.path.join(HERE, "..", "public")
@@ -195,6 +258,31 @@ def main():
 
     nc = status(base + "/no-such-page-site-check")
     check("negative control: unknown URL 404", nc == 404, str(nc))
+
+    if "--live" in args:
+        # The headers Cloudflare serves are exactly what public/_headers says, on every page and one file of
+        # each kind (copy-review-009 P4-B). The local server doesn't apply _headers, so this is live only.
+        rules = headers_rules(open(os.path.join(root, "_headers"), encoding="utf-8").read())
+        got_root = None
+        for p in paths + HEADER_FILES + ["/no-such-page-site-check"]:
+            st, got = fetch_headers(base + p)
+            if p == "/":
+                got_root = got
+            want = headers_wanted(rules, p)
+            check(f"headers as _headers says: {p}", bool(st in (200, 404) and want and not headers_wrong(want, got)),
+                  f"status {st}; " + "; ".join(headers_wrong(want, got)) if headers_wrong(want, got) or st not in (200, 404) else "")
+        # Control: one value changed in a copy of the rules must be caught on /
+        bent = [(pat, {k: (v + " x" if i == 0 else v) for i, (k, v) in enumerate(hs.items())}) for pat, hs in rules]
+        check("control: a changed _headers value is caught", bool(got_root) and
+              bool(headers_wrong(headers_wanted(bent, "/"), got_root)))
+        # Every public/_redirects rule answers its code and points at its destination, which itself loads
+        rpath = os.path.join(root, "_redirects")
+        for src, dst, code in redirect_rules(open(rpath, encoding="utf-8").read()) if os.path.exists(rpath) else []:
+            st, got = fetch_headers(base + src)
+            loc = urllib.parse.urljoin(base + src, got.get("location", ""))
+            check(f"redirect: {src} -> {dst} {code}", st == code and loc == base + dst,
+                  f"got {st} to {got.get('location')!r}")
+            check(f"redirect target loads: {dst}", status(base + dst) == 200)
 
     with sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=CHROMIUM if os.path.exists(CHROMIUM) else None)
