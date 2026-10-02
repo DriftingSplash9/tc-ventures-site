@@ -11,13 +11,18 @@ Usage: python scripts/deploy_wait.py PR            (a merged pull request's numb
    read: the bot says that for branch pushes too, and they don't reach the site (handoff trap).
 3. The files: every file under public/ that the merge changed (its first parent to the merge commit),
    less what .assetsignore keeps off the site and the two files Cloudflare parses and never serves
-   (_headers, _redirects: site_check.py --live checks those). Each is fetched with a cache-busting query,
-   so a fetch can't warm the cache it is checking (handoff trap), and:
+   (_headers, _redirects: site_check.py --live checks those). Each is fetched, and:
      - changed: byte-identical to the merge commit's copy, and different from the first parent's (the
        pre-merge control: a match there would mean the old file is still served)
      - added: byte-identical to the merge commit's copy
      - deleted: answers 404
    Pages are fetched by their clean URL (/method, not /method.html), as the site links them.
+   A file that isn't right yet is fetched again, up to TRIES times, WAIT seconds apart, and each retry is
+   printed: on #46 (2026-10-02) two of seven new files answered 404 just after the check-run said success,
+   and 200 a minute later.
+   Each fetch carries a never-used query (?cb=), but don't count on it to bypass Cloudflare's cache: on
+   these static files a never-used query still came back "CF-Cache-Status: HIT" (2026-10-02). The pre-merge
+   control is what shows the file is new.
 
 Exit 1 if anything fails. Control (CLAUDE.md rule 3): run it on an older merge whose files have changed
 again since, such as #40 (ledger column 029): it must fail, because the live file is newer.
@@ -34,6 +39,7 @@ NOT_SERVED = {"public/_headers", "public/_redirects"}
 # Cloudflare adds its analytics <script> to an HTML page unless the request's Accept is */* (found
 # 2026-10-01: none, or text/html, gets it). curl sends */*, so it sees the file as committed; so does this.
 HEADERS = {"User-Agent": "deploy_wait.py", "Accept": "*/*"}
+TRIES, WAIT = 7, 10
 
 
 def sh(*cmd):
@@ -141,14 +147,21 @@ def main():
         print("  the merge changed no served file under public/; nothing to compare")
     for status, path in changes:
         url = url_for(path)
-        st, body = fetch(SITE + url)
+        want = None if status == "D" else git("show", f"{sha}:{path}")
+        right = (lambda st, body: st == 404) if status == "D" else (lambda st, body: st == 200 and body == want)
+        for attempt in range(1, TRIES + 1):
+            st, body = fetch(SITE + url)
+            if right(st, body) or attempt == TRIES:
+                break
+            print(f"  {url}: status {st}, not right yet; try {attempt + 1} of {TRIES} in {WAIT}s", flush=True)
+            time.sleep(WAIT)
         if status == "D":
             check(f"deleted, now 404: {url}", st == 404, str(st))
             continue
-        want = git("show", f"{sha}:{path}")
-        same = st == 200 and body == want
+        same = right(st, body)
         check(f"live is the merge's copy: {url}", same,
-              "" if same else f"status {st}, {len(body)} bytes served, {len(want)} in {sha[:7]}")
+              ("" if attempt == 1 else f"on try {attempt}") if same else
+              f"status {st}, {len(body)} bytes served, {len(want)} in {sha[:7]}, after {attempt} tries")
         if status == "M":
             before = git("show", f"{pre}:{path}")
             check(f"control, live is not the pre-merge copy: {url}", body != before)
