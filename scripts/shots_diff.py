@@ -11,6 +11,8 @@ pixel. "Same" means identical images, not similar ones. So that two shots of an
 unchanged page come out identical:
   - the clock is fixed (the contact page shows the local time)
   - CSS animations are held at their start (the 404's drift), and no caret shows
+  - motion is reduced, so the home page's 3D ledger is drawn whole and still, and the shot waits
+    for it to draw and fade in
   - lazy images are made eager and decoded before the shot (a lazy, async
     image can otherwise paint as an empty box in a full-page shot), and the
     fonts are waited for
@@ -55,14 +57,26 @@ def serve(root):
     return srv, f"http://127.0.0.1:{srv.server_address[1]}"
 
 
+# The home page's 3D ledger (copy-review-010) is drawn by script; under Full its opening runs on real time, so
+# two shots never matched. Shots are taken with reduced motion (the scene drawn whole and still) once it has
+# drawn and faded in. Added 2026-10-02, after --self found home at 1280 differing from itself.
+SCENE_SETTLE = """async () => {
+  const r = document.documentElement;
+  for (let i = 0; i < 100 && r.hasAttribute('data-lg-scene') && r.getAttribute('data-lg-scene') !== 'on'; i++)
+    await new Promise(f => setTimeout(f, 50));
+  if (r.getAttribute('data-lg-scene') === 'on') await new Promise(f => setTimeout(f, 1500));
+}"""
+
+
 def shot(browser, url, width, scheme, inject=None):
-    ctx = browser.new_context(viewport={"width": width, "height": 900}, color_scheme=scheme)
+    ctx = browser.new_context(viewport={"width": width, "height": 900}, color_scheme=scheme, reduced_motion="reduce")
     page = ctx.new_page()
     page.clock.set_fixed_time(CLOCK)
     page.goto(url, wait_until="networkidle")
     if inject:
         page.add_style_tag(content=inject)
     page.evaluate(SETTLE)
+    page.evaluate(SCENE_SETTLE)
     png = page.screenshot(full_page=True, animations="disabled", caret="hide")
     ctx.close()
     return png

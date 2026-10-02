@@ -8,6 +8,9 @@ How Thomas and the AI divide the work, and the checking routine for each kind of
 
 ## Truth rules — read before you claim anything
 
+The source copy is Thomas's global `C:\Users\thoma\.claude\CLAUDE.md`. This copy stays so a cloud session,
+which sees only this repo, has them too (INFRA-20, ruled 2026-10-02). Change both together.
+
 Twenty rules distilled from ~700 documented AI misses across Thomas's projects (the
 receipts inventory, `tc-ventures site/plans/receipts-001.md`, 2026-09-23). Every one was
 broken more than once, usually on more than one project.
