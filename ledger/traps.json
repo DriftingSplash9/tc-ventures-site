@@ -291,8 +291,8 @@
   {
    "id": "T22",
    "start": 20,
-   "end": null,
-   "how": null,
+   "end": 30,
+   "how": "retired",
    "helped": [
     21,
     22,
@@ -302,7 +302,8 @@
     26,
     27,
     28,
-    29
+    29,
+    30
    ],
    "wordings": [
     "A check warms the cache it is checking."
@@ -375,7 +376,8 @@
     26,
     27,
     28,
-    29
+    29,
+    30
    ],
    "wordings": [
     "The Cloudflare bot says \"Deployment successful\" on branch pushes and links a \"production\" build. Branch builds don't reach tc-ventures.ca.",
@@ -457,7 +459,8 @@
     23,
     24,
     25,
-    29
+    29,
+    30
    ],
    "wordings": [
     "Heredocs mangle scripts",
@@ -476,7 +479,8 @@
     26,
     27,
     28,
-    29
+    29,
+    30
    ],
    "wordings": [
     "Thomas's \"merged\" may not have landed."
@@ -512,7 +516,8 @@
     26,
     27,
     28,
-    29
+    29,
+    30
    ],
    "wordings": [
     "PowerShell 5.1 splits an inline argument at its embedded double quotes."
@@ -528,7 +533,8 @@
     26,
     27,
     28,
-    29
+    29,
+    30
    ],
    "wordings": [
     "In PowerShell, `;` runs the next command even when the one before it failed.",
@@ -554,7 +560,8 @@
     26,
     27,
     28,
-    29
+    29,
+    30
    ],
    "wordings": [
     "Python on Thomas's console prints in cp1252, and a `→` or `’` crashes it."
@@ -626,7 +633,8 @@
    "end": null,
    "how": null,
    "helped": [
-    29
+    29,
+    30
    ],
    "wordings": [
     "Keep every FAIL line of a check run."
@@ -637,9 +645,21 @@
    "start": 29,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    30
+   ],
    "wordings": [
     "`site_check.py --live` compares the live ledger with what the local checkout would export."
+   ]
+  },
+  {
+   "id": "T50",
+   "start": 30,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A match on one field can join two different things."
    ]
   }
  ]

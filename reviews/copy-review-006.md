@@ -407,3 +407,14 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 
 **Ruled 2026-10-01.** Thomas, verbatim: **"lg30ok"**. Recorded as `"LG30 OK 2026-10-01"`, and column 029
 is drawn. `parked` unchanged.
+
+---
+
+## LG31 — handoff-030's line (drafted 2026-10-01, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG31 | 030 · 2026-10-01 | This ledger's last layer: a band of traps, the mistakes each session wrote down for the next, drawn from the handoffs themselves. I ruled the plan, the matching and the words. | "The ledger's traps layer (PL-9), the last of Phase 3"; "a script read 302 trap entries in handoffs 019 to 029"; "links ok, TD all A" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 029 until this is ruled.
+`ledger/traps.json` already holds handoff-030's traps.
