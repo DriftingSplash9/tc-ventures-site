@@ -157,6 +157,19 @@ Godly, then Awwwards (PL-6), each on your word.
 >
 > **B:** keep it separate, in INFRA.
 
+### Rulings, P4-0 (2026-10-01)
+
+Thomas, verbatim: **"p4-0 ok, all A"**. Read as:
+- P4-0 OK as proposed.
+- Q-P4-1 A: the order A, B, C, D (budget script, headers and redirects, structured data, cards).
+- Q-P4-2 A: a ceiling per page that fails the run; raising one is a ruled change.
+- Q-P4-3 A: axe-core, one pinned file in `scripts/vendor/` with its licence, never deployed.
+- Q-P4-4 A: `<script type="application/ld+json">` is the one inline `<script>` allowed; a check fails any
+  other.
+- Q-P4-5 A: own cards for the six case studies and `/method`; the rest keep the site card.
+- Q-P4-6 A: `/work` and `/work/` 301 to `/projects`.
+- Q-P4-7 A: INFRA-18 built in P4-B.
+
 ### The steps
 
 1. P4-0 ruled.
@@ -165,3 +178,68 @@ Godly, then Awwwards (PL-6), each on your word.
 4. SD1 onward drafted and ruled; P4-C built, shipped, checked live.
 5. OG1 onward drafted and ruled; the cards built, looked at, shipped, checked live.
 6. PL-8's words, ruled; shipped.
+
+---
+
+## Step 2 — P4-A built (2026-10-01), for Thomas to rule
+
+**To rule:** Q-P4-8 (the ceilings) and Q-P4-9 (the one accessibility finding).
+
+**Built:** `scripts/budget.py`, its manual in its docstring. axe-core 4.11.4 is in `scripts/vendor/axe-core/`
+(`axe.min.js` and its `LICENSE`), downloaded with Thomas's OK (2026-10-01): 564,211 and 15,921 bytes, the
+same sizes jsDelivr lists, and the script's sha512 matches the one cdnjs publishes. `scripts/` is never
+deployed. Nothing on the site changed.
+
+**The controls, each run:**
+- `--controls`: a heavy image planted on `/contact` and the alt text taken off `/work/gprs`'s first image.
+  `/contact` failed its ceiling (475 kB against 290), `/work/gprs` failed `image-alt` in light and dark, and
+  `/background`, left alone, passed. "OK, the 3 planted faults failed and nothing else did."
+- The pin: a copy of the script with one byte added to its axe-core file refused to run.
+
+**Measured, 2026-10-01, at `91e2b71`.** "Page" is the weight once scrolled to the end, the site's own files
+as decoded; the ceiling applies to it. "On the wire" is what a reader downloads (compressed), from the live
+run. Other origins: Cloudflare's analytics beacon, 30 kB on every page, outside the ceilings.
+
+| Page | Page, live | On the wire | Proposed ceiling |
+|---|---|---|---|
+| `/` | 352 kB | 218 kB | 390 kB |
+| `/projects` | 652 kB | 600 kB | 720 kB |
+| `/work/influence-graph` | 605 kB | 537 kB | 670 kB |
+| `/work/back-quarter` | 319 kB | 259 kB | 360 kB |
+| `/work/desk-and-drawer` | 429 kB | 370 kB | 480 kB |
+| `/work/bare-your-rare` | 268 kB | 206 kB | 300 kB |
+| `/work/gprs` | 480 kB | 423 kB | 530 kB |
+| `/work/this-site` | 357 kB | 290 kB | 400 kB |
+| `/method` | 274 kB | 208 kB | 310 kB |
+| `/background` | 255 kB | 203 kB | 290 kB |
+| `/contact` | 255 kB | 204 kB | 290 kB |
+| `/404` | 251 kB | 202 kB | 280 kB |
+
+- **The graph,** after its click: 1,372 kB more, 365 kB on the wire. Reported, not in the page.
+- **Local runs read about 2 kB more per page than live.** This checkout has Windows line endings (2,290
+  carriage-return bytes across the home page's files); the repo and the site have none. The ceilings were set
+  from the local numbers, so they err on the safe side.
+- **The home page grows** a little with each ledger column; its headroom is 36 kB locally, 38 kB live.
+
+**Accessibility (axe-core's WCAG 2.0 to 2.2 A and AA rules, every page, light and dark, local and live):**
+one violation, on two pages. Everything else passed, colour contrast included.
+- **`nested-interactive` (serious):** the loop diagram on `/method` and the one on `/work/this-site` are each
+  an `<svg role="img">` that holds links. `role="img"` tells a screen reader the picture has no parts, so
+  the links inside it may not be announced.
+- **This is A-1's first listed point** ("the loop diagrams' links sit inside an SVG with `role="img"`"),
+  found again by the check on its own.
+
+### Questions
+
+**Q-P4-8:** the ceilings.
+> **A (recommended):** as in the table: the page's measured weight plus 10%, rounded up to the next 10 kB.
+>
+> **B:** another rule for the headroom (say which).
+
+**Q-P4-9:** the `nested-interactive` finding.
+> **A (recommended):** mark it a known fault under A-1, the way `site_check.py` marks one: it isn't counted
+> and doesn't fail the run, the summary names it, and the day it passes the run fails until the mark comes
+> off. The fix stays in your accessibility pass, where the diagrams get their screen-reader run-through.
+>
+> **B:** fix it now (the diagrams' markup changes, and how a screen reader meets them), in its own small
+> step before P4-B.
