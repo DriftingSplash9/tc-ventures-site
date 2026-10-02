@@ -541,3 +541,113 @@ mention the menu, so it is still accurate. Retaking it is Thomas's call.
   three) on each page failed for the wrong cause. Fixed: the same User-Agent as every other fetch, and any
   status but 404 reported as itself (a new control: a 403 is reported as 403).
 - `site_check.py --live` from an up-to-date `main`, after the fix: 253 of 253. Locally 226 of 226.
+
+---
+
+## Step 6 — PL-8: the numbers on `/work/this-site` (drafted 2026-10-02, for Thomas to rule)
+
+Started at Thomas's word, "go ahead with PL-8's words".
+
+**To rule:** PW1 to PW5 (OK / FIX / CUT), the CUT of the old sentence (PW0), and Q-PW1 to Q-PW3.
+
+**What the page says now** (`/work/this-site`, "What shipped", "The honest limits", verbatim):
+> As of September 2026 the rebuild is part-way through, and the plan it follows is public. There are no
+> page-weight or accessibility scores on this page: nothing measures them by script yet, and I don't type
+> figures in by hand. The site has not had a screen-reader run-through yet.
+
+**Its middle sentence has been untrue since #44** (2026-10-01): `budget.py` now measures both.
+
+**The numbers** come from `budget.py --live`, run 2026-10-02 14:29 UTC at `fb3304a` (48 of 48), never typed
+from memory. On the wire, the site's own files, scrolled to the end, smallest first (sorted by command):
+
+| Page | On the wire |
+|---|---|
+| `/404` | 202 kB |
+| `/background` | 203 kB |
+| `/contact` | 204 kB |
+| `/work/bare-your-rare` | 206 kB |
+| `/method` | 208 kB |
+| `/` | 219 kB |
+| `/work/back-quarter` | 259 kB |
+| `/work/this-site` | 299 kB |
+| `/work/desk-and-drawer` | 371 kB |
+| `/work/gprs` | 424 kB |
+| `/work/influence-graph` | 537 kB |
+| `/projects` | 600 kB |
+
+- **Counted, not eyeballed:** the first draft said "half the pages in about 200 kB". By command that holds
+  only with `/404` counted (6 of 12); of the eleven pages in the sitemap it's 5. PW3 gives the range
+  instead, which holds either way.
+- The graph's payload, after its click, is another 365 kB on the wire. It isn't in the page, and PW3 doesn't
+  count it.
+
+### The blocks
+
+| # | Status | Text |
+|---|---|---|
+| PW0 | **CUT** (now untrue) | There are no page-weight or accessibility scores on this page: nothing measures them by script yet, and I don't type figures in by hand. |
+| PW1 | changed date | As of October 2026 the rebuild is part-way through, and the plan it follows is public. |
+| PW2 | new | A script in the repo weighs every page and runs automated accessibility rules on it, in light and dark. → `scripts/budget.py` (a receipt link) |
+| PW3 | new | Measured on 2 October 2026, each page's own files download in between about 200 kB and 600 kB, fonts and images included; the heaviest is the Projects page, with its pictures. |
+| PW4 | new | The automated rules pass on every page except two, where a diagram's links sit inside a picture that a screen reader may read as a single image. |
+| PW5 | kept, extended | Automated rules catch only part of what matters, as the first miss above shows, and the site has not had a screen-reader run-through yet. |
+
+- **"Pictures", not "screenshots":** of `/projects`' three images one is a photograph (the desk).
+- **PW3 counts only the site's own files.** Cloudflare's analytics script, 30 kB on every page, comes from
+  Cloudflare and isn't counted; PW3 says "own files" for that reason.
+- **PW3 is dated, so it can't go stale:** it says what was measured that day. A later run that differs
+  changes nothing it claims.
+- **PW4 is A-1's known fault,** in plain words. It names no checker and no count.
+- **PW5's first half points at the page's own first miss** ("A clean accessibility report, and a keyboard
+  that lost its place"): the reason the automated rules are reported modestly.
+
+### Questions
+
+**Q-PW1:** which weight PW3 gives.
+> **A (recommended):** what a reader downloads (compressed, "on the wire").
+>
+> **B:** the files' full size (decoded), the number the ceilings use.
+
+**Q-PW2:** `/work/this-site`'s header still says "Live · rebuild in progress" (C-20).
+> **A (recommended):** keep it until the plan's last step (your accessibility pass) is done; PW1 says the
+> same.
+>
+> **B:** change it now (say to what).
+
+**Q-PW3:** Fig. 2 on the same page shows the old top bar (DESIGN-7).
+> **A (recommended):** retake it in the same change, as Fig. 1 was: same size, the GPRS case study as it is
+> now. Its alt text doesn't mention the menu, so no new words.
+>
+> **B:** leave it.
+
+### Rulings, step 6 (2026-10-02)
+
+Thomas, verbatim: **"pw0-5 ok, all A"**. Read as:
+- PW0 to PW5 OK as drafted: PW0 cut; PW1 to PW5 in.
+- Q-PW1 A: the weights are on the wire. Q-PW2 A: the header keeps "rebuild in progress". Q-PW3 A: Fig. 2
+  retaken in the same change (DESIGN-7).
+
+**Built after the ruling, and checked:**
+- `/work/this-site`'s honest limits: PW0 cut; PW1 and PW2 in one paragraph, ending on the receipt
+  `scripts/budget.py` (the page's pattern: a receipt closes its paragraph); PW3 to PW5 in a second. Set as
+  the page sets type: `&rsquo;` for an apostrophe, a no-break space before "kB".
+- A scratchpad check, normalizing only that typography: PW1 to PW5 are on the page word for word and PW0
+  isn't; its control (PW3 with one word changed) isn't found.
+- Fig. 2 (`this-site-gprs.webp`) retaken: `/work/gprs`'s first screen, 1280×720, light, served locally;
+  looked at. Its alt text still holds (the heading, the one-line summary, the table of stack, status and
+  hosting, the side index of six sections). The retake's first try failed: Git Bash rewrote `/work/gprs`
+  into a Windows path (the carried trap, hit again).
+- `site_check.py` 226 of 226; `budget.py` 48 of 48 (`/work/this-site` 370 of 400 kB); `schema.py --check`,
+  `og_cards.py --check` and `export-ledger.py --check` ok.
+- `shots_diff.py` against `main`: 44 of 48 identical; the four that differ are `/work/this-site` (taller by
+  the second paragraph). Looked at, 1280 light and 375 dark: both figures current, the receipt in place.
+- `cs_check.py work/this-site`: 16 of 17, every link 200 (29 unique, the new receipt among them).
+  - **It had crashed first, before reaching its links:** an `<a>` inside an SVG (the loop diagram) gives
+    `e.href` as an object, not a string. The same page on `main` has the same SVG links, so it predates this
+    change. Fixed in `cs_check.py`: an SVG link's `baseVal` is resolved against the page.
+  - **The one failure, found, not fixed:** "title is the H1". The page's `<title>` is "How this site was
+    built - Thomas Cheesman" and its H1 "This site". Both shipped with the page on 2026-09-24
+    (copy-review-003); copy, and Thomas's call.
+- GitHub's file pages answered 503 to this machine from about 07:15 to 14:30 UTC (the API and raw files
+  answered 200 throughout). By 14:55 `scripts/budget.py`, `handoff-031.md` and `handoff-030.md` answered
+  200: the ledger's link to handoff-031 resolves.

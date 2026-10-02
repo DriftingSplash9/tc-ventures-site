@@ -141,7 +141,11 @@ def main():
                 back = page.evaluate("document.activeElement.classList.contains('navsub__toggle')")
                 check("Esc closes it and returns focus", closed == "false" and back, f"{closed}, focus back {back}")
 
-                links = page.eval_on_selector_all("a[href]", "els => els.map(e => e.href)")
+                # An <a> inside an SVG gives e.href as an object, not a string (the loop diagrams):
+                # resolve its baseVal against the page instead (found 2026-10-02, when this crashed)
+                links = page.eval_on_selector_all(
+                    "a[href]", "els => els.map(e => typeof e.href === 'string' ? e.href"
+                               " : new URL(e.href.baseVal, location.href).href)")
 
             if shots:
                 os.makedirs(shots, exist_ok=True)
