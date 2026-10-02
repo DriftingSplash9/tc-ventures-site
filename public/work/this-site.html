@@ -401,10 +401,17 @@
 
             <h3>The honest limits</h3>
             <p>
-              As of September 2026 the rebuild is part-way through, and the plan it follows is
-              public. There are no page-weight or accessibility scores on this page: nothing
-              measures them by script yet, and I don&rsquo;t type figures in by hand. The site has
-              not had a screen-reader run-through yet.
+              As of October 2026 the rebuild is part-way through, and the plan it follows is
+              public. A script in the repo weighs every page and runs automated accessibility rules
+              on it, in light and dark.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/scripts/budget.py">scripts/budget.py</a>
+            </p>
+            <p>
+              Measured on 2 October 2026, each page&rsquo;s own files download in between about
+              200&nbsp;kB and 600&nbsp;kB, fonts and images included; the heaviest is the Projects
+              page, with its pictures. The automated rules pass on every page except two, where a
+              diagram&rsquo;s links sit inside a picture that a screen reader may read as a single
+              image. Automated rules catch only part of what matters, as the first miss above
+              shows, and the site has not had a screen-reader run-through yet.
             </p>
           </section>
 

@@ -619,3 +619,35 @@ from memory. On the wire, the site's own files, scrolled to the end, smallest fi
 > now. Its alt text doesn't mention the menu, so no new words.
 >
 > **B:** leave it.
+
+### Rulings, step 6 (2026-10-02)
+
+Thomas, verbatim: **"pw0-5 ok, all A"**. Read as:
+- PW0 to PW5 OK as drafted: PW0 cut; PW1 to PW5 in.
+- Q-PW1 A: the weights are on the wire. Q-PW2 A: the header keeps "rebuild in progress". Q-PW3 A: Fig. 2
+  retaken in the same change (DESIGN-7).
+
+**Built after the ruling, and checked:**
+- `/work/this-site`'s honest limits: PW0 cut; PW1 and PW2 in one paragraph, ending on the receipt
+  `scripts/budget.py` (the page's pattern: a receipt closes its paragraph); PW3 to PW5 in a second. Set as
+  the page sets type: `&rsquo;` for an apostrophe, a no-break space before "kB".
+- A scratchpad check, normalizing only that typography: PW1 to PW5 are on the page word for word and PW0
+  isn't; its control (PW3 with one word changed) isn't found.
+- Fig. 2 (`this-site-gprs.webp`) retaken: `/work/gprs`'s first screen, 1280×720, light, served locally;
+  looked at. Its alt text still holds (the heading, the one-line summary, the table of stack, status and
+  hosting, the side index of six sections). The retake's first try failed: Git Bash rewrote `/work/gprs`
+  into a Windows path (the carried trap, hit again).
+- `site_check.py` 226 of 226; `budget.py` 48 of 48 (`/work/this-site` 370 of 400 kB); `schema.py --check`,
+  `og_cards.py --check` and `export-ledger.py --check` ok.
+- `shots_diff.py` against `main`: 44 of 48 identical; the four that differ are `/work/this-site` (taller by
+  the second paragraph). Looked at, 1280 light and 375 dark: both figures current, the receipt in place.
+- `cs_check.py work/this-site`: 16 of 17, every link 200 (29 unique, the new receipt among them).
+  - **It had crashed first, before reaching its links:** an `<a>` inside an SVG (the loop diagram) gives
+    `e.href` as an object, not a string. The same page on `main` has the same SVG links, so it predates this
+    change. Fixed in `cs_check.py`: an SVG link's `baseVal` is resolved against the page.
+  - **The one failure, found, not fixed:** "title is the H1". The page's `<title>` is "How this site was
+    built - Thomas Cheesman" and its H1 "This site". Both shipped with the page on 2026-09-24
+    (copy-review-003); copy, and Thomas's call.
+- GitHub's file pages answered 503 to this machine from about 07:15 to 14:30 UTC (the API and raw files
+  answered 200 throughout). By 14:55 `scripts/budget.py`, `handoff-031.md` and `handoff-030.md` answered
+  200: the ledger's link to handoff-031 resolves.
