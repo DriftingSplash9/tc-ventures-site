@@ -359,3 +359,10 @@ Thomas asked for every open point that takes a yes or no, with the agent's recom
   hash) is caught, and `--controls` passes 8 of 8. The seven cards are pixel for pixel the same as before.
 - 9 and 11: as above.
 - 3 waits for #53: LG34's column links handoff-033.md on `main`.
+
+**Merged by Thomas, 2026-10-02** ("1 merged"): #53 (`9bb1dd1`) and #54 (`22e1abb`) on `main`.
+`deploy_wait.py 54`: 22 of 22. **#55 did not reach `main`:** merged 20 s after #54, it went into
+`ledger-hero`, its base, which hadn't been retargeted yet. Reopened against `main` as a new PR.
+
+**The `kbd` rule** (Thomas: "3 y"): unused in `public/`, deleted in the same PR. `shots_diff.py` against
+`ledger-hero`'s tree: 48 of 48 identical.

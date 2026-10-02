@@ -1010,19 +1010,6 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 }
 .gd__chain .gd__step em { font-style: normal; color: var(--accent); }
 
-kbd {
-  font-family: var(--mono);
-  font-size: 0.85em;
-  line-height: 1;
-  padding: 3px 6px;
-  border: 1px solid var(--rule);
-  border-bottom-width: 2px;
-  border-radius: 3px;
-  background: var(--paper);
-  color: var(--ink);
-  white-space: nowrap;
-}
-
 
 /* ==========================================================================
    CASE STUDIES  (plan-001 §4a, §4d)  —  added 2026-09-21, session 2
