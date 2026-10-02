@@ -1,0 +1,7 @@
+# Redirects for Cloudflare Workers static assets: [source] [destination] [code]. Parsed by Cloudflare,
+# never served. Exact paths only. Checked live by scripts/site_check.py --live.
+#
+# There is no /work index (ruled 2026-09-25): the case studies are listed on /projects. Someone who trims
+# a case study's URL lands on that list instead of the 404 (copy-review-009 Q-P4-6 A).
+/work /projects 301
+/work/ /projects 301
