@@ -12,6 +12,8 @@
      data-text      large | larger
      data-lg-wait   on the home page under Full, until ledger.js takes over the
                     draw-in (DESIGN-6; below)
+     data-lg-scene  on the home page while the 3D hero loads, "on" once it draws
+                    (copy-review-010; below)
 
    display.js (the panel) writes the same key. If storage is blocked, every
    page falls back to the OS settings. */
@@ -47,6 +49,19 @@
   if (window.tcvMotion() === 'full' && /^\/(index(\.html)?)?$/.test(location.pathname) && 'IntersectionObserver' in window) {
     root.setAttribute('data-lg-wait', '');
     setTimeout(function () { root.removeAttribute('data-lg-wait'); }, 3000);
+  }
+
+  /* The 3D hero (copy-review-010). On the home page, where WebGL2 and modules
+     exist, this marks <html> before the first paint, and style.css hides the SVG
+     pictures so they don't show and then vanish. ledger-scene.js sets the mark to
+     "on" once it draws, and removes it if it can't. If it hasn't drawn after 5 s,
+     the mark lifts here and the SVGs show. */
+  if (/^\/(index(\.html)?)?$/.test(location.pathname) && window.WebGL2RenderingContext
+      && 'noModule' in document.createElement('script')) {
+    root.setAttribute('data-lg-scene', '');
+    setTimeout(function () {
+      if (root.getAttribute('data-lg-scene') !== 'on') root.removeAttribute('data-lg-scene');
+    }, 5000);
   }
 
   /* M1, page to page (copy-review-007 §4, Phase 3 step 5). Each page's <head>

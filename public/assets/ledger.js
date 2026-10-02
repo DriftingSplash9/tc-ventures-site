@@ -20,7 +20,10 @@
    before the first paint and style.css hides the threads meanwhile. This file
    lifts the mark on every path, and on the draw-in path only once the threads
    are clipped. The draw-in runs only if the mark is still on: if prefs.js's 3 s
-   fallback lifted it first, the ledger has been shown whole, so it stays so. */
+   fallback lifted it first, the ledger has been shown whole, so it stays so.
+
+   Each step is also sent as an 'lg:show' event on the figure, for the 3D hero
+   (assets/ledger-scene.js), which draws the same ledger when WebGL runs. */
 (function () {
   var root = document.documentElement;
   var waiting = root.hasAttribute('data-lg-wait');
@@ -59,6 +62,8 @@
   var shown = n;
   function show(v) {
     var j = Math.min(Math.floor(v), n) - 1;
+    /* The 3D hero (assets/ledger-scene.js, copy-review-010) follows the same handoff, fractions included. */
+    fig.dispatchEvent(new CustomEvent('lg:show', { detail: Math.min(v, n) }));
     pics.forEach(function (p) {
       var reach;
       if (v >= n) reach = p.land ? p.vb.width : p.vb.height;
@@ -103,5 +108,9 @@
       raf = v < n ? requestAnimationFrame(tick) : 0;
     });
   }, { threshold: 0.35 });
-  io.observe(fig);
+  /* With the 3D hero loading (prefs.js's data-lg-scene) on a wide screen, the scene fills the hero and
+     the figure starts below the fold: watch the hero instead (copy-review-010). At 45em and under the
+     scene sits in the figure, so the figure it is. */
+  var wide = window.matchMedia && window.matchMedia('(min-width: 45.0001em)').matches;
+  io.observe(root.hasAttribute('data-lg-scene') && wide ? (fig.closest('.hero') || fig) : fig);
 })();

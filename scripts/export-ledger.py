@@ -44,6 +44,11 @@ How to run
                                                 preview: include unruled lines, write
                                                 PATH (never public/index.html)
 
+It also writes public/assets/ledger-data.json, the same ledger as numbers for
+assets/ledger-scene.js, the 3D hero (copy-review-010): columns (number and date),
+the bands with each thread's lane, start, end and state, and the traps. No item
+ID or trap ID goes in it, as none goes on the page. --check covers it too.
+
 The page must already carry <!-- ledger:begin ... --> and <!-- ledger:end -->.
 Written 2026-09-29 for Phase 2 (plan-001 §4c; copy-review-006 LG0, ruled).
 """
@@ -53,6 +58,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 CURATION = ROOT / "ledger" / "curation.json"
 TRAPS = ROOT / "ledger" / "traps.json"
 PAGE = ROOT / "public" / "index.html"
+SCENE = ROOT / "public" / "assets" / "ledger-data.json"   # the 3D hero's data (copy-review-010)
 REPO = "https://github.com/DriftingSplash9/tc-ventures-site/blob/main/"
 BEGIN = ("<!-- ledger:begin: written by scripts/export-ledger.py from the handoffs and "
          "ledger/curation.json. Edit those and re-run it; do not edit this block. -->")
@@ -473,6 +479,27 @@ def svg_port(cur, shown, threads, traps=None):
             + "".join(grid) + "".join(body) + threads_g(marks) + "</svg>")
 
 
+def scene_data(cur, shown, threads, traps):
+    """The ledger as numbers for assets/ledger-scene.js (copy-review-010). Only what the page already
+    shows: handoff numbers and dates, band names, and the threads' shapes. No IDs."""
+    bands = []
+    for b in cur["bands"]:
+        ts = [dict(t) for t in threads if t["band"] == b]
+        if not ts:
+            continue
+        lanes = pack(ts)
+        bands.append({"name": b, "lanes": lanes,
+                      "t": [[t["lane"], t["s"], t["e"], t["state"]] for t in sorted(ts, key=lambda t: (t["lane"], t["s"]))]})
+    out = {"cols": [[h["num"], h["date"]] for h in shown], "bands": bands, "traps": None}
+    if traps:
+        ts = [dict(t) for t in traps]
+        lanes = pack(ts)
+        out["traps"] = {"name": cur["copy"]["traps"]["band"], "lanes": lanes,
+                        "t": [[t["lane"], t["s"], t["e"], t["state"], t["how"], t["helped"], t["inf"]]
+                              for t in sorted(ts, key=lambda t: (t["lane"], t["s"]))]}
+    return json.dumps(out, separators=(",", ":"), ensure_ascii=False) + "\n"
+
+
 def render(cur, draft=False):
     shown, threads, doubts = build(cur, draft)
     c = cur["copy"]
@@ -516,9 +543,10 @@ def render(cur, draft=False):
         "</details>",
         END,
     ])
-    if DENY.search(block):
+    data = scene_data(cur, shown, threads, traps)
+    if DENY.search(block) or DENY.search(data):
         sys.exit("refusing to write: the block mentions the private project")
-    return block, shown, threads, doubts
+    return block, shown, threads, doubts, data
 
 
 def splice(page_text, block):
@@ -540,7 +568,7 @@ def main():
     cur = json.loads(CURATION.read_text(encoding="utf-8"))
     draft = "--draft" in args
     target = pathlib.Path(args[args.index("--html") + 1]).resolve() if "--html" in args else PAGE.resolve()
-    block, shown, threads, doubts = render(cur, draft)
+    block, shown, threads, doubts, data = render(cur, draft)
 
     if "--report" in args:
         print(f"columns: {shown[0]['num']}..{shown[-1]['num']}"
@@ -567,7 +595,10 @@ def main():
             print("FAIL: the page's ledger is not what export-ledger.py would write now"
                   + ("" if now else " (no ledger block found)"))
             sys.exit(1)
-        print(f"ok: the page's ledger matches (columns {shown[0]['num']}..{shown[-1]['num']})")
+        if not SCENE.exists() or SCENE.read_text(encoding="utf-8") != data:
+            print(f"FAIL: {SCENE.name} is not what export-ledger.py would write now")
+            sys.exit(1)
+        print(f"ok: the page's ledger and {SCENE.name} match (columns {shown[0]['num']}..{shown[-1]['num']})")
         return
     if draft and target == PAGE.resolve():
         sys.exit("--draft never writes public/index.html; pass --html PATH for a preview")
@@ -575,6 +606,8 @@ def main():
     if crlf:
         out = out.replace("\n", "\r\n")
     target.write_bytes(out.encode("utf-8"))
+    if target == PAGE.resolve():
+        SCENE.write_bytes(data.encode("utf-8"))
     print(f"wrote the ledger into {target} (columns {shown[0]['num']}..{shown[-1]['num']})")
     for d in doubts:
         print("DOUBT", d)

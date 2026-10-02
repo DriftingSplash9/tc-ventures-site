@@ -63,9 +63,20 @@ And the motion (copy-review-007, Phase 3 step 5):
     case (M1_TRIES): the retries that covered DESIGN-5 came out once it was
     fixed. And with style.css held back 300 ms, the transition still runs, every
     time (DESIGN-5's own check)
-  - M2, the draw-in: under Full the threads are clipped to 001 before the first
-    paint, and run to the newest once the ledger is in view; under Reduced,
-    Off and the OS's "reduce motion" the ledger is whole from the start
+  - M2, the draw-in, in the SVG pictures (with WebGL off, SCENE_OFF): under
+    Full the threads are clipped to 001 before the first paint, and run to the
+    newest once the ledger is in view; under Reduced, Off and the OS's "reduce
+    motion" the ledger is whole from the start
+  - the 3D hero (copy-review-010, assets/ledger-scene.js): it draws at 1280
+    (behind the hero) and 375 (in the figure), aria-hidden, with the SVG
+    pictures hidden; the served ledger-data.json is what export-ledger.py
+    writes now; under Full the opening runs from load and the picture moves,
+    under Reduced, Off and the OS's the slider starts at the newest and the
+    picture holds still; a drag on it moves the slider, its line and its
+    spoken value. The fallback: with WebGL refused, Three.js blocked or the
+    data missing, the SVG pictures are back within 1.5 s. Control: the same
+    three with the scene's give-up broken must each fail. And the served
+    Three.js files hash to cdnjs's sha512 (THREE_SHA512), with a one-byte control
   - M3, the method loop: on /method, nothing traces before the diagram is in
     view; then under Full its six steps and five arrows pulse once in the
     loop's order (0.5 s each, 0.22 s apart) and the return arrow runs last
@@ -97,8 +108,9 @@ mark comes off the check, so a fixed fault can't go on being excused. Now:
 none. DESIGN-1 and DESIGN-3 were marked from 2026-09-29 until Phase 3 step 4
 fixed them (2026-09-30).
 """
-import http.server, importlib.util, json, os, re, socketserver, sys, threading, time, urllib.error, urllib.parse, urllib.request
+import base64, hashlib, http.server, importlib.util, io, json, os, re, socketserver, sys, threading, time, urllib.error, urllib.parse, urllib.request
 from functools import partial
+from PIL import Image
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -121,6 +133,18 @@ CHROMIUM = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 M1_TRIES = 1
 # Screen widths checked with the browser's text at 200% (DESIGN-3 at 375, DESIGN-4 at 480 and 760)
 BIG_TEXT_WIDTHS = (375, 480, 760, 1280)
+# The 3D hero (copy-review-010) switched off before any script runs: prefs.js then never marks the page
+# for it, and the SVG pictures and ledger.js behave as they did before it. For the SVG checks.
+SCENE_OFF = "Object.defineProperty(window, 'WebGL2RenderingContext', {value: undefined, configurable: true});"
+# WebGL refused, the way a browser without it answers: the scene loads, fails, and must give up.
+NO_GL = """(() => { const g = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (k, ...a) { return /webgl/.test(k) ? null : g.call(this, k, ...a); }; })();"""
+# Three.js 0.186.1, as cdnjs publishes it (copy-review-010 Q-H1 A): the served files must hash to these.
+# three.core.js is cdnjs's three.core.min.js, under the name the module imports. See assets/vendor/three/SOURCE.md.
+THREE_SHA512 = {
+    "/assets/vendor/three/three.module.min.js": "5y1OuWCUVXtYlPOwdMCvNr/Scu/rs2aBbVxO5q1Du9DzLe7X0QpPf1yxAV839cwp7ZqIDv/UrCm0O2oXxM+rMA==",
+    "/assets/vendor/three/three.core.js": "XHAcLGgLlaKvTJVfBh76iqQUVHJhHbsu+g/JhY0gQBrpYkg+L1MbYckDdUXkh4D/tsp/mVoPi+Art8oxizfddA==",
+}
 # One file of each kind, for the live header check (besides every page)
 HEADER_FILES = ["/assets/style.css", "/assets/prefs.js", "/assets/img/og-card.png", "/assets/img/graph-gp-budget.webp",
                 "/assets/fonts/source-serif-4-latin.woff2", "/favicon.svg", "/assets/gp-budget-graph.json",
@@ -153,9 +177,10 @@ def ledger_expected(draft):
     spec.loader.exec_module(mod)
     cur = json.loads(mod.CURATION.read_text(encoding="utf-8"))
     try:
-        return mod, mod.render(cur, draft)[0], ""
+        out = mod.render(cur, draft)
+        return mod, out[0], "", out[4]
     except SystemExit as e:
-        return mod, None, str(e)
+        return mod, None, str(e), None
 
 
 def contrast(a, b):
@@ -405,17 +430,146 @@ def main():
               and page.evaluate("document.activeElement.classList.contains('navsub__toggle')"))
         ctx.close()
 
-        mod, want, why = ledger_expected("--draft-ledger" in args)
+        mod, want, why, want_data = ledger_expected("--draft-ledger" in args)
         served = mod.current_block(raw_page(base + "/"))
         check("ledger: served block matches export-ledger.py now", want is not None and served == want,
               why or ("no ledger block served" if served is None else "differs: re-run export-ledger.py"))
         for width, shows, hides in ((1280, "land", "port"), (375, "port", "land")):
             ctx = browser.new_context(color_scheme="light", viewport={"width": width, "height": 900})
+            ctx.add_init_script(SCENE_OFF)
             page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
             vis = [page.locator(f".ledger__pic--{k}").is_visible() if page.locator(f".ledger__pic--{k}").count() == 1 else None
                    for k in (shows, hides)]
-            check(f"ledger: {shows} picture shows at {width}px, {hides} does not", vis == [True, False], str(vis))
+            check(f"ledger, no WebGL: {shows} picture shows at {width}px, {hides} does not", vis == [True, False], str(vis))
             ctx.close()
+
+        # The 3D hero (copy-review-010)
+        scene_state = """() => { const c = document.querySelector('.lg-scene'), r = document.documentElement;
+            const vis = k => { const e = document.querySelector('.ledger__pic--' + k); return !!e && e.getClientRects().length > 0; };
+            const i = document.getElementById('ledger-scrub'), at = document.querySelector('.ledger__at.is-on span');
+            return {mark: r.getAttribute('data-lg-scene'), canvas: !!c,
+                    where: !c ? null : c.parentNode.classList.contains('ledger') ? 'figure' : c.parentNode.classList.contains('hero') ? 'hero' : '?',
+                    hidden: c ? c.getAttribute('aria-hidden') : null, land: vis('land'), port: vis('port'),
+                    v: i ? +i.value : null, max: i ? +i.max : null, said: i ? i.getAttribute('aria-valuetext') || '' : '',
+                    line: at ? at.textContent : null}; }"""
+        def colours(png):
+            return len(set(Image.open(io.BytesIO(png)).convert("RGB").resize((160, 100)).get_flattened_data()))
+        def scene_shot(page):
+            """The part of the canvas in view. Under software WebGL a screenshot takes a second or more, so
+            the checks below never depend on when within it the picture was taken."""
+            b = page.locator(".lg-scene").bounding_box()
+            if not b:
+                return b""
+            y0, y1 = max(b["y"], 0), min(b["y"] + b["height"], 900)
+            return page.screenshot(clip={"x": b["x"] + b["width"] * 0.55, "y": y0, "width": b["width"] * 0.45, "height": y1 - y0})
+        for width, where in ((1280, "hero"), (375, "figure")):
+            ctx = browser.new_context(viewport={"width": width, "height": 900})
+            page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle"); page.wait_for_timeout(1500)
+            if page.locator(".lg-scene").count():
+                page.locator(".lg-scene").scroll_into_view_if_needed(); page.wait_for_timeout(1000)
+            s = page.evaluate(scene_state)
+            n_col = colours(scene_shot(page)) if s["canvas"] else 0
+            check(f"scene: draws at {width}px in the {where}, aria-hidden, the SVG pictures hidden",
+                  s["mark"] == "on" and s["where"] == where and s["hidden"] == "true" and not s["land"] and not s["port"]
+                  and n_col > 20, f"{s}; {n_col} colours")
+            ctx.close()
+        try:
+            req = urllib.request.Request(base + "/assets/ledger-data.json", headers={"User-Agent": "Mozilla/5.0 (site_check.py)", "Accept": "*/*"})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                served_data = r.read().decode("utf-8").replace("\r\n", "\n")
+        except urllib.error.HTTPError:
+            served_data = None
+        def sha(b):
+            return base64.b64encode(hashlib.sha512(b).digest()).decode()
+        pins = {}
+        for f, want_sha in THREE_SHA512.items():
+            req = urllib.request.Request(base + f, headers={"User-Agent": "Mozilla/5.0 (site_check.py)", "Accept": "*/*"})
+            try:
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    pins[f] = r.read()
+            except urllib.error.HTTPError as e:
+                pins[f] = None
+        wrong = [f for f, b in pins.items() if b is None or sha(b) != THREE_SHA512[f]]
+        check("scene: the served Three.js files are cdnjs's, by sha512", not wrong, "; ".join(wrong))
+        # Control: one byte changed must not hash the same
+        b0 = next(iter(pins.values())) or b"x"
+        check("control: Three.js with one byte changed fails its sha512",
+              sha(bytes([b0[0] ^ 1]) + b0[1:]) != THREE_SHA512["/assets/vendor/three/three.module.min.js"])
+        ok = want_data is not None and served_data == want_data
+        check("scene: served ledger-data.json matches export-ledger.py now", ok,
+              "" if ok else why or ("not served" if served_data is None else "differs: re-run export-ledger.py"))
+
+        scene_js = open(os.path.join(root, "assets", "ledger-scene.js"), encoding="utf-8").read()
+        broken_js = scene_js.replace("root.removeAttribute('data-lg-scene');", "", 1)
+        def fallback(case, broken):
+            ctx = browser.new_context(viewport={"width": 1280, "height": 900})
+            if case == "no WebGL":
+                ctx.add_init_script(NO_GL)
+            elif case == "Three.js blocked":
+                ctx.route("**/assets/vendor/three/three.core.js*", lambda route: route.abort())
+            else:
+                ctx.route("**/assets/ledger-data.json*", lambda route: route.fulfill(status=404, body="no"))
+            if broken:
+                ctx.route("**/assets/ledger-scene.js*", lambda route: route.fulfill(
+                    status=200, content_type="text/javascript", body=broken_js))
+            page = ctx.new_page(); page.goto(base + "/", wait_until="load"); page.wait_for_timeout(1500)
+            s = page.evaluate(scene_state); ctx.close()
+            return s["mark"] is None and not s["canvas"] and s["land"], s
+        cases = ("no WebGL", "Three.js blocked", "data missing")
+        got = {c: fallback(c, False) for c in cases}
+        check("scene: with WebGL refused, Three.js blocked or the data missing, the SVG pictures are back within 1.5 s",
+              all(ok for ok, _ in got.values()), "; ".join(f"{c}: {s}" for c, (ok, s) in got.items() if not ok) or "3 cases")
+        got = {c: fallback(c, True) for c in cases}
+        check("control: with the scene's give-up broken, each of the three fails",
+              broken_js != scene_js and not any(ok for ok, _ in got.values()),
+              "give-up line not found in ledger-scene.js" if broken_js == scene_js else
+              "; ".join(f"{c} passed anyway" for c, (ok, s) in got.items() if ok) or "3 cases")
+
+        bad = []
+        for level, os_reduce in ((None, False), ("full", False), (None, True), ("reduced", False), ("off", False)):
+            ctx = browser.new_context(viewport={"width": 1280, "height": 900},
+                                      reduced_motion="reduce" if os_reduce else "no-preference")
+            if level:
+                ctx.add_init_script(f"localStorage.setItem('tcv-display', JSON.stringify({{motion: '{level}'}}))")
+            full = (level or ("reduced" if os_reduce else "full")) == "full"
+            page = ctx.new_page(); page.goto(base + "/", wait_until="load"); page.wait_for_timeout(300)
+            s0 = page.evaluate(scene_state)
+            # Full: the first picture mid-opening (the opening takes over 3 s). Otherwise after the 0.9 s fade-in.
+            page.wait_for_timeout(0 if full else 1500)
+            a = scene_shot(page) if page.locator(".lg-scene").count() else b""
+            page.wait_for_timeout(4500)
+            s1 = page.evaluate(scene_state)
+            b = scene_shot(page) if s1["canvas"] else b""
+            ca, cb = (colours(a) if a else 0), (colours(b) if b else 0)
+            name = f"{level or 'System'}{', OS reduce' if os_reduce else ''}"
+            # Both pictures must have something in them, or "still" would pass on two blank ones.
+            if full:
+                ok = s0["v"] < s0["max"] and s1["v"] == s1["max"] and s1["mark"] == "on" and cb > 20 and a != b
+            else:
+                ok = s0["v"] == s0["max"] and s1["v"] == s1["max"] and s1["mark"] == "on" and ca > 20 and a == b
+            if not ok:
+                bad.append(f"{name}: slider {s0['v']} then {s1['v']} of {s1['max']}, mark {s1['mark']}, "
+                           f"picture {'moved' if a != b else 'still'}, colours {ca} and {cb}")
+            ctx.close()
+        check("scene: the opening runs from load under Full and the picture moves; under Reduced, Off and the OS's it starts "
+              "at the newest and holds still", not bad, "; ".join(bad) or "5 cases")
+
+        ctx = browser.new_context(viewport={"width": 1280, "height": 900}, reduced_motion="reduce")
+        page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle"); page.wait_for_timeout(1500)
+        box = page.locator(".lg-scene").bounding_box() if page.locator(".lg-scene").count() else None
+        if box:
+            x, y = box["x"] + box["width"] * 0.8, box["y"] + min(box["height"], 900) * 0.5
+            page.mouse.move(x, y); page.mouse.down()
+            for k in range(1, 11):
+                page.mouse.move(x - box["width"] * 0.035 * k, y)
+            page.mouse.up(); page.wait_for_timeout(300)
+        s = page.evaluate(scene_state)
+        listed = page.evaluate("v => document.querySelectorAll('.ledger__list li')[v - 1].querySelector('span').textContent",
+                               s["v"]) if s["v"] else None
+        check("scene: a drag on it moves the slider back, and the line and spoken value follow",
+              bool(box) and s["v"] < s["max"] and s["line"] == listed and s["said"].startswith(f"handoff-{s['v']:03d}, ")
+              and s["said"].endswith(listed or "\0"), str(s)[:300])
+        ctx.close()
         ctx = browser.new_context(java_script_enabled=False, viewport={"width": 1280, "height": 900})
         page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
         if page.locator("details.ledger__list > summary").count() == 1:
@@ -651,6 +805,7 @@ def main():
             ctx = browser.new_context(viewport={"width": 1280, "height": 900},
                                       reduced_motion="reduce" if os_reduce else "no-preference")
             ctx.add_init_script(clip_at)
+            ctx.add_init_script(SCENE_OFF)
             if level:
                 ctx.add_init_script(f"localStorage.setItem('tcv-display', JSON.stringify({{motion: '{level}'}}))")
             page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
@@ -668,7 +823,7 @@ def main():
             if not ok:
                 bad.append(f"{name}: at load {s0}, in view {s1}")
             ctx.close()
-        check("motion M2: the draw-in under Full (never shown whole first), whole under Reduced, Off and the OS's",
+        check("motion M2, no WebGL: the draw-in under Full (never shown whole first), whole under Reduced, Off and the OS's",
               not bad, "; ".join(bad) or "5 cases")
 
         # DESIGN-6: with ledger.js 1 s late the threads must still never paint whole before the draw-in, and
@@ -677,6 +832,7 @@ def main():
         for hold in ("late", "late", "blocked"):
             ctx = browser.new_context(viewport={"width": 1280, "height": 900})
             ctx.add_init_script(clip_at)
+            ctx.add_init_script(SCENE_OFF)
             ctx.add_init_script("localStorage.setItem('tcv-display', JSON.stringify({motion: 'full'}))")
             if hold == "blocked":
                 ctx.route("**/assets/ledger.js*", lambda route: route.abort())
@@ -697,7 +853,7 @@ def main():
             if not ok:
                 bad.append(f"{hold}: at load {s0}, after {s1}")
             ctx.close()
-        check("motion M2: ledger.js 1 s late, never shown whole first; blocked, shown whole after 3 s (DESIGN-6)",
+        check("motion M2, no WebGL: ledger.js 1 s late, never shown whole first; blocked, shown whole after 3 s (DESIGN-6)",
               not bad, "; ".join(bad) or "3 cases")
 
         loop_anims = """() => document.getAnimations().filter(a => a.animationName && a.animationName.startsWith('loop-')).map(a => {
