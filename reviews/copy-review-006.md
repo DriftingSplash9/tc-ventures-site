@@ -451,3 +451,6 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 open at the last column"), because it closes in 032. But the live ledger ends at 031, where PL-8 is still
 open, so its parking still draws it dotted: removing it now made `--check` fail (tried and reverted,
 2026-10-02).
+
+**Ruled 2026-10-02.** Thomas, verbatim: **"merge 51, lg33 ok"**. Recorded as `"LG33 OK 2026-10-02"`, and
+column 032 is drawn. `parked`: PL-8 removed in the same change (it closes in 032).
