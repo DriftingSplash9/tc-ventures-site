@@ -350,8 +350,8 @@
   {
    "id": "T26",
    "start": 21,
-   "end": null,
-   "how": null,
+   "end": 31,
+   "how": "retired",
    "helped": [
     22,
     23,
@@ -368,8 +368,8 @@
   {
    "id": "T27",
    "start": 21,
-   "end": null,
-   "how": null,
+   "end": 31,
+   "how": "into code",
    "helped": [
     24,
     25,
@@ -377,7 +377,8 @@
     27,
     28,
     29,
-    30
+    30,
+    31
    ],
    "wordings": [
     "The Cloudflare bot says \"Deployment successful\" on branch pushes and links a \"production\" build. Branch builds don't reach tc-ventures.ca.",
@@ -480,7 +481,8 @@
     27,
     28,
     29,
-    30
+    30,
+    31
    ],
    "wordings": [
     "Thomas's \"merged\" may not have landed."
@@ -517,7 +519,8 @@
     27,
     28,
     29,
-    30
+    30,
+    31
    ],
    "wordings": [
     "PowerShell 5.1 splits an inline argument at its embedded double quotes."
@@ -534,7 +537,8 @@
     27,
     28,
     29,
-    30
+    30,
+    31
    ],
    "wordings": [
     "In PowerShell, `;` runs the next command even when the one before it failed.",
@@ -544,8 +548,8 @@
   {
    "id": "T40",
    "start": 25,
-   "end": null,
-   "how": null,
+   "end": 31,
+   "how": "into code",
    "helped": [],
    "wordings": [
     "Lazy, async-decoded images can paint as empty boxes in a Playwright full-page screenshot."
@@ -570,8 +574,8 @@
   {
    "id": "T42",
    "start": 25,
-   "end": null,
-   "how": null,
+   "end": 31,
+   "how": "retired",
    "helped": [],
    "wordings": [
     "`git rev-parse --short` takes one revision."
@@ -634,7 +638,8 @@
    "how": null,
    "helped": [
     29,
-    30
+    30,
+    31
    ],
    "wordings": [
     "Keep every FAIL line of a check run."
@@ -646,7 +651,8 @@
    "end": null,
    "how": null,
    "helped": [
-    30
+    30,
+    31
    ],
    "wordings": [
     "`site_check.py --live` compares the live ledger with what the local checkout would export."
@@ -660,6 +666,56 @@
    "helped": [],
    "wordings": [
     "A match on one field can join two different things."
+   ]
+  },
+  {
+   "id": "T51",
+   "start": 31,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Cloudflare adds its analytics script to an HTML page unless the request's `Accept` is `*/*`."
+   ]
+  },
+  {
+   "id": "T52",
+   "start": 31,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Cloudflare answers Python's default User-Agent with 403."
+   ]
+  },
+  {
+   "id": "T53",
+   "start": 31,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Playwright fills a handler's second parameter with the request."
+   ]
+  },
+  {
+   "id": "T54",
+   "start": 31,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A page set with Playwright's `set_content()` has a blank origin, and the site's fonts don't load into it, silently."
+   ]
+  },
+  {
+   "id": "T55",
+   "start": 31,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A never-used query string isn't proof of a cache bypass on Cloudflare."
    ]
   }
  ]
