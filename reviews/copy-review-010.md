@@ -329,3 +329,40 @@ Thomas, verbatim: **"s4-1 A, s4-2 all ok"**. Read as:
 
 5. Ships on Thomas's word: a PR, merged when he says so; then `deploy_wait.py N` and `site_check.py --live`
    from an up-to-date `main`.
+
+---
+
+## The cleanup list (2026-10-02)
+
+Thomas asked for every open point that takes a yes or no, with the agent's recommendation. Thomas, verbatim:
+**"1-9 yes. 10-13 no"**. Read as:
+1. Merge #53 (handoff-033): yes. 2. Merge #54 (this hero): yes, after #53. 3. LG34 OK.
+4. After #54 is live, a new dated PW3 from the first live run, through a copy review: yes.
+5. INFRA-6, the dead lander CSS, deleted now: yes. 6. INFRA-17's saved copies deleted: yes.
+7. The old shot folders in `Claude outputs/` deleted (not `ledger-hero/`): yes.
+8. `og_cards.py --check` taught to catch a card made from an older picture: yes.
+9. C-26: `/work/this-site`'s `<title>` becomes "This site - Thomas Cheesman": yes (the agent also set
+   `og:title` to it, as on every other case study, where `og:title` repeats the title).
+10. INFRA-19, a hook refusing heredocs: no, closed.
+11. INFRA-20: both copies of the truth rules stay; the agent added the one line it recommended to this
+    repo's `CLAUDE.md`, naming the global copy as the source.
+12. CSSDA / Godly / Awwwards now: no; the second pass (case-study openers, page-to-page motion) first.
+13. Commit `.claude/launch.json`: no; it stays untracked.
+
+**Done (local, 2026-10-02):**
+- **1 and 2 not done:** `gh pr merge 53` was refused by this session's permission classifier. Not retried.
+- 6 and 7: the six folders sent to the Recycle Bin, not hard-deleted.
+- 5: the `lander embed` block (28 lines) out of `style.css`. Nothing in `public/` used `.gd__frame--tall`.
+  The `kbd` rule after it isn't used either, but INFRA-6 names the lander block only, so it stays.
+- 8: each image card now carries its picture's sha256. `--check` failed on the five image cards before
+  they were re-rendered (no chunk yet) and passes after; the new control (a card with another picture's
+  hash) is caught, and `--controls` passes 8 of 8. The seven cards are pixel for pixel the same as before.
+- 9 and 11: as above.
+- 3 waits for #53: LG34's column links handoff-033.md on `main`.
+
+**Merged by Thomas, 2026-10-02** ("1 merged"): #53 (`9bb1dd1`) and #54 (`22e1abb`) on `main`.
+`deploy_wait.py 54`: 22 of 22. **#55 did not reach `main`:** merged 20 s after #54, it went into
+`ledger-hero`, its base, which hadn't been retargeted yet. Reopened against `main` as a new PR.
+
+**The `kbd` rule** (Thomas: "3 y"): unused in `public/`, deleted in the same PR. `shots_diff.py` against
+`ledger-hero`'s tree: 48 of 48 identical.

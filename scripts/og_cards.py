@@ -15,14 +15,16 @@ The frame is og-src/og.html's: light paper, the site's type, a dark panel with t
 down from 64px until it fits, and the run stops if it can't fit at 36px. Each card is rendered from the
 site's own origin (a card with a blank origin loses its fonts silently), and the run stops if either face
 isn't loaded. The card PNG carries the page's path and H1 as text chunks, so --check can tell a card made
-for an older H1 without rendering it again. Home, Projects, Background, Contact and 404 keep the site card.
+for an older H1 without rendering it again; and, for a card drawn from an image, the image's sha256, so it
+can tell a card made from an older copy of its picture (added 2026-10-02, copy-review-010: a retaken
+screenshot left its card behind, and --check passed). A figure drawn from the page has no such chunk. Home, Projects, Background, Contact and 404 keep the site card.
 The cards are fetched only by link previews, never with the page, so they add nothing to page weight.
 
 --check, on every page: a card page's og:image is its card, its og:image:alt is the ruled text (ALT), its
-card exists, is 1200x630, and was made for this page and its current H1; every other page keeps the site
+card exists, is 1200x630, and was made for this page, its current H1 and its current picture; every other page keeps the site
 card. site_check.py runs the same check on every served page. Written 2026-10-02 for Phase 4.
 """
-import base64, html, io, os, re, socketserver, sys, threading
+import base64, hashlib, html, io, os, re, socketserver, sys, threading
 from functools import partial
 from PIL import Image, PngImagePlugin
 from playwright.sync_api import sync_playwright
@@ -145,11 +147,22 @@ def draw(browser, base, path, pic, h1):
     return png, size, fits
 
 
+def picture_sha(path):
+    """The sha256 of the image a card is drawn from, or None for a figure drawn from the page."""
+    img = CARDS.get(path, {}).get("img")
+    if not img:
+        return None
+    with open(os.path.join(PUBLIC, img.lstrip("/").replace("/", os.sep)), "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
 def with_chunks(png, path, h1):
-    """The PNG re-saved with the page's path and plain-text H1 in it."""
+    """The PNG re-saved with the page's path, its plain-text H1 and its picture's sha256 in it."""
     info = PngImagePlugin.PngInfo()
     info.add_text("Page", path)
     info.add_text("Title", text_of(h1))
+    if picture_sha(path):
+        info.add_text("Picture", picture_sha(path))
     out = io.BytesIO()
     Image.open(io.BytesIO(png)).save(out, "PNG", pnginfo=info, optimize=True)
     return out.getvalue()
@@ -229,6 +242,8 @@ def problems(path, page, image_bytes):
     chunks = getattr(im, "text", {}) or {}
     if chunks.get("Page") != path or chunks.get("Title") != text_of(h1_html(page)):
         out.append(f"the card was made for {chunks.get('Page')!r}, {chunks.get('Title')!r}: re-run og_cards.py")
+    if picture_sha(path) and chunks.get("Picture") != picture_sha(path):
+        out.append("the card was made from an older copy of its picture: re-run og_cards.py")
     return out
 
 
@@ -278,6 +293,14 @@ def controls():
     renamed = re.sub(r"(<h1[^>]*>).*?(</h1>)", r"\1A housing society’s web site\2", page, count=1, flags=re.S)
     say("a card made for an older H1 is caught", any("made for" in p for p in problems(path, renamed, local_image)))
     say("a missing card is caught", "the card isn't there (404)" in problems(path, page, lambda u: None))
+    # a card whose picture chunk is another picture's
+    im = Image.open(io.BytesIO(local_image(card_url(path))))
+    info = PngImagePlugin.PngInfo()
+    for k, v in im.text.items():
+        info.add_text(k, "0" * 64 if k == "Picture" else v)
+    old = io.BytesIO(); im.save(old, "PNG", pnginfo=info)
+    say("a card made from an older picture is caught",
+        any("older copy of its picture" in p for p in problems(path, page, lambda u: old.getvalue())))
     say("a card refused (403) is reported as 403", "the card answered 403" in problems(path, page, lambda u: 403))
     return ok
 
