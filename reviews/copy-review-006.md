@@ -421,3 +421,14 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 
 **Ruled 2026-10-01.** Thomas, verbatim: **"merge 42, lg31 ok"**. Recorded as `"LG31 OK 2026-10-01"`, and
 column 030 is drawn. `parked` unchanged.
+
+---
+
+## LG32 — handoff-031's line (drafted 2026-10-02, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG32 | 031 · 2026-10-02 | The engineering pass: every page now has a weight limit and is tested against automated accessibility rules, the case studies carry structured data and their own link previews, and each deploy is checked file by file. I ruled each step. | "the budget script and the deploy script (#44)"; "structured data (#45)"; "p4-0 ok, all A" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 030 until this is ruled.
+`ledger/traps.json` already holds handoff-031's traps.
