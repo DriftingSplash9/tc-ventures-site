@@ -76,6 +76,9 @@ And the motion (copy-review-007, Phase 3 step 5):
     handoff, so nothing below it moves; with JavaScript off it doesn't show.
     It is written only once its label is ruled, so until then these fail.
 
+And the structured data, every page as served (copy-review-009 P4-C, scripts/schema.py): the block is what
+schema.py writes from the page's own words, every string in it is on the page, and there is no inline
+<script> but JSON-LD.
 And with --live only (copy-review-009 P4-B; the local server applies neither file):
   - headers: every page, one file of each kind (HEADER_FILES) and an unknown URL's 404 are served with
     exactly the headers public/_headers gives that path. Control: a copy of the rules with one value
@@ -98,6 +101,8 @@ from functools import partial
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import schema
 TOKENS = ["paper", "paper-tint", "ink", "ink-soft", "muted", "rule", "accent", "accent-ink"]
 TEXT_ON = [(f, g) for f in ("ink", "ink-soft", "muted", "accent", "accent-ink") for g in ("paper", "paper-tint")] \
     + [("paper", "accent")]       # the solid button
@@ -283,6 +288,15 @@ def main():
             check(f"redirect: {src} -> {dst} {code}", st == code and loc == base + dst,
                   f"got {st} to {got.get('location')!r}")
             check(f"redirect target loads: {dst}", status(base + dst) == 200)
+
+    # Structured data, every page as served (copy-review-009 P4-C): the block schema.py writes from the page's
+    # own words, every string in it on the page, and no inline <script> but JSON-LD
+    for p in paths:
+        try:
+            probs = schema.problems(raw_page(base + p))
+        except urllib.error.HTTPError as e:
+            probs = [f"status {e.code}"]
+        check(f"structured data: {p}", not probs, "; ".join(probs))
 
     with sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=CHROMIUM if os.path.exists(CHROMIUM) else None)

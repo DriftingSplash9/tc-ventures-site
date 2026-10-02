@@ -419,3 +419,24 @@ One template; `schema.py` fills `<H1>`, `<claim>` and `<URL>` from each page.
 > **A (recommended):** "Thomas Cheesman", as the wordmark reads.
 >
 > **B:** "Home", which the site never shows.
+
+### Rulings, step 4 (2026-10-01)
+
+Thomas, verbatim: **"sd1 ok, sd2 ok, all A"**. Read as:
+- SD1 OK and SD2 OK, as drafted.
+- Q-SD1 A: no country. Q-SD2 A: `sameAs` is LinkedIn, GitHub and thomascheesman.ca. Q-SD3 A: the first
+  breadcrumb is "Thomas Cheesman".
+
+**Built after the ruling (`scripts/schema.py`), and checked:**
+- `schema.py --check` failed on the seven pages before the blocks were written (the control), and passes
+  after. A second write changes nothing.
+- `--controls`, each caught for its own reason: a string changed in the home block ("not on the page: 'Grand
+  Prairie'"), a case study's block removed, a bare inline `<script>` added. (Its first version counted any
+  problem as caught, which the changed string would have passed by differing from the export alone. It now
+  names the problem each fault must raise.)
+- `site_check.py` runs the same checks on every served page: locally 214 of 214. Live before the merge,
+  234 of 241: the seven failures are the seven pages whose blocks aren't live yet, the control. The other
+  pages pass with Cloudflare's injected analytics script, which loads from a `src`.
+- `shots_diff.py` against `main`: 48 of 48 pairs identical. Controls: `--self` 48 of 48 identical,
+  `--inject` 0 of 48.
+- `budget.py`: 48 of 48. The blocks add about 1 kB to the home page and 2 kB to each case study.
