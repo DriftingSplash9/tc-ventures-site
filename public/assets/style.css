@@ -327,6 +327,10 @@ a:focus-visible { outline: var(--focus-w) solid var(--accent); outline-offset: 3
 .topbar {
   border-bottom: 1px solid var(--rule);
   background: var(--paper);
+  /* Its view-transition-name makes it a stacking context; this keeps it, and the sub-menu and Display
+     panel hanging from it, above the home hero's 3D scene, which is one too (copy-review-010). */
+  position: relative;
+  z-index: 30;
 }
 .topbar__inner {
   display: flex;
@@ -1679,4 +1683,43 @@ kbd {
 @media (max-width: 37.5em) {
   .ledger__list li { grid-template-columns: auto minmax(0, 1fr); }
   .ledger__list li span { grid-column: 1 / -1; }
+}
+
+/* The 3D hero (copy-review-010; assets/ledger-scene.js). prefs.js marks <html>
+   data-lg-scene on the home page where WebGL2 and modules exist; the scene sets
+   it to "on" once it draws and removes it if it can't, which brings the SVG
+   pictures back. Above 45em the canvas sits behind the headline, from the top
+   of the hero to under the slider (--lg-scene-h, set by the scene), with a scrim
+   on the text side; at 45em and under it sits in the figure, above the slider. */
+:root[data-lg-scene] .ledger__pic { display: none; }
+.lg-scene { display: block; width: 100%; opacity: 0; transition: opacity calc(0.9s * var(--fade)) ease; touch-action: pan-y; }
+.lg-scene.is-on { opacity: 1; }
+:root[data-lg-scene="on"] .ledger__scrub input { width: 100%; margin-left: 0; }
+@media (min-width: 45.0001em) {
+  .hero--home { position: relative; isolation: isolate; }
+  .hero--home > .lg-scene { position: absolute; inset: 0 0 auto 0; height: var(--lg-scene-h, 100svh); z-index: -2; }
+  :root[data-lg-scene="on"] .hero--home::after {
+    content: "";
+    position: absolute; inset: 0 0 auto 0; height: var(--lg-scene-h, 100svh); z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, var(--paper) 0, var(--paper) 38%, color-mix(in srgb, var(--paper) 80%, transparent) 54%, transparent 70%),
+      linear-gradient(to bottom, transparent 72%, var(--paper));
+  }
+  /* The text keeps its clicks; the open space around it reaches the scene. */
+  :root[data-lg-scene="on"] .hero--home .wrap,
+  :root[data-lg-scene="on"] .hero--home .ledger { pointer-events: none; }
+  :root[data-lg-scene="on"] .hero--home .wrap > *,
+  :root[data-lg-scene="on"] .hero--home .ledger > * { pointer-events: auto; }
+  :root[data-lg-scene="on"] .hero--home .wrap > .ledger { pointer-events: none; }
+  :root[data-lg-scene="on"] .hero--home .wrap > :is(h1, .hero__lede, .hero__body, .actions) { width: fit-content; }
+  :root[data-lg-scene="on"] .hero--home .ledger__scrub { max-width: 34rem; }
+  :root[data-lg-scene="on"] .hero--home figcaption { margin-top: var(--lg-cap-gap, var(--s-3)); }
+}
+@media (max-width: 45em) {
+  .ledger > .lg-scene {
+    height: min(68svh, 520px);
+    width: calc(100% + 2 * var(--gutter));
+    margin: 0 calc(-1 * var(--gutter)) var(--s-3);
+  }
 }

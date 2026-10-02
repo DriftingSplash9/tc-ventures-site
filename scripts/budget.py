@@ -57,12 +57,14 @@ AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]
 CONTROL_PAGES = ("/contact", "/work/gprs", "/background", "/method")
 # Ceilings in kB, on the "page" weight: the weight measured locally at 91e2b71, plus 10%, rounded up to the
 # next 10 kB. Ruled Q-P4-8 A, 2026-10-01. The home page grows a little with each ledger column.
+# "/" raised from 390 to 1320 for the 3D ledger hero (Three.js, 808 kB decoded): measured locally at
+# 1,199 kB on 2026-10-02, by the same rule. Ruled Q-S4-1 A, copy-review-010, 2026-10-02.
 CEILINGS = {
-    "/": 390, "/projects": 720, "/work/influence-graph": 670, "/work/back-quarter": 360,
+    "/": 1320, "/projects": 720, "/work/influence-graph": 670, "/work/back-quarter": 360,
     "/work/desk-and-drawer": 480, "/work/bare-your-rare": 300, "/work/gprs": 530, "/work/this-site": 400,
     "/method": 310, "/background": 290, "/contact": 290, "/404": 280,
 }
-CEILINGS_RULED = "Q-P4-8 A, 2026-10-01"
+CEILINGS_RULED = "Q-P4-8 A, 2026-10-01; '/' Q-S4-1 A, 2026-10-02"
 # Known faults: (page, axe rule) -> the open item that owns the fix. Ruled Q-P4-9 A, 2026-10-01. A known
 # violation isn't counted; any other violation on the same page still fails. The day one stops showing,
 # the run fails until its line comes off.

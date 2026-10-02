@@ -4,3 +4,4 @@
 # Vendored files stay byte for byte as published: budget.py checks axe-core's sha512, and a Windows
 # checkout's CRLF conversion would change it.
 scripts/vendor/** -text
+public/assets/vendor/** -text
