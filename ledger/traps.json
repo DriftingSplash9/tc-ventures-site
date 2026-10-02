@@ -514,8 +514,8 @@
   {
    "id": "T38",
    "start": 24,
-   "end": null,
-   "how": null,
+   "end": 34,
+   "how": "retired",
    "helped": [
     25,
     26,
@@ -534,8 +534,8 @@
   {
    "id": "T39",
    "start": 24,
-   "end": null,
-   "how": null,
+   "end": 34,
+   "how": "retired",
    "helped": [
     25,
     26,
@@ -545,7 +545,8 @@
     30,
     31,
     32,
-    33
+    33,
+    34
    ],
    "wordings": [
     "In PowerShell, `;` runs the next command even when the one before it failed.",
@@ -633,8 +634,8 @@
   {
    "id": "T47",
    "start": 28,
-   "end": null,
-   "how": null,
+   "end": 34,
+   "how": "retired",
    "helped": [],
    "wordings": [
     "Git Bash rewrites an argument that starts with `/` into a Windows path"
@@ -649,7 +650,8 @@
     29,
     30,
     31,
-    32
+    32,
+    34
    ],
    "wordings": [
     "Keep every FAIL line of a check run."
@@ -664,7 +666,8 @@
     30,
     31,
     32,
-    33
+    33,
+    34
    ],
    "wordings": [
     "`site_check.py --live` compares the live ledger with what the local checkout would export."
@@ -697,7 +700,9 @@
    "start": 31,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    34
+   ],
    "wordings": [
     "Cloudflare answers Python's default User-Agent with 403."
    ]
@@ -730,6 +735,26 @@
    "helped": [],
    "wordings": [
     "A never-used query string isn't proof of a cache bypass on Cloudflare."
+   ]
+  },
+  {
+   "id": "T56",
+   "start": 34,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A PR stacked on another PR merges into that PR's branch if it's merged before GitHub retargets it."
+   ]
+  },
+  {
+   "id": "T57",
+   "start": 34,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Under Playwright's software WebGL a screenshot takes one to four seconds,"
    ]
   }
  ]

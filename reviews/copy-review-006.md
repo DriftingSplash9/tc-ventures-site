@@ -472,3 +472,17 @@ Thomas, verbatim, in copy-review-010's cleanup list: **"1-9 yes"**, where item 3
 LG34 OK as drafted. Set in `ledger/curation.json` and exported: column 033, no doubts in `--report`;
 `--check` failed before the export (the control) and passes after. Local `site_check.py` 235 of 235,
 `budget.py` 48 of 48.
+
+## LG35 — handoff-034's line (drafted 2026-10-02, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG35 | 034 · 2026-10-02 | This ledger now opens the home page, drawn in 3D behind the headline, and a small cleanup went live with it. I ruled each step and the words. | "the 3D hero."; "h-0 ok, all A"; "s4-1 A, s4-2 all ok"; "1-9 yes. 10-13 no" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 033 until this is ruled.
+`ledger/traps.json` already holds handoff-034's traps.
+
+**With the column, the curation's `parked` changes** (`--report --draft` names the first three as DOUBTs):
+- out: INFRA-6, INFRA-19 and INFRA-20, all closed in 034 (a closed thread draws closed either way);
+- in, proposed: C-27 (Q-TH3b), DESIGN-8 (frame times on his PC) and DESIGN-9 (the second pass), each
+  waiting on Thomas. Drawn dotted if parked, solid if not: his call with LG35.
