@@ -243,3 +243,18 @@ one violation, on two pages. Everything else passed, colour contrast included.
 >
 > **B:** fix it now (the diagrams' markup changes, and how a screen reader meets them), in its own small
 > step before P4-B.
+
+### Rulings, step 2 (2026-10-01)
+
+Thomas, verbatim: **"q-p4-8 a, q-p4-9 a"**. Read as:
+- Q-P4-8 A: the ceilings as in the table. `CEILINGS_RULED` set in `budget.py`.
+- Q-P4-9 A: `nested-interactive` on `/method` and `/work/this-site` is a known fault under A-1 (`KNOWN` in
+  `budget.py`), by page and rule, so any other violation on those pages still fails.
+
+**Built after the ruling, and checked:**
+- `--controls` now plants a third fault: `/method`'s diagram fixed (`role="img"` taken off). It failed as
+  "passes now: take its A-1 line off KNOWN", light and dark, with the other planted faults, and nothing else
+  failed.
+- **For A-1, a fact, not a fix:** with `role="img"` off `/method`'s diagram, axe found no violation on the page.
+  Whether a screen reader then reads the diagram well is A-1's to find out.
+- `budget.py` locally: 48 of 48, the A-1 fault named, not counted.

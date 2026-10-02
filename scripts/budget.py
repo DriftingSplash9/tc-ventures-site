@@ -25,11 +25,17 @@ Checks (exit 1 if any fails):
     motion reduced so the page is whole; any violation fails. "Needs review" results are counted with -v,
     and don't fail. axe-core is the pinned copy in scripts/vendor/axe-core/, checked against AXE_SHA512
     first, so an edited or replaced copy fails the run. It's a tool for this check, never deployed.
+  - known faults (KNOWN): a violation logged in an open item, by page and rule. It isn't counted and
+    doesn't fail the run; the summary names it, and -v prints each as KNOWN. The day it stops showing, the
+    run fails until its line comes off KNOWN, so a fixed fault can't go on being excused. Now: A-1's
+    nested-interactive on the two loop diagrams (Q-P4-9 A).
 
-Controls (CLAUDE.md rule 3), --controls: a copy of public/ with a heavy image added to /contact and the alt
-text taken off /work/gprs's first image, measured on those two pages and /background, left alone. The run
-must fail /contact's ceiling and /work/gprs's accessibility rules, light and dark, and nothing else;
-otherwise the control fails. Only those pages, so a fault elsewhere can't blur the result.
+Controls (CLAUDE.md rule 3), --controls: a copy of public/ with three faults planted, measured on the pages
+they touch and /background, left alone:
+  - a heavy image added to /contact: its ceiling must fail
+  - the alt text taken off /work/gprs's first image: its accessibility rules must fail, light and dark
+  - /method's loop diagram fixed (role="img" taken off): its known fault must fail as "passes now"
+and nothing else may fail. Only those pages, so a fault elsewhere can't blur the result.
 
 A ceiling is a ruled number (Q-P4-2 A, copy-review-009): raising one is a change Thomas rules, recorded
 next to it. Written 2026-10-01 for Phase 4 (P4-A).
@@ -48,15 +54,22 @@ AXE = os.path.join(HERE, "vendor", "axe-core", "axe.min.js")
 # axe-core 4.11.4 from cdnjs, the sha512 cdnjs publishes for it (fetched 2026-10-01)
 AXE_SHA512 = "QfFHXx4S3wB2zSlH0uAam/F3gYphMSJBlGy9O9gfKSgRWlOBszxKkMh/78TrN/nZK534NoFtG2eCIUtdkMQUQw=="
 AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]
-CONTROL_PAGES = ("/contact", "/work/gprs", "/background")
-# Ceilings in kB, on the "page" weight. PROPOSED 2026-10-01, not ruled: the weight measured locally at
-# 91e2b71, plus 10%, rounded up to the next 10 kB. The home page grows a little with each ledger column.
+CONTROL_PAGES = ("/contact", "/work/gprs", "/background", "/method")
+# Ceilings in kB, on the "page" weight: the weight measured locally at 91e2b71, plus 10%, rounded up to the
+# next 10 kB. Ruled Q-P4-8 A, 2026-10-01. The home page grows a little with each ledger column.
 CEILINGS = {
     "/": 390, "/projects": 720, "/work/influence-graph": 670, "/work/back-quarter": 360,
     "/work/desk-and-drawer": 480, "/work/bare-your-rare": 300, "/work/gprs": 530, "/work/this-site": 400,
     "/method": 310, "/background": 290, "/contact": 290, "/404": 280,
 }
-CEILINGS_RULED = None
+CEILINGS_RULED = "Q-P4-8 A, 2026-10-01"
+# Known faults: (page, axe rule) -> the open item that owns the fix. Ruled Q-P4-9 A, 2026-10-01. A known
+# violation isn't counted; any other violation on the same page still fails. The day one stops showing,
+# the run fails until its line comes off.
+KNOWN = {
+    ("/method", "nested-interactive"): "A-1",           # the loop diagram: links inside <svg role="img">
+    ("/work/this-site", "nested-interactive"): "A-1",   # the same, on this site's loop
+}
 
 SCROLL_TO_END = """async () => {
   const step = Math.max(200, innerHeight - 100);
@@ -150,8 +163,8 @@ def axe_run(browser, base, path, scheme):
 
 
 def run(root, base, live, verbose, a11y, only=None):
-    """Measure every page (or only those named); return (failures, passes)."""
-    fails, passes = [], []
+    """Measure every page (or only those named); return (failures, passes, known faults seen)."""
+    fails, passes, known = [], [], []
     def check(name, ok, detail=""):
         (passes if ok else fails).append(name)
         if not ok or verbose:
@@ -183,8 +196,19 @@ def run(root, base, live, verbose, a11y, only=None):
                 for scheme in ("light", "dark"):
                     r = axe_run(browser, base, p, scheme)
                     v = r["violations"]
-                    detail = "; ".join(f"{x['id']} ({x['impact']}) x{x['n']}: {', '.join(x['at'])}" for x in v)
-                    check(f"accessibility: {p} {scheme}", not v, detail)
+                    mine = [x for x in v if (p, x["id"]) not in KNOWN]
+                    detail = "; ".join(f"{x['id']} ({x['impact']}) x{x['n']}: {', '.join(x['at'])}" for x in mine)
+                    check(f"accessibility: {p} {scheme}", not mine, detail)
+                    for (kp, rule), item in KNOWN.items():
+                        if kp != p:
+                            continue
+                        if any(x["id"] == rule for x in v):
+                            known.append(f"{item} {rule} {p}")
+                            if verbose:
+                                print(f"KNOWN accessibility: {p} {scheme}  [{rule}] ({item})", flush=True)
+                        else:
+                            check(f"known fault fixed: {p} {scheme} {rule}", False,
+                                  f"passes now: take its {item} line off KNOWN")
                     if verbose and r["incomplete"]:
                         print(f"  needs review, {p} {scheme}: " +
                               "; ".join(f"{x['id']} x{x['n']}" for x in r["incomplete"]))
@@ -206,11 +230,12 @@ def run(root, base, live, verbose, a11y, only=None):
     if graph_extra:
         print(f"\nthe graph, after its click (not in the page): {kb(graph_extra['own']):.0f} kB in "
               f"{graph_extra['reqs']} requests" + (f", {kb(graph_extra['wire']):.0f} kB on the wire" if live else ""))
-    return fails, passes
+    return fails, passes, known
 
 
 def plant_controls(src):
-    """A copy of public/ with two faults: a heavy image on /contact, an image without alt on /work/gprs."""
+    """A copy of public/ with three faults: a heavy image on /contact, an image without alt on /work/gprs,
+    and /method's loop diagram fixed, so its known fault stops showing."""
     tmp = tempfile.mkdtemp(prefix="budget-controls-")
     dst = os.path.join(tmp, "public")
     shutil.copytree(src, dst)
@@ -222,10 +247,14 @@ def plant_controls(src):
     g = os.path.join(dst, "work", "gprs.html")
     gh = open(g, encoding="utf-8").read()
     gh2 = re.sub(r'(<img src="/assets/img/gprs-home\.webp"[^>]*?)\s+alt="[^"]*"', r"\1", gh, count=1, flags=re.S)
-    if html2 == html or gh2 == gh:
+    m = os.path.join(dst, "method.html")
+    mh = open(m, encoding="utf-8").read()
+    mh2 = mh.replace('<svg viewBox="0 0 880 284" role="img"', '<svg viewBox="0 0 880 284"', 1)
+    if html2 == html or gh2 == gh or mh2 == mh:
         sys.exit("controls: could not plant a fault (the pages changed); fix plant_controls")
     open(c, "w", encoding="utf-8").write(html2)
     open(g, "w", encoding="utf-8").write(gh2)
+    open(m, "w", encoding="utf-8").write(mh2)
     return tmp, dst
 
 
@@ -245,13 +274,14 @@ def main():
     if "--controls" in args:
         tmp, dst = plant_controls(root)
         srv, base = serve(dst)
-        try:   # the two planted pages, and one left alone that must pass
-            fails, _ = run(dst, base, False, verbose, a11y, only=CONTROL_PAGES)
+        try:   # the planted pages, and one left alone that must pass
+            fails, _, _ = run(dst, base, False, verbose, a11y, only=CONTROL_PAGES)
         finally:
             srv.shutdown()
             shutil.rmtree(tmp, ignore_errors=True)
-        want = {"weight: /contact"} | ({"accessibility: /work/gprs light", "accessibility: /work/gprs dark"}
-                                      if a11y else set())
+        want = {"weight: /contact"} | ({"accessibility: /work/gprs light", "accessibility: /work/gprs dark",
+                                       "known fault fixed: /method light nested-interactive",
+                                       "known fault fixed: /method dark nested-interactive"} if a11y else set())
         got = set(fails)
         print()
         if got == want:
@@ -266,11 +296,13 @@ def main():
     else:
         srv, base = serve(root)
     try:
-        fails, passes = run(root, base, live, verbose, a11y)
+        fails, passes, known = run(root, base, live, verbose, a11y)
     finally:
         if srv:
             srv.shutdown()
     print(f"\n{len(passes)} of {len(passes) + len(fails)} checks passed")
+    if known:
+        print(f"known faults, not counted ({len(known)}): " + "; ".join(sorted(set(known))) + ", light and dark")
     sys.exit(1 if fails else 0)
 
 
