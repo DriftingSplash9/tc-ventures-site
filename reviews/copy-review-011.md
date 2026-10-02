@@ -1,0 +1,131 @@
+# Copy review 011 — the second pass: the case studies and the way between pages
+
+**Written:** 2026-10-02
+**Why:** PL-6 names Awwwards. Thomas ruled no submission yet (copy-review-010, the cleanup list, item 12):
+the hero is the first screen that isn't plain, and the rest of the site is still the template. This is the
+proposal for the rest. Started at Thomas's word, "2 go".
+**Status:** SP-0, the proposal, for Thomas to rule. Nothing is built.
+
+Same format and marks as copy-review-001 to 010: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
+
+---
+
+## SP-0 — the proposal (not copy)
+
+**To rule:** SP-0 as a whole (OK / FIX), plus Q-SP1 to Q-SP5. Any new words (alt text, captions) come
+after, as numbered blocks.
+
+### 1. Where it stands (read 2026-10-02, `main` at `22e1abb`)
+
+- **Every case study opens the same way:** the label, the H1, the claim, the spec table, the section index.
+  Its first picture sits further down the page, and Bare Your Rare has none. The template is the same six
+  times, by design (approved 2026-09-22), and that's what reads as plain.
+- **`/projects`** shows pictures for three of its six builds (the graph's app, the Back Quarter, the desk).
+  GPRS, Bare Your Rare and this site have none there.
+- **Between pages,** M1 is a 0.25 s cross-fade, the top bar sliding, and under Full the clicked sub-menu
+  label growing into the next page's H1. It's correct and almost invisible.
+- **Weight:** `budget.py` weighs each page scrolled to the end, so it already counts every picture on a
+  page. A picture moved up a page adds nothing to its ceiling.
+
+### 2. The pieces
+
+**SP-A: each case study opens on its own picture.**
+- Under the H1 and the claim, the case study's own picture, wide (the wide lane, or the full width of the
+  window), before the spec table. It's a file already on the page: the graph, the farm, the desk, the GPRS
+  home page, this site's home page. No new picture, nothing cropped (`contain`, a standing rule).
+- **Bare Your Rare has no picture,** and its site is a patient site (no symptom detail, no family). Q-SP2.
+- **Motion, under Full only:** as the reader scrolls, the picture settles from slightly larger to its place,
+  and the spec table rises in behind it. CSS scroll-driven animation (`animation-timeline: view()`), no
+  script. Reduced and Off: the picture in place, still. Browsers without it: the picture in place.
+- `Fig. N` numbering follows the picture. The opener is Fig. 1, and the rest move up one.
+
+**SP-B: the picture carries across the change of page.**
+- On `/projects`, a build's picture and its case study's opener picture share a view-transition name.
+  Under Full, clicking "Read the case study" grows the picture from its place on `/projects` into the
+  opener, while the rest cross-fades. It's the same mechanism as M1's label-to-H1, in `prefs.js`, with no
+  library.
+- Back from the case study (the browser's Back) reverses it.
+- Reduced: the cross-fade only. Off: none. Browsers without view transitions change pages as now.
+- **It needs a picture at both ends:** three builds have one on `/projects` today. Q-SP3.
+
+**SP-C: the section heads.**
+- The numbered heads ("01 — The ask") grow into a larger editorial mark, the numeral set big in the
+  display face beside the heading. Under Full, the rail's section index fills a thin teal bar as the reader
+  passes each section. CSS only, with no new words.
+
+**Not in this pass:** Background, Contact and the 404 stay as they are. The home page has its hero.
+
+### 3. What it rests on
+
+- No new library and no new download. The pictures and fonts are already on the site.
+- `prefs.js` gains the picture's view-transition name next to M1's. `style.css` gains the opener, the
+  heads and the scroll-driven rules, all under the motion tokens (`--move`, `--fade`).
+- The Display panel's rules hold: Full, Reduced and Off as above; Contrast More and the text sizes
+  unchanged in meaning.
+
+### 4. Checks
+
+- `site_check.py`: each case study's opener picture shows, whole, at 1280 and 375. Under Full the
+  transition from `/projects` names the picture on both pages and runs. Under Reduced and Off it doesn't.
+  Each check gets a control.
+- `budget.py`: every ceiling unchanged, or a measured number for ruling.
+- `shots_diff.py` on the pages this pass doesn't touch: identical.
+- **Looked at:** a recording of each piece, in both themes, for Thomas to rule before anything ships.
+
+### Questions
+
+**Q-SP1:** how wide the opener picture is.
+> **A (recommended):** the wide lane (1040px), the width the case studies' figures already use. It sits
+> in the template's own grid, and a screenshot stays sharp.
+>
+> **B:** the full width of the window. More dramatic, and screenshots taken at 1280 go soft on a wider
+> screen.
+
+**Q-SP2:** Bare Your Rare's opener.
+> **A (recommended):** its structured-data excerpt, the figure its card already uses, set large as the
+> opener. It's on the page already and shows nothing about any patient.
+>
+> **B:** no picture; it keeps the text opener.
+
+**Q-SP3:** the three builds with no picture on `/projects` (GPRS, Bare Your Rare, this site).
+> **A (recommended):** add each one's opener picture to `/projects`, so all six carry across. GPRS and this
+> site have screenshots already; Bare Your Rare uses its excerpt (Q-SP2). That adds weight to `/projects`
+> (657 of its 720 kB now), so a measured ceiling comes for ruling, and any new alt text comes as blocks.
+>
+> **B:** the morph for the three that have pictures; the other three change pages as now.
+
+**Q-SP4:** the order.
+> **A (recommended):** SP-A, then SP-B (it needs the openers), then SP-C. Each built, recorded for you to
+> look at, ruled and shipped before the next.
+>
+> **B:** all three in one change.
+
+**Q-SP5:** after this pass.
+> **A (recommended):** you look at the whole site and decide on the submissions yourself. The agent can
+> then prepare what CSSDA, Godly and Awwwards each ask for, proposed before built.
+>
+> **B:** another pass first (say on what).
+
+### The steps
+
+1. SP-0 ruled.
+2. SP-A built on a branch, run locally, recorded; ruled; shipped on your word.
+3. SP-B the same.
+4. SP-C the same.
+
+---
+
+## Also for ruling: PW3 after the hero (copy-review-010, cleanup item 4)
+
+`budget.py --live`, 2026-10-02, after #54 (`22e1abb`): every page's own files are **203 kB to 601 kB on
+the wire**. `/projects` is still the heaviest (601 kB); home is 434 kB (1,197 kB decoded, under its
+1,320 kB ceiling). 48 of 48.
+
+So PW3's measurement still holds with the hero live, and TH3's "before the home page's 3D ledger" isn't
+needed.
+
+| # | Now | Proposed |
+|---|---|---|
+| TH3b | "Measured on 2 October 2026, before the home page’s 3D ledger, each page’s own files download in between about 200 kB and 600 kB, …" | "Measured on 2 October 2026, each page’s own files download in between about 200 kB and 600 kB, …" (PW3 as ruled in copy-review-009, unchanged). |
+
+**Q-TH3b:** OK / KEEP (keep TH3's words).

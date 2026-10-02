@@ -465,3 +465,10 @@ column 032 is drawn. `parked`: PL-8 removed in the same change (it closes in 032
 
 It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 032 until this is ruled.
 `ledger/traps.json` already holds handoff-033's traps.
+
+### Ruling, LG34 (2026-10-02)
+
+Thomas, verbatim, in copy-review-010's cleanup list: **"1-9 yes"**, where item 3 was "LG34 OK?". Read as
+LG34 OK as drafted. Set in `ledger/curation.json` and exported: column 033, no doubts in `--report`;
+`--check` failed before the export (the control) and passes after. Local `site_check.py` 235 of 235,
+`budget.py` 48 of 48.
