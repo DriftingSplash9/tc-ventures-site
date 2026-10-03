@@ -264,6 +264,32 @@ agent's miss: SP-B should have shipped with this fix.
 
 ---
 
+## Motion made visible (2026-10-03, branch `motion-up`)
+
+Thomas, verbatim: "i do not even notice: changing pages, sub menu clicks, or the effects on projects. there may
+be some motion in the top image as I scroll down but because it is bumpy and so the motion possibly too subtle
+to see." The app's browser pane on his machine read Full motion, Windows reduce-motion off, Chrome 152 with both
+features: the motion ran, and was too quiet. Proposed 1 to 4; ruled **"1-4 yes"**:
+1. **Changing pages:** 0.7 s (was 0.25). The old page sinks back and fades; the new one lifts 56 px into place.
+   The moves scale with `--move`, so Reduced keeps a plain cross-fade.
+2. **The carried picture:** 0.9 s (was 0.5), a long ease-out; the new page waits 0.18 s behind it (the `carry`
+   view-transition type, set by `prefs.js`).
+3. **The opener:** from 1.2 times its size with a parallax drift (the excerpt 1.08), settled over the first 70%
+   of a screen, eased by `opener.js` so a stepped mouse wheel doesn't jump; `prefs.js` sets the starting pose
+   before the first paint (`data-opener`). The CSS scroll-driven version is gone.
+4. **The sub-menu label growing into the H1:** 0.9 s, the same ease-out.
+
+**Found and fixed while building:** Back to `/projects` never carried the picture (from SP-B). On arrival the
+browser hadn't restored the scroll, so the picture was off screen; and a Back within 0.9 s let the first
+transition's clean-up wipe the name the page swap had just set. Now the picture is brought into view first, and
+the clean-up stands down once a swap begins. SP-B's probe had counted the old half alone as a carry; the new
+probe requires both halves.
+
+**The look:** `Claude outputs/motion-up/motion-up-light.webm` and `-dark.webm`. Thomas, verbatim: **"yes, open
+the PR and merge it when checks pass"**.
+
+---
+
 ## Also for ruling: PW3 after the hero (copy-review-010, cleanup item 4)
 
 `budget.py --live`, 2026-10-02, after #54 (`22e1abb`): every page's own files are **203 kB to 601 kB on
