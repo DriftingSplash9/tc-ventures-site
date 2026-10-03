@@ -115,6 +115,38 @@ after, as numbered blocks.
 
 ---
 
+## SP-A — built, for Thomas to rule (2026-10-02, branch `sp-a-openers`)
+
+**What moved:** each case study's picture moved up, caption and all, to sit under the claim and before the
+meta strip. It's the same figure, not a copy, so it's now Fig. 1:
+- the graph: the application screenshot;
+- the farm: the 3D world;
+- the desk: the desk photograph;
+- Bare Your Rare: the structured-data excerpt, set large (Q-SP2 A);
+- GPRS: the home page;
+- this site: the home page.
+
+Where a picture left a pair (GPRS, this site), the other figure now stands alone in the reading lane. The
+settle and the rise run under Full and System only (the OS's reduce-motion means still).
+
+**The look:** `Claude outputs/sp-a/`:
+- `sp-a-light.webm` and `sp-a-dark.webm`: each page under Full, 1280 wide;
+- phone stills at 375, and Reduced stills at 1280, in both themes.
+
+**Two moves make shipped words untrue, so each comes with its fix:**
+
+| # | Where | Now | Proposed |
+|---|---|---|---|
+| SPA1 | `/work/bare-your-rare`, the excerpt's caption | "…trimmed to the fields named above. …" | "…trimmed to the fields named below. …" (the fields are named in "The standard", now under it) |
+| SPA2 | `/work/this-site`, the alt text of the GPRS case-study screenshot (retaken 2026-10-02: the old one showed the meta table where the opener now sits) | "The GPRS case study: the heading A housing society's website, a one-line summary, a table of stack, status and hosting, and a side index of the six sections." | "The GPRS case study: the heading A housing society's website, a one-line summary, and the society's home page as its first picture, with a side index of the six sections." |
+
+**Q-SPA:** the look OK / FIX (say what), and SPA1 and SPA2 OK / FIX.
+
+**Ruled 2026-10-02.** Thomas, verbatim: **"1-3 yes, merge 59"**, where 1 was the look, 2 SPA1, 3 SPA2. Read as:
+the look OK, SPA1 OK, SPA2 OK; and merge #59 (merged by the agent at his word).
+
+---
+
 ## Also for ruling: PW3 after the hero (copy-review-010, cleanup item 4)
 
 `budget.py --live`, 2026-10-02, after #54 (`22e1abb`): every page's own files are **203 kB to 601 kB on
