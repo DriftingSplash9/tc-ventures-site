@@ -940,6 +940,25 @@ def main():
                   False, "no scrubber")
         ctx.close()
 
+        # The header's monogram (copy-review-012). The name's gradient is painted through its text; painted
+        # through the whole name, it showed through the fallen letters too: Chrome 154 drew them piled on the C
+        # (Thomas saw it, 2026-10-03), while this Chromium leaves a part-faded letter out, so no picture taken
+        # here can show it. So: folded, the name paints nothing, the T and C each paint their own gradient, and
+        # every fallen letter is see-through with no width. And Menu doesn't wobble (Thomas, 2026-10-03).
+        ctx = browser.new_context(viewport={"width": 1280, "height": 900})
+        page = ctx.new_page(); page.goto(base + "/work/influence-graph", wait_until="networkidle")
+        page.evaluate("window.scrollTo(0, 1200)"); page.wait_for_timeout(1500)
+        st = page.evaluate("""() => { const w = document.querySelector('.wordmark'), cs = e => getComputedStyle(e);
+            const L = [...w.querySelectorAll('.hc-l')], keep = L.filter(s => s.classList.contains('hc-l--keep'));
+            return {mono: w.hasAttribute('data-mono'), name: cs(w).backgroundImage,
+                    keep: keep.map(s => cs(s).backgroundImage.startsWith('radial-gradient')),
+                    fallen: L.filter(s => !keep.includes(s) && (cs(s).opacity !== '0' || s.getBoundingClientRect().width > 0)).length,
+                    wobble: cs(document.querySelector('.hc-menu')).animationName}; }""")
+        check("header: folded, the name is TC, each letter painting its own gradient, the fallen ones gone",
+              st["mono"] and st["name"] == "none" and st["keep"] == [True, True] and st["fallen"] == 0, str(st))
+        check("header: Menu doesn't wobble", st["wobble"] == "none", st["wobble"])
+        ctx.close()
+
         ctx = browser.new_context(java_script_enabled=False, color_scheme="dark", viewport={"width": 1280, "height": 900})
         page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
         sc = page.locator(".ledger__scrub")

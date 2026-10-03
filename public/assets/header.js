@@ -15,9 +15,9 @@
      there; the name becomes the monogram once the page scrolls, or from the
      start where the full name wouldn't fit beside the buttons.
    - Menu opens the nav as a panel: Esc, a click outside, or Tab past it closes
-     it. Menu wobbles now and then and leans like a gimbal: toward the pointer
-     on a computer, with the phone's tilt on a phone (an iPhone asks first, on
-     the first tap of Menu).
+     it. Menu leans like a gimbal: toward the pointer on a computer, with the
+     phone's tilt on a phone (an iPhone asks first, on the first tap of Menu).
+     It doesn't wobble (Thomas dropped that, 2026-10-03).
    - Folded, the header sits on a slab: a 3D bar that faces the pointer (or
      tilts with a phone), its surface lit like sunshine on the light theme and
      moonlight on the dark, the light sliding as it turns.
@@ -25,7 +25,7 @@
      scrolled a screen.
    Motion: under Full everything eases (each frame closes 16% of the gap to the
    scroll position, so a stepped wheel glides). Reduced and Off: the header
-   switches between its two forms at once, with no wobble or lean. */
+   switches between its two forms at once, with no lean. */
 (function () {
   var root = document.documentElement;
   var bar = document.querySelector('.topbar');
@@ -128,6 +128,19 @@
     return fullW + navW + (disp ? disp.offsetWidth : 0) + 48 > room;
   }
 
+  /* While the name folds, each letter paints its own slice of the teal gradient, placed where the whole
+     name's would be (style.css says why). Layout positions, not screen ones: the slab under the name turns. */
+  function slices() {
+    var w = word.clientWidth + 'px', h = word.clientHeight + 'px';
+    var at = letters.map(function (s) { return [-s.offsetLeft + 'px', -s.offsetTop + 'px']; });
+    if (word.style.getPropertyValue('--wm-w') !== w) word.style.setProperty('--wm-w', w);
+    if (word.style.getPropertyValue('--wm-h') !== h) word.style.setProperty('--wm-h', h);
+    letters.forEach(function (s, k) {
+      if (s.style.getPropertyValue('--l-x') !== at[k][0]) s.style.setProperty('--l-x', at[k][0]);
+      if (s.style.getPropertyValue('--l-y') !== at[k][1]) s.style.setProperty('--l-y', at[k][1]);
+    });
+  }
+
   /* ---- state ---------------------------------------------------------------- */
   var p = 0, q = 0, raf = 0, peek = false, compact = null, menuOpen = false;   // p: the bar; q: the name
   root.setAttribute('data-hc', '');
@@ -154,6 +167,7 @@
     word.toggleAttribute('data-mono', q > 0.85);
     var grow = 1 + 0.45 * clamp((q - 0.5) / 0.5);  // the T and C grow into the monogram
     letters[keepT].style.fontSize = letters[keepC].style.fontSize = grow === 1 ? '' : grow.toFixed(3) + 'em';
+    if (folding) slices();
     var b = always ? 1 : p;
     bar.style.setProperty('--hc', b.toFixed(4));
     bar.style.setProperty('--hc-name', p.toFixed(4));
