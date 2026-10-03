@@ -19,7 +19,7 @@ reader downloads. 1 kB = 1000 bytes, as Chrome's DevTools counts.
 The graph: on /work/influence-graph, a click on "Load the live graph" fetches the 3D library and the data.
 Those bytes are reported on their own, not counted in the page (copy-review-009 P4-A).
 
-Checks (exit 1 if any fails):
+Checks (exit 1 if any fails; every FAIL line is printed again at the end, on stderr: checklog.py):
   - every page in the sitemap has a ceiling in CEILINGS, and its weight is at or under it
   - accessibility: axe-core's WCAG 2.0, 2.1 and 2.2 A and AA rules on every page, light and dark, with
     motion reduced so the page is whole; any violation fails. "Needs review" results are counted with -v,
@@ -56,6 +56,7 @@ from playwright.sync_api import sync_playwright
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from site_check import CleanURLHandler, CHROMIUM
+import checklog
 
 LIVE = "https://tc-ventures.ca"
 WIDTHS = (1280, 375)
@@ -202,13 +203,17 @@ def pw3_checks(html, wire):
     ]
 
 
-def run(root, base, live, verbose, a11y, only=None):
-    """Measure every page (or only those named); return (failures, passes, known faults seen)."""
+def run(root, base, live, verbose, a11y, only=None, log=None):
+    """Measure every page (or only those named); return (failures, passes, known faults seen). Each FAIL
+    line also goes in LOG, when there is one (not for the planted faults of --controls)."""
     fails, passes, known = [], [], []
     def check(name, ok, detail=""):
         (passes if ok else fails).append(name)
+        line = ("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail else "")
+        if not ok and log is not None:
+            log.append(line)
         if not ok or verbose:
-            print(("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail else ""), flush=True)
+            print(line, flush=True)
 
     paths = sitemap_paths(root) + ["/404"]
     if only:
@@ -356,7 +361,7 @@ def main():
     else:
         srv, base = serve(root)
     try:
-        fails, passes, known = run(root, base, live, verbose, a11y)
+        fails, passes, known = run(root, base, live, verbose, a11y, log=checklog.failed())
     finally:
         if srv:
             srv.shutdown()
