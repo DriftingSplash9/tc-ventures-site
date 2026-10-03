@@ -89,22 +89,46 @@
     function none() {}
     vt.ready.catch(none); vt.finished.catch(none); vt.updateCallbackDone.catch(none);
   }
+  /* SP-B (copy-review-011): under Full, between /projects and a case study, either way,
+     the build's picture on /projects ([data-carry="/work/<slug>"]) and the case study's
+     opener share the name 'cs-pic', so the picture carries across. Named only when it is
+     on screen; the other page is read from the Navigation API (pageswap's activation,
+     navigation.activation.from), so the browser's Back carries it too. */
+  function where(u) {
+    try { return new URL(u, location.href).pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/'; }
+    catch (x) { return ''; }
+  }
+  function carried(other) {
+    var here = where(location.href), el = null;
+    if (!other) return null;
+    if (here === '/projects' && /^\/work\/[\w-]+$/.test(other)) el = document.querySelector('[data-carry="' + other + '"]');
+    else if (/^\/work\//.test(here) && other === '/projects') el = document.querySelector('.cs-opener__frame');
+    if (!el) return null;
+    var r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < innerHeight && r.width ? el : null;
+  }
   window.addEventListener('pageswap', function (e) {
     if (!e.viewTransition) return;
     quiet(e.viewTransition);
     var m = window.tcvMotion();
     if (m === 'off') { e.viewTransition.skipTransition(); return; }
     unname();
-    if (m === 'full' && clicked && clicked.getClientRects().length) clicked.style.viewTransitionName = 'cs-title';
+    if (m !== 'full') return;
+    if (clicked && clicked.getClientRects().length) clicked.style.viewTransitionName = 'cs-title';
+    var pic = e.activation && e.activation.entry && carried(where(e.activation.entry.url));
+    if (pic) pic.style.viewTransitionName = 'cs-pic';
   });
   window.addEventListener('pagereveal', function (e) {
     if (!e.viewTransition) return;
     quiet(e.viewTransition);
     var m = window.tcvMotion();
     if (m === 'off') { e.viewTransition.skipTransition(); return; }
-    var h1 = m === 'full' && /^\/work\//.test(location.pathname) && document.querySelector('main h1');
-    if (!h1) return;
-    h1.style.viewTransitionName = 'cs-title';
-    e.viewTransition.finished.then(unname, unname);
+    if (m !== 'full') return;
+    var h1 = /^\/work\//.test(location.pathname) && document.querySelector('main h1');
+    if (h1) h1.style.viewTransitionName = 'cs-title';
+    var from = window.navigation && navigation.activation && navigation.activation.from;
+    var pic = from && carried(where(from.url));
+    if (pic) pic.style.viewTransitionName = 'cs-pic';
+    if (h1 || pic) e.viewTransition.finished.then(unname, unname);
   });
 })();

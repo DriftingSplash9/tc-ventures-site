@@ -59,9 +59,12 @@ CONTROL_PAGES = ("/contact", "/work/gprs", "/background", "/method")
 # next 10 kB. Ruled Q-P4-8 A, 2026-10-01. The home page grows a little with each ledger column.
 # "/" raised from 390 to 1320 for the 3D ledger hero (Three.js, 808 kB decoded): measured locally at
 # 1,199 kB on 2026-10-02, by the same rule. Ruled Q-S4-1 A, copy-review-010, 2026-10-02.
+# "/projects" raised from 720 to 1040 (three pictures, SP-B) and "/work/this-site" from 400 to 510 (prefs.js grew):
+# measured 829 kB and just over 400 kB on 2026-10-02, plus 25%, rounded up to the next 10 kB. Ruled SPB-C1 and
+# SPB-C2, copy-review-011, 2026-10-02 ("increase the ceilings by 25% instead of ~10%").
 CEILINGS = {
-    "/": 1320, "/projects": 720, "/work/influence-graph": 670, "/work/back-quarter": 360,
-    "/work/desk-and-drawer": 480, "/work/bare-your-rare": 300, "/work/gprs": 530, "/work/this-site": 400,
+    "/": 1320, "/projects": 1040, "/work/influence-graph": 670, "/work/back-quarter": 360,
+    "/work/desk-and-drawer": 480, "/work/bare-your-rare": 300, "/work/gprs": 530, "/work/this-site": 510,
     "/method": 310, "/background": 290, "/contact": 290, "/404": 280,
 }
 CEILINGS_RULED = "Q-P4-8 A, 2026-10-01; '/' Q-S4-1 A, 2026-10-02"

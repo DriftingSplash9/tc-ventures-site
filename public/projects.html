@@ -93,7 +93,7 @@
       </div>
 
       <figure class="shot">
-        <img src="/assets/img/graph-app-ui.webp" width="1900" height="886" loading="lazy" decoding="async"
+        <img data-carry="/work/influence-graph" src="/assets/img/graph-app-ui.webp" width="1900" height="886" loading="lazy" decoding="async"
              alt="The graph application: a dark canvas holding several dense, differently coloured clusters of spheres joined by fine lines, with a filter panel down the left side and layout controls down the right.">
         <figcaption>
           The application itself, filtered to national-tier reports. Colour groups reports by the
@@ -141,7 +141,7 @@
       </div>
 
       <figure class="shot">
-        <img src="/assets/img/back-quarter-3d.webp" width="1600" height="900" loading="lazy" decoding="async"
+        <img data-carry="/work/back-quarter" src="/assets/img/back-quarter-3d.webp" width="1600" height="900" loading="lazy" decoding="async"
              alt="A low-polygon farmyard in daylight, seen from beside a campfire ring: an orange roll-caged buggy with a spare wheel on the back, a white camper trailer, a sheep and a spotted dog on the grass, and beyond them a brick windmill, twin grain bins, a red gambrel barn and a line of spruce.">
         <figcaption>
           The 3D world, mid-afternoon: the quarter section modelled and lit, with a day and night cycle
@@ -184,7 +184,7 @@
       </div>
 
       <figure class="shot">
-        <img src="/assets/img/desk-hotspots.webp" width="1600" height="745" loading="lazy" decoding="async"
+        <img data-carry="/work/desk-and-drawer" src="/assets/img/desk-hotspots.webp" width="1600" height="745" loading="lazy" decoding="async"
              alt="A photograph of a home-office desk used as a website menu: a wide curved monitor running a screensaver of falling green characters signed TC 'Ventures, a lit mechanical keyboard, a mug, a small stuffed toy, a rubber duck and a stack of books, with a small on-screen pill reading View as a plain list.">
         <figcaption>
           The desk itself, which is a menu. Each object is a hotspot with its own card; the pill in
@@ -215,6 +215,28 @@
         each one a long read assembled from the literature and put into plain language.
         <a href="/work/bare-your-rare">Read the case study.</a>
       </p>
+      <figure class="excerpt">
+        <pre data-carry="/work/bare-your-rare">{
+  "@type": <mark>"MedicalWebPage"</mark>,
+  &hellip;
+  "medicalAudience": {
+    "@type": <mark>"Patient"</mark>
+  },
+  "about": {
+    "@type": "MedicalCondition",
+    "name": <mark>"Hajdu-Cheney Syndrome"</mark>,
+    &hellip;
+  },
+  "author": {
+    "@type": "Person",
+    "name": <mark>"Thomas Cheesman"</mark>,
+    &hellip;
+  },
+  &hellip;
+  "lastReviewed": <mark>"2026-04"</mark>
+}</pre>
+        <figcaption>Part of the structured data <code>/hcs-guide/</code> serves, verbatim, trimmed. &ldquo;&hellip;&rdquo; marks what was left out.</figcaption>
+      </figure>
       <p>
         <a href="https://gpresidentialsociety.com">The Grande Prairie Residential Society</a> is a
         volunteer-run nonprofit providing barrier-free housing &mdash; 87 units before the Margaret
@@ -223,6 +245,11 @@
         society. Accessibility and plain language are first-order requirements there, not decoration.
         <a href="/work/gprs">Read the case study.</a>
       </p>
+      <figure class="shot">
+        <img data-carry="/work/gprs" src="/assets/img/gprs-home.webp" width="1280" height="720" loading="lazy" decoding="async"
+             alt="The society's home page: a row of single-storey houses along a street, under the heading Accessible and Affordable Housing in Grande Prairie, with Apply Now and Volunteer buttons.">
+        <figcaption>The society&rsquo;s home page.</figcaption>
+      </figure>
       <p>
         <a href="https://thomascheesman.ca">thomascheesman.ca</a> is the personal one, and the place I
         try things that have no business on a client site &mdash; The Back Quarter is its front door
@@ -230,6 +257,11 @@
         hand-written, no framework, no build step.
         <a href="/work/this-site">Read the case study.</a>
       </p>
+      <figure class="shot">
+        <img data-carry="/work/this-site" src="/assets/img/this-site-home.webp" width="1280" height="720" loading="lazy" decoding="async"
+             alt="The home page: the heading I run a nonprofit's website, and I hold it to a written standard, above the opening paragraph, with the build ledger drawn in 3D to its right, and Projects, Method, Background and Contact in the menu.">
+        <figcaption>This site&rsquo;s home page.</figcaption>
+      </figure>
     </div>
   </section>
 </main>
