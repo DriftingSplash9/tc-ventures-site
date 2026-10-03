@@ -117,6 +117,29 @@
             Five plain-language guides to ultra-rare conditions, marked up so a search engine or an AI
             assistant can tell what each page is, who wrote it, and when it was last reviewed.
           </p>
+          <figure class="excerpt cs-opener">
+            <div class="cs-opener__frame"><pre>{
+  "@type": <mark>"MedicalWebPage"</mark>,
+  &hellip;
+  "medicalAudience": {
+    "@type": <mark>"Patient"</mark>
+  },
+  "about": {
+    "@type": "MedicalCondition",
+    "name": <mark>"Hajdu-Cheney Syndrome"</mark>,
+    &hellip;
+  },
+  "author": {
+    "@type": "Person",
+    "name": <mark>"Thomas Cheesman"</mark>,
+    &hellip;
+  },
+  &hellip;
+  "lastReviewed": <mark>"2026-04"</mark>
+}</pre></div>
+            <figcaption>Part of the structured data <code>/hcs-guide/</code> serves, verbatim, trimmed to the fields named above. &ldquo;&hellip;&rdquo; marks what was left out.<a class="receipt" href="https://bareyourrare.org/hcs-guide/">bareyourrare.org/hcs-guide</a></figcaption>
+          </figure>
+
           <dl class="cs-head__meta">
             <div><dt>Stack</dt><dd>WordPress with a hand-coded Astra child theme &middot; page content lives in the theme, not the editor</dd></div>
             <div><dt>Status</dt><dd><span class="tag tag--live">Live</span></dd></div>
@@ -193,29 +216,6 @@
               it was last reviewed. That date comes from the same function as the date printed on the
               page, so the two can&rsquo;t disagree.<a class="receipt" href="https://github.com/DriftingSplash9/tc-ventures-site/blob/main/handoff-012.md">handoff-012, O-11</a>
             </p>
-
-            <figure class="excerpt">
-              <pre>{
-  "@type": <mark>"MedicalWebPage"</mark>,
-  &hellip;
-  "medicalAudience": {
-    "@type": <mark>"Patient"</mark>
-  },
-  "about": {
-    "@type": "MedicalCondition",
-    "name": <mark>"Hajdu-Cheney Syndrome"</mark>,
-    &hellip;
-  },
-  "author": {
-    "@type": "Person",
-    "name": <mark>"Thomas Cheesman"</mark>,
-    &hellip;
-  },
-  &hellip;
-  "lastReviewed": <mark>"2026-04"</mark>
-}</pre>
-              <figcaption>Part of the structured data <code>/hcs-guide/</code> serves, verbatim, trimmed to the fields named above. &ldquo;&hellip;&rdquo; marks what was left out.<a class="receipt" href="https://bareyourrare.org/hcs-guide/">bareyourrare.org/hcs-guide</a></figcaption>
-            </figure>
           </section>
           <section class="cs-section" id="wrong" aria-labelledby="h-wrong">
             <span class="cs-section__num">What the AI got wrong</span>

@@ -1083,6 +1083,51 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 .cs-head__meta dd a { color: var(--ink); text-decoration-color: var(--rule); }
 .cs-head__meta dd a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
+/* ---- the opener (SP-A, copy-review-011) -----------------------------------
+   Each case study opens on its own picture, under the claim and before the
+   meta strip, the width of the wide lane (Q-SP1 A). It is Fig. 1: the figure
+   counter starts at the main column, not at .cs-body. The frame clips the
+   picture, so the settle below never widens the page.
+   Under Full only, as the page scrolls, the picture settles from slightly
+   larger and the meta strip rises in behind it: a scroll-driven animation,
+   no script. Reduced, Off and browsers without scroll timelines: still.
+   -------------------------------------------------------------------------- */
+
+.cs-layout__main { counter-reset: fig; }
+.cs-opener { margin: clamp(28px, 4vw, 40px) 0 0; }
+.cs-opener__frame { overflow: clip; border: 1px solid var(--rule); border-radius: 3px; background: #060913; }
+.cs-opener__frame > img { display: block; border: 0; border-radius: 0; }
+.cs-opener figcaption { counter-increment: fig; }
+.cs-opener figcaption::before { content: "Fig. " counter(fig) "\2002"; color: var(--accent); font-weight: 500; }
+
+/* Bare Your Rare's opener is its structured-data excerpt, set large (Q-SP2 A).
+   The excerpt keeps its own border and ground, and its caption is unnumbered,
+   as every excerpt's is. */
+.excerpt.cs-opener { max-width: none; }
+.excerpt.cs-opener .cs-opener__frame { border: 0; border-radius: 0; background: none; }
+.excerpt.cs-opener figcaption::before { content: none; }
+.excerpt.cs-opener figcaption { counter-increment: none; }
+.excerpt.cs-opener pre { font-size: clamp(0.95rem, 1.7vw, 1.2rem); padding: var(--s-5) var(--s-6); }
+
+@keyframes cs-settle { from { transform: scale(1.06); } to { transform: none; } }
+@keyframes cs-rise { from { transform: translateY(1.5rem); } to { transform: none; } }
+@supports (animation-timeline: scroll()) {
+  :root[data-motion="full"] .cs-opener__frame > * {
+    animation: cs-settle linear both; animation-timeline: scroll(root); animation-range: 0 50vh;
+  }
+  :root[data-motion="full"] .cs-opener ~ .cs-head__meta {
+    animation: cs-rise linear both; animation-timeline: scroll(root); animation-range: 0 40vh;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :root:not([data-motion]) .cs-opener__frame > * {
+      animation: cs-settle linear both; animation-timeline: scroll(root); animation-range: 0 50vh;
+    }
+    :root:not([data-motion]) .cs-opener ~ .cs-head__meta {
+      animation: cs-rise linear both; animation-timeline: scroll(root); animation-range: 0 40vh;
+    }
+  }
+}
+
 /* status tag — a word, not a colour. */
 .tag {
   display: inline-block;
@@ -1149,7 +1194,7 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
    reading lane; anything with the .wide class takes the whole main column.
    -------------------------------------------------------------------------- */
 
-.cs-body { counter-reset: cs-sec fig; padding-bottom: var(--section); }
+.cs-body { counter-reset: cs-sec; padding-bottom: var(--section); }   /* fig starts at .cs-layout__main (the opener) */
 
 .cs-section { padding-top: var(--section); }
 .cs-section:first-of-type { padding-top: clamp(40px, 6vw, 64px); }
