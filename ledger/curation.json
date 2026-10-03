@@ -98,6 +98,7 @@
     "031": {"ruled": "LG32 OK 2026-10-02", "line": "The engineering pass: every page now has a weight limit and is tested against automated accessibility rules, the case studies carry structured data and their own link previews, and each deploy is checked file by file. I ruled each step."},
     "032": {"ruled": "LG33 OK 2026-10-02", "line": "This site’s case study now gives its own page weights and accessibility results, measured by script and dated, and the engineering pass is finished. I ruled the words."},
     "033": {"ruled": "LG34 OK 2026-10-02", "line": "A short close: this ledger caught up with the last handoff, and what comes next was left for me to choose."},
-    "034": {"ruled": "LG35 OK 2026-10-02", "line": "This ledger now opens the home page, drawn in 3D behind the headline, and a small cleanup went live with it. I ruled each step and the words."}
+    "034": {"ruled": "LG35 OK 2026-10-02", "line": "This ledger now opens the home page, drawn in 3D behind the headline, and a small cleanup went live with it. I ruled each step and the words."},
+    "035": {"ruled": null, "line": "The case studies now open on their own pictures, which carry across from the Projects page, and their section numbers drift in teal. I ruled each look, asked for the gradient, and set two weight ceilings."}
   }
 }
