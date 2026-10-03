@@ -30,12 +30,21 @@ Checks (exit 1 if any fails):
     run fails until its line comes off KNOWN, so a fixed fault can't go on being excused. Now: A-1's
     nested-interactive on the two loop diagrams (Q-P4-9 A).
 
+PW3 (INFRA-23, ruled 2026-10-03), --live only: /work/this-site states the range every page's own files
+download in ("between about X kB and Y kB", PW3/TH3c) and that the heaviest is the Projects page. The run
+reads that sentence from the page and fails if what crossed the wire (1280 wide) no longer fits it: the
+lightest page more than 5% from X, the heaviest over Y or more than 5% under it, or the heaviest page not
+/projects. SP-B's pictures would have failed it (the miss TH3c fixed).
+
 Controls (CLAUDE.md rule 3), --controls: a copy of public/ with three faults planted, measured on the pages
 they touch and /background, left alone:
   - a heavy image added to /contact: its ceiling must fail
   - the alt text taken off /work/gprs's first image: its accessibility rules must fail, light and dark
   - /method's loop diagram fixed (role="img" taken off): its known fault must fail as "passes now"
 and nothing else may fail. Only those pages, so a fault elsewhere can't blur the result.
+The PW3 check has its own controls, on planted numbers (no browser): weights that fit the page's sentence
+must pass; a heaviest page over the range, a lightest page far under it, and a heaviest page that isn't
+/projects must each fail, and only on their own line.
 
 A ceiling is a ruled number (Q-P4-2 A, copy-review-009): raising one is a change Thomas rules, recorded
 next to it. Written 2026-10-01 for Phase 4 (P4-A).
@@ -167,6 +176,26 @@ def axe_run(browser, base, path, scheme):
     return res
 
 
+PW3_RE = re.compile(r"between about\s+(\d+)&nbsp;kB and (\d+)&nbsp;kB.*?the heaviest is the Projects", re.S)
+PW3_SLACK = 0.05   # "about": the agent's choice of 5%, recorded with INFRA-23
+
+
+def pw3_checks(html, wire):
+    """PW3's range against the wire weights (kB, by page). Returns [(name, ok, detail)]."""
+    m = PW3_RE.search(html)
+    if not m:
+        return [("PW3: the range is on /work/this-site", False, "sentence not found: fix PW3_RE or the page")]
+    lo, hi = int(m.group(1)), int(m.group(2))
+    light, heavy = min(wire, key=wire.get), max(wire, key=wire.get)
+    return [
+        ("PW3: the lightest page fits", abs(wire[light] - lo) <= lo * PW3_SLACK,
+         f"{light} {wire[light]:.0f} kB; PW3 says about {lo} kB"),
+        ("PW3: the heaviest page fits", hi * (1 - PW3_SLACK) <= wire[heavy] <= hi,
+         f"{heavy} {wire[heavy]:.0f} kB; PW3 says about {hi} kB"),
+        ("PW3: the heaviest is /projects", heavy == "/projects", f"the heaviest is {heavy}"),
+    ]
+
+
 def run(root, base, live, verbose, a11y, only=None):
     """Measure every page (or only those named); return (failures, passes, known faults seen)."""
     fails, passes, known = [], [], []
@@ -232,6 +261,10 @@ def run(root, base, live, verbose, a11y, only=None):
             line += f" {kb(per[1280][1]['wire']):>9.0f} kB {kb(per[1280][1]['other']):>8.0f} kB ({per[1280][1]['other_reqs']})"
         line += f" {str(CEILINGS.get(p, '-')):>5} kB" if p in CEILINGS else f" {'-':>8}"
         print(line)
+    if live and not only:
+        html = open(os.path.join(root, "work", "this-site.html"), encoding="utf-8").read()
+        for name, ok, detail in pw3_checks(html, {p: kb(per[1280][1]["wire"]) for p, per, _ in rows}):
+            check(name, ok, detail)
     if graph_extra:
         print(f"\nthe graph, after its click (not in the page): {kb(graph_extra['own']):.0f} kB in "
               f"{graph_extra['reqs']} requests" + (f", {kb(graph_extra['wire']):.0f} kB on the wire" if live else ""))
@@ -277,6 +310,19 @@ def main():
         print("note: the ceilings are proposed, not ruled (copy-review-009)\n")
 
     if "--controls" in args:
+        html = open(os.path.join(root, "work", "this-site.html"), encoding="utf-8").read()
+        lo, hi = (int(x) for x in PW3_RE.search(html).groups())
+        fits = {"/": hi * 0.6, "/projects": hi * 0.99, "/contact": lo * 1.02}
+        cases = {"fits": (fits, set()),
+                 "too heavy": ({**fits, "/projects": hi * 1.1}, {"PW3: the heaviest page fits"}),
+                 "too light": ({**fits, "/contact": lo * 0.7}, {"PW3: the lightest page fits"}),
+                 "not /projects": ({**fits, "/": hi * 0.995}, {"PW3: the heaviest is /projects"})}
+        pw3_ok = True
+        for case, (wire, expect) in cases.items():
+            failed = {n for n, ok, _ in pw3_checks(html, wire) if not ok}
+            pw3_ok &= failed == expect
+            print(f"PW3 control, {case}: " + ("OK" if failed == expect else
+                  f"FAILED (failed {sorted(failed)}, expected {sorted(expect)})"), flush=True)
         tmp, dst = plant_controls(root)
         srv, base = serve(dst)
         try:   # the planted pages, and one left alone that must pass
@@ -289,9 +335,12 @@ def main():
                                        "known fault fixed: /method dark nested-interactive"} if a11y else set())
         got = set(fails)
         print()
-        if got == want:
-            print(f"controls: OK, the {len(want)} planted faults failed and nothing else did")
+        if got == want and pw3_ok:
+            print(f"controls: OK, the {len(want)} planted faults failed and nothing else did; "
+                  f"the {len(cases)} PW3 controls held")
             sys.exit(0)
+        if not pw3_ok:
+            print("controls: FAILED. A PW3 control did not hold.")
         print(f"controls: FAILED. Missed: {sorted(want - got) or 'none'}. Unexpected: {sorted(got - want) or 'none'}")
         sys.exit(1)
 
