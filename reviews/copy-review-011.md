@@ -200,6 +200,34 @@ two only; Q-P4-8's 10% stays the rule for the others.
 
 ---
 
+## SP-C — built, for Thomas to rule (2026-10-02, branch `sp-c-heads`)
+
+**What it does:** CSS only, with no new words.
+- **The section heads:** the section number is the mark, set large in the display face, in teal, beside the
+  section's name ("03 · WHAT THE AI GOT WRONG"), above the heading. This applies at every motion setting.
+- **The rail:** at 73.75em and wider, under Full (and System without the OS's reduce-motion), each line of
+  the side index fills with a thin teal bar as the reader passes through its section. Each section has its
+  own scroll-driven timeline. Reduced and Off show no bar.
+- **`/method` too:** it uses the same section template, so it gets the same heads and rail. This is the
+  agent's choice: the proposal named the case studies, and `/method` would otherwise be the one page in
+  that template without them.
+
+**Found and fixed before showing:** a rail line with no section of its own would have shown a full bar
+under Full. The probe now adds such a line as a control, and it stays empty.
+
+**The look:** `Claude outputs/sp-c/`:
+- `sp-c-light.webm` and `sp-c-dark.webm`: `/work/gprs`, `/work/back-quarter` and `/method`, scrolled top
+  to bottom under Full, 1280 wide;
+- stills of a section head at 1280 and 375, in both themes.
+
+**Checks, local:** a rail probe on `/work/gprs` and `/method` under Full, System, OS reduce, Reduced and Off,
+with a stray rail line as the control; `site_check.py` 235 of 235; `budget.py` 48 of 48; `shots_diff.py`
+against `main`: only the six case studies and `/method` differ (20 of 48 pairs identical).
+
+**Q-SPC:** the look OK / FIX; `/method` included OK / leave it as it was.
+
+---
+
 ## Also for ruling: PW3 after the hero (copy-review-010, cleanup item 4)
 
 `budget.py --live`, 2026-10-02, after #54 (`22e1abb`): every page's own files are **203 kB to 601 kB on

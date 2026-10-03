@@ -1233,6 +1233,71 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 .cs-section > * { max-width: var(--lane-read); }
 .cs-section > .wide { max-width: none; }
 
+/* ---- the section heads and the rail's progress (SP-C, copy-review-011) -----
+   The section number is the mark: set large in the display face, beside the
+   section's name. The words are unchanged; only the counter's look is.
+   Under Full, at 73.75em and wider, each line of the rail's index fills with a
+   thin teal bar as the reader passes through its section: a view timeline per
+   section, shared up to .cs-layout with timeline-scope. CSS only. Reduced,
+   Off and browsers without view timelines: no bar, the index as before.
+   -------------------------------------------------------------------------- */
+
+.cs-section__num { display: flex; align-items: baseline; gap: var(--s-3); }
+.cs-section__num::before {
+  content: counter(cs-sec, decimal-leading-zero);
+  font-family: var(--display);
+  font-size: clamp(3rem, 7vw, 4.75rem);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+}
+
+@keyframes cs-fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@supports (animation-timeline: view()) and (timeline-scope: --cs-ask) {
+  .cs-layout { timeline-scope: --cs-ask, --cs-standard, --cs-wrong, --cs-caught, --cs-shipped, --cs-receipts,
+                               --cs-loop, --cs-handoffs, --cs-rules, --cs-weak, --cs-files; }
+  .cs-section#ask { view-timeline-name: --cs-ask; }
+  .cs-section#standard { view-timeline-name: --cs-standard; }
+  .cs-section#wrong { view-timeline-name: --cs-wrong; }
+  .cs-section#caught { view-timeline-name: --cs-caught; }
+  .cs-section#shipped { view-timeline-name: --cs-shipped; }
+  .cs-section#receipts { view-timeline-name: --cs-receipts; }
+  .cs-section#loop { view-timeline-name: --cs-loop; }           /* /method's five */
+  .cs-section#handoffs { view-timeline-name: --cs-handoffs; }
+  .cs-section#rules { view-timeline-name: --cs-rules; }
+  .cs-section#weak { view-timeline-name: --cs-weak; }
+  .cs-section#files { view-timeline-name: --cs-files; }
+  .cs-index--rail li:has(> a[href="#ask"]) { --cs-tl: --cs-ask; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#standard"]) { --cs-tl: --cs-standard; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#wrong"]) { --cs-tl: --cs-wrong; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#caught"]) { --cs-tl: --cs-caught; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#shipped"]) { --cs-tl: --cs-shipped; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#receipts"]) { --cs-tl: --cs-receipts; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#loop"]) { --cs-tl: --cs-loop; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#handoffs"]) { --cs-tl: --cs-handoffs; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#rules"]) { --cs-tl: --cs-rules; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#weak"]) { --cs-tl: --cs-weak; --cs-fill: cs-fill; }
+  .cs-index--rail li:has(> a[href="#files"]) { --cs-tl: --cs-files; --cs-fill: cs-fill; }
+  /* only a line with a section of its own is animated: a line without one would run on
+     time, with no duration, and show a full bar (a timeline of none still did) */
+  @media (min-width: 73.75em) {
+    .cs-index--rail li { position: relative; }
+    .cs-index--rail li::after {
+      content: ""; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px;
+      background: var(--accent); transform: scaleY(0); transform-origin: top; pointer-events: none;
+    }
+    :root[data-motion="full"] .cs-index--rail li::after {
+      animation: var(--cs-fill, none) linear both; animation-timeline: var(--cs-tl); animation-range: contain 0% contain 100%;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      :root:not([data-motion]) .cs-index--rail li::after {
+        animation: var(--cs-fill, none) linear both; animation-timeline: var(--cs-tl); animation-range: contain 0% contain 100%;
+      }
+    }
+  }
+}
+
 .cs-section h3 {
   font-family: var(--display);
   font-weight: 600;
