@@ -653,7 +653,8 @@
     32,
     34,
     35,
-    36
+    36,
+    37
    ],
    "wordings": [
     "Keep every FAIL line of a check run."
@@ -671,7 +672,8 @@
     33,
     34,
     35,
-    36
+    36,
+    37
    ],
    "wordings": [
     "`site_check.py --live` compares the live ledger with what the local checkout would export."
@@ -703,8 +705,8 @@
   {
    "id": "T52",
    "start": 31,
-   "end": null,
-   "how": null,
+   "end": 37,
+   "how": "retired",
    "helped": [
     34
    ],
@@ -715,8 +717,8 @@
   {
    "id": "T53",
    "start": 31,
-   "end": null,
-   "how": null,
+   "end": 37,
+   "how": "retired",
    "helped": [],
    "wordings": [
     "Playwright fills a handler's second parameter with the request."
@@ -725,8 +727,8 @@
   {
    "id": "T54",
    "start": 31,
-   "end": null,
-   "how": null,
+   "end": 37,
+   "how": "retired",
    "helped": [],
    "wordings": [
     "A page set with Playwright's `set_content()` has a blank origin, and the site's fonts don't load into it, silently."
@@ -735,8 +737,8 @@
   {
    "id": "T55",
    "start": 31,
-   "end": null,
-   "how": null,
+   "end": 37,
+   "how": "retired",
    "helped": [],
    "wordings": [
     "A never-used query string isn't proof of a cache bypass on Cloudflare."
@@ -749,7 +751,8 @@
    "how": null,
    "helped": [
     35,
-    36
+    36,
+    37
    ],
    "wordings": [
     "A PR stacked on another PR merges into that PR's branch if it's merged before GitHub retargets it."
@@ -771,7 +774,8 @@
    "end": null,
    "how": null,
    "helped": [
-    36
+    36,
+    37
    ],
    "wordings": [
     "A wait loop that merges when a check reports any result merges on a failure."
@@ -793,7 +797,8 @@
    "end": null,
    "how": null,
    "helped": [
-    36
+    36,
+    37
    ],
    "wordings": [
     "An Edit-tool edit or a `sed -i` on a CRLF file can rewrite the whole file as LF."
@@ -805,7 +810,8 @@
    "end": null,
    "how": null,
    "helped": [
-    36
+    36,
+    37
    ],
    "wordings": [
     "A background command stops at 30 minutes unless it is given a longer `timeout`."
@@ -817,7 +823,8 @@
    "end": null,
    "how": null,
    "helped": [
-    36
+    36,
+    37
    ],
    "wordings": [
     "`site_check.CHROMIUM` is the cloud session's Chromium path."
@@ -829,7 +836,8 @@
    "end": null,
    "how": null,
    "helped": [
-    36
+    36,
+    37
    ],
    "wordings": [
     "The app's browser pane can't take a screenshot while Claude's window is behind others,"
@@ -850,7 +858,9 @@
    "start": 36,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    37
+   ],
    "wordings": [
     "An element with a view-transition name is a backdrop root, so nothing inside it can blur the page behind it."
    ]
@@ -880,7 +890,9 @@
    "start": 36,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    37
+   ],
    "wordings": [
     "Wire weights exist only live,"
    ]
@@ -903,6 +915,36 @@
    "helped": [],
    "wordings": [
     "A probe that counts one half of a view transition as a carry passes a broken carry."
+   ]
+  },
+  {
+   "id": "T71",
+   "start": 37,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A shell `&` inside a tool call may not outlive the call."
+   ]
+  },
+  {
+   "id": "T72",
+   "start": 37,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Letters split into inline-blocks lose the font's pair spacing, and measured before the web font loads they're clipped too narrow."
+   ]
+  },
+  {
+   "id": "T73",
+   "start": 37,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A check run that is still going when you edit reads a mix of old and new files."
    ]
   }
  ]
