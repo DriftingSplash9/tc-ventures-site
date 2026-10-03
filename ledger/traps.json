@@ -652,7 +652,8 @@
     31,
     32,
     34,
-    35
+    35,
+    36
    ],
    "wordings": [
     "Keep every FAIL line of a check run."
@@ -669,7 +670,8 @@
     32,
     33,
     34,
-    35
+    35,
+    36
    ],
    "wordings": [
     "`site_check.py --live` compares the live ledger with what the local checkout would export."
@@ -678,8 +680,8 @@
   {
    "id": "T50",
    "start": 30,
-   "end": null,
-   "how": null,
+   "end": 36,
+   "how": "retired",
    "helped": [],
    "wordings": [
     "A match on one field can join two different things."
@@ -746,7 +748,8 @@
    "end": null,
    "how": null,
    "helped": [
-    35
+    35,
+    36
    ],
    "wordings": [
     "A PR stacked on another PR merges into that PR's branch if it's merged before GitHub retargets it."
@@ -767,7 +770,9 @@
    "start": 35,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    36
+   ],
    "wordings": [
     "A wait loop that merges when a check reports any result merges on a failure."
    ]
@@ -787,7 +792,9 @@
    "start": 35,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    36
+   ],
    "wordings": [
     "An Edit-tool edit or a `sed -i` on a CRLF file can rewrite the whole file as LF."
    ]
@@ -797,7 +804,9 @@
    "start": 35,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    36
+   ],
    "wordings": [
     "A background command stops at 30 minutes unless it is given a longer `timeout`."
    ]
@@ -807,7 +816,9 @@
    "start": 35,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    36
+   ],
    "wordings": [
     "`site_check.CHROMIUM` is the cloud session's Chromium path."
    ]
@@ -817,7 +828,9 @@
    "start": 35,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    36
+   ],
    "wordings": [
     "The app's browser pane can't take a screenshot while Claude's window is behind others,"
    ]
@@ -830,6 +843,66 @@
    "helped": [],
    "wordings": [
     "A scroll-driven animation whose `animation-timeline` is `none` still draws its end state."
+   ]
+  },
+  {
+   "id": "T65",
+   "start": 36,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "An element with a view-transition name is a backdrop root, so nothing inside it can blur the page behind it."
+   ]
+  },
+  {
+   "id": "T66",
+   "start": 36,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "At 200% text a breakpoint in `em` doubles,"
+   ]
+  },
+  {
+   "id": "T67",
+   "start": 36,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A CSS transition on `font-size` makes text lag a change of text size,"
+   ]
+  },
+  {
+   "id": "T68",
+   "start": 36,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Wire weights exist only live,"
+   ]
+  },
+  {
+   "id": "T69",
+   "start": 36,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A change of page that starts while a view transition runs cuts it short, and its `finished` fires during the next page swap."
+   ]
+  },
+  {
+   "id": "T70",
+   "start": 36,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A probe that counts one half of a view transition as a carry passes a broken carry."
    ]
   }
  ]
