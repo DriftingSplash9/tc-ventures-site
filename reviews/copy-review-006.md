@@ -524,3 +524,12 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 
 **Ruled 2026-10-03.** Thomas, verbatim: **"merge 70, LG37 yes"**. Read as LG37 OK as drafted, and INFRA-23 out of
 `parked` (proposed with it). Set in `ledger/curation.json` and exported: column 036.
+
+## LG38 — handoff-037's line (drafted 2026-10-03, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG38 | 037 · 2026-10-03 | The folded header now sits on a square bar that turns to face the pointer, lit like sunshine or moonlight, and the menu items at the top of a page are pills. I asked for each change and ruled the look. | "keep the faint page name, drop the progress line"; "it does need  box for the shrunken header"; "i want sharper edges and make it more like a square tubular rectangular bar" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 036 until this is ruled.
+`ledger/traps.json` already holds handoff-037's traps. No change to `parked`.
