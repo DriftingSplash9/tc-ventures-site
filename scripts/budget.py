@@ -71,10 +71,16 @@ CONTROL_PAGES = ("/contact", "/work/gprs", "/background", "/method")
 # "/projects" raised from 720 to 1040 (three pictures, SP-B) and "/work/this-site" from 400 to 510 (prefs.js grew):
 # measured 829 kB and just over 400 kB on 2026-10-02, plus 25%, rounded up to the next 10 kB. Ruled SPB-C1 and
 # SPB-C2, copy-review-011, 2026-10-02 ("increase the ceilings by 25% instead of ~10%").
+# Six raised for the collapsing header (header.js and its CSS on every page), at the measured weight plus
+# 33%, rounded up to the next 10 kB: /work/back-quarter 360 -> 490 (368.2), /work/bare-your-rare 300 -> 430
+# (317.9), /method 310 -> 430 (319.7), /background 290 -> 400 (300.1), /contact 290 -> 400 (300.0), /404
+# 280 -> 400 (296.2). Ruled in copy-review-012, 2026-10-03 ("increase the ceilings by 33% instead of 10%").
+# Then the metal look tipped two more, raised the same way: /work/desk-and-drawer 480 -> 640 (480.4),
+# /work/gprs 530 -> 710 (530.4). Ruled 2026-10-03 ("1-2 yes").
 CEILINGS = {
-    "/": 1320, "/projects": 1040, "/work/influence-graph": 670, "/work/back-quarter": 360,
-    "/work/desk-and-drawer": 480, "/work/bare-your-rare": 300, "/work/gprs": 530, "/work/this-site": 510,
-    "/method": 310, "/background": 290, "/contact": 290, "/404": 280,
+    "/": 1320, "/projects": 1040, "/work/influence-graph": 670, "/work/back-quarter": 490,
+    "/work/desk-and-drawer": 640, "/work/bare-your-rare": 430, "/work/gprs": 710, "/work/this-site": 510,
+    "/method": 430, "/background": 400, "/contact": 400, "/404": 400,
 }
 CEILINGS_RULED = "Q-P4-8 A, 2026-10-01; '/' Q-S4-1 A, 2026-10-02"
 # Known faults: (page, axe rule) -> the open item that owns the fix. Ruled Q-P4-9 A, 2026-10-01. A known
