@@ -192,6 +192,12 @@ copied as is.
 
 **Q-SPB:** the look OK / FIX, SPB1 to SPB3 OK / FIX, SPB-C1 and SPB-C2 OK.
 
+**Ruled 2026-10-02.** Thomas, verbatim: **"1-4 yes, go ahead and increase the ceilings by 25% instead of ~10%"**,
+where 1 was the look, 2 SPB1 to SPB3, 3 SPB-C1, 4 SPB-C2. Read as: the look OK, SPB1 to SPB3 OK, and the two
+ceilings set by the measured weight plus 25% (not 10%), rounded up to the next 10 kB: `/projects` **1,040 kB**
+(829 × 1.25 = 1,036), `/work/this-site` **510 kB** (just over 400 × 1.25 = just over 500). Read as for these
+two only; Q-P4-8's 10% stays the rule for the others.
+
 ---
 
 ## Also for ruling: PW3 after the hero (copy-review-010, cleanup item 4)
