@@ -510,3 +510,14 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 **Ruled 2026-10-03.** Thomas, verbatim: **"merge 64, LG36 yes, parked yes, INFRA-23 yes"**. Read as LG36 OK as
 drafted; C-27 and DESIGN-9 out of `parked`, INFRA-22 and INFRA-23 in (INFRA-23 parked as "ruled, not yet
 built" until its check ships). Set in `ledger/curation.json` and exported: column 035.
+
+## LG37 — handoff-036's line (drafted 2026-10-03, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG37 | 036 · 2026-10-03 | The page changes, the carried pictures and the opening pictures now move enough to see, and the header folds into a monogram and a smoked-glass Menu button as you scroll. I asked for each, ruled the looks, and set the new page-weight ceilings. | "1-4 yes"; "I think 4 sounds best. Can you take it to a deeper level?"; "increase the ceilings by 33% instead of 10%"; "TH3d yes, ship it and merge when checks pass" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 035 until this is ruled.
+`ledger/traps.json` already holds handoff-036's traps.
+
+**With the column, the curation's `parked` changes:** out, INFRA-23, closed in 036 (built, #66).
