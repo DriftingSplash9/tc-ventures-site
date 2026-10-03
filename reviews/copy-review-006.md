@@ -506,3 +506,7 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 - out: C-27 and DESIGN-9, both closed in 035 (a closed thread draws closed either way);
 - in, proposed: INFRA-22 (Cloudflare's failed builds, watched) and INFRA-23 (PW3's range in code, his call),
   each waiting on Thomas. Drawn dotted if parked, solid if not: his call with LG36.
+
+**Ruled 2026-10-03.** Thomas, verbatim: **"merge 64, LG36 yes, parked yes, INFRA-23 yes"**. Read as LG36 OK as
+drafted; C-27 and DESIGN-9 out of `parked`, INFRA-22 and INFRA-23 in (INFRA-23 parked as "ruled, not yet
+built" until its check ships). Set in `ledger/curation.json` and exported: column 035.
