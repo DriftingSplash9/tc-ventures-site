@@ -521,3 +521,6 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 `ledger/traps.json` already holds handoff-036's traps.
 
 **With the column, the curation's `parked` changes:** out, INFRA-23, closed in 036 (built, #66).
+
+**Ruled 2026-10-03.** Thomas, verbatim: **"merge 70, LG37 yes"**. Read as LG37 OK as drafted, and INFRA-23 out of
+`parked` (proposed with it). Set in `ledger/curation.json` and exported: column 036.
