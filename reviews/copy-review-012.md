@@ -122,3 +122,16 @@ you make it look bolder and metallic?"**
 **Then:** the metal CSS tipped two more pages over by under 1 kB each. Put to Thomas with the look; ruled
 **"1-2 yes, open the PR and merge it when checks pass"**: `/work/desk-and-drawer` 480 → 640 (480.4 kB) and
 `/work/gprs` 530 → 710 (530.4 kB), at +33%; the smoked metallic look OK; open and merge on passing checks.
+
+## TH3d — PW3 after the header (2026-10-03)
+
+Live after #68 (`8b044a1`), `budget.py --live` failed INFRA-23's PW3 check: the lightest page is `/404` at 216 kB on
+the wire, the heaviest `/projects` at 784 kB (`header.js` and its CSS on every page). PW3 said "between about
+200 kB and 780 kB". The same miss as SP-B's; this time the check found it within minutes of the deploy. Wire
+weights exist only live, so no local run could have caught it.
+
+| # | Now | Proposed |
+|---|---|---|
+| TH3d | "Measured on 3 October 2026, each page’s own files download in between about 200 kB and 780 kB, …" | "Measured on 3 October 2026, each page’s own files download in between about 220 kB and 790 kB, …" |
+
+**Ruled 2026-10-03.** Thomas, verbatim: **"TH3d yes, ship it and merge when checks pass"**.
