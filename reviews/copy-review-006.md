@@ -486,3 +486,9 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 - out: INFRA-6, INFRA-19 and INFRA-20, all closed in 034 (a closed thread draws closed either way);
 - in, proposed: C-27 (Q-TH3b), DESIGN-8 (frame times on his PC) and DESIGN-9 (the second pass), each
   waiting on Thomas. Drawn dotted if parked, solid if not: his call with LG35.
+
+**Ruled 2026-10-02.** Thomas, verbatim: **"1-10 yes"**, where item 8 was LG35 as drafted, item 9 the three
+out, item 10 the three in. Read as LG35 OK as drafted, INFRA-6, INFRA-19 and INFRA-20 out of `parked`, C-27,
+DESIGN-8 and DESIGN-9 in. Set in `ledger/curation.json` and exported: column 034. `--check` failed before the
+export (the control) and passes after; `--report --draft` shows no DOUBT. `quote_check.py --ledger` 82 of 82
+verbatim, 82 of 82 controls failed. Local `site_check.py` 235 of 235, `budget.py` 48 of 48.

@@ -36,10 +36,10 @@
     "A-1": "deferred by Thomas",
     "A-3": "accepted for now; A-1 confirms it",
     "INFRA-4": "his call",
-    "INFRA-6": "waits for a date",
     "INFRA-9": "deliberate",
-    "INFRA-19": "his call: a hook changes his harness settings",
-    "INFRA-20": "his call: which copy of the truth rules to keep",
+    "C-27": "his call: Q-TH3b",
+    "DESIGN-8": "waits for frame times on his own PC",
+    "DESIGN-9": "waits for his rulings on the second pass",
     "D-1": "harmless; when convenient",
     "D-2": "a caution, not work",
     "D-3": "his, on a date he set"
@@ -98,6 +98,6 @@
     "031": {"ruled": "LG32 OK 2026-10-02", "line": "The engineering pass: every page now has a weight limit and is tested against automated accessibility rules, the case studies carry structured data and their own link previews, and each deploy is checked file by file. I ruled each step."},
     "032": {"ruled": "LG33 OK 2026-10-02", "line": "This site’s case study now gives its own page weights and accessibility results, measured by script and dated, and the engineering pass is finished. I ruled the words."},
     "033": {"ruled": "LG34 OK 2026-10-02", "line": "A short close: this ledger caught up with the last handoff, and what comes next was left for me to choose."},
-    "034": {"ruled": null, "line": "This ledger now opens the home page, drawn in 3D behind the headline, and a small cleanup went live with it. I ruled each step and the words."}
+    "034": {"ruled": "LG35 OK 2026-10-02", "line": "This ledger now opens the home page, drawn in 3D behind the headline, and a small cleanup went live with it. I ruled each step and the words."}
   }
 }

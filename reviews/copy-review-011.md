@@ -4,7 +4,7 @@
 **Why:** PL-6 names Awwwards. Thomas ruled no submission yet (copy-review-010, the cleanup list, item 12):
 the hero is the first screen that isn't plain, and the rest of the site is still the template. This is the
 proposal for the rest. Started at Thomas's word, "2 go".
-**Status:** SP-0, the proposal, for Thomas to rule. Nothing is built.
+**Status:** SP-0 and Q-SP1 to Q-SP5 ruled A, Q-TH3b OK (2026-10-02; see the end). Being built in Q-SP4's order.
 
 Same format and marks as copy-review-001 to 010: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -129,3 +129,15 @@ needed.
 | TH3b | "Measured on 2 October 2026, before the home page’s 3D ledger, each page’s own files download in between about 200 kB and 600 kB, …" | "Measured on 2 October 2026, each page’s own files download in between about 200 kB and 600 kB, …" (PW3 as ruled in copy-review-009, unchanged). |
 
 **Q-TH3b:** OK / KEEP (keep TH3's words).
+
+---
+
+## Rulings
+
+**2026-10-02.** Thomas, verbatim: **"1-10 yes"**, to a numbered list where 1 was SP-0, 2 to 6 were Q-SP1 to
+Q-SP5 (each "A, yes" recommended), and 7 was Q-TH3b (take the words out). Read as: **SP-0 OK; Q-SP1 A,
+Q-SP2 A, Q-SP3 A, Q-SP4 A, Q-SP5 A; TH3b OK.** (8 to 10 were LG35 and its parked changes, recorded in
+copy-review-006.)
+
+- TH3b shipped with ledger column 034, the first PR after the ruling.
+- Next: SP-A, the case-study openers, on its own branch from `main`.
