@@ -142,6 +142,9 @@ settle and the rise run under Full and System only (the OS's reduce-motion means
 
 **Q-SPA:** the look OK / FIX (say what), and SPA1 and SPA2 OK / FIX.
 
+**Ruled 2026-10-02.** Thomas, verbatim: **"1-3 yes, merge 59"**, where 1 was the look, 2 SPA1, 3 SPA2. Read as:
+the look OK, SPA1 OK, SPA2 OK; and merge #59 (merged by the agent at his word).
+
 ---
 
 ## Also for ruling: PW3 after the hero (copy-review-010, cleanup item 4)
