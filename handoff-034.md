@@ -60,14 +60,10 @@ Then say what you understand the next job to be, and check before building.
 **Standing rule, ruled 2026-09-19:** the Rocket Lander is **private**.
 
 **How Thomas works:**
-- Short answers when he asks for them. He's blunt when you are wrong, and he makes the calls himself.
-- Recommend one option; don't survey.
+- Short answers that are right to the point.
+- Recommend one to 4 options/suggestions starting with the most recommended answer.
 - He rules tersely ("sd1 ok, sd2 ok, all A"), and that is a full ruling.
-  - **Ask what a bare number means** ("1" meant OK).
-  - **Say how you read a bare letter** and record it.
   - **"do the next handoff" meant: work through the newest handoff's §6.**
-- **He likes everything open put to him at once,** numbered, each a yes or no with the agent's
-  recommendation, so he can answer "1-9 yes. 10-13 no" (this session). Record how you read each.
 - **He sometimes hands a call over** ("fix it", "up to you"). Make it, say in one line what you chose and
   why, and record it as delegated.
 - **He changes his mind, and says so.** Record the new ruling next to the old one.
