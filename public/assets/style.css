@@ -353,7 +353,6 @@ a:focus-visible { outline: var(--focus-w) solid var(--accent); outline-offset: 3
 /* ---- top bar ---- */
 
 .topbar {
-  border-bottom: 1px solid var(--rule);
   background: var(--paper);
   /* Its view-transition-name makes it a stacking context; this keeps it, and the sub-menu and Display
      panel hanging from it, above the home hero's 3D scene, which is one too (copy-review-010). */
@@ -1857,53 +1856,56 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 
 /* ---- the header that collapses (copy-review-012; assets/header.js) ----------
    Without header.js this block does nothing: every rule hangs on data-hc, set
-   by the script, and the bar is the plain one. With it the bar sticks; --hc
-   (0 to 1, the bar's state: always 1 on a phone) and --hc-name (the scroll's
-   own progress) drive the fold. data-compact is set from half-way: the nav is
-   then a glass panel behind the Menu button. The moving parts (the wobble, the
-   drift, the progress line) run under Full only; header.js switches the
-   states at once under Reduced and Off.
+   by the script, and the bar is the plain one. With it the header is only the
+   name, the nav and Display, floating over the page: no fill, no rule (Thomas,
+   2026-10-03), with the page's name faint behind it once the page scrolls. At the top of a wide page the nav's links are pills; as the page
+   scrolls they fold into the Menu pill, left of Display, and the name folds into
+   the TC monogram. --hc (0 to 1) is the bar's state, always 1 on a phone or
+   where the pills don't fit; data-compact is set from half-way: the nav is then
+   a panel behind Menu. The wobble and the drift run under Full only; header.js
+   switches the forms at once under Reduced and Off.
    -------------------------------------------------------------------------- */
 :root[data-hc] [id] { scroll-margin-top: 5rem; }
 :root[data-hc] .cs-layout__rail { top: calc(var(--s-6) + 4rem); }
 
-/* The glass is on the bar itself. Its view-transition name makes the bar a backdrop root, so
-   nothing inside it can blur the page: a layer inside blurred an empty backdrop (found
-   2026-10-03), and the Menu panel, which hangs from the bar, is nearly opaque instead. */
-.topbar[data-hc] {
-  position: sticky; top: 0;
-  background: color-mix(in srgb, var(--paper) calc(100% - 28% * var(--hc, 0)), transparent);
-  -webkit-backdrop-filter: blur(calc(16px * var(--hc, 0))) saturate(calc(1 + 0.5 * var(--hc, 0)));
-  backdrop-filter: blur(calc(16px * var(--hc, 0))) saturate(calc(1 + 0.5 * var(--hc, 0)));
-}
+.topbar[data-hc] { position: sticky; top: 0; background: none; border-bottom: 0; }
 .topbar[data-hc] .topbar__inner {
   align-items: center;
   flex-wrap: nowrap;
-  padding-block: calc(14px - 6px * var(--hc, 0));
-  min-height: 3.5rem;
+  gap: 10px;
+  padding-block: 12px;
+  min-height: 4rem;
 }
 
-/* the name: letters that fall away, and the two that stay */
-.topbar[data-hc] .wordmark { position: relative; z-index: 1; white-space: nowrap; display: inline-flex; align-items: baseline; }
-.wordmark .hc-l { display: inline-block; overflow: hidden; white-space: pre; vertical-align: bottom; }
-/* the T and C grow with the fold (header.js sets their size in em, so they follow the text size at once;
-   a CSS transition on font-size lagged a change of text size, found by site_check 2026-10-03) */
+/* the name: letters inline at rest (the font's own spacing); boxes only while they fold */
+.topbar[data-hc] .wordmark { position: relative; z-index: 1; white-space: nowrap; margin-right: auto; }
+.wordmark[data-folding] { display: inline-flex; align-items: baseline; }
+.wordmark[data-folding] .hc-l { display: inline-block; overflow: hidden; white-space: pre; vertical-align: bottom; }
 .wordmark[data-mono] .hc-l--keep { letter-spacing: -0.04em; line-height: 1; }
 
-/* the nav: in the bar, then folding away, then a panel behind Menu */
+/* the nav: pills at the top of a wide page, folding toward Menu, then a panel behind it */
+.topbar[data-hc] nav { margin-left: 0; gap: 10px; align-items: center; }
 .topbar[data-hc]:not([data-compact]) nav {
   opacity: clamp(0, calc(1 - 2 * var(--hc, 0)), 1);
-  transform: translateX(calc(48px * var(--hc, 0)));
+  transform: translateX(calc(64px * var(--hc, 0))) scale(calc(1 - 0.12 * var(--hc, 0)));
+  transform-origin: 100% 50%;
 }
-.topbar[data-hc] .display__toggle { order: 0; margin-left: 0; flex-basis: auto; }
-.topbar[data-compact] .display__toggle { margin-left: auto; }
-.topbar[data-hc] .display__toggle {
-  margin-right: calc((var(--hc-menu-w, 5.5rem) + 0.75rem) * clamp(0, calc((var(--hc, 0) - 0.3) / 0.7), 1));
+.topbar[data-hc]:not([data-compact]) nav > a,
+.topbar[data-hc]:not([data-compact]) nav > .navsub { text-decoration: none; }
+.topbar[data-hc]:not([data-compact]) .navsub { gap: 2px; padding-right: 0.55rem; }
+.topbar[data-hc]:not([data-compact]) .navsub > a { padding: 0; }
+.topbar[data-hc]:not([data-compact]) .navsub__toggle { color: var(--metal-2); }
+/* the page you are on: a brighter rim */
+.topbar[data-hc]:not([data-compact]) nav > a[aria-current="page"],
+.topbar[data-hc]:not([data-compact]) nav > .navsub:has(> a[aria-current]) {
+  box-shadow: 0 8px 22px rgb(0 0 0 / 0.28), inset 0 0 0 1px var(--metal-hi), inset 0 -1px 0 rgb(0 0 0 / 0.45);
 }
+.topbar[data-hc] .display__toggle { order: 0; margin: 0; flex-basis: auto; }
+
 .topbar[data-compact] nav {
   display: none;
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 6px);
   right: var(--gutter);
   z-index: 25;
   flex-direction: column;
@@ -1915,12 +1917,13 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   min-width: 15rem;
   max-width: calc(100vw - 2 * var(--s-4));
   border-radius: 14px;
-  background: color-mix(in srgb, var(--paper) 94%, transparent);
-  box-shadow: 0 18px 40px rgb(0 0 0 / 0.14), inset 0 0 0 1px var(--rule);
+  background: var(--paper);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.16), inset 0 0 0 1px var(--rule);
   font-size: 0.9375rem;
 }
 .topbar[data-compact][data-menu-open] nav { display: flex; }
 .topbar[data-compact] nav a { display: block; padding: 8px 4px; }
+.topbar[data-compact] nav .hc-ink { background: none; color: inherit; filter: none; }   /* plain words in the panel */
 .topbar[data-compact] .navsub { flex-wrap: wrap; }
 .topbar[data-compact] .navsub__list {
   position: static; flex-basis: 100%; min-width: 0; width: auto; max-width: none;
@@ -1929,45 +1932,12 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 .topbar[data-compact] .navsub__list::before { content: none; }
 .topbar[data-compact] .navsub__list a { padding: 6px 4px; font-size: 0.875rem; }
 
-/* the page's name, faint, behind the slim bar; with the section being read */
-.hc-ghost {
-  position: absolute; inset: 0 calc(var(--gutter) + 6rem);
-  display: flex; align-items: center; justify-content: center; gap: 1.25rem;
-  pointer-events: none; overflow: hidden; white-space: nowrap;
-  opacity: clamp(0, calc(var(--hc-name, 0) * 1.6 - 0.6), 1);
-}
-.hc-ghost__page {
-  overflow: hidden; text-overflow: ellipsis; min-width: 0;
-  font-family: var(--display); font-weight: 700; font-size: clamp(1.25rem, 2.6vw, 2rem); letter-spacing: -0.02em;
-  color: color-mix(in srgb, var(--ink) 9%, transparent);
-}
-.hc-ghost__sec {
-  flex: none; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: color-mix(in srgb, var(--ink) 22%, transparent);
-}
-.hc-ghost__sec:empty { display: none; }
-@media (max-width: 45em) {
-  .hc-ghost { inset: 0 calc(var(--gutter) + 5.5rem) 0 calc(var(--gutter) + 3.5rem); justify-content: flex-start; }
-  .hc-ghost__sec { display: none; }
-}
-
-/* the reading progress along the foot, notched at each section: Full only */
-.hc-progress { display: none; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; pointer-events: none;
-  opacity: var(--hc-name, 0); }
-.hc-progress__bar { position: absolute; inset: 0; transform-origin: 0 50%; transform: scaleX(0);
-  background: linear-gradient(90deg, var(--grad-1), var(--grad-3), var(--grad-2)); }
-.hc-notch { position: absolute; top: -3px; width: 2px; height: 8px; margin-left: -1px; border-radius: 1px;
-  background: color-mix(in srgb, var(--ink) 25%, transparent); }
-.hc-notch[data-on] { background: var(--accent); }
-:root[data-motion="full"] .hc-progress { display: block; }
-@media (prefers-reduced-motion: no-preference) { :root:not([data-motion]) .hc-progress { display: block; } }
-
-/* the glass buttons: Menu, Display, Back to top. Smoked glass with metallic teal lettering and rims
-   (Thomas, 2026-10-03: "smoked glass look - again with a gradient", "bolder and metallic"). The smoke
-   is dark on both themes, so the metal is the light teals on both; the --metal-* tokens are the same
-   in light and dark on purpose. On the smoke at its lightest (88% over the light page) every
-   lettering stop is 4.5:1 or better (#5CC7D1 4.6, #8CDDE4 5.9, #B5EEF2 7.1, #E8FBFC 8.5); the rims
-   and icons also use #3FB3BF (3.6:1, over the 3:1 a graphic needs). */
+/* the glass pills: Menu, Display, Back to top, and the nav's links at the top of a wide page.
+   Smoked glass with metallic teal lettering and rims (Thomas, 2026-10-03: "smoked glass look - again
+   with a gradient", "bolder and metallic"). The smoke is dark on both themes, so the metal is the light
+   teals on both; the --metal-* tokens are the same in light and dark on purpose. On the smoke at its
+   lightest (88% over the light page) every lettering stop is 4.5:1 or better (#5CC7D1 4.6, #8CDDE4 5.9,
+   #B5EEF2 7.1, #E8FBFC 8.5); the rims and icons also use #3FB3BF (3.6:1, over the 3:1 a graphic needs). */
 :root {
   --metal-lo:   #3FB3BF;
   --metal-1:    #5CC7D1;
@@ -1977,7 +1947,9 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   --smoke-1:    rgb(38 50 56 / 0.88);
   --smoke-2:    rgb(6 26 30 / 0.88);
 }
-.glassbtn {
+.glassbtn,
+.topbar[data-hc]:not([data-compact]) nav > a,
+.topbar[data-hc]:not([data-compact]) nav > .navsub {
   position: relative;
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   height: 2.5rem; min-width: 2.5rem; padding: 0 1.1rem;
@@ -1989,7 +1961,9 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   box-shadow: 0 8px 22px rgb(0 0 0 / 0.28), inset 0 1px 0 rgb(255 255 255 / 0.22), inset 0 -1px 0 rgb(0 0 0 / 0.45);
   font-family: var(--display); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
 }
-.glassbtn::before {                               /* the rim: brushed metal, its highlight turning with the drift */
+.glassbtn::before,
+.topbar[data-hc]:not([data-compact]) nav > a::before,
+.topbar[data-hc]:not([data-compact]) nav > .navsub::before {   /* the rim: brushed metal, its highlight turning with the drift */
   content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; pointer-events: none;
   background: conic-gradient(from var(--spc-a), var(--metal-lo), var(--metal-hi) 12%, var(--metal-1) 25%,
     var(--metal-lo) 45%, var(--metal-3) 60%, var(--metal-hi) 66%, var(--metal-1) 80%, var(--metal-lo));
@@ -1998,8 +1972,11 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   mask-composite: exclude;
 }
 .glassbtn--icon { width: 2.5rem; padding: 0; }
-.glassbtn:hover { background: linear-gradient(160deg, rgb(52 68 76 / 0.9), rgb(10 40 46 / 0.9)); }
+.glassbtn:hover,
+.topbar[data-hc]:not([data-compact]) nav > a:hover,
+.topbar[data-hc]:not([data-compact]) nav > .navsub:hover { background: linear-gradient(160deg, rgb(52 68 76 / 0.9), rgb(10 40 46 / 0.9)); }
 .glassbtn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-offset: 3px; }
+.topbar[data-hc]:not([data-compact]) nav a:focus-visible { outline: var(--focus-w) solid var(--accent); outline-offset: 3px; border-radius: 999px; }
 .topbar .display__toggle.glassbtn:focus-visible { border-radius: 999px; }
 .hc-ink {                                          /* metallic lettering: a hard band, like polished metal */
   background:
@@ -2027,21 +2004,90 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 
-/* Menu: on the right, revealed as the nav folds; it leans (header.js sets --rx, --ry) and wobbles */
+/* the page's name, faint, behind the header once the page scrolls; with the section being read */
+.hc-ghost {
+  position: absolute; inset: 0 calc(var(--gutter) + 12rem) 0 calc(var(--gutter) + 9rem);
+  display: flex; align-items: center; justify-content: center; gap: 1.25rem;
+  pointer-events: none; overflow: hidden; white-space: nowrap;
+  opacity: clamp(0, calc(var(--hc-name, 0) * 1.6 - 0.6), 1);
+}
+.hc-ghost__page {
+  overflow: hidden; text-overflow: ellipsis; min-width: 0;
+  font-family: var(--display); font-weight: 700; font-size: clamp(1.25rem, 2.6vw, 2rem); letter-spacing: -0.02em;
+  color: color-mix(in srgb, var(--ink) 9%, transparent);
+}
+.hc-ghost__sec {
+  flex: none; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 22%, transparent);
+}
+.hc-ghost__sec:empty { display: none; }
+@media (max-width: 45em) {
+  .hc-ghost { inset: 0 calc(var(--gutter) + 8.5rem) 0 calc(var(--gutter) + 3.5rem); justify-content: flex-start; }
+  .hc-ghost__sec { display: none; }
+}
+
+/* Menu: left of Display, where the pills fold to; it leans (header.js sets --rx, --ry) and wobbles.
+   It keeps its place in the row (so nothing jumps) but has no width until the bar folds. */
 .hc-menu { display: none; }
 .topbar[data-hc] .hc-menu {
   display: inline-flex;
-  position: absolute; right: var(--gutter); top: 50%; margin-top: -1.25rem;
   view-transition-name: tb-menu;
   opacity: clamp(0, calc((var(--hc, 0) - 0.3) / 0.7), 1);
   scale: calc(0.7 + 0.3 * clamp(0, calc((var(--hc, 0) - 0.3) / 0.7), 1));
   transform: perspective(240px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
 }
-.topbar[data-hc]:not([data-compact]) .hc-menu { pointer-events: none; }
-.hc-menu__face { display: inline-flex; }
+.topbar[data-hc]:not([data-compact]) .hc-menu { position: absolute; right: calc(var(--gutter) + 2.5rem + 10px); pointer-events: none; }
 @keyframes hc-wobble {
   0%, 84%, 100% { rotate: 0deg; }
   87% { rotate: -6deg; } 90% { rotate: 5deg; } 93% { rotate: -3deg; } 96% { rotate: 1.5deg; }
+}
+
+/* The slab: a 3D bar under the folded header (Thomas, 2026-10-03: "it does need box for the shrunken
+   header", "a 3D rectangular bar with the buttons/menu on it and have it face the cursor", "like it is in
+   sunshine/moonshine"). It fades in with the fold, has an edge and a shadow for its depth, and under Full
+   turns a few degrees to face the pointer (or with a phone's tilt; header.js sets --bx, --by), its light
+   (--lx, --ly) sliding as it turns: warm sun on the light theme, cool moon on the dark. */
+:root {
+  --slab:       #F2F6F7;
+  --slab-edge:  #BFCBD0;
+  --slab-rim:   rgb(255 255 255 / 0.95);
+  --slab-shine: rgb(255 243 214 / 0.95);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --slab: #141C23; --slab-edge: #030507; --slab-rim: rgb(255 255 255 / 0.12); --slab-shine: rgb(190 222 255 / 0.20);
+  }
+}
+:root[data-theme="dark"] {
+  --slab: #141C23; --slab-edge: #030507; --slab-rim: rgb(255 255 255 / 0.12); --slab-shine: rgb(190 222 255 / 0.20);
+}
+.topbar[data-hc] { perspective: 1400px; }
+.topbar[data-hc] .topbar__inner {
+  isolation: isolate;
+  transform: rotateX(var(--bx, 0deg)) rotateY(var(--by, 0deg));
+}
+.topbar[data-hc] .topbar__inner::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  inset: 6px calc(var(--gutter) - 14px); border-radius: 3px;   /* square tube: sharp edges (Thomas, 2026-10-03) */
+  opacity: clamp(0, calc((var(--hc, 0) - 0.3) / 0.7), 1);
+  background:
+    radial-gradient(120% 260% at var(--lx, 35%) var(--ly, -20%), var(--slab-shine), transparent 58%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--slab), white 22%) 0, color-mix(in srgb, var(--slab), white 22%) 3px,   /* the top face, catching the light */
+      color-mix(in srgb, var(--slab), white 8%) 4px, var(--slab) 55%,                                  /* the front face */
+      color-mix(in srgb, var(--slab), black 10%) calc(100% - 4px), color-mix(in srgb, var(--slab), black 22%) 100%);  /* turning under */
+  box-shadow:
+    inset 0 1px 0 var(--slab-rim), inset 1px 0 0 var(--slab-rim), inset -1px 0 0 color-mix(in srgb, var(--slab-edge), transparent 40%),
+    0 2px 0 var(--slab-edge), 0 4px 0 var(--slab-edge), 0 6px 0 color-mix(in srgb, var(--slab-edge), black 25%),   /* the tube's depth */
+    0 7px 0 color-mix(in srgb, var(--slab-edge), black 45%),
+    0 22px 34px -10px rgb(0 0 0 / 0.42);
+}
+:root[data-contrast="more"] .topbar[data-hc] .topbar__inner::before { background: var(--paper); box-shadow: inset 0 0 0 2px var(--rule); }
+@media (prefers-contrast: more) {
+  :root:not([data-contrast]) .topbar[data-hc] .topbar__inner::before { background: var(--paper); box-shadow: inset 0 0 0 2px var(--rule); }
+}
+@media (forced-colors: active) {
+  .topbar[data-hc] .topbar__inner::before { background: Canvas; box-shadow: none; border: 1px solid CanvasText; }
 }
 
 /* Back to top: bottom left, once the page has scrolled a screen */
@@ -2055,7 +2101,7 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 .hc-top[data-show] { opacity: 1; translate: 0 0; visibility: visible; pointer-events: auto; transition-delay: 0s; }
 
 /* the drift and the wobble: Full only */
-:root[data-motion="full"] .glassbtn::before, :root[data-motion="full"] .hc-icon {
+:root[data-motion="full"] :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before, :root[data-motion="full"] .hc-icon {
   animation: spc-a 53s ease-in-out infinite;
 }
 :root[data-motion="full"] .hc-ink, :root[data-motion="full"] .wordmark {
@@ -2063,7 +2109,7 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 }
 :root[data-motion="full"] .topbar[data-compact] .hc-menu { animation: hc-wobble 6.5s ease-in-out 2s infinite; }
 @media (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion]) .glassbtn::before, :root:not([data-motion]) .hc-icon {
+  :root:not([data-motion]) :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before, :root:not([data-motion]) .hc-icon {
     animation: spc-a 53s ease-in-out infinite;
   }
   :root:not([data-motion]) .hc-ink, :root:not([data-motion]) .wordmark {
@@ -2073,32 +2119,30 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 }
 
 /* Contrast More: solid, no glass, no gradient. Forced colours: the system's own. */
-:root[data-contrast="more"] .glassbtn, :root[data-contrast="more"] .topbar[data-compact] nav,
-:root[data-contrast="more"] .topbar[data-hc] {
-  background: var(--paper); -webkit-backdrop-filter: none; backdrop-filter: none;
+:root[data-contrast="more"] :is(.glassbtn, .topbar[data-hc]:not([data-compact]) nav > a, .topbar[data-hc]:not([data-compact]) nav > .navsub) {
+  background: #0C0F14; -webkit-backdrop-filter: none; backdrop-filter: none;
 }
-:root[data-contrast="more"] .glassbtn { background: #0C0F14; }
-:root[data-contrast="more"] .glassbtn::before { background: var(--metal-3); }
+:root[data-contrast="more"] .topbar[data-compact] nav { background: var(--paper); }
+:root[data-contrast="more"] :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before { background: var(--metal-3); }
 :root[data-contrast="more"] .hc-ink { background: none; color: var(--metal-3); filter: none; }
+:root[data-contrast="more"] .topbar[data-compact] nav .hc-ink { color: inherit; }
 :root[data-contrast="more"] .wordmark { background: none; color: var(--accent); }
 :root[data-contrast="more"] .hc-icon { background: var(--metal-3); filter: none; }
 @media (prefers-contrast: more) {
-  :root:not([data-contrast]) .glassbtn, :root:not([data-contrast]) .topbar[data-compact] nav,
-  :root:not([data-contrast]) .topbar[data-hc] {
-    background: var(--paper); -webkit-backdrop-filter: none; backdrop-filter: none;
+  :root:not([data-contrast]) :is(.glassbtn, .topbar[data-hc]:not([data-compact]) nav > a, .topbar[data-hc]:not([data-compact]) nav > .navsub) {
+    background: #0C0F14; -webkit-backdrop-filter: none; backdrop-filter: none;
   }
-  :root:not([data-contrast]) .glassbtn { background: #0C0F14; }
-  :root:not([data-contrast]) .glassbtn::before { background: var(--metal-3); }
+  :root:not([data-contrast]) .topbar[data-compact] nav { background: var(--paper); }
+  :root:not([data-contrast]) :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before { background: var(--metal-3); }
   :root:not([data-contrast]) .hc-ink { background: none; color: var(--metal-3); filter: none; }
+  :root:not([data-contrast]) .topbar[data-compact] nav .hc-ink { color: inherit; }
   :root:not([data-contrast]) .wordmark { background: none; color: var(--accent); }
   :root:not([data-contrast]) .hc-icon { background: var(--metal-3); filter: none; }
 }
 @media (forced-colors: active) {
-  .glassbtn { border: 1px solid ButtonText; }
-  .glassbtn::before { content: none; }
-  .glassbtn { background: ButtonFace; }
+  .glassbtn, .topbar[data-hc] nav > a, .topbar[data-hc] nav > .navsub { background: ButtonFace; border: 1px solid ButtonText; }
+  :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before { content: none; }
   .hc-ink { background: none; color: ButtonText; filter: none; }
   .wordmark { background: none; color: LinkText; }
   .hc-icon { forced-color-adjust: none; background: ButtonText; filter: none; }
-  .hc-progress { display: none !important; }
 }

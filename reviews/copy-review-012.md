@@ -135,3 +135,33 @@ weights exist only live, so no local run could have caught it.
 | TH3d | "Measured on 3 October 2026, each page’s own files download in between about 200 kB and 780 kB, …" | "Measured on 3 October 2026, each page’s own files download in between about 220 kB and 790 kB, …" |
 
 **Ruled 2026-10-03.** Thomas, verbatim: **"TH3d yes, ship it and merge when checks pass"**.
+
+## The second form (2026-10-03, branch `header-pills`)
+
+Thomas, verbatim, in order:
+1. "see how thomas cheesman collapsed? also, i don't want a divider or fill for the header - my header is my
+   name/monogram, the menu pill then the accessibility buttons only - It's unusual I think? move the
+   accessibilty button to the right of the menu button. In the non-collapsed header all the menu items should
+   be in matching pill buttons"
+2. "keep the faint page name, drop the progress line"
+3. "1 - it does need  box for the shrunken header because there is too much awkward interference naked. the
+   menu button directly on legible text or pics is a bad idea lol. Can the header be a 3D rectangular bar with
+   the buttons/menu on it and have it face the cursor. The surface of the rectangular bar can look like a light
+   shines on it, like it is in sunshine/moonshine."
+4. "the look is getting there, i want sharper edges and make it more like a square tubular rectangular bar,
+   open the PR and merge it when checks pass"
+
+**Built:**
+- **The name at rest** flows as ordinary text, keeping the font's spacing. Before, each letter was a box,
+  measured before the font loaded, so the name drew crowded. It becomes boxes only while it folds, and is
+  measured once the fonts are ready.
+- **No fill and no rule** at the top of the page. The plain no-script bar lost its rule too.
+- **At the top of a wide page:** Projects (its arrow inside), Method, Background and Contact as smoked metallic
+  pills, then Display. Where the four don't fit beside the name, the folded form shows from the start.
+- **Folded:** TC, then Menu, then Display at the far right, on the **slab**.
+- **The slab:** a square-section bar with sharp corners, a lit top face and a shaded bottom with depth. Under
+  Full it turns a few degrees to face the pointer, or with a phone's tilt. Its light slides as it turns: warm
+  sun on the light theme, cool moon on the dark. Reduced and Off: flat and still. Contrast More: plain and
+  solid.
+- **Kept:** the faint page name, with the section being read. **Dropped:** the progress line.
+- **The Menu panel** is solid.
