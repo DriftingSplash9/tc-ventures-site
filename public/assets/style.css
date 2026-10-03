@@ -267,7 +267,8 @@
   animation-duration: calc(0.35s * var(--move));
   animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-::view-transition-group(cs-title), ::view-transition-old(cs-title), ::view-transition-new(cs-title) {
+::view-transition-group(cs-title), ::view-transition-old(cs-title), ::view-transition-new(cs-title),
+::view-transition-group(cs-pic), ::view-transition-old(cs-pic), ::view-transition-new(cs-pic) {   /* SP-B: the picture carried from /projects */
   animation-duration: calc(0.5s * var(--move));
   animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
 }

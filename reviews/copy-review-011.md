@@ -147,6 +147,53 @@ the look OK, SPA1 OK, SPA2 OK; and merge #59 (merged by the agent at his word).
 
 ---
 
+## SP-B — built, for Thomas to rule (2026-10-02, branch `sp-b-carry`)
+
+**What it does:** under Full, the picture carries across the change of page:
+- from `/projects` into the case study's opener, by any link to it;
+- and back again with the browser's Back.
+
+`prefs.js` names the two `cs-pic`, only when the picture is on screen, and reads the other page from the
+Navigation API. Under Reduced the page only cross-fades, and Off skips the transition, as M1 does.
+
+**`/projects` gains three pictures** (Q-SP3 A), each after its build's paragraph in "And four live sites":
+- Bare Your Rare's excerpt;
+- the GPRS home page;
+- this site's home page.
+
+Each picture's alt text is the case study's own ruled alt text, word for word, and the excerpt's code is
+copied as is.
+
+**The look:** `Claude outputs/sp-b/`:
+- `sp-b-light.webm` and `sp-b-dark.webm`: all six, from `/projects` and back, under Full, 1280 wide;
+- stills of the new section at 1280 and 375, in both themes.
+
+**Checks, local:**
+- A probe of each page change, under Full, Reduced and Off, at 1280 and 375. Every case passes, and both
+  controls carry nothing: `/projects` → `/method`, and one case study to another.
+- `site_check.py` 235 of 235.
+- `shots_diff.py` against `main`: only `/projects` differs (44 of 48 pairs identical).
+- `budget.py` 46 of 48: the two ceilings below.
+
+**New captions, for ruling:**
+
+| # | Where | Proposed |
+|---|---|---|
+| SPB1 | `/projects`, under Bare Your Rare's excerpt | "Part of the structured data `/hcs-guide/` serves, verbatim, trimmed. “…” marks what was left out." (the case study's caption without its "to the fields named below") |
+| SPB2 | `/projects`, under the GPRS picture | "The society’s home page." |
+| SPB3 | `/projects`, under this site's picture | "This site’s home page." |
+
+**Two ceilings, for ruling** (Q-P4-8 A: the measured weight plus 10%, rounded up to the next 10 kB):
+
+| # | Page | Now | Measured | Proposed | Why |
+|---|---|---|---|---|---|
+| SPB-C1 | `/projects` | 720 kB | 829 kB | **920 kB** | the three pictures (Q-SP3 A said a ceiling would come) |
+| SPB-C2 | `/work/this-site` | 400 kB | just over 400 kB | **450 kB** | `prefs.js` is about 1.5 kB larger on every page; this page sat at 398 of 400 |
+
+**Q-SPB:** the look OK / FIX, SPB1 to SPB3 OK / FIX, SPB-C1 and SPB-C2 OK.
+
+---
+
 ## Also for ruling: PW3 after the hero (copy-review-010, cleanup item 4)
 
 `budget.py --live`, 2026-10-02, after #54 (`22e1abb`): every page's own files are **203 kB to 601 kB on
