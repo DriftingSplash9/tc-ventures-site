@@ -492,3 +492,17 @@ out, item 10 the three in. Read as LG35 OK as drafted, INFRA-6, INFRA-19 and INF
 DESIGN-8 and DESIGN-9 in. Set in `ledger/curation.json` and exported: column 034. `--check` failed before the
 export (the control) and passes after; `--report --draft` shows no DOUBT. `quote_check.py --ledger` 82 of 82
 verbatim, 82 of 82 controls failed. Local `site_check.py` 235 of 235, `budget.py` 48 of 48.
+
+## LG36 — handoff-035's line (drafted 2026-10-03, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG36 | 035 · 2026-10-03 | The case studies now open on their own pictures, which carry across from the Projects page, and their section numbers drift in teal. I ruled each look, asked for the gradient, and set two weight ceilings. | "1-3 yes, merge 59"; "give it a teal gradient that gently moves seemingly randomly?"; "1-2 yes, open the PR and merge it"; "go ahead and increase the ceilings by 25% instead of ~10%" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 034 until this is ruled.
+`ledger/traps.json` already holds handoff-035's traps.
+
+**With the column, the curation's `parked` changes:**
+- out: C-27 and DESIGN-9, both closed in 035 (a closed thread draws closed either way);
+- in, proposed: INFRA-22 (Cloudflare's failed builds, watched) and INFRA-23 (PW3's range in code, his call),
+  each waiting on Thomas. Drawn dotted if parked, solid if not: his call with LG36.
