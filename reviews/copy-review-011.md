@@ -249,6 +249,21 @@ merge SP-C's PR (merged by the agent at his word, once the checks passed).
 
 ---
 
+## TH3c — PW3 after SP-B (2026-10-03)
+
+SP-B's three pictures took `/projects` to 774 kB on the wire (`budget.py --live`, 2026-10-03, `main` at
+`f6c4710`; the lightest page is 205 kB), so PW3's "between about 200 kB and 600 kB" was untrue from #61. The
+agent's miss: SP-B should have shipped with this fix.
+
+| # | Now | Proposed |
+|---|---|---|
+| TH3c | "Measured on 2 October 2026, each page’s own files download in between about 200 kB and 600 kB, …" | "Measured on 3 October 2026, each page’s own files download in between about 200 kB and 780 kB, …" |
+
+**Ruled 2026-10-03.** Thomas, verbatim: **"TH3c yes, ship it and merge"**. Read as TH3c OK; ship and merge
+(merged by the agent at his word).
+
+---
+
 ## Also for ruling: PW3 after the hero (copy-review-010, cleanup item 4)
 
 `budget.py --live`, 2026-10-02, after #54 (`22e1abb`): every page's own files are **203 kB to 601 kB on
