@@ -226,6 +226,27 @@ against `main`: only the six case studies and `/method` differ (20 of 48 pairs i
 
 **Q-SPC:** the look OK / FIX; `/method` included OK / leave it as it was.
 
+**Thomas, 2026-10-02, verbatim:** "i like the new look but can we take it up a few notches and give it a teal
+gradient that gently moves seemingly randomly?" Read as a FIX to the look: larger numerals, and a drifting teal
+gradient on them. Built:
+- **The numerals are larger:** up to 7.5rem, from 4.75rem.
+- **The gradient:** a light patch drifts over a slow sweep of darker teals. It's driven by three properties on
+  loops of 23, 37 and 53 seconds, so it doesn't visibly repeat, and each section starts at a different point.
+- **Readable on both grounds:** every gradient colour is 3:1 or better on its ground, the minimum for large
+  text. Light: `#0A464F` 10.2, `#0F5F6B` 7.1, `#17979F` 3.4. Dark: `#1E8C97` 4.8, `#5CC7D1` 9.6, `#B5EEF2` 15.1.
+- **Settings:** it moves under Full and System; it's still under Reduced, Off and the OS's reduce-motion.
+  Contrast More shows the solid teal, and Windows high contrast the system text colour.
+- **The first cut moved too fast** (loops of 11, 17 and 29 s: the patch crossed 60% of a numeral in 1.5 s).
+  A probe found it, and it was slowed before recording.
+- **The look:** `sp-c-gradient-light.webm` and `sp-c-gradient-dark.webm`, a held view of two section heads
+  under Full; still phone shots `gprs-gradient-375-*.png`.
+
+**Q-SPC2:** the gradient OK / FIX.
+
+**Ruled 2026-10-02.** Thomas, verbatim: **"1-2 yes, open the PR and merge it"**, where 1 was the gradient (Q-SPC2)
+and 2 was `/method` included (Q-SPC). Read as: the look with the gradient OK, `/method` included, and open and
+merge SP-C's PR (merged by the agent at his word, once the checks passed).
+
 ---
 
 ## Also for ruling: PW3 after the hero (copy-review-010, cleanup item 4)

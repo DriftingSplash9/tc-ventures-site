@@ -93,6 +93,9 @@
   --rule:       #E2E6EB;
   --accent:     #0F5F6B;
   --accent-ink: #0A464F;
+  --grad-1:     #0A464F;                        /* the section numerals' gradient (SP-C): */
+  --grad-2:     #0F5F6B;                        /* 10.2, 7.1 and 3.4:1 on --paper */
+  --grad-3:     #17979F;
 
   /* Contrast More (copy-review-007): the colours short of 7:1 for text or 3:1
      for rules, each moved toward the ink until it passes on both grounds. */
@@ -168,6 +171,9 @@
   --dark-rule:       #222A34;
   --dark-accent:     #5CC7D1;
   --dark-accent-ink: #8CDDE4;
+  --dark-grad-1:     #1E8C97;                   /* 4.8, 9.6 and 15.1:1 on --dark-paper */
+  --dark-grad-2:     #5CC7D1;
+  --dark-grad-3:     #B5EEF2;
   --dark-muted-more: #99A3B1;
   --dark-rule-more:  #60666F;
 }
@@ -181,6 +187,9 @@
     --rule:       var(--dark-rule);
     --accent:     var(--dark-accent);
     --accent-ink: var(--dark-accent-ink);
+    --grad-1: var(--dark-grad-1);
+    --grad-2: var(--dark-grad-2);
+    --grad-3: var(--dark-grad-3);
     --muted-more: var(--dark-muted-more);
     --accent-more: var(--dark-accent);
     --rule-more:  var(--dark-rule-more);
@@ -196,6 +205,9 @@
   --rule:       var(--dark-rule);
   --accent:     var(--dark-accent);
   --accent-ink: var(--dark-accent-ink);
+  --grad-1: var(--dark-grad-1);
+  --grad-2: var(--dark-grad-2);
+  --grad-3: var(--dark-grad-3);
   --muted-more: var(--dark-muted-more);
   --accent-more: var(--dark-accent);
   --rule-more:  var(--dark-rule-more);
@@ -1246,11 +1258,56 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 .cs-section__num::before {
   content: counter(cs-sec, decimal-leading-zero);
   font-family: var(--display);
-  font-size: clamp(3rem, 7vw, 4.75rem);
+  font-size: clamp(4rem, 11vw, 7.5rem);
   font-weight: 700;
-  line-height: 0.85;
-  letter-spacing: -0.04em;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
   color: var(--accent);
+}
+
+/* The numerals' teal gradient (Thomas, 2026-10-02: "take it up a few notches and give it a teal
+   gradient that gently moves seemingly randomly"). A light patch (--grad-3) drifts over a slow
+   linear sweep (--grad-1 to --grad-2); three registered properties, each on its own loop of a
+   different length (23s, 37s, 53s), so the drift doesn't visibly repeat, and each section starts
+   at a different point. Every --grad colour is 3:1 or better on its ground (large text).
+   Moving under Full (and System without the OS's reduce-motion); still under Reduced and Off.
+   Contrast More and forced colours: the solid accent, no gradient. */
+@property --spc-x { syntax: "<percentage>"; inherits: false; initial-value: 30%; }
+@property --spc-y { syntax: "<percentage>"; inherits: false; initial-value: 40%; }
+@property --spc-a { syntax: "<angle>"; inherits: false; initial-value: 135deg; }
+@keyframes spc-x { 0% { --spc-x: 10%; } 23% { --spc-x: 85%; } 51% { --spc-x: 35%; } 78% { --spc-x: 95%; } 100% { --spc-x: 10%; } }
+@keyframes spc-y { 0% { --spc-y: 20%; } 37% { --spc-y: 90%; } 64% { --spc-y: 5%; } 100% { --spc-y: 20%; } }
+@keyframes spc-a { 0% { --spc-a: 110deg; } 41% { --spc-a: 250deg; } 70% { --spc-a: 160deg; } 100% { --spc-a: 110deg; } }
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .cs-section__num::before {
+    background:
+      radial-gradient(circle at var(--spc-x) var(--spc-y), var(--grad-3), transparent 60%),
+      linear-gradient(var(--spc-a), var(--grad-1), var(--grad-2) 55%, var(--grad-1));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 0.06em;                     /* room for descending ink inside the clip */
+  }
+  :root[data-motion="full"] .cs-section__num::before {
+    animation: spc-x 23s ease-in-out infinite, spc-y 37s ease-in-out infinite, spc-a 53s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :root:not([data-motion]) .cs-section__num::before {
+      animation: spc-x 23s ease-in-out infinite, spc-y 37s ease-in-out infinite, spc-a 53s ease-in-out infinite;
+    }
+  }
+  .cs-section:nth-of-type(2) .cs-section__num::before { animation-delay: -9s, -19s, -27s; }
+  .cs-section:nth-of-type(3) .cs-section__num::before { animation-delay: -17s, -4s, -44s; }
+  .cs-section:nth-of-type(4) .cs-section__num::before { animation-delay: -2s, -29s, -12s; }
+  .cs-section:nth-of-type(5) .cs-section__num::before { animation-delay: -13s, -11s, -51s; }
+  .cs-section:nth-of-type(6) .cs-section__num::before { animation-delay: -21s, -23s, -35s; }
+  :root[data-contrast="more"] .cs-section__num::before { background: none; color: var(--accent); animation: none; }
+  @media (prefers-contrast: more) {
+    :root:not([data-contrast]) .cs-section__num::before { background: none; color: var(--accent); animation: none; }
+  }
+  @media (forced-colors: active) {
+    .cs-section__num::before { background: none; color: CanvasText; animation: none; }
+  }
 }
 
 @keyframes cs-fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
