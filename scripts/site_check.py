@@ -385,6 +385,9 @@ def main():
             page = ctx.new_page(); page.goto(base + path, wait_until="networkidle")
             sw = page.evaluate("[document.documentElement.scrollWidth, document.documentElement.clientWidth]")
             check(f"{path}: no sideways scroll at 375px", sw[0] <= sw[1], f"{sw}")
+            # Since the collapsing header (copy-review-012) a phone's nav sits behind Menu: open it first.
+            if page.locator(".topbar[data-compact] .hc-menu").count():
+                page.locator(".hc-menu").click(); page.wait_for_timeout(300)
             page.locator(".navsub__toggle").click(); page.wait_for_timeout(400)
             opened = page.locator(".navsub__toggle").get_attribute("aria-expanded") == "true"
             check(f"{path}: a click opens the sub-menu at 375px", opened)
@@ -407,6 +410,8 @@ def main():
                 cdp.send("Page.setFontSizes", {"fontSizes": {"standard": 32, "fixed": 26}})
                 page.goto(base + path, wait_until="networkidle")
                 big[f"{w}"] = page.evaluate(widths)
+                if page.locator(".topbar[data-compact] .hc-menu").count():   # 200% text: the compact bar
+                    page.locator(".hc-menu").click(); page.wait_for_timeout(300)
                 page.locator(".navsub__toggle").click(); page.wait_for_timeout(400)
                 big[f"{w} menu open"] = page.evaluate(widths)
                 ctx.close()
