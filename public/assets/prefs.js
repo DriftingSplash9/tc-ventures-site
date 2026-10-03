@@ -51,6 +51,15 @@
     setTimeout(function () { root.removeAttribute('data-lg-wait'); }, 3000);
   }
 
+  /* The opener's starting pose (SP-A, opener.js). On a case study under Full, this marks <html>
+     before the first paint, and style.css draws the opening picture zoomed and the meta strip
+     lowered, where opener.js will start them, so nothing jumps when it arrives. opener.js sets
+     the mark to "on" once it has taken over; if it hasn't after 3 s, the mark lifts here. */
+  if (window.tcvMotion() === 'full' && /^\/work\/[\w-]+(\.html)?$/.test(location.pathname)) {
+    root.setAttribute('data-opener', '');
+    setTimeout(function () { if (root.getAttribute('data-opener') === '') root.removeAttribute('data-opener'); }, 3000);
+  }
+
   /* The 3D hero (copy-review-010). On the home page, where WebGL2 and modules
      exist, this marks <html> before the first paint, and style.css hides the SVG
      pictures so they don't show and then vanish. ledger-scene.js sets the mark to
@@ -98,16 +107,30 @@
     try { return new URL(u, location.href).pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/'; }
     catch (x) { return ''; }
   }
-  function carried(other) {
+  function carried(other, arriving) {
     var here = where(location.href), el = null;
     if (!other) return null;
     if (here === '/projects' && /^\/work\/[\w-]+$/.test(other)) el = document.querySelector('[data-carry="' + other + '"]');
     else if (/^\/work\//.test(here) && other === '/projects') el = document.querySelector('.cs-opener__frame');
     if (!el) return null;
+    /* Back (or Forward) to /projects: when the page is revealed the browser hasn't yet put back
+       its scroll position, so the picture isn't on screen. Bring the build's picture to the
+       middle of the screen first, where the reader left it, so it can carry. */
+    if (arriving && here === '/projects' && navigation.activation.navigationType === 'traverse') {
+      history.scrollRestoration = 'manual';
+      el.scrollIntoView({ block: 'center', behavior: 'instant' });
+    }
     var r = el.getBoundingClientRect();
     return r.bottom > 0 && r.top < innerHeight && r.width ? el : null;
   }
+  /* A change of page that starts while the last one's transition still runs (Back within 0.9 s)
+     cuts that transition short, and its "finished" clean-up would then wipe the names set for the
+     new change. Once a page swap has begun, that clean-up stands down. */
+  var swapping = false;
+  function tidy() { if (!swapping) unname(); }
+  window.addEventListener('pageshow', function () { swapping = false; });
   window.addEventListener('pageswap', function (e) {
+    swapping = true;
     if (!e.viewTransition) return;
     quiet(e.viewTransition);
     var m = window.tcvMotion();
@@ -116,7 +139,10 @@
     if (m !== 'full') return;
     if (clicked && clicked.getClientRects().length) clicked.style.viewTransitionName = 'cs-title';
     var pic = e.activation && e.activation.entry && carried(where(e.activation.entry.url));
-    if (pic) pic.style.viewTransitionName = 'cs-pic';
+    if (pic) {
+      pic.style.viewTransitionName = 'cs-pic';
+      if (e.viewTransition.types) e.viewTransition.types.add('carry');
+    }
   });
   window.addEventListener('pagereveal', function (e) {
     if (!e.viewTransition) return;
@@ -127,8 +153,11 @@
     var h1 = /^\/work\//.test(location.pathname) && document.querySelector('main h1');
     if (h1) h1.style.viewTransitionName = 'cs-title';
     var from = window.navigation && navigation.activation && navigation.activation.from;
-    var pic = from && carried(where(from.url));
-    if (pic) pic.style.viewTransitionName = 'cs-pic';
-    if (h1 || pic) e.viewTransition.finished.then(unname, unname);
+    var pic = from && carried(where(from.url), true);
+    if (pic) {
+      pic.style.viewTransitionName = 'cs-pic';
+      if (e.viewTransition.types) e.viewTransition.types.add('carry');
+    }
+    if (h1 || pic) e.viewTransition.finished.then(tidy, tidy);
   });
 })();

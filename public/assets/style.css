@@ -275,14 +275,25 @@
 ::view-transition-old(tb-display), ::view-transition-new(tb-display) {
   animation-duration: calc(0.25s * var(--fade));
 }
+/* Made visible 2026-10-03 (Thomas, "1-4 yes"; the 0.25 s cross-fade went unnoticed). The old
+   page sinks back and fades while the new one lifts into place, over 0.7 s. The moves are
+   multiplied by --move, so Reduced keeps a plain cross-fade, and Off has none. When a picture is
+   carried (SP-B, the 'carry' type set by prefs.js), the new page waits a beat behind it. */
+@keyframes vt-sink { to { opacity: 0; transform: translateY(calc(-16px * var(--move))) scale(calc(1 - 0.035 * var(--move))); } }
+@keyframes vt-lift { from { opacity: 0; transform: translateY(calc(56px * var(--move))); } }
+::view-transition-old(root) { animation: vt-sink calc(0.7s * var(--fade)) cubic-bezier(0.4, 0, 0.2, 1) both; }
+::view-transition-new(root) { animation: vt-lift calc(0.7s * var(--fade)) cubic-bezier(0.16, 1, 0.3, 1) both; }
+html:active-view-transition-type(carry)::view-transition-new(root) { animation-delay: calc(0.18s * var(--move)); }
 ::view-transition-group(tb-name), ::view-transition-group(tb-nav), ::view-transition-group(tb-display) {
-  animation-duration: calc(0.35s * var(--move));
-  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+  animation-duration: calc(0.6s * var(--move));
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
+/* the sub-menu label growing into the H1, and the picture carried from /projects (SP-B): 0.9 s,
+   a long ease-out, drawn above the page as it changes */
 ::view-transition-group(cs-title), ::view-transition-old(cs-title), ::view-transition-new(cs-title),
-::view-transition-group(cs-pic), ::view-transition-old(cs-pic), ::view-transition-new(cs-pic) {   /* SP-B: the picture carried from /projects */
-  animation-duration: calc(0.5s * var(--move));
-  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+::view-transition-group(cs-pic), ::view-transition-old(cs-pic), ::view-transition-new(cs-pic) {
+  animation-duration: calc(0.9s * var(--move));
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * { box-sizing: border-box; }
@@ -1101,9 +1112,12 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
    meta strip, the width of the wide lane (Q-SP1 A). It is Fig. 1: the figure
    counter starts at the main column, not at .cs-body. The frame clips the
    picture, so the settle below never widens the page.
-   Under Full only, as the page scrolls, the picture settles from slightly
-   larger and the meta strip rises in behind it: a scroll-driven animation,
-   no script. Reduced, Off and browsers without scroll timelines: still.
+   Under Full, as the page scrolls, the picture settles from 1.2 times its
+   size with a parallax drift and the meta strip rises in behind it, eased by
+   opener.js (made bigger 2026-10-03: the first, CSS-only version went
+   unnoticed, and a stepped mouse wheel made it jump). prefs.js sets the
+   starting pose before the first paint (data-opener). Reduced, Off, no script:
+   still.
    -------------------------------------------------------------------------- */
 
 .cs-layout__main { counter-reset: fig; }
@@ -1122,24 +1136,10 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 .excerpt.cs-opener figcaption { counter-increment: none; }
 .excerpt.cs-opener pre { font-size: clamp(0.95rem, 1.7vw, 1.2rem); padding: var(--s-5) var(--s-6); }
 
-@keyframes cs-settle { from { transform: scale(1.06); } to { transform: none; } }
-@keyframes cs-rise { from { transform: translateY(1.5rem); } to { transform: none; } }
-@supports (animation-timeline: scroll()) {
-  :root[data-motion="full"] .cs-opener__frame > * {
-    animation: cs-settle linear both; animation-timeline: scroll(root); animation-range: 0 50vh;
-  }
-  :root[data-motion="full"] .cs-opener ~ .cs-head__meta {
-    animation: cs-rise linear both; animation-timeline: scroll(root); animation-range: 0 40vh;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    :root:not([data-motion]) .cs-opener__frame > * {
-      animation: cs-settle linear both; animation-timeline: scroll(root); animation-range: 0 50vh;
-    }
-    :root:not([data-motion]) .cs-opener ~ .cs-head__meta {
-      animation: cs-rise linear both; animation-timeline: scroll(root); animation-range: 0 40vh;
-    }
-  }
-}
+.cs-opener__frame > * { transform-origin: 50% 50%; }
+:root[data-opener=""] .cs-opener__frame > * { transform: translateY(-6%) scale(1.2); }
+:root[data-opener=""] .excerpt.cs-opener .cs-opener__frame > * { transform: translateY(-2.4%) scale(1.08); }
+:root[data-opener=""] .cs-opener ~ .cs-head__meta { transform: translateY(32px); }
 
 /* status tag — a word, not a colour. */
 .tag {

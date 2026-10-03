@@ -713,12 +713,15 @@ def main():
                 .filter(a => a.effect && a.effect.pseudoElement)
                 .map(a => [a.effect.pseudoElement, a.effect.getComputedTiming().duration]))), () => put('skipped'));
           });"""
+        # The ruled times. Made visible 2026-10-03 (copy-review-011, "Motion made visible", "1-4 yes"):
+        # the title 500 -> 900 ms, the bar's parts 350 -> 600, the page 250 -> 700 (Reduced: the same
+        # cross-fade time, with no move).
         m1_want = {
-            "full": {"::view-transition-group(cs-title)": 500, "::view-transition-new(cs-title)": 500,
-                     "::view-transition-old(cs-title)": 500, "::view-transition-group(tb-name)": 350,
-                     "::view-transition-old(root)": 250, "::view-transition-new(root)": 250},
+            "full": {"::view-transition-group(cs-title)": 900, "::view-transition-new(cs-title)": 900,
+                     "::view-transition-old(cs-title)": 900, "::view-transition-group(tb-name)": 600,
+                     "::view-transition-old(root)": 700, "::view-transition-new(root)": 700},
             "reduced": {"::view-transition-group(cs-title)": None, "::view-transition-group(tb-name)": 0,
-                        "::view-transition-old(root)": 250, "::view-transition-new(root)": 250},
+                        "::view-transition-old(root)": 700, "::view-transition-new(root)": 700},
         }
         # Each case gets M1_TRIES changes of page (1 since DESIGN-5's fix): it passes on the first
         # transition that runs as ruled, and fails if one runs wrong or none runs at all. Off must show no
@@ -772,7 +775,7 @@ def main():
             page.locator("#navsub-work a[href='/work/gprs']").click()
             page.wait_for_url("**/work/gprs"); page.wait_for_timeout(1500)
             got = page.evaluate("JSON.parse(sessionStorage.getItem('vt') || 'null')")
-            late.append("ran" if isinstance(got, dict) and got.get("::view-transition-group(cs-title)") == 500 else str(got))
+            late.append("ran" if isinstance(got, dict) and got.get("::view-transition-group(cs-title)") == m1_want["full"]["::view-transition-group(cs-title)"] else str(got))
             ctx.close()
         check("motion M1: still runs when style.css arrives 300 ms late (DESIGN-5), every time",
               late == ["ran"] * 3, str(late))
