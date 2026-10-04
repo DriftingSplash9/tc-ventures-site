@@ -99,8 +99,9 @@ And the motion (copy-review-007, Phase 3 step 5):
     see-through with no width. And Menu has no animation (no wobble, Thomas, 2026-10-03)
   - paint (PAINT): the same states drawn by Playwright's Chromium and by the installed Google Chrome, at
     1280 with reduced motion: the header at rest and folded (light and dark), the pills, the Menu panel,
-    a section head and the home hero; and under Full (which it needs) the journey half-way, below the
-    header (whose metal drifts under Full). Each fails when more than PAINT_PIXELS pixels differ by more than
+    a section head and the home hero; and under Full (which it needs) the journey's line card, half-way
+    (the card alone: the eased camera can sit a hair apart in the two, and the scene is WebGL, which the home
+    hero's state already compares). Each fails when more than PAINT_PIXELS pixels differ by more than
     PAINT_CUT of 255 in a channel, and both pictures are saved for a look. Thomas's Chrome 154 drew the
     folded name with its fallen letters piled on the C (2026-10-03) while Chromium 147 drew it clean, so no
     other check here could see it. Calibrated that day: no pixel over 80 in any state on 5bffd55; 42 to 53
@@ -165,12 +166,18 @@ PAINT = [
     ("the Menu panel, dark", "/work/gprs", "dark", 1200, "MENU"),
     ("a section head, dark", "/work/gprs", "dark", None, "#standard"),
     ("the home hero, dark", "/", "dark", 0, ".hero--home"),
-    ("the journey half-way, dark", "/", "dark", 0.5, "JOURNEY"),
+    ("the journey's line card, dark", "/", "dark", 0.5, "JOURNEY"),
 ]
 PAINT_CUT, PAINT_PIXELS = 80, 10
 # The journey (TP-A): scroll the home page's runway to J (0 to 1), as ledger-scene.js measures it; and its state.
 JOURNEY_AT = """j => { const b = document.querySelector('.lg-runway').getBoundingClientRect(), vh = innerHeight;
   scrollTo(0, b.top + scrollY - vh * 0.5 + j * (b.height - vh * 0.5)); }"""
+# Under Playwright's software WebGL a frame can take most of a second, so the eased journey is waited for by what
+# it shows, not by the clock: the slider unchanged for 2 s (8 polls 250 ms apart), and for JOURNEY_CARD the card on.
+JOURNEY_STILL = """() => { const v = +document.getElementById('ledger-scrub').value;
+  if (window.__jv === v) return ++window.__jn >= 8; window.__jv = v; window.__jn = 0; return false; }"""
+JOURNEY_CARD = """() => { const v = +document.getElementById('ledger-scrub').value, on = !!document.querySelector('.lg-say[data-on]');
+  if (on && window.__jv === v) return ++window.__jn >= 8; window.__jv = v; window.__jn = 0; return false; }"""
 JOURNEY_STATE = """() => { const c = document.querySelector('.hero--home > .lg-scene'), s = document.querySelector('.lg-say');
   const i = document.getElementById('ledger-scrub'), at = document.querySelectorAll('.ledger__at')[+i.value - 1];
   return {top: c ? Math.round(c.getBoundingClientRect().top) : null, v: +i.value,
@@ -270,8 +277,9 @@ def paint_shot(browser, base, path, scheme, scroll, what):
             page.wait_for_function("document.documentElement.dataset.lgScene === 'on'", timeout=8000)
         if journey:
             page.wait_for_function("!!document.querySelector('.lg-runway')", timeout=8000)
-            page.evaluate(JOURNEY_AT, scroll); page.wait_for_timeout(3000)
-            return page.screenshot(clip={"x": 0, "y": 110, "width": 1280, "height": 790})
+            page.evaluate(JOURNEY_AT, scroll)
+            page.wait_for_function(JOURNEY_CARD, polling=250, timeout=20000)
+            return page.locator(".lg-say").screenshot()
         if scroll is not None:
             page.evaluate(f"window.scrollTo(0, {scroll})")
         page.wait_for_timeout(700)
@@ -1085,11 +1093,15 @@ def main():
         try:
             page.wait_for_function("document.documentElement.dataset.lgScene === 'on' && !!document.querySelector('.lg-runway')",
                                    timeout=15000)
-            states = []
-            for j in (0.5, 1.0):
-                page.evaluate(JOURNEY_AT, j); page.wait_for_timeout(2500); states.append(page.evaluate(JOURNEY_STATE))
-            page.evaluate("scrollTo(0, 0)"); page.wait_for_timeout(2500); states.append(page.evaluate(JOURNEY_STATE))
-            mid, end, back = states
+            def settle(still):
+                try:
+                    page.wait_for_function(still, polling=250, timeout=20000)
+                except Exception:
+                    pass                                        # the state read next says what it got to
+                return page.evaluate(JOURNEY_STATE)
+            page.evaluate(JOURNEY_AT, 0.5); mid = settle(JOURNEY_CARD)
+            page.evaluate(JOURNEY_AT, 1.0); end = settle(JOURNEY_STILL)
+            page.evaluate("scrollTo(0, 0)"); back = settle(JOURNEY_STILL)
             n = page.evaluate("+document.getElementById('ledger-scrub').max")
             ok = bool(mid["top"] == 0 and 1 < mid["v"] < n and mid["line"] and mid["say"].endswith(mid["line"])
                       and mid["hidden"] == "true" and end["v"] == n and back["v"] == n)
