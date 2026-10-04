@@ -529,7 +529,13 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 
 | # | Handoff | Line | Rests on |
 |---|---|---|---|
-| LG38 | 037 · 2026-10-03 | The folded header now sits on a square bar that turns to face the pointer, lit like sunshine or moonlight, and the menu items at the top of a page are pills. I asked for each change and ruled the look. | "keep the faint page name, drop the progress line"; "it does need  box for the shrunken header"; "i want sharper edges and make it more like a square tubular rectangular bar" |
+| LG38 | 037 · 2026-10-03 | The folded header now sits on a square bar that turns to face the pointer, lit like sunshine or moonlight, and the menu items at the top of a page are pills. I asked for each change and ruled the look. | "it does need  box for the shrunken header"; "i want sharper edges and make it more like a square tubular rectangular bar" |
 
 It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 036 until this is ruled.
 `ledger/traps.json` already holds handoff-037's traps. No change to `parked`.
+
+**Ruled 2026-10-03.** Thomas, verbatim: **"merge 73, LG38 yes"**. Read as LG38 OK, with the agent's
+proposed change to "Rests on": "keep the faint page name, drop the progress line" out, since the line doesn't
+rest on it. The pills and the sunshine/moonshine light rest on Thomas's words in copy-review-012, "The second
+form"; they can't be quoted here, because `quote_check.py --ledger` reads each row's own handoff, and
+handoff-037 doesn't hold them. Set in `ledger/curation.json` and exported: column 037.
