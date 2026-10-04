@@ -200,4 +200,28 @@ in Thomas's Chrome 154):
 
 **Ruled 2026-10-03.** Thomas, verbatim: **"merge 79, TP-A both A"**. Read as Q-TPA1 A (the pace as
 built) and Q-TPA2 A (the cards beside the gates). Then `site_check.py` gained the journey's two checks
-and its paint state (Full, half-way, below the header).
+and a paint state for its line card (under Full). Shipped in #80, live 2026-10-03; the first full runs found
+four faults, fixed in the same PR (the card on whole pixels; the checks' waits; the paint state narrowed to
+the card; the 3D hero's "holds still" given a cut).
+
+## TP-B — the prototype (built 2026-10-03, branch `tp-b`)
+
+**Built** (`display.js`, `style.css`; recording `Claude outputs/tp-b/display-1.webm`, in Thomas's Chrome 154):
+- **Under Motion Full,** each change in the Display panel shows itself, as one same-document view
+  transition: a new **theme** sweeps out from the Display button as a growing circle (0.75 s); **contrast**
+  wipes across from the right (0.6 s); a new **text size** zooms through (the old page eases up and out, the
+  new one settles in). While it runs `<html>` carries `data-vt`, and the bar's own transition names stand
+  down, so the whole page, header and all, changes as one.
+- **Under Reduced,** a cross-fade. **Under Off,** or in a browser without view transitions, at once, as before.
+- **The Motion row** carries a sample (aria-hidden): a short teal bar that runs under Full, breathes under
+  Reduced and holds still under Off.
+- **The panel** opens from the button (`@starting-style`: it fades, drops 8px and grows from 96%).
+- The choice is saved inside the change, since a view transition makes it a frame later.
+
+**Ruled 2026-10-03.** Thomas, verbatim: **"1 A, 2 A, 3 yes. /projects should have 100% more"**. Read as:
+- **Q-TPB1 A:** the sweep's pace as built. **Q-TPB2 A:** contrast wipes and text zooms, as built.
+- **3 yes:** PW3's sentence on `/work/this-site`, re-measured, comes as a copy review (TH3e) in TP-C's PR,
+  since TP-C's weight takes `/projects` past the sentence's 790 kB.
+- **"/projects should have 100% more":** open, put back to Thomas. PW3 is a dated measurement, not a ceiling,
+  so it can't hold headroom as written; the proposal is to reword it in TH3e as a limit the site keeps
+  ("under about N kB", with N the heaviest page's weight plus 100%), with its check changed to match.

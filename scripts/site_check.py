@@ -90,6 +90,10 @@ And the motion (copy-review-007, Phase 3 step 5):
     that closed later is drawn open, and one closed by then is not; its box keeps one height at every
     handoff, so nothing below it moves; with JavaScript off it doesn't show.
     It is written only once its label is ruled, so until then these fail.
+  - the Display panel's changes shown (TP-B, copy-review-013): on /work/gprs, choosing Dark, More and Larger
+    under Full starts one view transition each, marked sweep, wipe and zoom, with the bar's own transition
+    names stood down; under Reduced, three marked fade; under Off, none. Each lands, is saved, and leaves no
+    mark; the Motion row's sample (aria-hidden) runs under Full, breathes under Reduced, is still under Off
   - the journey (TP-A, copy-review-013): under Full at 1280, the home page's runway is there (aria-hidden);
     half-way down it the scene holds the screen (its top at 0), the slider stands part-way, and the card beside
     the gate carries the list's line for the slider's handoff; at its end, and back at the top, the slider is
@@ -99,7 +103,8 @@ And the motion (copy-review-007, Phase 3 step 5):
     see-through with no width. And Menu has no animation (no wobble, Thomas, 2026-10-03)
   - paint (PAINT): the same states drawn by Playwright's Chromium and by the installed Google Chrome, at
     1280 with reduced motion: the header at rest and folded (light and dark), the pills, the Menu panel,
-    a section head and the home hero; and under Full (which it needs) the journey's line card, half-way
+    a section head, the home hero, and the Display panel open (with Motion Off, so its sample holds still);
+    and under Full (which it needs) the journey's line card, half-way
     (the card alone: the eased camera can sit a hair apart in the two, and the scene is WebGL, which the home
     hero's state already compares). Each fails when more than PAINT_PIXELS pixels differ by more than
     PAINT_CUT of 255 in a channel, and both pictures are saved for a look. Thomas's Chrome 154 drew the
@@ -166,6 +171,7 @@ PAINT = [
     ("the Menu panel, dark", "/work/gprs", "dark", 1200, "MENU"),
     ("a section head, dark", "/work/gprs", "dark", None, "#standard"),
     ("the home hero, dark", "/", "dark", 0, ".hero--home"),
+    ("the Display panel open, light", "/work/gprs", "light", None, "DISPLAY"),
     ("the journey's line card, dark", "/", "dark", 0.5, "JOURNEY"),
 ]
 PAINT_CUT, PAINT_PIXELS = 80, 10
@@ -272,9 +278,14 @@ def paint_shot(browser, base, path, scheme, scroll, what):
     journey = what == "JOURNEY"
     ctx = browser.new_context(viewport={"width": 1280, "height": 900}, color_scheme=scheme,
                               **({} if journey else {"reduced_motion": "reduce"}))
+    if what == "DISPLAY":                                       # Off: the panel's sample holds still
+        ctx.add_init_script("localStorage.setItem('tcv-display', JSON.stringify({motion: 'off'}))")
     try:
         page = ctx.new_page(); page.goto(base + path, wait_until="networkidle")
         page.evaluate("document.fonts.ready.then(() => true)")
+        if what == "DISPLAY":
+            page.locator(".display__toggle").click(); page.wait_for_timeout(500)
+            return page.locator(".display__panel").screenshot()
         if path == "/":
             page.wait_for_function("document.documentElement.dataset.lgScene === 'on'", timeout=8000)
         if journey:
@@ -1092,6 +1103,38 @@ def main():
             check("scrubber: at an earlier handoff, threads that closed later are drawn open, those closed by then are not",
                   False, "no scrubber")
         ctx.close()
+
+        # The Display panel's changes shown (TP-B, copy-review-013; the docstring says what it holds). A spy on
+        # startViewTransition records each one's mark and the bar's transition name at that moment. It is wrapped so it
+        # returns nothing: Playwright calls a function that evaluate() returns, which fired the spy once by itself.
+        spy = ("(() => { window.__vt = []; if (document.startViewTransition) { const s = document.startViewTransition.bind(document);"
+               " document.startViewTransition = cb => { window.__vt.push([document.documentElement.getAttribute('data-vt'),"
+               " getComputedStyle(document.querySelector('.topbar')).viewTransitionName]); return s(cb); }; } })()")
+        bad = []
+        for level, kinds, anim_want in (("full", ["sweep", "wipe", "zoom"], "ds-run"), ("reduced", ["fade"] * 3, "ds-breathe"),
+                                        ("off", [], "none")):
+            ctx = browser.new_context(viewport={"width": 1280, "height": 900}, color_scheme="light")
+            ctx.add_init_script(f"localStorage.setItem('tcv-display', JSON.stringify({{motion: '{level}'}}))")
+            page = ctx.new_page(); page.goto(base + "/work/gprs", wait_until="networkidle")
+            page.evaluate(spy)
+            page.locator(".display__toggle").click(); page.wait_for_timeout(500)
+            sample = page.evaluate("(() => { const s = document.querySelector('.display__sample'); return s ? "
+                                   "[s.getAttribute('aria-hidden'), getComputedStyle(s.firstElementChild).animationName] : null; })()")
+            for opt in ("theme-dark", "contrast-more", "text-larger"):
+                page.locator(f'label[for="display-{opt}"]').click(); page.wait_for_timeout(1500)
+            st = page.evaluate("""() => { const r = document.documentElement;
+                return {vt: window.__vt, mark: r.getAttribute('data-vt'), theme: r.getAttribute('data-theme'),
+                        contrast: r.getAttribute('data-contrast'), text: r.getAttribute('data-text'),
+                        saved: JSON.parse(localStorage.getItem('tcv-display') || '{}')}; }""")
+            ok = ([k for k, _ in st["vt"]] == kinds and all(n == "none" for _, n in st["vt"]) and st["mark"] is None
+                  and (st["theme"], st["contrast"], st["text"]) == ("dark", "more", "larger")
+                  and (st["saved"].get("theme"), st["saved"].get("contrast"), st["saved"].get("text")) == ("dark", "more", "larger")
+                  and sample == ["true", anim_want])
+            if not ok:
+                bad.append(f"{level}: {st}, sample {sample}")
+            ctx.close()
+        check("display: each change shows itself (Full: sweep, wipe, zoom; Reduced: fades; Off: none), lands, saves and leaves "
+              "no mark; the Motion sample runs, breathes or holds still", not bad, "; ".join(bad))
 
         # The journey (TP-A, copy-review-013; the docstring says what it holds)
         ctx = browser.new_context(viewport={"width": 1280, "height": 900})
