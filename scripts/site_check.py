@@ -172,12 +172,14 @@ PAINT_CUT, PAINT_PIXELS = 80, 10
 # The journey (TP-A): scroll the home page's runway to J (0 to 1), as ledger-scene.js measures it; and its state.
 JOURNEY_AT = """j => { const b = document.querySelector('.lg-runway').getBoundingClientRect(), vh = innerHeight;
   scrollTo(0, b.top + scrollY - vh * 0.5 + j * (b.height - vh * 0.5)); }"""
-# Under Playwright's software WebGL a frame can take most of a second, so the eased journey is waited for by what
-# it shows, not by the clock: the slider unchanged for 2 s (8 polls 250 ms apart), and for JOURNEY_CARD the card on.
-JOURNEY_STILL = """() => { const v = +document.getElementById('ledger-scrub').value;
-  if (window.__jv === v) return ++window.__jn >= 8; window.__jv = v; window.__jn = 0; return false; }"""
-JOURNEY_CARD = """() => { const v = +document.getElementById('ledger-scrub').value, on = !!document.querySelector('.lg-say[data-on]');
-  if (on && window.__jv === v) return ++window.__jn >= 8; window.__jv = v; window.__jn = 0; return false; }"""
+# Under Playwright's software WebGL a frame can take a second (and holds up the polls), so the eased journey is
+# waited for by what it shows: the slider unchanged for 3 s of the page's own time, and for JOURNEY_CARD the card on.
+# Measured 2026-10-03: back at the top, the slider is at the newest within about 3 s; the camera eases on for ~30 s.
+JOURNEY_STILL = """() => { const v = +document.getElementById('ledger-scrub').value, t = performance.now();
+  if (window.__jv !== v) { window.__jv = v; window.__jt = t; return false; } return t - window.__jt >= 3000; }"""
+JOURNEY_CARD = """() => { const v = +document.getElementById('ledger-scrub').value, t = performance.now();
+  const on = !!document.querySelector('.lg-say[data-on]');
+  if (!on || window.__jv !== v) { window.__jv = on ? v : undefined; window.__jt = t; return false; } return t - window.__jt >= 3000; }"""
 JOURNEY_STATE = """() => { const c = document.querySelector('.hero--home > .lg-scene'), s = document.querySelector('.lg-say');
   const i = document.getElementById('ledger-scrub'), at = document.querySelectorAll('.ledger__at')[+i.value - 1];
   return {top: c ? Math.round(c.getBoundingClientRect().top) : null, v: +i.value,
@@ -1094,6 +1096,7 @@ def main():
             page.wait_for_function("document.documentElement.dataset.lgScene === 'on' && !!document.querySelector('.lg-runway')",
                                    timeout=15000)
             def settle(still):
+                page.evaluate("window.__jv = undefined")    # a fresh count for each wait
                 try:
                     page.wait_for_function(still, polling=250, timeout=20000)
                 except Exception:

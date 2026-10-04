@@ -353,8 +353,8 @@ async function start() {
     const r = canvas.getBoundingClientRect();
     const x = Math.min(r.left + (P.x + 1) / 2 * r.width + 14, innerWidth - say.offsetWidth - 24);
     const y = Math.max(96, Math.min(r.top + (1 - P.y) / 2 * r.height, innerHeight - say.offsetHeight / 2 - 24));
-    say.style.setProperty('--x', Math.max(24, x).toFixed(1) + 'px');
-    say.style.setProperty('--y', y.toFixed(1) + 'px');
+    say.style.setProperty('--x', Math.round(Math.max(24, x)) + 'px');     // whole pixels: the text stays crisp
+    say.style.setProperty('--y', Math.round(y) + 'px');
     say.setAttribute('data-on', '');
   }
 
