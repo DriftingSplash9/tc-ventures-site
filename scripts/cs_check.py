@@ -25,11 +25,13 @@ after scrollIntoView and a pause, since full-page shots of a tall page tile
 and lazy images render black), and the header at 375px. Look at them: a
 script cannot judge how a page looks.
 
-Exit code 1 if any check fails. Written 2026-09-26 (INFRA-13).
+Exit code 1 if any check fails. Every FAIL line is printed again at the end, on stderr (checklog.py).
+Written 2026-09-26 (INFRA-13).
 """
 import http.server, json, os, re, socketserver, sys, threading, time, urllib.request
 from functools import partial
 from playwright.sync_api import sync_playwright
+import checklog
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "public")
 SECTIONS = ["ask", "standard", "wrong", "caught", "shipped", "receipts"]
@@ -77,11 +79,14 @@ def main():
     page_path = "/" + args[0].strip("/")
     preview = "--preview" in args
     shots = args[args.index("--shots") + 1] if "--shots" in args else None
-    results = []
+    results, fail_lines = [], checklog.failed()
 
     def check(name, ok, detail=""):
         results.append((ok, name, detail))
-        print(("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail else ""), flush=True)
+        line = ("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail else "")
+        if not ok:
+            fail_lines.append(line)
+        print(line, flush=True)
 
     srv, base = serve()
     url = base + page_path

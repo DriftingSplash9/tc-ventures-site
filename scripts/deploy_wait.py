@@ -24,11 +24,12 @@ Usage: python scripts/deploy_wait.py PR            (a merged pull request's numb
    these static files a never-used query still came back "CF-Cache-Status: HIT" (2026-10-02). The pre-merge
    control is what shows the file is new.
 
-Exit 1 if anything fails. Control (CLAUDE.md rule 3): run it on an older merge whose files have changed
+Exit 1 if anything fails; every FAIL line is printed again at the end, on stderr (checklog.py). Control (CLAUDE.md rule 3): run it on an older merge whose files have changed
 again since, such as #40 (ledger column 029): it must fail, because the live file is newer.
 Written 2026-10-01 for Phase 4 (copy-review-009 P4-B; Q-P4-7 A).
 """
 import fnmatch, json, os, subprocess, sys, time, urllib.error, urllib.request
+import checklog
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
@@ -88,10 +89,13 @@ def main():
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")   # the Windows console is cp1252
     args = sys.argv[1:]
     timeout = 60 * float(args[args.index("--timeout") + 1]) if "--timeout" in args else 15 * 60
-    results = []
+    results, failed = [], checklog.failed()
     def check(name, ok, detail=""):
         results.append(ok)
-        print(("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail else ""), flush=True)
+        line = ("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail else "")
+        if not ok:
+            failed.append(line)
+        print(line, flush=True)
 
     # 1. The gate
     if "--sha" in args:

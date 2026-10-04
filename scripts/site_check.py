@@ -97,8 +97,15 @@ And with --live only (copy-review-009 P4-B; the local server applies neither fil
     changed must be caught on /
   - redirects: every line of public/_redirects answers its code with a Location of its destination, and
     the destination loads (200)
+Before any of it, --live refuses to run unless every file of origin/main is, byte for byte, the same in
+the copy this script is in (and in --root's copy of public/). The live run compares the site with what
+that copy says it should be (the ledger block, _headers, _redirects, the sitemap), so a copy behind main,
+or ahead of it, fails or passes for the wrong reason: a handoff trap, put into code 2026-10-03 as Thomas
+ruled. It fetches origin first, and compares with line endings set aside (a Windows checkout holds a mix
+of CRLF and LF, and git archive writes CRLF). Run it from `git archive origin/main` unpacked into the
+scratchpad, or from a clean, up-to-date checkout of main.
 
-Exit code 1 if any check fails. Written 2026-09-26 (INFRA-13): the nav is
+Exit code 1 if any check fails. Every FAIL line is printed again at the end, on stderr (checklog.py). Written 2026-09-26 (INFRA-13): the nav is
 copied into every page by hand, so this is what catches a page left behind.
 
 A known fault is a check that fails today for a reason logged in the handoff's
@@ -108,14 +115,14 @@ mark comes off the check, so a fixed fault can't go on being excused. Now:
 none. DESIGN-1 and DESIGN-3 were marked from 2026-09-29 until Phase 3 step 4
 fixed them (2026-09-30).
 """
-import base64, hashlib, http.server, importlib.util, io, json, os, re, socketserver, sys, threading, time, urllib.error, urllib.parse, urllib.request
+import base64, hashlib, http.server, importlib.util, io, json, os, re, socketserver, subprocess, sys, tarfile, threading, time, urllib.error, urllib.parse, urllib.request
 from functools import partial
 from PIL import Image
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-import schema
+import checklog, schema
 TOKENS = ["paper", "paper-tint", "ink", "ink-soft", "muted", "rule", "accent", "accent-ink"]
 TEXT_ON = [(f, g) for f in ("ink", "ink-soft", "muted", "accent", "accent-ink") for g in ("paper", "paper-tint")] \
     + [("paper", "accent")]       # the solid button
@@ -168,6 +175,45 @@ class CleanURLHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers(); self.wfile.write(body)
         else:
             super().send_error(code, message, explain)
+
+
+def not_main(tree, public=None, ref="origin/main"):
+    """For --live: each file of REF (after a fetch) that TREE, or PUBLIC for public/, doesn't hold byte for
+    byte, line endings set aside; or why that can't be told. Files REF doesn't have are not compared (an untracked preview, say).
+    The clone is TREE itself, or else the one the command was run from (TREE may be an unpacked archive)."""
+    def git(cwd, *a):
+        return subprocess.run(["git", "-C", cwd, *a], capture_output=True)
+    repo = None
+    for here in (tree, os.getcwd()):
+        top = git(here, "rev-parse", "--show-toplevel")
+        if top.returncode == 0:
+            url = git(top.stdout.decode().strip(), "remote", "get-url", "origin").stdout.decode().strip()
+            if re.search(r"tc-ventures-site(\.git)?/?$", url):
+                repo = top.stdout.decode().strip()
+                break
+    if not repo:
+        return ["no clone of tc-ventures-site in the script's folder or the current one, so origin/main can't be read"]
+    if git(repo, "fetch", "--quiet", "origin", "main").returncode:
+        return ["git fetch origin main failed"]
+    tar = git(repo, "archive", "--format=tar", ref)
+    if tar.returncode:
+        return [f"git archive {ref} failed: {tar.stderr.decode().strip()}"]
+    off = []
+    with tarfile.open(fileobj=io.BytesIO(tar.stdout)) as t:
+        for m in t.getmembers():
+            if not m.isfile():
+                continue
+            want = t.extractfile(m).read().replace(b"\r\n", b"\n")
+            copies = [(tree, m.name)]
+            if public and m.name.startswith("public/"):
+                copies.append((public, m.name[len("public/"):]))
+            for base, rel in copies:
+                p = os.path.join(base, rel)
+                if not os.path.isfile(p):
+                    off.append(f"missing: {p}")
+                elif open(p, "rb").read().replace(b"\r\n", b"\n") != want:
+                    off.append(f"not {ref}'s: {p}")
+    return off
 
 
 def ledger_expected(draft):
@@ -263,6 +309,12 @@ def redirect_rules(text):
 def main():
     args = sys.argv[1:]
     root = args[args.index("--root") + 1] if "--root" in args else os.path.join(HERE, "..", "public")
+    if "--live" in args:
+        off = not_main(os.path.abspath(os.path.join(HERE, "..")), os.path.abspath(root) if "--root" in args else None)
+        if off:
+            sys.exit("site_check.py --live: this copy isn't origin/main, so the live run would judge the site against "
+                     "the wrong files. Run it from an up-to-date main: git archive origin/main, unpacked into the "
+                     "scratchpad.\n  " + "\n  ".join(off[:15]) + (f"\n  and {len(off) - 15} more" if len(off) > 15 else ""))
     sitemap = open(os.path.join(root, "sitemap.xml"), encoding="utf-8").read()
     paths = [re.sub(r"^https://tc-ventures\.ca", "", u) or "/" for u in re.findall(r"<loc>([^<]+)</loc>", sitemap)]
     paths.append("/404")
@@ -274,7 +326,7 @@ def main():
         threading.Thread(target=srv.serve_forever, daemon=True).start()
         base = f"http://127.0.0.1:{srv.server_address[1]}"
 
-    results, known = [], []
+    results, known, failed = [], [], checklog.failed()
     def check(name, ok, detail="", fault=None):
         if fault and not ok:
             known.append(fault)
@@ -284,8 +336,11 @@ def main():
         if fault:
             ok, detail = False, f"passes now: take the {fault} mark off this check"
         results.append(ok)
+        line = ("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail else "")
+        if not ok:
+            failed.append(line)
         if not ok or "-v" in args:
-            print(("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail else ""), flush=True)
+            print(line, flush=True)
 
     nc = status(base + "/no-such-page-site-check")
     check("negative control: unknown URL 404", nc == 404, str(nc))
