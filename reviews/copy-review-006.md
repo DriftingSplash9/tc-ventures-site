@@ -550,3 +550,6 @@ It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at
 `ledger/traps.json` already holds handoff-038's traps. No change to `parked` (INFRA-21, closed in 038, was
 never parked). **Ship the column after #77 is merged:** "the checks look at the site in my own Chrome too"
 is true only then.
+
+**Ruled 2026-10-03.** Thomas, verbatim: **"merge 77 and 78, LG39 yes, TP all A"**. Read as LG39 OK as
+drafted. #77 merged first (`3a6104c`), then #78. Set in `ledger/curation.json` and exported: column 038.
