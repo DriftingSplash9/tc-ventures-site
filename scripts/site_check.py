@@ -90,12 +90,17 @@ And the motion (copy-review-007, Phase 3 step 5):
     that closed later is drawn open, and one closed by then is not; its box keeps one height at every
     handoff, so nothing below it moves; with JavaScript off it doesn't show.
     It is written only once its label is ruled, so until then these fail.
+  - the journey (TP-A, copy-review-013): under Full at 1280, the home page's runway is there (aria-hidden);
+    half-way down it the scene holds the screen (its top at 0), the slider stands part-way, and the card beside
+    the gate carries the list's line for the slider's handoff; at its end, and back at the top, the slider is
+    at the newest. Under the OS's reduce-motion, under Off, and at 375: no runway
   - the header (copy-review-012): folded on /work/influence-graph, the name is the TC monogram; the name
     itself paints nothing, the T and C each paint their own gradient, and every fallen letter is
     see-through with no width. And Menu has no animation (no wobble, Thomas, 2026-10-03)
   - paint (PAINT): the same states drawn by Playwright's Chromium and by the installed Google Chrome, at
     1280 with reduced motion: the header at rest and folded (light and dark), the pills, the Menu panel,
-    a section head and the home hero. Each fails when more than PAINT_PIXELS pixels differ by more than
+    a section head and the home hero; and under Full (which it needs) the journey half-way, below the
+    header (whose metal drifts under Full). Each fails when more than PAINT_PIXELS pixels differ by more than
     PAINT_CUT of 255 in a channel, and both pictures are saved for a look. Thomas's Chrome 154 drew the
     folded name with its fallen letters piled on the C (2026-10-03) while Chromium 147 drew it clean, so no
     other check here could see it. Calibrated that day: no pixel over 80 in any state on 5bffd55; 42 to 53
@@ -160,8 +165,17 @@ PAINT = [
     ("the Menu panel, dark", "/work/gprs", "dark", 1200, "MENU"),
     ("a section head, dark", "/work/gprs", "dark", None, "#standard"),
     ("the home hero, dark", "/", "dark", 0, ".hero--home"),
+    ("the journey half-way, dark", "/", "dark", 0.5, "JOURNEY"),
 ]
 PAINT_CUT, PAINT_PIXELS = 80, 10
+# The journey (TP-A): scroll the home page's runway to J (0 to 1), as ledger-scene.js measures it; and its state.
+JOURNEY_AT = """j => { const b = document.querySelector('.lg-runway').getBoundingClientRect(), vh = innerHeight;
+  scrollTo(0, b.top + scrollY - vh * 0.5 + j * (b.height - vh * 0.5)); }"""
+JOURNEY_STATE = """() => { const c = document.querySelector('.hero--home > .lg-scene'), s = document.querySelector('.lg-say');
+  const i = document.getElementById('ledger-scrub'), at = document.querySelectorAll('.ledger__at')[+i.value - 1];
+  return {top: c ? Math.round(c.getBoundingClientRect().top) : null, v: +i.value,
+          say: s && s.hasAttribute('data-on') ? s.textContent : '', line: at ? at.querySelector('span').textContent : '',
+          hidden: document.querySelector('.lg-runway') ? document.querySelector('.lg-runway').getAttribute('aria-hidden') : null}; }"""
 # Changes of page per M1 case. It was 3 while DESIGN-5 skipped live transitions; 1 since its fix
 # (2026-10-01), so any skip fails again.
 M1_TRIES = 1
@@ -244,13 +258,20 @@ def not_main(tree, public=None, ref="origin/main"):
 
 
 def paint_shot(browser, base, path, scheme, scroll, what):
-    """One PAINT state as a PNG: 1280 wide, reduced motion, the fonts loaded, the home scene drawn."""
-    ctx = browser.new_context(viewport={"width": 1280, "height": 900}, color_scheme=scheme, reduced_motion="reduce")
+    """One PAINT state as a PNG: 1280 wide, reduced motion (the journey: Full, which it needs), the fonts loaded,
+    the home scene drawn."""
+    journey = what == "JOURNEY"
+    ctx = browser.new_context(viewport={"width": 1280, "height": 900}, color_scheme=scheme,
+                              **({} if journey else {"reduced_motion": "reduce"}))
     try:
         page = ctx.new_page(); page.goto(base + path, wait_until="networkidle")
         page.evaluate("document.fonts.ready.then(() => true)")
         if path == "/":
             page.wait_for_function("document.documentElement.dataset.lgScene === 'on'", timeout=8000)
+        if journey:
+            page.wait_for_function("!!document.querySelector('.lg-runway')", timeout=8000)
+            page.evaluate(JOURNEY_AT, scroll); page.wait_for_timeout(3000)
+            return page.screenshot(clip={"x": 0, "y": 110, "width": 1280, "height": 790})
         if scroll is not None:
             page.evaluate(f"window.scrollTo(0, {scroll})")
         page.wait_for_timeout(700)
@@ -1057,6 +1078,39 @@ def main():
             check("scrubber: at an earlier handoff, threads that closed later are drawn open, those closed by then are not",
                   False, "no scrubber")
         ctx.close()
+
+        # The journey (TP-A, copy-review-013; the docstring says what it holds)
+        ctx = browser.new_context(viewport={"width": 1280, "height": 900})
+        page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
+        try:
+            page.wait_for_function("document.documentElement.dataset.lgScene === 'on' && !!document.querySelector('.lg-runway')",
+                                   timeout=15000)
+            states = []
+            for j in (0.5, 1.0):
+                page.evaluate(JOURNEY_AT, j); page.wait_for_timeout(2500); states.append(page.evaluate(JOURNEY_STATE))
+            page.evaluate("scrollTo(0, 0)"); page.wait_for_timeout(2500); states.append(page.evaluate(JOURNEY_STATE))
+            mid, end, back = states
+            n = page.evaluate("+document.getElementById('ledger-scrub').max")
+            ok = bool(mid["top"] == 0 and 1 < mid["v"] < n and mid["line"] and mid["say"].endswith(mid["line"])
+                      and mid["hidden"] == "true" and end["v"] == n and back["v"] == n)
+            detail = f"half-way {mid}; at the end v {end['v']}; back at the top v {back['v']}; newest {n}"
+        except Exception as e:
+            ok, detail = False, f"{type(e).__name__}: {str(e).strip().splitlines()[0][:120]}"
+        check("journey: under Full at 1280 the scene holds while the runway scrolls; the slider follows, each gate's line beside it",
+              ok, detail)
+        ctx.close()
+        has = []
+        for name, kw, level in [("the OS's reduce-motion", {"viewport": {"width": 1280, "height": 900}, "reduced_motion": "reduce"}, None),
+                                ("Off", {"viewport": {"width": 1280, "height": 900}}, "off"),
+                                ("375 wide", {"viewport": {"width": 375, "height": 800}}, None)]:
+            ctx = browser.new_context(**kw)
+            if level:
+                ctx.add_init_script(f"localStorage.setItem('tcv-display', JSON.stringify({{motion: '{level}'}}))")
+            page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle"); page.wait_for_timeout(2500)
+            if page.evaluate("!!document.querySelector('.lg-runway') || document.documentElement.hasAttribute('data-lg-journey')"):
+                has.append(name)
+            ctx.close()
+        check("journey: no runway under the OS's reduce-motion, under Off, or at 375", not has, "a runway under " + ", ".join(has))
 
         # The header's monogram (copy-review-012). The name's gradient is painted through its text; painted
         # through the whole name, it showed through the fallen letters too: Chrome 154 drew them piled on the C
