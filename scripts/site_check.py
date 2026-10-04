@@ -6,6 +6,10 @@ Usage: python scripts/site_check.py            (serves ./public locally)
                                                 e.g. an older commit, as a
                                                 negative control)
        add --draft-ledger for a preview whose ledger carries unruled lines
+       add --chrome to run every check in the installed Google Chrome, Thomas's
+                                                browser, instead of Playwright's
+                                                Chromium (run it too after a
+                                                Chrome update)
 
 Pages come from public/sitemap.xml, plus /404. For each page:
   - status 200, and a made-up URL gives 404 (negative control)
@@ -86,6 +90,17 @@ And the motion (copy-review-007, Phase 3 step 5):
     that closed later is drawn open, and one closed by then is not; its box keeps one height at every
     handoff, so nothing below it moves; with JavaScript off it doesn't show.
     It is written only once its label is ruled, so until then these fail.
+  - the header (copy-review-012): folded on /work/influence-graph, the name is the TC monogram; the name
+    itself paints nothing, the T and C each paint their own gradient, and every fallen letter is
+    see-through with no width. And Menu has no animation (no wobble, Thomas, 2026-10-03)
+  - paint (PAINT): the same states drawn by Playwright's Chromium and by the installed Google Chrome, at
+    1280 with reduced motion: the header at rest and folded (light and dark), the pills, the Menu panel,
+    a section head and the home hero. Each fails when more than PAINT_PIXELS pixels differ by more than
+    PAINT_CUT of 255 in a channel, and both pictures are saved for a look. Thomas's Chrome 154 drew the
+    folded name with its fallen letters piled on the C (2026-10-03) while Chromium 147 drew it clean, so no
+    other check here could see it. Calibrated that day: no pixel over 80 in any state on 5bffd55; 42 to 53
+    in each folded state on dea074c, the stacked C (the control). Where Chrome isn't installed (a cloud
+    session) these don't run, and the summary says so.
 
 And the structured data, every page as served (copy-review-009 P4-C, scripts/schema.py): the block is what
 schema.py writes from the page's own words, every string in it is on the page, and there is no inline
@@ -115,9 +130,9 @@ mark comes off the check, so a fixed fault can't go on being excused. Now:
 none. DESIGN-1 and DESIGN-3 were marked from 2026-09-29 until Phase 3 step 4
 fixed them (2026-09-30).
 """
-import base64, hashlib, http.server, importlib.util, io, json, os, re, socketserver, subprocess, sys, tarfile, threading, time, urllib.error, urllib.parse, urllib.request
+import base64, hashlib, http.server, importlib.util, io, json, os, re, socketserver, subprocess, sys, tarfile, tempfile, threading, time, urllib.error, urllib.parse, urllib.request
 from functools import partial
-from PIL import Image
+from PIL import Image, ImageChops
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -135,6 +150,18 @@ SUBMENU = [
     ("/work/this-site", "This site"),
 ]
 CHROMIUM = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+# Paint (see the docstring): (name, path, colour scheme, scroll, what to shoot: a selector; MENU, the open
+# Menu panel; or #id, that section's head). Drawn by Chromium and by the installed Chrome, and compared.
+PAINT = [
+    ("the header at rest, dark", "/work/influence-graph", "dark", 0, ".topbar__inner"),
+    ("the folded header, dark", "/work/influence-graph", "dark", 1200, ".topbar__inner"),
+    ("the folded header, light", "/work/influence-graph", "light", 1200, ".topbar__inner"),
+    ("the pills, light", "/", "light", 0, ".topbar__inner"),
+    ("the Menu panel, dark", "/work/gprs", "dark", 1200, "MENU"),
+    ("a section head, dark", "/work/gprs", "dark", None, "#standard"),
+    ("the home hero, dark", "/", "dark", 0, ".hero--home"),
+]
+PAINT_CUT, PAINT_PIXELS = 80, 10
 # Changes of page per M1 case. It was 3 while DESIGN-5 skipped live transitions; 1 since its fix
 # (2026-10-01), so any skip fails again.
 M1_TRIES = 1
@@ -214,6 +241,38 @@ def not_main(tree, public=None, ref="origin/main"):
                 elif open(p, "rb").read().replace(b"\r\n", b"\n") != want:
                     off.append(f"not {ref}'s: {p}")
     return off
+
+
+def paint_shot(browser, base, path, scheme, scroll, what):
+    """One PAINT state as a PNG: 1280 wide, reduced motion, the fonts loaded, the home scene drawn."""
+    ctx = browser.new_context(viewport={"width": 1280, "height": 900}, color_scheme=scheme, reduced_motion="reduce")
+    try:
+        page = ctx.new_page(); page.goto(base + path, wait_until="networkidle")
+        page.evaluate("document.fonts.ready.then(() => true)")
+        if path == "/":
+            page.wait_for_function("document.documentElement.dataset.lgScene === 'on'", timeout=8000)
+        if scroll is not None:
+            page.evaluate(f"window.scrollTo(0, {scroll})")
+        page.wait_for_timeout(700)
+        if what == "MENU":
+            page.locator(".hc-menu").click(); page.wait_for_timeout(500)
+            return page.screenshot(clip={"x": 0, "y": 0, "width": 1280, "height": 520})
+        if what.startswith("#"):
+            head = page.locator(f"{what} .cs-section__num")
+            head.scroll_into_view_if_needed(); page.wait_for_timeout(500)
+            return head.screenshot()
+        return page.locator(what).first.screenshot()
+    finally:
+        ctx.close()
+
+
+def paint_apart(a, b):
+    """How many pixels of two PNGs differ by more than PAINT_CUT in a channel (all, if the sizes differ)."""
+    A, B = Image.open(io.BytesIO(a)).convert("RGB"), Image.open(io.BytesIO(b)).convert("RGB")
+    if A.size != B.size:
+        return max(A.size[0] * A.size[1], B.size[0] * B.size[1])
+    r, g, b2 = ImageChops.difference(A, B).split()
+    return sum(ImageChops.lighter(ImageChops.lighter(r, g), b2).histogram()[PAINT_CUT + 1:])
 
 
 def ledger_expected(draft):
@@ -326,7 +385,7 @@ def main():
         threading.Thread(target=srv.serve_forever, daemon=True).start()
         base = f"http://127.0.0.1:{srv.server_address[1]}"
 
-    results, known, failed = [], [], checklog.failed()
+    results, known, failed, skipped = [], [], checklog.failed(), []
     def check(name, ok, detail="", fault=None):
         if fault and not ok:
             known.append(fault)
@@ -395,7 +454,11 @@ def main():
         check(f"link preview: {p}", not previews, "; ".join(previews))
 
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(executable_path=CHROMIUM if os.path.exists(CHROMIUM) else None)
+        if "--chrome" in args:
+            browser = pw.chromium.launch(channel="chrome")
+        else:
+            browser = pw.chromium.launch(executable_path=CHROMIUM if os.path.exists(CHROMIUM) else None)
+        print(f"browser: {'Chrome' if '--chrome' in args else 'Chromium'} {browser.version}", flush=True)
         for path in paths:
             ctx = browser.new_context(color_scheme="light", viewport={"width": 1280, "height": 900})
             page = ctx.new_page()
@@ -1014,6 +1077,30 @@ def main():
         check("header: Menu doesn't wobble", st["wobble"] == "none", st["wobble"])
         ctx.close()
 
+        # Paint: Chromium against the installed Chrome (PAINT; the docstring says why)
+        pair = [pw.chromium.launch(executable_path=CHROMIUM if os.path.exists(CHROMIUM) else None)]
+        try:
+            pair.append(pw.chromium.launch(channel="chrome"))
+        except Exception as e:
+            skipped.append(f"{len(PAINT)} paint checks (no Google Chrome here: {str(e).strip().splitlines()[0][:80]})")
+        if len(pair) == 2:
+            keep = os.path.join(tempfile.gettempdir(), "site-check-paint")
+            for name, path, scheme, scroll, what in PAINT:
+                try:
+                    a, b = (paint_shot(br, base, path, scheme, scroll, what) for br in pair)
+                    n = paint_apart(a, b)
+                    detail = f"{n} pixels over {PAINT_CUT} (Chromium {pair[0].version}, Chrome {pair[1].version})"
+                    if n > PAINT_PIXELS:
+                        os.makedirs(keep, exist_ok=True)
+                        stem = os.path.join(keep, re.sub(r"\W+", "-", name).strip("-"))
+                        open(stem + "-chromium.png", "wb").write(a); open(stem + "-chrome.png", "wb").write(b)
+                        detail += f"; both pictures in {keep}: look at them"
+                except Exception as e:
+                    n, detail = None, f"{type(e).__name__}: {str(e).strip().splitlines()[0][:120]}"
+                check(f"paint: {name}, drawn alike by Chromium and Chrome", n is not None and n <= PAINT_PIXELS, detail)
+        for br in pair:
+            br.close()
+
         ctx = browser.new_context(java_script_enabled=False, color_scheme="dark", viewport={"width": 1280, "height": 900})
         page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
         sc = page.locator(".ledger__scrub")
@@ -1028,7 +1115,8 @@ def main():
     if srv:
         srv.shutdown()
     faults = ", ".join(f"{known.count(f)} {f}" for f in sorted(set(known)))
-    print(f"{sum(results)} of {len(results)} checks passed" + (f"; known faults, not counted: {faults}" if known else ""))
+    print(f"{sum(results)} of {len(results)} checks passed" + (f"; known faults, not counted: {faults}" if known else "")
+          + (f"; not run here: {'; '.join(skipped)}" if skipped else ""))
     sys.exit(0 if all(results) else 1)
 
 

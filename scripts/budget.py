@@ -78,10 +78,17 @@ CONTROL_PAGES = ("/contact", "/work/gprs", "/background", "/method")
 # 280 -> 400 (296.2). Ruled in copy-review-012, 2026-10-03 ("increase the ceilings by 33% instead of 10%").
 # Then the metal look tipped two more, raised the same way: /work/desk-and-drawer 480 -> 640 (480.4),
 # /work/gprs 530 -> 710 (530.4). Ruled 2026-10-03 ("1-2 yes").
+# All twelve raised to the measured weight plus 100%, rounded up to the next 10 kB, for the next design pass
+# (Thomas, 2026-10-03: "headroom can be increased 100%"). Measured locally at 5bffd55: / 1320 -> 2530
+# (1264.5), /projects 1040 -> 1750 (874.6), /work/influence-graph 670 -> 1330 (663.1), /work/back-quarter
+# 490 -> 760 (376.7), /work/desk-and-drawer 640 -> 980 (487.3), /work/bare-your-rare 430 -> 660 (326.4),
+# /work/gprs 710 -> 1080 (537.3), /work/this-site 510 -> 900 (448.1), /method 430 -> 660 (328.2),
+# /background 400 -> 620 (308.6), /contact 400 -> 620 (308.6), /404 400 -> 610 (304.7).
+# PW3 is not a ceiling: it is /work/this-site's dated sentence of fact, and moves only through a copy review.
 CEILINGS = {
-    "/": 1320, "/projects": 1040, "/work/influence-graph": 670, "/work/back-quarter": 490,
-    "/work/desk-and-drawer": 640, "/work/bare-your-rare": 430, "/work/gprs": 710, "/work/this-site": 510,
-    "/method": 430, "/background": 400, "/contact": 400, "/404": 400,
+    "/": 2530, "/projects": 1750, "/work/influence-graph": 1330, "/work/back-quarter": 760,
+    "/work/desk-and-drawer": 980, "/work/bare-your-rare": 660, "/work/gprs": 1080, "/work/this-site": 900,
+    "/method": 660, "/background": 620, "/contact": 620, "/404": 610,
 }
 CEILINGS_RULED = "Q-P4-8 A, 2026-10-01; '/' Q-S4-1 A, 2026-10-02"
 # Known faults: (page, axe rule) -> the open item that owns the fix. Ruled Q-P4-9 A, 2026-10-01. A known
