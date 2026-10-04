@@ -297,13 +297,13 @@ def paint_shot(browser, base, path, scheme, scroll, what):
         ctx.close()
 
 
-def paint_apart(a, b):
-    """How many pixels of two PNGs differ by more than PAINT_CUT in a channel (all, if the sizes differ)."""
+def paint_apart(a, b, cut=PAINT_CUT):
+    """How many pixels of two PNGs differ by more than CUT in a channel (all, if the sizes differ)."""
     A, B = Image.open(io.BytesIO(a)).convert("RGB"), Image.open(io.BytesIO(b)).convert("RGB")
     if A.size != B.size:
         return max(A.size[0] * A.size[1], B.size[0] * B.size[1])
     r, g, b2 = ImageChops.difference(A, B).split()
-    return sum(ImageChops.lighter(ImageChops.lighter(r, g), b2).histogram()[PAINT_CUT + 1:])
+    return sum(ImageChops.lighter(ImageChops.lighter(r, g), b2).histogram()[cut + 1:])
 
 
 def ledger_expected(draft):
@@ -696,14 +696,18 @@ def main():
             b = scene_shot(page) if s1["canvas"] else b""
             ca, cb = (colours(a) if a else 0), (colours(b) if b else 0)
             name = f"{level or 'System'}{', OS reduce' if os_reduce else ''}"
+            # Moved: more than 200 pixels differ by more than 16 of 255; still: none does. Not byte equality: in Chrome
+            # 154 a re-render can shift a band of the floor by 2 of 255 (1 run in 10 on main, 2026-10-03), which isn't
+            # motion. The opening moves thousands of pixels by far more.
+            apart = paint_apart(a, b, 16) if a and b else None
             # Both pictures must have something in them, or "still" would pass on two blank ones.
             if full:
-                ok = s0["v"] < s0["max"] and s1["v"] == s1["max"] and s1["mark"] == "on" and cb > 20 and a != b
+                ok = s0["v"] < s0["max"] and s1["v"] == s1["max"] and s1["mark"] == "on" and cb > 20 and (apart or 0) > 200
             else:
-                ok = s0["v"] == s0["max"] and s1["v"] == s1["max"] and s1["mark"] == "on" and ca > 20 and a == b
+                ok = s0["v"] == s0["max"] and s1["v"] == s1["max"] and s1["mark"] == "on" and ca > 20 and apart == 0
             if not ok:
                 bad.append(f"{name}: slider {s0['v']} then {s1['v']} of {s1['max']}, mark {s1['mark']}, "
-                           f"picture {'moved' if a != b else 'still'}, colours {ca} and {cb}")
+                           f"picture {apart} pixels apart by more than 16, colours {ca} and {cb}")
             ctx.close()
         check("scene: the opening runs from load under Full and the picture moves; under Reduced, Off and the OS's it starts "
               "at the newest and holds still", not bad, "; ".join(bad) or "5 cases")
