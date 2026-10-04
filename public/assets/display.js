@@ -10,7 +10,16 @@
    below it moves.
 
    A choice takes effect at once (the mark on <html> changes) and is saved
-   under the key prefs.js reads before the next page is drawn. */
+   under the key prefs.js reads before the next page is drawn.
+
+   TP-B (copy-review-013, ruled 2026-10-03): each change shows itself. Under Motion
+   Full, a new theme sweeps out from the Display button as a growing circle, More
+   or Standard contrast wipes across, and a new text size zooms through: one
+   same-document view transition each, with <html> marked data-vt while it runs
+   (CSS stands the bar's own transition names down, so the page changes as one).
+   Under Reduced, a cross-fade. Under Off, or without view transitions, at once.
+   The Motion row carries a small sample (aria-hidden) that moves as the setting
+   says: it runs under Full, breathes under Reduced, and is still under Off. */
 (function () {
   var KEY = 'tcv-display';
   /* The words: copy-review-007, DP1 to DP3. '' is System (no mark). */
@@ -31,6 +40,38 @@
   }
   function save(prefs) {
     try { localStorage.setItem(KEY, JSON.stringify(prefs)); } catch (e) { /* this page still changes */ }
+  }
+
+  var SHOW = { theme: 'sweep', contrast: 'wipe', text: 'zoom' };
+  function motion() { return window.tcvMotion ? window.tcvMotion() : 'full'; }
+  function clear() { root.removeAttribute('data-vt'); }
+  /* Make a change inside a view transition that shows it (or at once). */
+  function show(key, done) {
+    var kind = SHOW[key], m = motion();
+    if (!kind || m === 'off' || !document.startViewTransition) { done(); return; }
+    if (m !== 'full') kind = 'fade';
+    root.setAttribute('data-vt', kind);
+    var t;
+    try { t = document.startViewTransition(done); } catch (e) { clear(); done(); return; }
+    t.ready.then(function () { animate(kind); }, function () {});
+    t.finished.then(clear, clear);
+  }
+  function animate(kind) {
+    var r = btn.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+    var R = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    var NEW = '::view-transition-new(root)', OLD = '::view-transition-old(root)';
+    if (kind === 'sweep') {
+      root.animate({ clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + R + 'px at ' + x + 'px ' + y + 'px)'] },
+        { duration: 750, easing: 'cubic-bezier(0.65, 0, 0.25, 1)', fill: 'both', pseudoElement: NEW });
+    } else if (kind === 'wipe') {
+      root.animate({ clipPath: ['inset(0 0 0 100%)', 'inset(0 0 0 0)'] },
+        { duration: 600, easing: 'cubic-bezier(0.65, 0, 0.25, 1)', fill: 'both', pseudoElement: NEW });
+    } else if (kind === 'zoom') {
+      root.animate({ opacity: [1, 0], transform: ['scale(1)', 'scale(1.035)'] },
+        { duration: 420, easing: 'ease-in', fill: 'both', pseudoElement: OLD });
+      root.animate({ opacity: [0, 1], transform: ['scale(0.97)', 'scale(1)'] },
+        { duration: 560, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)', fill: 'both', pseudoElement: NEW });
+    }
   }
 
   var prefs = load();
@@ -57,14 +98,23 @@
       label.htmlFor = input.id;
       label.textContent = o[1];
       input.addEventListener('change', function () {
-        if (o[0]) { prefs[g.key] = o[0]; root.setAttribute('data-' + g.key, o[0]); }
-        else { delete prefs[g.key]; root.removeAttribute('data-' + g.key); }
-        save(prefs);
+        show(g.key, function () {
+          if (o[0]) { prefs[g.key] = o[0]; root.setAttribute('data-' + g.key, o[0]); }
+          else { delete prefs[g.key]; root.removeAttribute('data-' + g.key); }
+          save(prefs);                              // inside: a view transition makes the change a frame later
+        });
       });
       row.appendChild(input);
       row.appendChild(label);
     });
     set.appendChild(row);
+    if (g.key === 'motion') {                     // the sample: it moves as the setting says
+      var sample = document.createElement('span');
+      sample.className = 'display__sample';
+      sample.setAttribute('aria-hidden', 'true');
+      sample.appendChild(document.createElement('i'));
+      set.appendChild(sample);
+    }
     panel.appendChild(set);
   });
   var note = document.createElement('p');

@@ -551,6 +551,37 @@ a:focus-visible { outline: var(--focus-w) solid var(--accent); outline-offset: 3
   .display__options input:checked + label { outline: 3px solid Highlight; outline-offset: -3px; }
 }
 
+/* TP-B, accessibility as the show (copy-review-013; assets/display.js). The panel opens from the button; the
+   Motion row's sample moves as the setting says (Full: it runs; Reduced: it breathes; Off: still); and while a
+   change shows itself (data-vt) the bar's own transition names stand down, so the whole page sweeps, wipes or
+   zooms as one. */
+.display__panel {
+  transform-origin: 100% 0;
+  transition: opacity calc(0.18s * var(--fade)) ease,
+              translate calc(0.3s * var(--move)) cubic-bezier(0.2, 0.8, 0.2, 1),
+              scale calc(0.3s * var(--move)) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@starting-style { .display__panel { opacity: 0; translate: 0 -8px; scale: 0.96; } }
+.display__sample {
+  display: block; position: relative; overflow: hidden;
+  height: 4px; margin-top: var(--s-2); border-radius: 2px; background: var(--rule);
+}
+.display__sample i { position: absolute; inset: 0 auto 0 0; width: 22%; border-radius: 2px; background: var(--accent); }
+@keyframes ds-run { from { translate: 0 0; } to { translate: 355% 0; } }
+@keyframes ds-breathe { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+:root[data-motion="full"] .display__sample i { animation: ds-run 1.6s ease-in-out infinite alternate; }
+:root[data-motion="reduced"] .display__sample i { animation: ds-breathe 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion]) .display__sample i { animation: ds-run 1.6s ease-in-out infinite alternate; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion]) .display__sample i { animation: ds-breathe 2.4s ease-in-out infinite; }
+}
+@media (forced-colors: active) { .display__sample { background: CanvasText; } .display__sample i { background: Highlight; } }
+:root[data-vt] * { view-transition-name: none !important; }
+:root[data-vt]:not([data-vt="fade"])::view-transition-old(root),
+:root[data-vt]:not([data-vt="fade"])::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
 /* ---- hero / page heads ---- */
 
 .hero, .pagehead { --hero-pt: clamp(56px, 9vw, 104px); padding-block: var(--hero-pt) clamp(32px, 5vw, 56px); }
