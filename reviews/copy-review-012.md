@@ -182,6 +182,6 @@ part-way faded, so the checks' pictures never showed it.
   would be. The fallen letters fade and crop as designed, the same in both browsers, and the end is a clean
   TC. At rest the name is painted as before.
 - **No wobble.** Menu still leans toward the pointer (and with a phone's tilt); his words named the wobble
-  only. **Open, for Thomas:** keep the lean, or drop it too.
+  only. **Ruled 2026-10-03:** Thomas, verbatim: "merge 74, 75, 76, keep the lean". The lean stays.
 - `site_check.py`: the folded name (the name itself paints nothing, the T and C each paint their own
   gradient, every fallen letter is see-through with no width) and no wobble. On `main`'s files both fail.
