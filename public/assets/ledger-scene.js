@@ -12,6 +12,14 @@
    scrolls as normal; under Motion Full the camera rises as the hero leaves (Q-H2 A).
    No words of its own (Q-H3 A): the gate numbers and band names are on the page already.
 
+   The journey (TP-A, copy-review-013, ruled 2026-10-03): under Motion Full on a wide
+   screen, this file adds an empty runway after the ledger's list, and the scene holds
+   its place (sticky) while the reader scrolls it. The camera dives back to 001 as the
+   ledger rewinds, travels gate by gate to the newest as it builds again, each gate's
+   ruled line shown beside it (aria-hidden: the list carries every line), then rises to
+   the whole ledger, and the page carries on. Native scroll drives it, so the reader
+   sets the pace. The slider follows. Reduced, Off, 45em and under: no runway, as before.
+
    prefs.js marks <html> data-lg-scene on the home page when WebGL2 and modules exist,
    and CSS hides the SVG pictures while it's there. This file sets it to "on" once the
    scene has drawn, and takes it off if anything fails, so the SVGs come back. Three.js
@@ -274,6 +282,10 @@ async function start() {
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   const cam = { pos: new THREE.Vector3(), look: new THREE.Vector3(), ready: false };
   let rise = 0;
+  /* The journey's state: J is how far through the runway the page has scrolled (0 to 1), Js eases after it. */
+  const DIVE = 0.15, TRAVEL = 0.85;                             // where the dive ends, and where the travel ends
+  let journey = false, J = 0, Js = 0, runway = null, say = null, sayK = -1;
+  const lines = Array.prototype.slice.call(document.querySelectorAll('.ledger__at'));
   function aim(jf, out) {
     const narrow = mqNarrow.matches;
     const front = zOf(jf) + FRONT;
@@ -293,12 +305,69 @@ async function start() {
     }
     out.pos.set(px, py, pz); out.look.set(lx, ly, lz);
   }
+  /* The journey's poses: low over the floor just ahead of the build front, looking back down the years, swaying
+     side to side; then up over the whole ledger. */
+  function travelPose(jf, out) {
+    const front = zOf(jf) + 0.4, sway = Math.sin(jf * 0.35) * 0.9;
+    out.pos.set(sway + pointer.x * 0.3, 0.95 + pointer.y * 0.15, front + 2.3);
+    out.look.set(sway * 0.3, 0.1, front - 2.6);
+  }
+  function risePose(out) {
+    const mid = depth / 2;
+    out.pos.set(0, Math.max(9, depth * 0.75), mid + 3); out.look.set(0, 0, mid);
+  }
+  const PA = { pos: new THREE.Vector3(), look: new THREE.Vector3() }, PB = { pos: new THREE.Vector3(), look: new THREE.Vector3() };
+  const smooth = t => t * t * (3 - 2 * t);
+  function journeyAt(j, out) {                                  // sets the camera's goal; returns the handoff drawn
+    if (j <= DIVE) {
+      const e = smooth(j / DIVE);
+      aim(n - 1, PA); travelPose(0, PB);
+      out.pos.lerpVectors(PA.pos, PB.pos, e); out.look.lerpVectors(PA.look, PB.look, e);
+      return (n - 1) * (1 - e);
+    }
+    if (j <= TRAVEL) {
+      const jf = (n - 1) * (j - DIVE) / (TRAVEL - DIVE);
+      travelPose(jf, out);
+      return jf;
+    }
+    const e = smooth((j - TRAVEL) / (1 - TRAVEL));
+    travelPose(n - 1, PA); risePose(PB);
+    out.pos.lerpVectors(PA.pos, PB.pos, e); out.look.lerpVectors(PA.look, PB.look, e);
+    return n - 1;
+  }
+  /* Each gate's ruled line, beside its right post, while the camera travels. */
+  function sayAt(jf, j) {
+    if (!say) return;
+    if (j <= DIVE || j >= TRAVEL + 0.02) { say.removeAttribute('data-on'); return; }
+    const on = Math.min(Math.round(jf), n - 1);
+    if (on !== sayK && lines[on]) {
+      sayK = on;
+      const at = lines[on], b = document.createElement('b'), tm = document.createElement('time'), sp = document.createElement('span');
+      b.textContent = 'handoff-' + at.querySelector('b').textContent;
+      tm.textContent = at.querySelector('time').textContent;
+      sp.textContent = at.querySelector('span').textContent;
+      say.replaceChildren(b, tm, sp);
+    }
+    P.set(-X0 + 0.32, 0.24, zOf(on)).project(camera);
+    if (P.z > 1) { say.removeAttribute('data-on'); return; }
+    const r = canvas.getBoundingClientRect();
+    const x = Math.min(r.left + (P.x + 1) / 2 * r.width + 14, innerWidth - say.offsetWidth - 24);
+    const y = Math.max(96, Math.min(r.top + (1 - P.y) / 2 * r.height, innerHeight - say.offsetHeight / 2 - 24));
+    say.style.setProperty('--x', Math.max(24, x).toFixed(1) + 'px');
+    say.style.setProperty('--y', y.toFixed(1) + 'px');
+    say.setAttribute('data-on', '');
+  }
 
   /* ---- placing the canvas ---- */
   function place() {
     if (mqNarrow.matches) {
       if (canvas.parentNode !== fig) fig.insertBefore(canvas, scrub);
       hero.style.removeProperty('--lg-scene-h');
+      fig.style.removeProperty('--lg-cap-gap');
+    } else if (journey) {                                       // the journey: the scene fills the screen (CSS);
+      if (canvas.parentNode !== hero) hero.insertBefore(canvas, hero.firstChild);
+      const top = hero.getBoundingClientRect().top;            // the scrim covers the words, down to the runway
+      hero.style.setProperty('--lg-scene-h', (runway.getBoundingClientRect().top - top) + 'px');
       fig.style.removeProperty('--lg-cap-gap');
     } else {
       if (canvas.parentNode !== hero) hero.insertBefore(canvas, hero.firstChild);
@@ -313,10 +382,14 @@ async function start() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mqNarrow.matches ? 1.5 : 2));
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    if (mqNarrow.matches) camera.clearViewOffset();
-    else camera.setViewOffset(w, h, -w * 0.35, h * 0.04, w, h); // the ledger right of and under the headline
-    camera.updateProjectionMatrix();
+    offset(1 - (journey ? smooth(Math.min(Js / DIVE, 1)) : 0));
     kick();
+  }
+  function offset(o) {                                          // the ledger right of and under the headline; o = 0: centred
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (mqNarrow.matches || !w || !h) camera.clearViewOffset();
+    else camera.setViewOffset(w, h, -w * 0.35 * o, h * 0.04 * o, w, h);
+    camera.updateProjectionMatrix();
   }
 
   /* ---- state, and the loop ---- */
@@ -331,21 +404,37 @@ async function start() {
     pointer.x += (pointer.tx - pointer.x) * (full ? k : 1);
     pointer.y += (pointer.ty - pointer.y) * (full ? k : 1);
     if (!full) { pointer.x = pointer.y = 0; }
-    shown += (target - shown) * k;
-    if (Math.abs(target - shown) < 0.002) shown = target;
-    aim(shown, goal);
+    let jf = null;
+    if (journey) {
+      Js += (J - Js) * k;
+      if (Math.abs(J - Js) < 0.0005) Js = J;
+      if (Js > 0) {
+        jf = journeyAt(Js, goal);
+        target = shown = jf;                                    // so the page picks up here when the journey ends
+        offset(1 - smooth(Math.min(Js / DIVE, 1)));
+        const v = Math.min(n, Math.round(jf) + 1);              // the slider follows
+        if (v !== +input.value) { input.value = v; input.dispatchEvent(new Event('input', { bubbles: true })); }
+      }
+    }
+    if (jf === null) {
+      shown += (target - shown) * k;
+      if (Math.abs(target - shown) < 0.002) shown = target;
+      aim(shown, goal);
+    }
     if (!cam.ready || !full) { cam.pos.copy(goal.pos); cam.look.copy(goal.look); cam.ready = true; }
     else { cam.pos.lerp(goal.pos, k); cam.look.lerp(goal.look, k); }
     camera.position.copy(cam.pos);
     camera.lookAt(cam.look);
     draw(shown);
     renderer.render(scene, camera);
+    if (journey) sayAt(shown, Js);
     if (root.getAttribute('data-lg-scene') !== 'on') {
       root.setAttribute('data-lg-scene', 'on');
       requestAnimationFrame(() => canvas.classList.add('is-on'));
+      setJourney();
       place();
     }
-    const settled = shown === target && cam.pos.distanceTo(goal.pos) < 0.001
+    const settled = shown === target && Js === J && cam.pos.distanceTo(goal.pos) < 0.001
       && Math.abs(pointer.tx - pointer.x) < 0.001 && Math.abs(pointer.ty - pointer.y) < 0.001;
     if (!settled) idleSince = t;
     if (visible && t - idleSince < 300) raf = requestAnimationFrame(frame);
@@ -353,11 +442,16 @@ async function start() {
   }
   function kick() { if (!raf && visible) { idleSince = performance.now(); raf = requestAnimationFrame(frame); } }
 
-  fig.addEventListener('lg:show', e => { target = Math.max(0, Math.min(e.detail - 1, n - 1)); kick(); });
+  const travelling = () => journey && J > 0 && J < 1;
+  fig.addEventListener('lg:show', e => {
+    if (travelling()) return;                                   // the journey sends these itself, through the slider
+    target = Math.max(0, Math.min(e.detail - 1, n - 1)); kick();
+  });
 
   /* Drag along the scene moves the slider; ledger.js does the rest, as for the slider itself. */
   let drag = null;
   canvas.addEventListener('pointerdown', e => {
+    if (travelling()) return;
     drag = { x: e.clientX, v: +input.value, id: e.pointerId };
     canvas.setPointerCapture(e.pointerId);
   });
@@ -395,8 +489,39 @@ async function start() {
     if (best !== hovered) { hovered = best; canvas.style.cursor = best ? 'pointer' : ''; }
   }
 
-  /* The hero leaving lifts the camera (Full only). */
+  /* The journey: on under Full on a wide screen, once the scene draws; off otherwise. */
+  function setJourney() {
+    const want = motion() === 'full' && !mqNarrow.matches && root.getAttribute('data-lg-scene') === 'on';
+    if (want === journey) return;
+    journey = want;
+    if (want) {
+      runway = document.createElement('div');
+      runway.className = 'lg-runway';
+      runway.setAttribute('aria-hidden', 'true');
+      hero.querySelector('.wrap').appendChild(runway);
+      say = document.createElement('div');
+      say.className = 'lg-say';
+      say.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(say);
+      root.setAttribute('data-lg-journey', '');
+    } else {
+      if (runway) runway.remove();
+      if (say) say.remove();
+      runway = say = null; sayK = -1; J = Js = 0;
+      root.removeAttribute('data-lg-journey');
+    }
+    rise = 0;
+    onScroll();
+  }
+
+  /* The hero leaving lifts the camera (Full only). With the journey on, the runway's scroll drives it instead. */
   function onScroll() {
+    if (journey) {
+      const r = runway.getBoundingClientRect(), vh = innerHeight;
+      const j = Math.max(0, Math.min(1, (vh * 0.5 - r.top) / Math.max(1, r.height - vh * 0.5)));
+      if (j !== J) { J = j; kick(); }
+      return;
+    }
     const h = canvas.clientHeight || 1;
     const r = motion() === 'full' && !mqNarrow.matches ? Math.max(0, Math.min(1, -hero.getBoundingClientRect().top / (h * 0.85))) : 0;
     if (r !== rise) { rise = r; kick(); }
@@ -409,10 +534,10 @@ async function start() {
   document.addEventListener('visibilitychange', () => { visible = !document.hidden; if (visible) kick(); });
 
   /* The Display panel and the OS: theme, contrast, text size, motion. */
-  const restyle = () => { readPalette(); place(); kick(); };
+  const restyle = () => { readPalette(); setJourney(); place(); kick(); };
   new MutationObserver(restyle).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-contrast', 'data-text', 'data-motion'] });
   [mqDark, mqMore].forEach(m => m.addEventListener('change', restyle));
-  mqNarrow.addEventListener('change', () => { cam.ready = false; place(); });
+  mqNarrow.addEventListener('change', () => { cam.ready = false; setJourney(); place(); });
   addEventListener('resize', place);
   canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); giveUp('context lost'); });
 

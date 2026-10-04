@@ -553,7 +553,7 @@ a:focus-visible { outline: var(--focus-w) solid var(--accent); outline-offset: 3
 
 /* ---- hero / page heads ---- */
 
-.hero, .pagehead { padding-block: clamp(56px, 9vw, 104px) clamp(32px, 5vw, 56px); }
+.hero, .pagehead { --hero-pt: clamp(56px, 9vw, 104px); padding-block: var(--hero-pt) clamp(32px, 5vw, 56px); }
 .pagehead { padding-bottom: clamp(24px, 4vw, 40px); }
 
 h1 {
@@ -1845,7 +1845,34 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   :root[data-lg-scene="on"] .hero--home .wrap > :is(h1, .hero__lede, .hero__body, .actions) { width: fit-content; }
   :root[data-lg-scene="on"] .hero--home .ledger__scrub { max-width: 34rem; }
   :root[data-lg-scene="on"] .hero--home figcaption { margin-top: var(--lg-cap-gap, var(--s-3)); }
+  /* The journey (TP-A, copy-review-013): under Motion Full the scene holds its place while the reader scrolls
+     the runway ledger-scene.js adds after the ledger's list. It starts at the top of the hero, as before. */
+  :root[data-lg-journey] .hero--home > .lg-scene {
+    position: sticky; inset: auto; top: 0; height: 100svh;
+    margin: calc(-1 * var(--hero-pt)) 0 calc(var(--hero-pt) - 100svh);
+  }
+  /* Its negative bottom margin would let it hang below the hero once it lets go: the hero clips it (clip, not
+     hidden, which would stop it sticking). */
+  :root[data-lg-journey] .hero--home { overflow: clip; }
+  .lg-runway { height: 320svh; }
 }
+/* A gate's ruled line, beside the gate as the camera passes (the journey; aria-hidden, the list carries it). */
+.lg-say {
+  position: fixed; left: 0; top: 0; z-index: 20;
+  width: max-content; max-width: min(24rem, 34vw);
+  padding: 0.6rem 0.85rem; border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--paper) 86%, transparent); color: var(--ink);
+  transform: translate3d(var(--x, 0px), var(--y, 0px), 0) translateY(-50%);
+  opacity: 0; pointer-events: none;
+  transition: opacity calc(0.25s * var(--fade)) ease;
+}
+.lg-say[data-on] { opacity: 1; }
+.lg-say b, .lg-say time { font-family: var(--mono); font-size: 0.8rem; font-weight: 500; color: var(--muted); }
+.lg-say b { color: var(--accent); margin-right: 0.6em; }
+.lg-say span { display: block; margin-top: 0.3rem; font-family: var(--body); font-size: var(--t-small); line-height: 1.45; }
+:root[data-contrast="more"] .lg-say { background: var(--paper); }
+@media (prefers-contrast: more) { :root:not([data-contrast]) .lg-say { background: var(--paper); } }
+@media (forced-colors: active) { .lg-say { background: Canvas; color: CanvasText; border-color: CanvasText; } }
 @media (max-width: 45em) {
   .ledger > .lg-scene {
     height: min(68svh, 520px);
