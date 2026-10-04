@@ -165,3 +165,23 @@ Thomas, verbatim, in order:
   solid.
 - **Kept:** the faint page name, with the section being read. **Dropped:** the progress line.
 - **The Menu panel** is solid.
+
+## The monogram, and no wobble (2026-10-03, branch `header-mono`)
+
+Thomas, verbatim, with a screenshot of `/work/influence-graph` folded, in his Chrome: "look at the "C" in the
+"TC", it looks like cheesman stacked instead of collapse to a "C". also, we can kill the wobble in the menu
+button, no need to draw attention like that."
+
+**Found:** the name's teal gradient was painted through the whole name's text, so it showed through the
+fallen letters too. Chrome 154 (his version; the agent ran the same browser headless, with a fresh profile)
+drew them piled on the C at the end, and jumbled mid-fold. Playwright's Chromium 147 left out any letter
+part-way faded, so the checks' pictures never showed it.
+
+**Built:**
+- While the name folds, each letter paints its own slice of the gradient, placed where the whole name's
+  would be. The fallen letters fade and crop as designed, the same in both browsers, and the end is a clean
+  TC. At rest the name is painted as before.
+- **No wobble.** Menu still leans toward the pointer (and with a phone's tilt); his words named the wobble
+  only. **Open, for Thomas:** keep the lean, or drop it too.
+- `site_check.py`: the folded name (the name itself paints nothing, the T and C each paint their own
+  gradient, every fallen letter is see-through with no width) and no wobble. On `main`'s files both fail.

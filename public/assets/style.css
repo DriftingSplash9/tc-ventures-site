@@ -1862,7 +1862,7 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
    scrolls they fold into the Menu pill, left of Display, and the name folds into
    the TC monogram. --hc (0 to 1) is the bar's state, always 1 on a phone or
    where the pills don't fit; data-compact is set from half-way: the nav is then
-   a panel behind Menu. The wobble and the drift run under Full only; header.js
+   a panel behind Menu. The drift and Menu's lean run under Full only; header.js
    switches the forms at once under Reduced and Off.
    -------------------------------------------------------------------------- */
 :root[data-hc] [id] { scroll-margin-top: 5rem; }
@@ -1998,10 +1998,24 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
    ""Thomas Cheesman" in the header can be teal-gradient too"). It is small text, so the 4.6:1 patch.
    The monogram's T and C are the same letters, so they keep it. */
 .wordmark {
-  background:
+  --wm-grad:
     radial-gradient(circle at var(--spc-x) var(--spc-y), var(--grad-3t), transparent 60%),
     linear-gradient(var(--spc-a), var(--grad-1), var(--grad-2) 55%, var(--grad-1));
+  background: var(--wm-grad);
   -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+/* While the name folds, each letter paints its own slice of the gradient, placed where the whole name's
+   would be (header.js sets --wm-w, --wm-h, --l-x, --l-y). Painted through the whole name's text, the
+   gradient also showed through the letters that had fallen away: Chrome 154 drew them piled on the C
+   (Thomas saw it, 2026-10-03), while Playwright's Chromium left out any letter part-way faded. A letter that
+   paints itself fades and crops the same in both. */
+.wordmark[data-folding] { background: none; }
+.wordmark[data-folding] .hc-l {
+  background-image: var(--wm-grad);
+  background-size: var(--wm-w, 100%) var(--wm-h, 100%);
+  background-position: var(--l-x, 0) var(--l-y, 0);
+  background-repeat: no-repeat;
+  -webkit-background-clip: text; background-clip: text;
 }
 
 /* the page's name, faint, behind the header once the page scrolls; with the section being read */
@@ -2026,7 +2040,8 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   .hc-ghost__sec { display: none; }
 }
 
-/* Menu: left of Display, where the pills fold to; it leans (header.js sets --rx, --ry) and wobbles.
+/* Menu: left of Display, where the pills fold to; it leans (header.js sets --rx, --ry). No wobble (Thomas,
+   2026-10-03: "we can kill the wobble in the menu button, no need to draw attention like that").
    It keeps its place in the row (so nothing jumps) but has no width until the bar folds. */
 .hc-menu { display: none; }
 .topbar[data-hc] .hc-menu {
@@ -2037,11 +2052,6 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   transform: perspective(240px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
 }
 .topbar[data-hc]:not([data-compact]) .hc-menu { position: absolute; right: calc(var(--gutter) + 2.5rem + 10px); pointer-events: none; }
-@keyframes hc-wobble {
-  0%, 84%, 100% { rotate: 0deg; }
-  87% { rotate: -6deg; } 90% { rotate: 5deg; } 93% { rotate: -3deg; } 96% { rotate: 1.5deg; }
-}
-
 /* The slab: a 3D bar under the folded header (Thomas, 2026-10-03: "it does need box for the shrunken
    header", "a 3D rectangular bar with the buttons/menu on it and have it face the cursor", "like it is in
    sunshine/moonshine"). It fades in with the fold, has an edge and a shadow for its depth, and under Full
@@ -2100,14 +2110,13 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 }
 .hc-top[data-show] { opacity: 1; translate: 0 0; visibility: visible; pointer-events: auto; transition-delay: 0s; }
 
-/* the drift and the wobble: Full only */
+/* the drift: Full only */
 :root[data-motion="full"] :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before, :root[data-motion="full"] .hc-icon {
   animation: spc-a 53s ease-in-out infinite;
 }
 :root[data-motion="full"] .hc-ink, :root[data-motion="full"] .wordmark {
   animation: spc-x 23s ease-in-out infinite, spc-y 37s ease-in-out infinite, spc-a 53s ease-in-out infinite;
 }
-:root[data-motion="full"] .topbar[data-compact] .hc-menu { animation: hc-wobble 6.5s ease-in-out 2s infinite; }
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion]) :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before, :root:not([data-motion]) .hc-icon {
     animation: spc-a 53s ease-in-out infinite;
@@ -2115,7 +2124,6 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   :root:not([data-motion]) .hc-ink, :root:not([data-motion]) .wordmark {
     animation: spc-x 23s ease-in-out infinite, spc-y 37s ease-in-out infinite, spc-a 53s ease-in-out infinite;
   }
-  :root:not([data-motion]) .topbar[data-compact] .hc-menu { animation: hc-wobble 6.5s ease-in-out 2s infinite; }
 }
 
 /* Contrast More: solid, no glass, no gradient. Forced colours: the system's own. */
@@ -2126,7 +2134,7 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
 :root[data-contrast="more"] :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before { background: var(--metal-3); }
 :root[data-contrast="more"] .hc-ink { background: none; color: var(--metal-3); filter: none; }
 :root[data-contrast="more"] .topbar[data-compact] nav .hc-ink { color: inherit; }
-:root[data-contrast="more"] .wordmark { background: none; color: var(--accent); }
+:root[data-contrast="more"] .wordmark { --wm-grad: none; background: none; color: var(--accent); }
 :root[data-contrast="more"] .hc-icon { background: var(--metal-3); filter: none; }
 @media (prefers-contrast: more) {
   :root:not([data-contrast]) :is(.glassbtn, .topbar[data-hc]:not([data-compact]) nav > a, .topbar[data-hc]:not([data-compact]) nav > .navsub) {
@@ -2136,13 +2144,13 @@ button.btn:focus-visible { outline: var(--focus-w) solid var(--accent); outline-
   :root:not([data-contrast]) :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before { background: var(--metal-3); }
   :root:not([data-contrast]) .hc-ink { background: none; color: var(--metal-3); filter: none; }
   :root:not([data-contrast]) .topbar[data-compact] nav .hc-ink { color: inherit; }
-  :root:not([data-contrast]) .wordmark { background: none; color: var(--accent); }
+  :root:not([data-contrast]) .wordmark { --wm-grad: none; background: none; color: var(--accent); }
   :root:not([data-contrast]) .hc-icon { background: var(--metal-3); filter: none; }
 }
 @media (forced-colors: active) {
   .glassbtn, .topbar[data-hc] nav > a, .topbar[data-hc] nav > .navsub { background: ButtonFace; border: 1px solid ButtonText; }
   :is(.glassbtn, .topbar nav > a, .topbar nav > .navsub)::before { content: none; }
   .hc-ink { background: none; color: ButtonText; filter: none; }
-  .wordmark { background: none; color: LinkText; }
+  .wordmark { --wm-grad: none; background: none; color: LinkText; }
   .hc-icon { forced-color-adjust: none; background: ButtonText; filter: none; }
 }
