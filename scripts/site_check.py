@@ -1194,10 +1194,15 @@ def main():
         ctx.close()
 
         # Paint: Chromium against the installed Chrome (PAINT; the docstring says why)
-        pair = [pw.chromium.launch(executable_path=CHROMIUM if os.path.exists(CHROMIUM) else None)]
+        # The browser already open is one of the two, so only the other is launched (memory: 2026-10-03 a run on
+        # Thomas's PC hit the commit limit with three browsers open).
+        chrome_run = "--chrome" in args
         try:
-            pair.append(pw.chromium.launch(channel="chrome"))
+            other = (pw.chromium.launch(executable_path=CHROMIUM if os.path.exists(CHROMIUM) else None) if chrome_run
+                     else pw.chromium.launch(channel="chrome"))
+            pair = [other, browser] if chrome_run else [browser, other]
         except Exception as e:
+            pair = [browser]
             skipped.append(f"{len(PAINT)} paint checks (no Google Chrome here: {str(e).strip().splitlines()[0][:80]})")
         if len(pair) == 2:
             keep = os.path.join(tempfile.gettempdir(), "site-check-paint")
@@ -1215,7 +1220,8 @@ def main():
                     n, detail = None, f"{type(e).__name__}: {str(e).strip().splitlines()[0][:120]}"
                 check(f"paint: {name}, drawn alike by Chromium and Chrome", n is not None and n <= PAINT_PIXELS, detail)
         for br in pair:
-            br.close()
+            if br is not browser:
+                br.close()
 
         ctx = browser.new_context(java_script_enabled=False, color_scheme="dark", viewport={"width": 1280, "height": 900})
         page = ctx.new_page(); page.goto(base + "/", wait_until="networkidle")
