@@ -5,7 +5,7 @@
 give me links to some award winning sites that use modern and "spectacular" effects." Q-SP5 stands at "5
 none yet" (no award picked). The ceilings were doubled the same day ("headroom can be increased 100%"), so
 weight is not what holds a piece back.
-**Status:** the proposal, for Thomas to rule. Nothing is built.
+**Status:** ruled 2026-10-03 (see the end). Being built in Q-TP2's order, TP-A first.
 
 Same format and marks as copy-review-001 to 012: `OK` · `KEEP` · `A` / `B` · `FIX` · `CUT`.
 
@@ -165,3 +165,12 @@ Godly.
 
 **Q-TP4. The extras.** TP-E, TP-F, TP-G: each yes or no. Recommended: TP-E yes, TP-F yes, TP-G no for
 now (weight and the same rule as TP-D).
+
+### Rulings, TP-0 (2026-10-03)
+
+Thomas, verbatim: **"merge 77 and 78, LG39 yes, TP all A"**. Read as:
+- **Q-TP1:** TP-0 OK as a whole.
+- **Q-TP2 A:** TP-A, then TP-B, then TP-C, then TP-D, one piece per PR.
+- **Q-TP3 A:** Three.js may load on `/projects` too, after the page has loaded and only under Full. The
+  rule "Nothing heavy loads before a click, except the home page's 3D hero" gains `/projects`' particles.
+- **Q-TP4, as recommended** (it had no A; "all A" read as the recommendation): TP-E yes, TP-F yes, TP-G no.
