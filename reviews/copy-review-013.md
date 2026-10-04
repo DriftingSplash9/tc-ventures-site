@@ -174,3 +174,30 @@ Thomas, verbatim: **"merge 77 and 78, LG39 yes, TP all A"**. Read as:
 - **Q-TP3 A:** Three.js may load on `/projects` too, after the page has loaded and only under Full. The
   rule "Nothing heavy loads before a click, except the home page's 3D hero" gains `/projects`' particles.
 - **Q-TP4, as recommended** (it had no A; "all A" read as the recommendation): TP-E yes, TP-F yes, TP-G no.
+
+## TP-A — the prototype (built 2026-10-03, branch `tp-a`)
+
+**Built** (`ledger-scene.js`, `style.css`; recordings `Claude outputs/tp-a/journey-1-dark.webm` and `-light.webm`,
+in Thomas's Chrome 154):
+- **Under Motion Full on a wide screen,** the scene adds an empty runway (aria-hidden) after the ledger's list,
+  320svh tall, and the scene sticks to the screen while it scrolls. The words of the hero (and the slider,
+  the caption and the list) scroll up over it first, on the scrim, as now.
+- **The dive** (the runway's first 15%): the camera comes down from the hero's view to the 001 gate, and the
+  ledger rewinds to 001 as it does. The headline's offset eases to the centre.
+- **The travel** (the next 70%): the camera runs low over the floor just ahead of the build front, swaying side
+  to side, from 001 to the newest; the ledger builds as it goes. **Each gate's ruled line** sits in a small card
+  beside the gate's right post (the same words as the list; aria-hidden).
+- **The rise** (the last 15%): up over the whole ledger. Then the hero's bottom edge carries the scene away
+  (the hero clips it).
+- **The slider follows** every gate, so it is at the newest at both ends. Drag and hover rest while it runs.
+- **Reduced, Off, 45em and under, and without JavaScript:** no runway, as before.
+
+**Questions (the look):**
+- **Q-TPA1. The pace.** The whole journey takes 2.7 screens of scroll, the travel 1.9 of them: about 46px a
+  handoff at 900px tall (computed from the runway, 2026-10-03). A (recommended): as built; the reader can stop
+  on any gate to read its line. B: a longer runway, slower travel.
+- **Q-TPA2. The line cards.** A (recommended): beside each gate, as built. B: one fixed card, bottom left.
+
+**Ruled 2026-10-03.** Thomas, verbatim: **"merge 79, TP-A both A"**. Read as Q-TPA1 A (the pace as
+built) and Q-TPA2 A (the cards beside the gates). Then `site_check.py` gained the journey's two checks
+and its paint state (Full, half-way, below the header).
