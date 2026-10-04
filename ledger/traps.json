@@ -644,8 +644,8 @@
   {
    "id": "T48",
    "start": 28,
-   "end": null,
-   "how": null,
+   "end": 38,
+   "how": "into code",
    "helped": [
     29,
     30,
@@ -654,7 +654,8 @@
     34,
     35,
     36,
-    37
+    37,
+    38
    ],
    "wordings": [
     "Keep every FAIL line of a check run."
@@ -663,8 +664,8 @@
   {
    "id": "T49",
    "start": 29,
-   "end": null,
-   "how": null,
+   "end": 38,
+   "how": "into code",
    "helped": [
     30,
     31,
@@ -673,7 +674,8 @@
     34,
     35,
     36,
-    37
+    37,
+    38
    ],
    "wordings": [
     "`site_check.py --live` compares the live ledger with what the local checkout would export."
@@ -752,7 +754,8 @@
    "helped": [
     35,
     36,
-    37
+    37,
+    38
    ],
    "wordings": [
     "A PR stacked on another PR merges into that PR's branch if it's merged before GitHub retargets it."
@@ -798,7 +801,8 @@
    "how": null,
    "helped": [
     36,
-    37
+    37,
+    38
    ],
    "wordings": [
     "An Edit-tool edit or a `sed -i` on a CRLF file can rewrite the whole file as LF."
@@ -811,7 +815,8 @@
    "how": null,
    "helped": [
     36,
-    37
+    37,
+    38
    ],
    "wordings": [
     "A background command stops at 30 minutes unless it is given a longer `timeout`."
@@ -824,7 +829,8 @@
    "how": null,
    "helped": [
     36,
-    37
+    37,
+    38
    ],
    "wordings": [
     "`site_check.CHROMIUM` is the cloud session's Chromium path."
@@ -837,7 +843,8 @@
    "how": null,
    "helped": [
     36,
-    37
+    37,
+    38
    ],
    "wordings": [
     "The app's browser pane can't take a screenshot while Claude's window is behind others,"
@@ -891,7 +898,8 @@
    "end": null,
    "how": null,
    "helped": [
-    37
+    37,
+    38
    ],
    "wordings": [
     "Wire weights exist only live,"
@@ -932,7 +940,9 @@
    "start": 37,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    38
+   ],
    "wordings": [
     "Letters split into inline-blocks lose the font's pair spacing, and measured before the web font loads they're clipped too narrow."
    ]
@@ -942,9 +952,51 @@
    "start": 37,
    "end": null,
    "how": null,
-   "helped": [],
+   "helped": [
+    38
+   ],
    "wordings": [
     "A check run that is still going when you edit reads a mix of old and new files."
+   ]
+  },
+  {
+   "id": "T74",
+   "start": 38,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "Thomas's Chrome and Playwright's Chromium can paint the same page differently."
+   ]
+  },
+  {
+   "id": "T75",
+   "start": 38,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "A gradient drawn with `background-clip: text` shows through every child's text, whatever the child's opacity or overflow, and Chrome versions disagree on it."
+   ]
+  },
+  {
+   "id": "T76",
+   "start": 38,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "`quote_check.py --ledger` reads a row's quotes only from that row's own handoff."
+   ]
+  },
+  {
+   "id": "T77",
+   "start": 38,
+   "end": null,
+   "how": null,
+   "helped": [],
+   "wordings": [
+    "In Git Bash, `$'\\r'` inside `$(...)` inside double quotes breaks the whole command."
    ]
   }
  ]

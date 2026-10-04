@@ -539,3 +539,14 @@ proposed change to "Rests on": "keep the faint page name, drop the progress line
 rest on it. The pills and the sunshine/moonshine light rest on Thomas's words in copy-review-012, "The second
 form"; they can't be quoted here, because `quote_check.py --ledger` reads each row's own handoff, and
 handoff-037 doesn't hold them. Set in `ledger/curation.json` and exported: column 037.
+
+## LG39 — handoff-038's line (drafted 2026-10-03, for Thomas to rule)
+
+| # | Handoff | Line | Rests on |
+|---|---|---|---|
+| LG39 | 038 · 2026-10-03 | The folded name now ends in a clean TC, the menu button no longer wobbles, the checks look at the site in my own Chrome too, and the next design pass is proposed. I spotted the stacked letters, ruled each change and doubled the page-weight ceilings. | "it looks like cheesman stacked instead of collapse to a"; "we can kill the wobble in the menu button"; "yes to the Chrome checks, headroom can be increased 100%"; "go ahead and tell me what can be spectacular" |
+
+It's in `ledger/curation.json` with `"ruled": null`, so the live ledger stops at 037 until this is ruled.
+`ledger/traps.json` already holds handoff-038's traps. No change to `parked` (INFRA-21, closed in 038, was
+never parked). **Ship the column after #77 is merged:** "the checks look at the site in my own Chrome too"
+is true only then.
